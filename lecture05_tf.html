@@ -1,0 +1,693 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Transforms in ROS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#transforms">Transforms</a><ul>
+<li><a href="#transform-tree">Transform Tree</a></li>
+</ul></li>
+<li><a href="#ros-transform-api">ROS Transform API</a><ul>
+<li><a href="#listeners">Listeners</a></li>
+<li><a href="#broadcasters">Broadcasters</a></li>
+<li><a href="#static-frames">Static frames</a></li>
+<li><a href="#datatypes-and-representation">Datatypes and Representation</a></li>
+</ul></li>
+<li><a href="#ros-packages">ROS Packages</a><ul>
+<li><a href="#documentation">Documentation</a></li>
+</ul></li>
+<li><a href="#conventions">Conventions</a></li>
+<li><a href="#tools">Tools</a></li>
+<li><a href="#tips-and-tricks">Tips and Tricks</a></li>
+<li><a href="#other-resources">Other Resources</a></li>
+<li><a href="#demonstration">Demonstration</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Transforms in ROS</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="transforms">Transforms</h1>
+<ul>
+<li>In robotics, the position and orientation of objects (e.g., robots, sensors, and obstacles) are often expressed as transformations of one coordinate frame into another</li>
+<li>As time advances, these transformations change (e.g., if the robot moves).</li>
+<li>Although the choice of frames (and therefore the coordinates used to represent the state of the system) is arbitrary, the right choice of frames can greatly simplify the math required</li>
+<li>ROS provides an API for tracking these frames as they evolve in time</li>
+</ul>
+<h2 id="transform-tree">Transform Tree</h2>
+<ul>
+<li>In ROS, the transforms form a tree, with every node corresponding to a frame</li>
+<li>Every frame has one parent and an unlimited number of children</li>
+<li>The location of a frame is specified relative to its parent</li>
+<li>Every frame has a unique name, called a <em>frame_id</em></li>
+<li>Every transform on the tree is timestamped. All queries specify not just the frame_id but also the time.</li>
+</ul>
+<h1 id="ros-transform-api">ROS Transform API</h1>
+<ul>
+<li>The transform (<em>tf</em>) tree is available on the <code>/tf</code> topic</li>
+<li>Any node can publish transforms on <code>/tf</code> or retrieve information from <code>/tf</code></li>
+</ul>
+<h2 id="listeners">Listeners</h2>
+<ul>
+<li>a <em>listener</em> subscribes to <code>/tf</code> and maintains a time-history of the received frames (by default, 10s of history is stored)</li>
+<li>The buffer can then be queried for information about the transforms</li>
+<li>For example, what is the transformation between frame X at time T and frame Y at time U?</li>
+</ul>
+<h2 id="broadcasters">Broadcasters</h2>
+<ul>
+<li>A <em>broadcaster</em> publishes frames to <code>/tf</code></li>
+<li>Multiple nodes can publish different frames to <code>/tf</code> and they will be added into the tree based on their names</li>
+<li>Be careful not to broadcast conflicting frame information.</li>
+</ul>
+<h2 id="static-frames">Static frames</h2>
+<ul>
+<li>Some frames do not change: these are known as <em>static frames</em></li>
+<li>Static frames can be broadcast to the <code>/tf_static</code> to consume less bandwidth</li>
+<li>These frames are <em>latched</em>, which means that the last message sent on <code>/tf_static</code> will be sent to new subscribers. See <a href="http://wiki.ros.org/rospy/Overview/Publishers%20and%20Subscribers">Publishers and Subscribers</a> for more information.</li>
+</ul>
+<h2 id="datatypes-and-representation">Datatypes and Representation</h2>
+<ul>
+<li>A transformation consists of
+<ul>
+<li>Translation</li>
+<li>Rotation</li>
+</ul></li>
+<li>In C++, there are many data types used for rotations and translations.
+<ul>
+<li>Part of <code>tf2</code> is dedicated to converting between these types</li>
+</ul></li>
+<li>In python, you interface with <code>tf2_ros</code> using <code>geometry_msgs.msg</code> types. Math is done using <code>numpy</code> arrays or lists</li>
+<li><code>tf_conversions.transformations</code> contains many useful functions for working with quaternions and transformation matrices.</li>
+</ul>
+<h1 id="ros-packages">ROS Packages</h1>
+<ul>
+<li>There are two versions of tf in ROS, <code>tf</code> and <code>tf2</code></li>
+<li><code>tf</code> is deprecated and implemented in terms of <code>tf2</code> now.</li>
+<li>New code should use <code>tf2</code>, however, many concepts in <code>tf</code> are still valid so the <code>tf</code> documentation is also a useful source of information</li>
+<li>For example, the <code>tf_conversions.transformations</code> package is in <code>tf</code>, not in <code>tf2</code>.
+<ul>
+<li>In <code>tf2</code> the idea was that this functionality would be left to an external library called <code>transformations3d</code>.</li>
+<li>This library, however, i snot packaged for Ubuntu or ROS (though it is on <code>pip</code>)</li>
+<li>Thus, it seems that people just use <code>tf_conversions.transformations</code></li>
+</ul></li>
+</ul>
+<h2 id="documentation">Documentation</h2>
+<ul>
+<li><a href="http://wiki.ros.org/tf2">tf2 Documentation</a></li>
+<li><a href="http://wiki.ros.org/tf2/Migration">Migrating from tf</a> - useful for understanding differences between <code>tf</code> and <code>tf2</code></li>
+<li><a href="http://wiki.ros.org/tf2/Design">tf2 Design Guide</a> explains the rationale for <code>tf2</code></li>
+<li><a href="http://wiki.ros.org/tf2_ros">tf2_ros Documentation</a> provides a guide to the API The generated python API docs are broken; however,
+<ul>
+<li>If you download the source code (<a href="https://github.com/ros/geometry2">https://github.com/ros/geometry2</a>) and look in the python files in the <code>tf2_ros/src/tf2_ros</code> directory, comments in the code describe the api</li>
+<li>The python API parallels the C++ API so the C++ API docs are also useful</li>
+<li>In particular, the python code for the <a href="https://github.com/ros/geometry2/tree/melodic-devel/tf2_ros/src/tf2_ros">tf2_ros</a> is a useful resource.</li>
+</ul></li>
+<li>The transformations under <code>tf_conversions.transformations</code> are documented <a href="http://docs.ros.org/melodic/api/tf/html/python/transformations.html">here</a>.</li>
+</ul>
+<h1 id="conventions">Conventions</h1>
+<p>ROS follows a set of conventions for frames.</p>
+<ul>
+<li>From <a href="https://www.ros.org/reps/rep-0103.html">REP 0103 Standard Units of Measure and Coordinate Conventions</a>
+<ul>
+<li>All distances are in meters</li>
+<li>All angles are in radians</li>
+<li>All coordinate systems are right-handed</li>
+<li>Transforms convert <em>frame_id</em> into <em>child_frame_id</em>: thus the transform converts points in <em>child_frame_id</em> to into the frame <em>frame_id</em></li>
+<li>There are four descriptions for orientation, in preferred order
+<ol>
+<li>Quaternions</li>
+<li>Rotation matrices in <span class="math inline">\(SO(3)\)</span></li>
+<li>Fixed-axis rotations using roll-pitch-yaw (a.k.a. fixed XYZ Euler angles)</li>
+<li>Relative-axis ZYX Euler axis</li>
+</ol></li>
+</ul></li>
+<li>From <a href="https://www.ros.org/reps/rep-0105.html">REP 105 Coordinate Frames for Mobile Platforms</a>
+<ul>
+<li>On a mobile robot, <span class="math inline">\(x\)</span> is forward, <span class="math inline">\(y\)</span> is left, and <span class="math inline">\(z\)</span> is up</li>
+<li>For cameras <span class="math inline">\(z\)</span> is forward, <span class="math inline">\(x\)</span> is right, <span class="math inline">\(y\)</span> is down, and <code>frame_id</code> ends with <code>_optical</code></li>
+</ul></li>
+</ul>
+<h1 id="tools">Tools</h1>
+<p>The <code>tf</code> package provides tools that are still useful with <code>tf2</code></p>
+<ol>
+<li><code>rosrun tf tf_monitor</code> - print information about the tree or a specific transform</li>
+<li><code>rosrun tf tf_echo</code> - print transformations between frames</li>
+<li><code>rosrun tf static_transform_publisher</code> - send a constant transform at a fixed frequency or publish on <code>/tf_static</code></li>
+<li><code>rosrun tf view_frames</code> create a pdf of your tf tree</li>
+<li><code>roswtf</code> ROS what's the failure tool checks for failures in <code>/tf</code>.</li>
+<li><code>rosrun rqt_tf_tree rqt_tf_tree</code> lets you <a href="https://wiki.ros.org/rqt_tf_tree">view the Tf Tree</a></li>
+<li><code>rviz</code> can be used to visualize frames.
+<ul>
+<li>You must choose the correct <code>fixed frame</code> in rviz to see any of the frames.</li>
+<li>All frames are displayed relative to the <code>fixed frame</code></li>
+<li>Having an invalid <code>fixed frame</code> will prevent your data from showing up in rviz.</li>
+</ul></li>
+</ol>
+<h1 id="tips-and-tricks">Tips and Tricks</h1>
+<ol>
+<li>The timing of the transforms you look up is crucial.
+<ul>
+<li>If two frames came in too far apart <code>tf</code> will throw an exception rather than interpolating</li>
+<li>The ideal way to solve this problem is to
+<ol>
+<li>Understand the frequency at which the frames are coming in</li>
+<li>Only query the listener when recent-enough data is available</li>
+</ol></li>
+<li>The practical way to solve this problem is to
+<ol>
+<li>Use <code>try-except</code> around transform calls</li>
+<li>Ignore the exceptions and try again on your next iteration.</li>
+</ol></li>
+</ul></li>
+<li>To ask for the most recent transforms, use <code>rospy.Time()</code> as the time:
+<ul>
+<li><code>rospy.Time.now()</code> gets the current time, but a transform may not be available at the current time.</li>
+</ul></li>
+<li>Make sure your transforms form a connected tree
+<ul>
+<li>There should be a path from the root of the tree to every node (i.e., no disconnected components)</li>
+<li>Every frame should have only one parent.</li>
+<li>Each transform should be provided from a single location</li>
+</ul></li>
+<li>There are no default frames, only frames that you add.</li>
+</ol>
+<h1 id="other-resources">Other Resources</h1>
+<ul>
+<li><a href="http://wiki.ros.org/tf/Overview/Transformations">Overview of Transformations</a></li>
+<li><a href="http://wiki.ros.org/action/fullsearch/geometry2/RotationMethods">About Rotations</a>
+<ul>
+<li>Note, <code>tf.transformations</code> appears to be the same as <code>tf_conversions.transformations</code></li>
+</ul></li>
+<li><a href="https://github.com/ros/geometry/blob/melodic-devel/tf/src/tf/transformations.py">Transformations Source Code</a>
+<ul>
+<li>This library is not well documented, but the source code is not too difficult to read.</li>
+</ul></li>
+</ul>
+<h1 id="demonstration">Demonstration</h1>
+<pre><code># create the workspace and clone the repository and get set up
+mkdir ws/src
+cd ws/src
+git clone https://github.com/m-elwin/me495_tf.git
+cd ..
+catkin_make
+source devel/setup.bash
+
+# run the broadcaster
+roscore &amp;
+rosrun me495_tf in_out &amp;
+
+# list the topics, notice the /tf and /tf_static
+rostopic list
+
+# use rqt_tf_tree to see the tf_tree
+rosrun rqt_tf_tree rqt_tf_tree
+
+# use tf_echo (from tf 1) to see translation between frame. C-c to quit
+rosrun tf tf_echo right left
+
+# run in rviz, using my rviz config
+rviz -d src/me495_tf/rviz/view.rviz
+
+# run the tracker node
+rosrun me495_tf tracker
+</code></pre>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

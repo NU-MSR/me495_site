@@ -1,0 +1,610 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Launchfiles</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#launchfiles-and-ros">Launchfiles and ROS</a><ul>
+<li><a href="#using-roslaunch">Using roslaunch</a></li>
+<li><a href="#writing-a-launchfile">Writing a Launchfile</a></li>
+</ul></li>
+<li><a href="#an-interactive-demonstration">An Interactive Demonstration</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Launchfiles</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="launchfiles-and-ros">Launchfiles and ROS</h1>
+<ul>
+<li>ROS programs consist of many nodes communicating over topics and services</li>
+<li>For non-trivial programs, manually running nodes using <code>rosrun</code> becomes tedious and hard to reproduce</li>
+<li>Launchfiles solve this problem by enabling you to specify
+<ul>
+<li>Which nodes are run</li>
+<li>What parameters they use</li>
+<li>What topics are named</li>
+<li>and more!</li>
+</ul></li>
+</ul>
+<h2 id="using-roslaunch">Using roslaunch</h2>
+<ul>
+<li>The command-line tool for using launch files is <a href="https://wiki.ros.org/roslaunch">roslaunch</a>.</li>
+<li>There are two ways of invoking a launchfile:
+<ol>
+<li><code>roslaunch package file.launch [arg_name:=value]...</code> This method assumes you have sourced your <code>setup.bash</code></li>
+<li><code>roslaunch package /path/to/launch/file.launch [arg_name:=value...]</code> Here, the launch file at the given location is directly used.</li>
+</ol></li>
+<li>You can pass arguments to a launch file using the <code>arg_name:=value</code> syntax, which is shared with the remapping arguments syntax.</li>
+<li><code>roslaunch</code> automatically starts <code>roscore</code>, if it is not already running.</li>
+</ul>
+<h3 id="roslaunch-options">Roslaunch options</h3>
+<p>Note: - <code>roslaunch --help</code> provides more options</p>
+<ol>
+<li><code>--nodes</code> shows the nodes that are launched by the launchfile</li>
+<li><code>--args = NODE</code> shows the arguments passed to run the Node</li>
+<li><code>--ros-args</code> You can pass arguments to a launchfile (using <code>arg_name:=value</code>) to change the behavior of the launchfile. This flag shows all the possible arguments and their documentation.</li>
+<li><code>--files</code>: Launchfiles can include other launchfiles. This shows which launchfiles a given launchfile includes.</li>
+<li><code>--find /node</code>: Used to find which of the included launchfiles started the node with the given name.</li>
+</ol>
+<h2 id="writing-a-launchfile">Writing a Launchfile</h2>
+<ol>
+<li><p>The <a href="http://wiki.ros.org/roslaunch/XML">Launchfile format</a> relies on XML along with a special enhanced substitution argument syntax.</p></li>
+<li><p>Launchfiles list nodes to be launched; however, the order in which they start is non-deterministic.</p></li>
+<li><p>Important Launchfile XML elements:</p>
+<ul>
+<li><a href="http://wiki.ros.org/XML/launch">&lt;launch&gt;</a> - the root element, every launchfile starts with this</li>
+<li><a href="http://wiki.ros.org/XML/node">&lt;node&gt;</a> - Used to run a node. Attributes:
+<ul>
+<li>pkg: the package the node is in</li>
+<li>type: the name of the node executable file</li>
+<li>name: the basename of the node</li>
+<li>ns: the node's namespace</li>
+<li>output: determine where to send the output to (a log file or the screen)</li>
+<li>required: if the node dies, the whole roslaunch is terminated</li>
+</ul></li>
+<li><a href="http://wiki.ros.org/XML/include">&lt;include&gt;</a> - Lets you include a launchfile in another launchfile</li>
+<li><a href="http://wiki.ros.org/XML/remap">&lt;remap&gt;</a> - Used for <a href="http://wiki.ros.org/Remapping%20Arguments">Remapping arguments</a></li>
+<li><a href="http://wiki.ros.org/XML/param">&lt;param&gt;</a> - Sets an individual parameter on the parameter server</li>
+<li><a href="http://wiki.ros.org/XML/rosparam">&lt;rosparam&gt;</a> - Controls groups of parameters using <code>.yaml</code> files.</li>
+<li><a href="http://wiki.ros.org/XML/group">&lt;group&gt;</a> - Groups nodes together and allows you to easily apply common settings</li>
+<li><a href="http://wiki.ros.org/XML/arg">&lt;arg&gt;</a> - Used to specify arguments which can be used to change the behavior of the launchfile from the command-line</li>
+<li><a href="http://wiki.ros.org/XML/machine">&lt;machine&gt;</a> - Used to specify a remote machine upon which nodes will be run</li>
+<li><a href="http://wiki.ros.org/XML/env">&lt;env&gt;</a> - Used to set environment variables for the underlying node</li>
+</ul></li>
+<li><p>Conditionals:</p>
+<ul>
+<li><a href="http://wiki.ros.org/roslaunch/XML#if_and_unless_attributes">Conditional Attributes</a> All elements have attributes <code>if</code> and <code>unless</code> to be conditionally included.</li>
+</ul></li>
+<li><p>Substitution arguments: The following items can be used within attribute values to perform a computation and expand into the result of that computation The general syntax uses <code>$()</code> (just like bash substitution arguments. Within XML, a substitution argument would be used like <code>&lt;tag attribute ="$()" /&gt;</code>.</p>
+<p>A list of some possible substitution arguments is below:</p>
+<ol>
+<li><code>$(env ENVIRONMENT_VARIABLE)</code> Expands into the value of the environment variable</li>
+<li><code>$(find pkg)$</code> expands to the location of a given package. Useful for referencing a specific file in another package</li>
+<li><code>$(arg myarg)$ expands into the value of =myarg</code>, as specified by an <code>&lt;arg&gt;</code> element and passed in on the call to <code>roslaunch</code></li>
+<li><code>$(eval &lt;expression&gt;)</code> Runs python code <code>&lt;expression&gt;</code> and expands to the result of the code evaluation</li>
+</ol></li>
+<li><p><a href="https://wiki.ros.org/roswtf">roswtf</a> can be used to check launchfiles: <code>roswtf file.launch</code>.</p></li>
+</ol>
+<h1 id="an-interactive-demonstration">An Interactive Demonstration</h1>
+<pre><code># Create a new workspace
+mkdir -p ws/src
+
+# clone the demonstration code
+cd ws/src
+git clone https://github.com/m-elwin/me495_counter.git counter
+
+# return to ws root
+cd ../
+
+# rebuild and resource the workspace
+catkin_make
+source devel/setup.bash
+
+# Run the launchfile
+# NOTE: launchfiles will automatically start 
+# roscore if not already running
+
+roslaunch counter count_nodes.launch
+
+# In a new terminal, source your devel.bash and run rqt_graph
+# What nodes to you see? What topics are being published and
+# subscribed to?
+
+# examine the source code for count_steady node
+# What topic does it publish to?
+
+# examine the source code for the accumulate node
+# what topic does it publish to?
+
+# Examine count_nodes.launch
+# How does the code in count_nodes.launch result in the graph that you
+#  see in rqt_graph?
+
+# You can also see what nodes are launched using roslaunch
+# The namespaces will be resolved properly when doing this:
+roslaunch --nodes counter count_nodes.launch
+
+# After listing the nodes, you can use this information to see the
+# exact command that is run
+roslaunch --args=/basic/accum1 counter count_nodes.launch
+</code></pre>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

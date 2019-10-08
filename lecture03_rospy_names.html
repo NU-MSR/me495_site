@@ -1,0 +1,674 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Rospy and Naming</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#rospy">rospy</a><ul>
+<li><a href="#how-to-use">How to use</a></li>
+<li><a href="#python-package-layout">Python Package Layout</a></li>
+<li><a href="#messages-and-services-in-python">Messages and Services in Python</a></li>
+<li><a href="#ros-api">ROS API</a></li>
+</ul></li>
+<li><a href="#naming-in-ros">Naming in ROS</a><ul>
+<li><a href="#whats-in-a-name">What's in a name?</a></li>
+<li><a href="#understanding-names">Understanding Names</a></li>
+<li><a href="#example">Example</a></li>
+</ul></li>
+<li><a href="#activities">Activities</a><ul>
+<li><a href="#names-clients-and-publishing">Names, Clients, and Publishing</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Rospy and Naming</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="rospy">rospy</h1>
+<ul>
+<li>The <a href="https://wiki.ros.org/rospy">python client library</a> for ROS.</li>
+<li>Go beyond the tutorials and read the <a href="http://docs.ros.org/melodic/api/rospy/html/">Code API documentation</a>.</li>
+</ul>
+<h2 id="how-to-use">How to use</h2>
+<p>Rospy is just like any other python library.</p>
+<ol>
+<li><code>import rospy</code></li>
+<li>Create classes and call functions in Rospy</li>
+<li>Calling <code>rospy.init_node(name)</code> is what makes your code a ROS node, with a given <code>name</code>.</li>
+<li>Calling <code>rospy.logXXX</code> functions is how to use the ROS logging system</li>
+<li><code>rospy.Subscriber</code> is how to subscribe to messages</li>
+<li><code>rospy.Publisher</code> is how to publish messages</li>
+<li><code>rospy.Service</code> is how to offer a service</li>
+<li><code>rospy.ServiceProxy</code> is how to call a service.</li>
+<li><code>rospy.get_param</code> gets a parameter from the server.</li>
+<li><code>rospy.Rate</code> sleeps for a duration such that the time between <code>sleep()</code> calls matches a specified period.</li>
+<li>There are many other ROS functions available in <code>rospy</code>.</li>
+</ol>
+<h2 id="python-package-layout">Python Package Layout</h2>
+<ol>
+<li>The <a href="http://docs.ros.org/melodic/api/catkin/html/howto/format2/installing_python.html">catkin documentation</a> explains how to setup a python package
+<ul>
+<li>Executable python code (e.g., nodes) go in a <code>scripts</code> directory, start with a <code>#!/usr/bin/env python</code> and do not end in a <code>.py</code> extension</li>
+<li>Edit your <code>CMakeLists.txt</code> to explicitly install the nodes in the <code>scripts/</code> directory</li>
+<li>Most of your python code goes in a python module stored in <code>src/packagename</code>.</li>
+<li><code>src/packagename/__init__.py</code> is required</li>
+<li>Place a <code>setup.py</code> modeled after the one <a href="http://docs.ros.org/melodic/api/catkin/html/howto/format2/installing_python.html">here</a> is placed in the top-level package directory</li>
+<li>Uncomment <code>catkin_python_setup()</code> in your <code>CMakeLists.txt</code></li>
+</ul></li>
+</ol>
+<h2 id="messages-and-services-in-python">Messages and Services in Python</h2>
+<p>When a package creates a <code>.msg</code> or a <code>.srv</code>, <code>catkin</code> generates python classes that encapsulates the data types used by the service. These data types follow a naming convention.</p>
+<p>To use the message type <code>MType</code> in package <code>pkg</code>:</p>
+<ol>
+<li><code>from pkg.msg import Mtype</code></li>
+<li><code>Mtype.field</code> is to access a field in the message type</li>
+<li><code>Mtype(field1 = x, field2 =y)</code> let's you construct the message.</li>
+</ol>
+<p>To use a service type <code>SType</code> with request type <code>STypeRequest</code> and response type <code>STypeResponse</code> in package <code>pkg</code>:</p>
+<ol>
+<li><code>from pkg.srv import SType, STypeResponse</code></li>
+<li><code>SType</code> is the service type, this is needed when registering the service.</li>
+<li><code>STypeResponse</code> is the type of the response.
+<ul>
+<li>The response type corresponds to the part of the service after the <code>---</code></li>
+<li>Service callback handlers should explicitly return an object of <code>STypeResponse</code>.</li>
+<li>Returning <code>None</code> from a service callback triggers an error. To return an empty response use <code>STypeResponse()</code></li>
+<li>Its constructor and members work follow the same convention as a message type.</li>
+</ul></li>
+<li><code>STypeRequest</code> is the type of the request (i.e., the type of the parameter passed to your service handler).
+<ul>
+<li>You usually don't need to declare <code>STypeRequest</code> explicitly, but you can import it if you want</li>
+<li>Its fields and constructor follow the same convention as a message type.</li>
+</ul></li>
+</ol>
+<h2 id="ros-api">ROS API</h2>
+<ol>
+<li>The collection of services, publishers, subscribers, and parameters of a node is its ROS API</li>
+<li>These ROS inter-process communication mechanisms are how you link nodes together, much like how modules, functions, and classes are used from within python.</li>
+<li>The ROS name mechanism are essential for connecting multiple packages together</li>
+</ol>
+<h1 id="naming-in-ros">Naming in ROS</h1>
+<h2 id="whats-in-a-name">What's in a name?</h2>
+<ol>
+<li>Every item in the Ros Computation Graph has a <a href="https://wiki.ros.org/Names">Graph Resource Name</a></li>
+<li>You manipulate names in ROS using <a href="http://wiki.ros.org/Remapping%20Arguments">Remapping</a>, which enables you to re-wire the computation graph and connect otherwise unrelated components</li>
+<li>ROS's name system is the source of much of its flexibility, and you will use it in every ROS program you write.</li>
+<li>Important Reading: <a href="https://wiki.ros.org/Names">Graph Resource Name</a> and <a href="http://wiki.ros.org/Remapping%20Arguments">Remapping</a></li>
+</ol>
+<h2 id="understanding-names">Understanding Names</h2>
+<ol>
+<li>In ROS, every topic, parameter, and service has a <a href="https://wiki.ros.org/Names">Graph Resource Name</a></li>
+<li>You pass strings to <code>rospy</code> API calls to access a resource by its name.
+<ul>
+<li>When you initialize a node, you provide a name</li>
+<li>When you subscribe to a topic, you provide a name</li>
+<li>When you publish to a topic, you provide a name</li>
+<li>When you offer a service, you provide a name</li>
+<li>When you call a service, you provide a name</li>
+</ul></li>
+<li>Names work in a manner similar to paths on Linux:
+<ul>
+<li><em>namespaces</em> are like directories.
+<ul>
+<li>The global namespace is called <code>/</code></li>
+<li>Namespaces can be nested. For example, <code>/ns1/ns2/ns3</code></li>
+<li>Every node exists in a <em>namespace</em> (analogous to the current directory). By default, the namespace is <code>/</code></li>
+<li>Multiple nodes can be grouped into the same <em>namespace</em>.</li>
+</ul></li>
+<li><em>base</em> names are like files: they are what the actual resource is called, without any preceding namespaces
+<ul>
+<li>Essentially, any <code>name</code> without a <code>/</code> in it is a base name. For example <code>node1</code> is a base name.</li>
+<li>Base names are resolved relative to the namespace of the node</li>
+</ul></li>
+<li><em>relative</em> names are like relative paths: they are namespaces that resolve relative to a given node's <em>namespace</em>
+<ul>
+<li>relative names are any name that doesn't start with <code>/</code> or <code>~</code>, for example =ns1/ns2/bname.</li>
+<li>A base name can be thought of as a <em>relative</em> name without any preceding namespace.</li>
+</ul></li>
+<li><em>global</em> names are like absolute paths: they are names that start with a <code>/</code> to indicate they begin from the global <em>namespace</em>
+<ul>
+<li>Most of the time, you use relative names within nodes, which allows all the names referenced by a node to be moved into a different namespace more easily</li>
+</ul></li>
+<li><em>private</em> names start with a <em><code>/ (i.e. /~name/). 
+  - The /</code></em> expands to the global namespace of the node, followed by the name of the node.
+<ul>
+<li>Anyone can access private names but you shouldn't do it.</li>
+</ul></li>
+</ul></li>
+<li>Parameters in the parameter server also use namespaces for access.</li>
+<li>Nodes can be launched in any namespace that you want
+<ul>
+<li>The change can be done in a launchfile or by setting the <code>ROS_NAMESPACE</code> environment variable</li>
+<li>If your node uses relative names, you can then change the node namespace to group everything from a given node.</li>
+<li>This is useful, for example, if you have two nodes from different packages that publish on the same topics but you don't want to connect them.</li>
+</ul></li>
+<li>Resources can be <em>remapped</em> to any name that you want
+<ul>
+<li>This is like a <code>mv</code> operation in the Linux filesystem</li>
+<li>It enables multiple copies of a node to run with different names for the topics they subscribe to</li>
+</ul></li>
+<li>Remapping can occur by passing arguments to <code>rosrun</code>, <code>roslaunch</code> or in a <code>launchfile</code>
+<ul>
+<li>The basic syntax is passed as a command-line argument: <code>oldname:=newname</code></li>
+<li>a preceding underscore (<code>_</code>) on the command-line becomes a <code>~</code> to indicate a private name</li>
+</ul></li>
+<li>In practice, ROS nodes are written with <code>remapping</code> in mind
+<ul>
+<li>By default, nodes are created directly under <code>/</code>. You can change the namespace with environment variables or a launchfile</li>
+<li>Use simple, base names for ROS nodes, the services they offer, and the topics they publish and subscribe to</li>
+<li>Document these names as part of the node's ROS API</li>
+<li>Users of the node then remap these topics and services as needed</li>
+<li>By using base or relative names enables easy remapping of all the topics/services used by a node.</li>
+</ul></li>
+<li>Private parameters are useful for constants that only a single node instance needs.
+<ul>
+<li>If you run multiple instances of a node with private parameters, it will get multiple instances of those parameters</li>
+</ul></li>
+<li>Message Types, Service Types, and Node Types also have names that can be referred to by a similar mechanism:
+<ul>
+<li>For example <code>turtlesim/Color</code> refers to <code>/path/to/turtlesim/msg/Color.msg</code></li>
+</ul></li>
+<li>Names should start with a lower case letter, and then can contain letters, or underscores.</li>
+</ol>
+<h2 id="example">Example</h2>
+<p>Suppose we are referring to names from <code>node1</code>, which is in the namespace <code>ns1</code>.</p>
+<ol>
+<li><code>/ns1/node1</code> is the global name of <code>node1</code></li>
+<li><code>node1</code> is the base name of <code>node1</code></li>
+<li><code>topic1</code>, resolves to <code>/ns1/topic1</code></li>
+<li><code>/topic1</code>, resolves to <code>/topic1</code></li>
+<li><code>~topic1</code>, resolves to <code>/ns1/node1/topic1</code></li>
+</ol>
+<h1 id="activities">Activities</h1>
+<ol>
+<li><a href="http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28python%29">Writing A Publisher and Subscriber</a></li>
+<li><a href="http://wiki.ros.org/ROS/Tutorials/ExaminingPublisherSubscriber">Examining the Publisher and Subscriber</a></li>
+<li><a href="http://wiki.ros.org/ROS/Tutorials/WritingServiceClient%28python%29">Writing a Client/Service</a></li>
+<li><a href="http://wiki.ros.org/ROS/Tutorials/ExaminingServiceClient">Examining the Client/Service</a></li>
+</ol>
+<h2 id="names-clients-and-publishing">Names, Clients, and Publishing</h2>
+<p>Try experimenting with names and remapping when launching nodes, using the nodes you wrote in the tutorial. Some things to try:</p>
+<ol>
+<li>Launch two publisher/subscriber pairs in different namespaces</li>
+<li>Try renaming the topics of the names in code and still connecting the publisher and subscriber at runtime.</li>
+<li>Have the <code>talker</code> node publish on a private topic. Then use remapping to have the listener subscribe to the private topic.</li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

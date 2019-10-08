@@ -1,0 +1,721 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>ROS Basics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#introduction-and-brief-history">Introduction and Brief History</a><ul>
+<li><a href="#some-usage-statistics">Some Usage Statistics</a></li>
+<li><a href="#ros-versions">ROS Versions</a></li>
+<li><a href="#devices-that-we-own-that-run-ros-non-exhaustive">Devices that we own that run ROS (non-exhaustive)</a></li>
+<li><a href="#other-items-that-we-own-that-are-compatible-with-ros-non-exhaustive">Other items that we own that are compatible with ROS (non-exhaustive)</a></li>
+</ul></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#ros-basics-1">ROS Basics</a><ul>
+<li><a href="#documentation">Documentation</a></li>
+<li><a href="#packages">Packages</a></li>
+<li><a href="#nodes">Nodes</a></li>
+<li><a href="#messages-nodes-communicate-with-each-other-using-messages-which-define-the-structure-of-the-data-that-is-passed-between-nodes.">Messages Nodes communicate with each other using <span>messages</span>, which define the structure of the data that is passed between nodes.</a></li>
+<li><a href="#topics">Topics</a></li>
+<li><a href="#services">Services</a></li>
+<li><a href="#launchfiles">Launchfiles</a></li>
+<li><a href="#roscore">roscore</a></li>
+<li><a href="#bags">Bags</a></li>
+<li><a href="#the-ros-computation-graph">The Ros Computation Graph</a></li>
+<li><a href="#logging">Logging</a></li>
+<li><a href="#other-tools">Other tools</a></li>
+<li><a href="#old-terminology">Old Terminology</a></li>
+</ul></li>
+<li><a href="#design-guidelines">Design Guidelines</a></li>
+<li><a href="#activity">Activity</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">ROS Basics</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="introduction-and-brief-history">Introduction and Brief History</h1>
+<p>The <a href="https://www.ros.org/">Robot Operating System</a> (ROS) is a a collection of tools, software libraries, and documentation facilitating the development and sharing of robotics software. The term "Operating System" is a bit of a misnomer, it is more like a framework or middleware plus a developer community.</p>
+<p>Historically people and companies developed robotics software specifically tailored to their own robots and needs. For example, industrial robotics companies developed their own proprietary control software and even programming languages, while there was no central location for robotics researchers to find useful software libraries. Over the years there have been several attempts at creating libraries for robotics engineers to share, and ROS can be seen as one of the more recent and popular of these attempts. For more information see <a href="https://www.ros.org/about-ros">About ROS</a>.</p>
+<p>In 2007, <a href="https://en.wikipedia.org/Willow_Garage">Willow Garage</a> provided resources to researches to create general-purpose robotics software that could be re-used and shared. From the start, it was an effort involving a community of people at different institutions working on the core infrastructure and various packages. In 2014, Willow Garage went out of business and stewardship of ROS was transferred to the <a href="https://www.openrobotics.org">Open Source Robotics Foundation</a> (now referred to as Open Robotics) a 501(c)(3) non-profit organization. For more information, see <a href="https://www.ros.org/history">ROS History</a>.</p>
+<p>In the intervening years, ROS has been adopted as a defacto standard in industry and academia. While proprietary systems from many major robot manufactures still exist (and perhaps predominate), there are now several robots on the market that explicitly support ROS (including the robots you will be using in this class). Many start-up robotics companies also use ROS because it enables them to take advantage of the work of others to start with a baseline working system. There are also initiatives such as <a href="https://rosindustrial.org">ROS Industrial</a>, which are bringing in more industrial robots into the fold of ROS. In academia, ROS enables easy sharing of code between research groups and allows people to use the latest code from experts in the field.</p>
+<h2 id="some-usage-statistics">Some Usage Statistics</h2>
+<p>In July 2018 (data taken from <a href="https://wiki.ros.org/metrics">https://wiki.ros.org/metrics</a>) there were</p>
+<ul>
+<li>2,000,000 Page views of the ROS wiki</li>
+<li>600,000 views of answers. ROS.org</li>
+<li>16,155,301 package downloads</li>
+<li>Courses are taught at 33 universities around the world (<em>wiki.ros.org/Courses</em>)</li>
+</ul>
+<p>As of July 2018, there were 4806 papers explicitly citing ROS.</p>
+<h2 id="ros-versions">ROS Versions</h2>
+<ul>
+<li>ROS names each version with an adjective and the name of a turtle species.</li>
+<li>Versions are usually referred to by the adjective only</li>
+<li>The versions increase alphabetically</li>
+<li>The latest stable version of ROS is <code>melodic</code></li>
+<li>The next version, <code>noetic</code> will be released in May 2020.</li>
+<li><code>noetic</code> will support <code>python 3</code> but we use <code>python 2</code> in this class because that is what <code>melodic</code> supports</li>
+<li><code>noetic</code> is the last scheduled ROS release. The current hope of the ROS developers appears to be that after <code>noetic</code> everyone will transition to <code>ROS2</code>.</li>
+<li><code>ROS2</code> is currently available, in parallel with <code>ROS 1</code>, but it is not quite ready for general use.</li>
+</ul>
+<h2 id="devices-that-we-own-that-run-ros-non-exhaustive">Devices that we own that run ROS (non-exhaustive)</h2>
+<ul>
+<li><a href="https://www.rethinkrobotics.com/sawyer">Rethink Sawyer</a></li>
+<li>Rethink Baxter Robot</li>
+<li><a href="https://clearpathrobotics.com/jackal-small-unmanned-ground-vehicle/">Clearpath Jackal</a></li>
+<li><a href="https://www.robotis.us/turtlebot-3">Turtlebot 3</a></li>
+<li><a href="https://www.turtlebot.com/turtlebot2">Turtlebot 2</a></li>
+</ul>
+<h2 id="other-items-that-we-own-that-are-compatible-with-ros-non-exhaustive">Other items that we own that are compatible with ROS (non-exhaustive)</h2>
+<ul>
+<li><a href="https://www.intel.com/content/www/us/en/architecture-and-technology/realsense-overview.html">Intel RealSense Cameras</a></li>
+<li><a href="https://www.hokuyo-aut.jp/">Hokuyo Laser Scanners</a></li>
+<li><a href="https://raspberrypi.org">RaspberryPi</a>, <a href="https://http://www.hardkernel.com/main/main.php">Odroid</a>, <a href="https://beagleboard.com/black">Beagle Bone Black</a>, <a href="https://developer.nvidia.com/buy-jetson">Jetson</a> - These are embedded computers.</li>
+</ul>
+<h1 id="installation">Installation</h1>
+<ol>
+<li>For this class you need to install the Desktop image of <a href="http://releases.ubuntu.com/18.04/">Ubuntu Linux 18.04 LTS</a> to run ROS.
+<ul>
+<li>Backup your system before installing Linux</li>
+</ul></li>
+<li>Install the Desktop-Full version of ROS melodic
+<ul>
+<li>Follow the instructions <a href="http://wiki.ros.org/melodic/Installation/Ubuntu">here</a></li>
+</ul></li>
+<li>If you need help with these steps please come to my office hours. More information is in the <a href="./lecture00_preliminaries.html">preliminaries</a> section.</li>
+</ol>
+<h1 id="ros-basics-1">ROS Basics</h1>
+<p>The ROS ecosystem consists of a collection of tools, software, and documentation. These are used to describe, implement, and inspect a ROS program, which consists of multiple processes (called <em>nodes</em>) that communicate with each other using inter-process communication.</p>
+<h2 id="documentation">Documentation</h2>
+<ul>
+<li><a href="https://wiki.ros.org">https://wiki.ros.org</a> - The ROS wiki, this is the first stop for documentation. Some packages are better documented than others
+<ul>
+<li>The wiki contains a getting started overview here: <a href="https://wiki.ros.org/ROS/StartGuide">https://wiki.ros.org/ROS/StartGuide</a>.</li>
+</ul></li>
+<li><a href="https://answers.ros.org">https://answers.ros.org</a> - Ask questions about ROS. Often one of the developers will respond.</li>
+<li><a href="https://docs.ros.org">https://docs.ros.org</a> - Many packages wiki page have a "Code API" link that brings you to automatically generated API documentation for the package.</li>
+<li><a href="https://www.ros.org/reps/rep-0000.html">ROS Enhancement Proposals (REP)</a> - Documents ROS design decisions and best practices.</li>
+<li>External Documentation - sometimes the package itself has an external documentation website</li>
+<li>Some of the tools used in ROS are actually maintained separately from ROS and have their own documentation as well</li>
+<li>Part of this course is about learning how to use the documentation, so not all the answers will be provided in these notes or in lecture or these notes!</li>
+</ul>
+<h2 id="packages">Packages</h2>
+<p><a href="https://wiki.ros.org/Packages">Packages</a> are the basic organizational unit in ROS.</p>
+<ul>
+<li>Contains a collection of files such as source code, configuration files, message descriptions, service descriptions, libraries, data, and build files.</li>
+<li>Dependencies and other meta-information (such as the name and the author) are declared in the <a href="https://wiki.ros.org/Manifest">manifest</a> file, called <code>package.xml</code></li>
+<li>Multiple packages can be stored in a single version control repository.</li>
+<li>Package contents are stored in a directory <code>&lt;pkg&gt;</code>, where <code>&lt;pkg&gt;</code> is the name of the package.</li>
+<li><a href="https://wiki.ros.org/rospack">rospack</a> is a command-line tool to find information about packages</li>
+<li>Packages also have a <code>CMakeLists.txt</code> file, which is used by the build system to compile the package.</li>
+<li>The <code>catkin_create_pkg</code> tool can automatically create a package for you, providing boilerplate code that is needed. However, packages can also be created by hand simply by creating a <code>package.xml</code> and a <code>CMakeLists.txt</code> file.</li>
+<li>The <a href="https://wiki.ros.org/rospack">rospack</a> tool can be used to investigate dependencies for a ROS package</li>
+</ul>
+<h3 id="navigating-packages">Navigating Packages</h3>
+<ul>
+<li>ROS provides some tools for navigating packages,as part of <a href="https://wiki.ros.org/rosbash">rosbash</a>. Below is a non-comprehensive list.</li>
+<li><a href="http://wiki.ros.org/rosbash#roscd">roscd</a> changes directory to a package. <code>roscd log</code> will take you to where the log files are stored, if any have been created</li>
+<li><a href="http://wiki.ros.org/rosbash#roscd">rosls</a> lists the files in a package</li>
+<li><a href="http://wiki.ros.org/rosbash#roscd">rosed</a> Opens a file in a package in your text editor</li>
+</ul>
+<h2 id="nodes">Nodes</h2>
+<ul>
+<li>A node is ROS's term for a process and is the basic unit of execution in ROS.</li>
+<li>It uses a ROS client library to connect with other nodes
+<ul>
+<li><a href="https://wiki.ros.org/rospy">rospy</a> is the client library for python</li>
+<li><a href="https://wiki.ros.org/roscpp">roscpp</a> is the client library for C++</li>
+<li>There are <a href="http://wiki.ros.org/Client%20Libraries">client libraries</a> for other languages, but they are used less frequently</li>
+</ul></li>
+<li>A node is an executable like any other on your computer, except it uses the ROS client library to adhere to ROS conventions and communicate with other nodes using <a href="http://wiki.ros.org/ROS/Technical%20Overview">XMLRPC</a>.</li>
+<li>The source code for ROS nodes is conventionally stored under the <code>&lt;pkg&gt;/src</code> directory. For some python packages, python scripts are stored in a <code>&lt;pkg&gt;/scripts</code> directory.</li>
+<li>The <a href="https://wiki.ros/org/rosnode">rosnode</a> is the command line tool for getting information about nodes.</li>
+<li>The <a href="https://wiki.ros.org/rosbash#rosrun">rosrun</a> command lets you run a node.</li>
+</ul>
+<h2 id="messages-nodes-communicate-with-each-other-using-messages-which-define-the-structure-of-the-data-that-is-passed-between-nodes.">Messages Nodes communicate with each other using <a href="https://wiki.ros.org/Messages">messages</a>, which define the structure of the data that is passed between nodes.</h2>
+<ul>
+<li>Standard datatypes such as <code>int64</code>, <code>int8</code>, <code>string</code>, <code>time</code>, <code>bool</code>, <code>float32</code>, <code>float64</code>, and arrays thereof are supported</li>
+<li>Messages can be nested</li>
+<li>There are several standard message types that come with commonly used packages</li>
+<li><a href="https://wiki.ros.org/msg">Messages</a> are defined in <code>.msg</code> files and are stored under the <code>&lt;pkg&gt;/msg</code> directory.</li>
+<li><a href="https://wiki.ros.org/rosmsg">rosmsg</a> is a command line tool for inspecting message types.</li>
+</ul>
+<h2 id="topics">Topics</h2>
+<p><a href="https://wiki.ros.org/Topics">Topics</a> are channels for communication between nodes</p>
+<ul>
+<li>A node sends a message over a topic by <em>publishing</em> it</li>
+<li>Other nodes may <em>subscribe</em> to the topic to receive the messages published to it</li>
+<li>A topic is associated with a single message type</li>
+<li>Sensor data and other important information about a robot is often published to specific topics</li>
+<li><a href="https://wiki.ros.org/rostopic">rostopic</a> is the command line tool for manipulating and inspecting topics</li>
+<li><a href="https://wiki.ros.org/rqt_plot">rqt_plot</a> generates real-time plots of topics over time</li>
+</ul>
+<h2 id="services">Services</h2>
+<p>A <a href="https://wiki.ros.org/Services">Service</a> implements a request/reply mechanism for inter-node communication.</p>
+<ul>
+<li>A <a href="https://wiki.ros.org/srv">service</a> file <code>.srv</code> uses messages to define the request and reply data types. These files are typically stored in <code>&lt;pkg&gt;/srv</code></li>
+<li>Services are used for sending infrequent signals to a node or for asking a node to perform a calculation</li>
+<li><a href="https://wiki.ros.org/rosmsg#rossrv">rossrv</a> is used to inspect service types</li>
+<li><a href="https://wiki.ros.org/rosservice">rosservice</a> is used to get information from and manipulate services.</li>
+</ul>
+<h2 id="launchfiles">Launchfiles</h2>
+<p><a href="https://wiki.ros.org/roslaunch/XML">Launchfiles</a> are used to start groups of nodes and pass parameters to them.</p>
+<ul>
+<li>Conventionally, launchfiles are stored in <code>&lt;pkg&gt;/launch</code> and end with the <code>.launch</code> extension.</li>
+<li><a href="https://wiki.ros.org/roslaunch">roslaunch</a> is the command-line tool for running launchfiles</li>
+<li>Many projects can be created by using existing packages and connecting their nodes/topics using launchfiles. Your projects, however, will require programming nodes!</li>
+</ul>
+<h2 id="roscore">roscore</h2>
+<p>Every running ROS system executes <a href="https://wiki.ros.org/roscore">roscore</a>, which consists of the following components</p>
+<ul>
+<li><a href="https://wiki.ros.org/rosmaster">rosmaster</a>, which coordinates connections between nodes</li>
+<li><a href="https://wiki.ros.org/Parameter%20Server">Parameter Server</a>, which enables sharing values between nodes. Typically used for data that does not change over the course of a run. Nodes communicate with the parameter server to get/set values. Use <a href="https://wiki.ors.org/rosparam">rosparam</a> to interact with the parameter server from the command-line.</li>
+<li><a href="https://wiki.ros.org/rosout">rosout</a>, which is a node used for logging</li>
+</ul>
+<h2 id="bags">Bags</h2>
+<p><a href="https://wiki.ros.org/Bags">Bags</a> enable you to capture the data broadcast over a topic</p>
+<ul>
+<li>Captured data can be replayed or plotted</li>
+<li><a href="https://wiki.ros/org/rosbag">rosbag</a> is the tool that is used to manipulate bag files.</li>
+<li>Running robotics experiments is often frustrating and difficult. Capturing the data from a run and testing different algorithms and parameters on it is extremely useful.</li>
+</ul>
+<h2 id="the-ros-computation-graph">The Ros Computation Graph</h2>
+<p>The collection of nodes and the communication between them is collectively referred to as the ROS Computation Graph. Being able to view what nodes are running, what topics they publish and subscribe to helps with debugging ROS programs.</p>
+<p>The graph can be viewed with</p>
+<ul>
+<li><a href="https://wiki.ros.org/rosgraph">rosgraph</a>, which prints information about the current ROS computation graph.</li>
+<li><a href="https://wiki.ros.org/rqt_graph">rqt_graph</a>, which is a GUI for viewing the ROS computation graph.</li>
+</ul>
+<h2 id="logging">Logging</h2>
+<p>Nodes can log information at different logger levels, indicating the severity of the message.</p>
+<ul>
+<li>There are five verbosity levels: DEBUG, INFO, WARN, ERROR, FATAL</li>
+<li>Log data can also be viewed in real time using <a href="http://wiki.ros.org/rqt_console">rqt_console</a></li>
+<li>The level of logging for a specific node can be tuned using <a href="http://wiki.ros.org/rqt_logger_level">rqt_logger_level</a></li>
+</ul>
+<h2 id="other-tools">Other tools</h2>
+<ul>
+<li><a href="https://wiki.ros.org/roswtf">roswtf</a> helps detect failures and diagnose issues.</li>
+</ul>
+<h2 id="old-terminology">Old Terminology</h2>
+<p>This is a collection of deprecated terminology that you may see in the documentations from time to time.</p>
+<ul>
+<li><em>stack</em> - Essentially what packages used to be called</li>
+<li><em>rosbuild</em> - the old ros build system, prior to catkin</li>
+<li><em>wet</em> vs <em>dry</em> packages - <em>wet</em> packages use catkin, <em>dry</em> packages use <em>rosbuild</em></li>
+</ul>
+<h1 id="design-guidelines">Design Guidelines</h1>
+<p>ROS adds methods for abstraction beyond those provided by a programming language. When thinking about the design of a ROS system, here are some questions that often arise and some guidelines about the trade-offs experienced in these decisions. These concerns are a bit beyond your current ROS level, but keep them in the back of your mind for your final projects.</p>
+<ol>
+<li>How should the code be divided across nodes?
+<ul>
+<li>Code in a single node is simpler and can take advantage of the abstractions provided by the programming language</li>
+<li>Code that is split across multiple nodes can be re-used and mixed-and-matched with other ROS nodes more easily</li>
+<li>Code that is split across multiple nodes is inherently parallel (since nodes run in parallel).</li>
+<li>My (very loose) guideline is that if two nodes are
+<ol>
+<li>Always are either both running or not running</li>
+<li>Subscribed to each other's topics</li>
+<li>Do not need to be running in parallel</li>
+</ol>
+then you should keep them in a single node.</li>
+</ul></li>
+<li>How should the code be divided across packages?
+<ul>
+<li>A single package promotes simplicity</li>
+<li>Multiple packages enable re-use</li>
+<li>I start with a single package. If part of the package seems individually useful, I will spin it off into a separate package.</li>
+</ul></li>
+<li>How should the code be divided across repositories?
+<ul>
+<li>Single repository is simpler and makes it easier to keep related changes between the packages synchronized.</li>
+<li>Multiple repositories promote decoupling between the packages, potentially making one more generally useful.</li>
+<li>For me, if the packages will be released together and are used for the same project, I keep them in the same repository</li>
+</ul></li>
+</ol>
+<p>There is also a list of ROS design patterns <a href="https://wiki.ros.org/ROS/Patterns/">here.</a></p>
+<h1 id="activity">Activity</h1>
+<ul>
+<li><a href="./lecture00_preliminaries.html">Install Ubuntu Linux 18.04 LTS</a></li>
+<li><a href="./lecture00_preliminaries.html">Install ROS Melodic</a></li>
+</ul>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

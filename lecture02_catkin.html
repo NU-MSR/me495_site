@@ -1,0 +1,695 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Catkin and Packages</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#catkin-the-build-system-for-ros">Catkin, the build system for ROS</a></li>
+<li><a href="#catkin-workspaces">Catkin Workspaces</a><ul>
+<li><a href="#install-vs-devel"><code>install</code> vs <code>devel</code></a></li>
+<li><a href="#building-the-workspace">Building the Workspace</a></li>
+<li><a href="#creating-a-workspace">Creating a workspace</a></li>
+</ul></li>
+<li><a href="#activating-workspaces">Activating Workspaces</a></li>
+<li><a href="#packages">Packages</a><ul>
+<li><a href="#creating">Creating</a></li>
+<li><a href="#package.xml"><code>package.xml</code></a></li>
+<li><a href="#cmakelists.txt">CMakeLists.txt</a></li>
+<li><a href="#package-layout">Package Layout</a></li>
+<li><a href="#catkin-lint">catkin lint</a></li>
+</ul></li>
+<li><a href="#environment-variables">Environment Variables</a><ul>
+<li><a href="#environment-variable-basics">Environment Variable Basics</a></li>
+<li><a href="#ros-environment-variables">ROS Environment Variables</a></li>
+</ul></li>
+<li><a href="#wstool">wstool</a></li>
+<li><a href="#rosdep">rosdep</a></li>
+<li><a href="#activities">Activities</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Catkin and Packages</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="catkin-the-build-system-for-ros">Catkin, the build system for ROS</h1>
+<ul>
+<li><a href="https://wiki.ros.org/catkin">catkin</a> is used to build ROS packages</li>
+<li>In-depth documentation is <a href="http://docs.ros.org/melodic/api/catkin/html/index.html">here</a>
+<ul>
+<li>It is easy to "get it working" with catkin, but there are many subtleties</li>
+<li>This documentation is great for learning the proper way to package programs</li>
+</ul></li>
+<li>The build process consists of compiling code and converting <code>.msg</code> and <code>.srv</code> files into code that can be called from <code>python</code> or <code>c++</code></li>
+<li>Under the hood, <code>catkin</code> uses <a href="https://cmake.org">cmake</a> to generate build files. Thus, each package has a <a href="http://wiki.ros.org/catkin/CMakeLists.txt">CMakeLists.txt</a> file that is used by <code>cmake</code> to configure the package.</li>
+<li><code>cmake</code> is a build-system generator. Catkin uses <code>cmake</code> to generate <code>Makefiles</code>. It then uses <code>make</code> to build your package.</li>
+<li><code>catkin</code> also uses <code>package.xml</code> to resolve dependencies during installation. Most dependencies need to be listed both in <code>CMakeLists.txt</code> (so they can be used during the build process) and in <code>package.xml</code> (so they can be used by the installation process and other ROS tools).</li>
+</ul>
+<h1 id="catkin-workspaces">Catkin Workspaces</h1>
+<ul>
+<li>Catkin uses <a href="https://wiki.ros.org/catkin/workspaces">workspaces</a> to find your packages</li>
+<li>Calling <code>catkin_make</code> in the workspace builds it</li>
+<li>A caktin workspace consists of four sub-directories
+<ul>
+<li><code>src</code> This is the directory with all of your packages. This is the only directory containing files that you edit. You may have multiple repositories downloaded into your <code>src</code> directory. The <code>src</code> directory is sometimes referred to as the <em>source space</em></li>
+<li><code>build</code> All the files generated by <code>cmake</code> go here</li>
+<li><code>devel</code> The compiled files go here when the <code>catkin</code> build tool has been run. This directory is often called the <em>devel</em> space. There are also scripts and</li>
+<li><code>install</code> If you install your packages (which can be done via <code>catkin_make install</code>, the files are placed in the install directory. Ideally, the <code>install</code> directory contains a full directory tree with all the files that come with your project and are needed to run your program. This is called the <em>install</em> space.</li>
+</ul></li>
+</ul>
+<h2 id="install-vs-devel"><code>install</code> vs <code>devel</code></h2>
+<ul>
+<li>Both spaces (referred to as <em>result spaces</em>) contain files generated from the build</li>
+<li>The devel space is designed for quick iteration during development while install is for releases.</li>
+<li>The devel space can use different compilation flags (such as debugging) than the install space</li>
+<li>The devel space is configured to access python scripts directly from the <code>src</code>. This means you don't need to rebuild every time your python code changes. With the install space, you would need to run <code>catkin_make</code> after every change.</li>
+<li>The <code>install</code> space can be used to create and distribute your package as a binary. The ROS packages that you install using <code>apt</code> have been built by the ROS build farm and packaged as binaries from the install space.</li>
+<li>In this class, we will mostly be using the <em>devel</em> space.</li>
+</ul>
+<h2 id="building-the-workspace">Building the Workspace</h2>
+<p>There are three tools that can be used to build the workspace.</p>
+<ol>
+<li><code>catkin_make</code> This is the original tool and the one referred to most commonly. It is fast because it combines all the packages in the workspace into a single CMake project before compiling. We will use this because most documentation still refers to it.</li>
+<li><code>catkin_make_isolated</code>: This tool was created due to <a href="https://www.ros.org/reps/rep-0134.html">REP-0134</a>. Essentially, this builds each package as separate CMake projects, enabling projects that do not use catkin but rather just use CMake to be built as well. Some projects only build using this tool, and there is a slight preference for it. <code>catkin_make_isolated</code> uses <code>devel_isolated</code> and <code>install_isolated</code> for the development and install spaces (respectivley).</li>
+<li><a href="https://catkin-tools.readthedocs.io/en/latest"><code>catkin tools</code></a> can be installed with <code>apt install python-catkin-tools</code>. It has the cleanest interface of the methods. This tool is technically in Beta and development has stopped; however it works well in practice.</li>
+</ol>
+<h2 id="creating-a-workspace">Creating a workspace</h2>
+<ul>
+<li>Workspaces can be created using <code>mkdir -p &lt;ws_name&gt;/src</code>. When you run the build tool for the first time, the result spaces will be created.</li>
+<li>It makes sense to have separate workspaces for every project you are working on.</li>
+<li>You can use <code>wstool</code> to manage the repositories that are downloaded in the source space. Thus, you can easily develop packages in multiple repositories.</li>
+</ul>
+<h1 id="activating-workspaces">Activating Workspaces</h1>
+<ul>
+<li>Workspaces are activated by sourcing their <code>setup.bash</code> files</li>
+<li>When you installed ROS, you should have added <code>source /opt/ros/melodic/setup.bash</code> to your <code>.bashrc</code> This line, conceptually, activates a workspace containing all ROS packages that have been installed globally on your system.</li>
+<li>Multiple workspaces can be activated at once. This is called overlaying.</li>
+<li>If multiple workspaces have the same packages, the package in the latest activated workspace takes precedence</li>
+<li>To activate your workspace (in particular your devel space), <code>source devel/setup.bash</code> (this is what you will usually do)</li>
+<li>You can also activate the install space using <code>source install/setup.bash</code>.</li>
+<li>Usually, you will have only two workspaces active, the global system workspace and the one you are working on. It is recommended to <code>source /opt/ros/melodic/setup.bash</code> in your <code>.bashrc</code> so the global workspace is always active</li>
+<li>However, the overlay mechanism allows for advanced uses where different packages/versions can be mixed and matched. This feature is useful when, for example, trying to fix a bug in a package that is already installed on your system</li>
+</ul>
+<h3 id="modifying-existing-packages">Modifying existing packages</h3>
+<p>Sometimes, ROS packages have bugs and you want to help fix them. Sometimes you need a new feature or slightly different behavior from a different package. The workspace mechanism provides a useful means of handling this case without needing to modify your base system.</p>
+<ol>
+<li>Clone the repository you want to work on into your source space. Your packages that depend on that package will now use the compiled version, not the version installed on your system.</li>
+<li>Modify the source code to suit your needs.</li>
+<li>You can now submit a patch or, if the project is on github, you can fork the main repository, push your changes to your fork, and submit a pull request.</li>
+</ol>
+<h1 id="packages">Packages</h1>
+<h2 id="creating">Creating</h2>
+<p>You create a package using <code>catkin_create_pkg</code>. After using this command, you usually need to edit the <code>package.xml</code> and <code>CMakeLists.txt</code>.</p>
+<h2 id="package.xml"><code>package.xml</code></h2>
+<p>The <code>package.xml</code> is a file describing meta-data about the package. It is an <a href="https://www.w3schools.com/xml/default.asp">XML</a> document, which is specified <a href="https://wiki.ros.org/catkin/package.xml">here</a>. There is also more information about how to properly write a <code>package.xml</code> in the <a href="http://docs.ros.org/melodic/api/catkin/html/howto/format2/index.html">catkin documentation</a>.</p>
+<h3 id="required-elements">Required elements:</h3>
+<ul>
+<li><code>&lt;name&gt;</code> The package name</li>
+<li><code>&lt;version&gt;</code> The package Version</li>
+<li><code>&lt;description&gt;</code> A description of the package</li>
+<li><code>&lt;maintainer&gt;</code> One or more people who are responsible for the package</li>
+<li><code>&lt;license&gt;</code> One or more legal ways the package may be distributed</li>
+</ul>
+<h3 id="dependencies">Dependencies</h3>
+<p>There are multiple types of dependencies. The most important are</p>
+<ul>
+<li><code>&lt;exec_depend&gt;</code> - Packages needed at runtime. If your python package imports code from another package, then it should be an <code>&lt;exec_depend&gt;</code>, thus this is the most common dependency for a python-only package.</li>
+<li><code>&lt;build_depend&gt;</code> - Package needed at build time. In python, code is not compiled, so you usually do not need this. An exception is when you depend upon messages in another package.</li>
+<li><code>&lt;depend&gt;</code> - This is the most common dependency type for a C++ package. It should also be used by python packages when depending on packages containing custom messages such as <code>std_msgs</code>.</li>
+</ul>
+<h2 id="cmakelists.txt">CMakeLists.txt</h2>
+<ul>
+<li>Information on the <a href="http://wiki.ros.org/catkin/CMakeLists.txt">CMakeLists.txt</a> is found here.</li>
+<li>The file generated by <code>catkin_create_pkg</code> is well commented, so reading the file helps explain what you need to do.</li>
+<li>When using python, you should change the line with <code>find_package(catkin REQUIRED COMPONENTS &lt;dependencies&gt;...)</code> so that the &lt;dependencies&gt; match whatever is declared as a <code>&lt;depend&gt;</code> in your <code>package.xml</code></li>
+<li>You should also change the <code>catkin_package</code> line to include the name of your <code>catkin</code> dependency</li>
+<li>If you use custom <code>.msg</code> or <code>.srv</code> files, there are further lines to uncomment so that the proper code will be generated. There are also lines in <code>package.xml</code> that should be edited. A tutorial can be found <a href="http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv">here</a>.</li>
+<li>If your python package contains a <code>setup.py</code> you should also uncomment <code>catkin_python_setup()</code></li>
+<li>If you were using C++, you would need to add files to the <code>add_executable</code> statement to compile your nodes, and the <code>add_library</code> statement to compile your libraries.</li>
+<li>There is a section in the auto-generated <code>CMakeLists.txt</code> dedicated to installation. Lines in this section must be modified to properly be able to install your package.</li>
+</ul>
+<h2 id="package-layout">Package Layout</h2>
+<p>For a python package, the general layout is as follows</p>
+<ul>
+<li><code>&lt;pkg&gt;/scripts</code> executable python scripts (useful utility scripts, not run as nodes).
+<ul>
+<li>Many people put nodes in a <code>scripts</code> subdirectory as well</li>
+</ul></li>
+<li><code>&lt;pkg&gt;/nodes</code> executable python nodes (do not end with <code>.py</code> extension)</li>
+<li><code>&lt;pkg&gt;/src/&lt;pkg_name&gt;</code> a python package that is imported by the scripts</li>
+<li><code>&lt;pkg&gt;/src/&lt;pkg_name&gt;/setup.py</code> - distutils file for your python package</li>
+<li>For simple python nodes, executable files in a <code>scripts</code> directory is sufficient</li>
+<li>Some people put all python files in the <code>src</code> directory</li>
+<li>See <a href="http://docs.ros.org/melodic/api/catkin/html/howto/format2/installing_python.html">Installing Python</a> for details about package layout.</li>
+</ul>
+<h2 id="catkin-lint">catkin lint</h2>
+<ul>
+<li>There is much redundancy between <code>package.xml</code> and <code>CMakeLists.txt</code></li>
+<li><a href="https://fkie.github.io/catkin_lint">catkin_lint</a> is a tool used to help keep these files consistent.</li>
+<li>Install via <code>apt install python-catkin-lint</code></li>
+<li>I recommend using this on all your packages and fixing any errors it points out</li>
+<li><code>catkin_lint src</code> will check all the packages in your source space</li>
+<li>It is very easy, for example, to require a dependency in CMakeLists.txt but not put it in your <code>package.xml</code> This will have consequences when distributing your package, such as <code>rosdep</code> not being aware of all dependencies.</li>
+<li>Most of the time, your package, especially if written in python, will work even if failing these checks; however, heeding checks helps ensure that other people won't have problems when trying to use your package.</li>
+</ul>
+<h1 id="environment-variables">Environment Variables</h1>
+<p>Environment Variables are used in Linux to control the behavior of programs.</p>
+<h2 id="environment-variable-basics">Environment Variable Basics</h2>
+<ul>
+<li><p>See all environment variables using <code>env</code></p></li>
+<li><p>See all ROS environment variables using <code>env | grep ROS</code>, the <code>| grep ROS</code> part filters for variables containing the word ROS</p></li>
+<li><p>A scrollable list of environment variables is obtained using <code>env | less</code>. Press <code>h</code> for help and <code>q</code> for quit.</p></li>
+<li><p>The value of an individual variable can be printed using <code>printenv VARNAME</code></p></li>
+<li><p><code>unset VARNAME</code> clears an environment variable.</p></li>
+<li><p>The value can also be retrieved by prefixing the name with a <code>$</code>.</p>
+<pre><code>&gt; export VAR = 2
+&gt; echo &quot;Hello $VAR&quot;
+Hello 2
+</code></pre></li>
+<li><p>Each terminal has a different set of variables. Changing a variable in one terminal does not affect the other.</p></li>
+<li><p>To set an environment variable "globally", add an <code>export</code> line to your <code>.bashrc</code> The commands in <code>.bashrc</code> are run whenever your shell (the program that runs your commands entered at the command-line) starts. Thus every time you open the <code>Terminal</code> the variables that you set in <code>.bashrc</code> will be set.</p></li>
+</ul>
+<h2 id="ros-environment-variables">ROS Environment Variables</h2>
+<p>ROS relies on several <a href="https://wiki.ros.org/ROS/EnvironmentVariables">environment variables</a> to work.</p>
+<ul>
+<li>Doing <code>source /opt/ros/melodic/setup.bash</code> in your <code>.bashrc</code> sets the ROS variables to their initial values</li>
+<li>When you activate the workspace using <code>source devel/setup.bash</code> you are primarily setting environment variables related to ROS</li>
+<li><code>ROS_ROOT</code> stores the path to the core ROS packages</li>
+<li><code>ROS_MASTER_URI</code> stores the location of rosmaster. By default this is <code>http://localhost:11311</code>.</li>
+<li><code>PYTHONPATH</code> this tells python where to find packages. <code>setup.bash</code> sets this up properly for use with ROS. Modifying this is likely incorrect when using ROS.</li>
+<li><code>CMAKE_PREFIX_PATH</code> tells CMake where to find everything required to build a cmake project. This is also <a href="http://wiki.ros.org/catkin/conceptual_overview#Difference_in_rosbuild_and_catkin_Environment_Setup_Files_and_Environment_Variables">used by catkin</a> to find all of your packages and is set by <code>setup.bash</code>.</li>
+<li><code>ROS_IP/ROS_HOSTNAME</code> Optional variables used for running nodes over the network. <code>ROS_IP</code> specifies the ip address for a node that is launched and <code>ROS_HOSTNAME</code> specifies the hostname for a node that is launched. <strong>Never set both of these</strong> as <code>ROS_HOSTNAME</code> overrides <code>ROS_IP</code>. If the computer you are running nodes on is accessible via hostname lookup from other computers on your network, you do not need to set these at all.</li>
+<li><code>ROS_PACKAGE_PATH</code> is a legacy variable that is not actually used; however, it will show the paths to your overlayed workspaces and is useful for debugging</li>
+</ul>
+<h1 id="wstool">wstool</h1>
+<ul>
+<li><a href="https://wiki.ros.org/wstool">wstool</a> is used for downloading packages from multiple source repositories</li>
+<li><code>wstool</code> is what lets you use <code>rosinstall</code> files, which contain information about what repositories to download from
+<ul>
+<li><code>rosws</code> also works with <code>rosinstall</code> files and performs task similar to <code>wstool</code>. However, <code>wstool</code> is a replacement for <code>rosws</code> so you should use <code>wstool</code>.</li>
+</ul></li>
+<li>You can initialize your workspace with <code>wstool init</code>.</li>
+<li>Add repositories to your workspace using <code>wstool set</code>. For example, from within your <code>src</code> directory, <code>wstool set --git https://github.com:user/project.git</code>.</li>
+<li>Use <code>wstool merge</code> to incorporate a <code>rosinstall</code> file into your setup.</li>
+<li>Use <code>wstool update</code> to download the code from your repositories</li>
+<li>If your project spans multiple repositories, it is common to supply <code>project.rosinstall</code> files with your project to enable others to duplicate your setup.</li>
+</ul>
+<h1 id="rosdep">rosdep</h1>
+<p><a href="https://wiki.ros.org/rosdep">rosdep</a> is ROS's tool for installing system dependencies and released ROS packages</p>
+<ul>
+<li><code>rosdep</code> relies on <em>keys</em>, generic names for packages that it can then download using various system package managers.</li>
+<li>The list of keys is defined according to the <a href="http://docs.ros.org/independent/api/rosdep/html/rosdep_yaml_format.html">rosdep YAML specification</a>.</li>
+<li>The YAML files for each ROS distribution are <a href="https://github.com/ros/rosdistro">stored here</a></li>
+<li>To automatically install system dependencies for a package whose source code you have downloaded you would do <code>rosdep install --from-paths &lt;workspace&gt;/src --ignore-src --rosdistro=melodic</code>.</li>
+<li>If you add the <code>-s</code> flag <code>rosdep</code> will tell you what it will install without actually doing it.</li>
+</ul>
+<h1 id="activities">Activities</h1>
+<p>I recommend going through these tutorials prior to attempting the homework.</p>
+<ol>
+<li><a href="https://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment">Create Your First Workspace</a></li>
+<li><a href="https://wiki.ros.org/ROS/Tutorials/CreatingPackage">Create Your First Package</a></li>
+<li><a href="https://wiki.ros.org/ROS/Tutorials/BuildingPackages">Build Your First Package</a></li>
+<li><a href="https://wiki.ros.org/ROS/Tutorials/UnderstandingNodes">Understanding Nodes</a></li>
+<li><a href="https://wiki.ros.org/ROS/Tutorials/UnderstandingTopics">Understanding Topics</a></li>
+<li><a href="https://wiki.ros.org/ROS/Tutorials/UnderstandingServicesParams">Understanding Services and Parameters</a></li>
+<li><a href="http://wiki.ros.org/ROS/Tutorials/UsingRqtconsoleRoslaunch">Logger Levels and roslaunch</a></li>
+<li><a href="http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv">Creating a ROS msg and srv</a></li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
