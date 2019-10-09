@@ -588,7 +588,7 @@ y_d(t) = r \sin \frac{2 \pi t}{T} + C_y,
 </ul></li>
 <li>Use a <code>circle.yaml</code> file to stores the parameters that define the trajectory (<span class="math inline">\(T\)</span>, <span class="math inline">\(r\)</span>, <span class="math inline">\(C_x\)</span>, and <span class="math inline">\(C_y\)</span>). Your launchfile should load these values from your <code>circle.yaml</code> and the <code>traj_gen</code> node should load these values from the parameter server and use them to follow the trajectory.</li>
 <li>An explanation of how to use your code in your <code>README.md</code></li>
-<li>A screencast of your turtle completing one full circle with <span class="math inline">\(T = 2\mathrm{sec}\)</span>, <span class="math inline">\(r = 2\)</span>, <span class="math inline">\((C_x, C_y) = (2.5, 2.5)\)</span>. The turtle should be paused once during the trajectory. Upload the screencast and link to it in your <code>README.md</code>.</li>
+<li>A screencast of your turtle completing one full circle (you choose the parameters and store them in <code>circle.yaml</code>). The turtle should be paused once during the trajectory. Upload the screencast and link to it in your <code>README.md</code>.</li>
 <li>Include a write-up of any math you did to accomplish the task. This can be made with latex as a pdf, a scanned copy of handwritten notes. It is also helpful to refer to your calculations in comments where you implement the math.</li>
 <li>A screenshot from <code>rqt_plot</code> showing the x and y position of the turtle over time.</li>
 </ol>
@@ -609,7 +609,7 @@ y_d(t) = r \sin \frac{2 \pi t}{T} + C_y,
 <li>Substitute the equation for <span class="math inline">\(\theta\)</span> into the dynamics to solve for <span class="math inline">\(v\)</span></li>
 <li>Differentiate the equation for <span class="math inline">\(\theta\)</span> to find <span class="math inline">\(\omega\)</span></li>
 <li>You should now have equations for <span class="math inline">\(v\)</span> and <span class="math inline">\(\omega\)</span> in terms of <span class="math inline">\(t\)</span>.</li>
-<li>You will also need the second derivatives of the trajectory to find <span class="math inline">\(\omega\)</span>.</li>
+<li>You may also need the second derivatives of the trajectory to find <span class="math inline">\(\omega\)</span>, depending on how you derive the equations.</li>
 <li>If you write functions to compute each of the derivatives, you can break your code into smaller pieces to make it easier to debug and test.</li>
 </ol></li>
 <li>Use a timer running at a specified frequency to publish the velocity commands to the turtle.
@@ -627,12 +627,12 @@ y_d(t) = r \sin \frac{2 \pi t}{T} + C_y,
 <h2 id="what-to-turn-in-1">What to turn in</h2>
 <p>Note: this is just a list of what to turn in, it is not necessarily ordered by what you should do first.</p>
 <ol>
-<li><p>A urdf file for the robot arm, with <span class="math inline">\(L_1 = 2\)</span> and <span class="math inline">\(L_2 = 3\)</span>. Each arm should be a different color when displayed in <code>rviz</code>.</p>
+<li><p>A urdf file for the robot arm. Each arm should be a different color when displayed in <code>rviz</code>. Choose <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> such that <span class="math inline">\(L_1 \neq L_2\)</span>.</p>
 <ul>
 <li>When <span class="math inline">\(\theta_1 = 0\)</span> and <span class="math inline">\(\theta_2 = 0\)</span>, the robot should be completely horizontal.</li>
 <li>The model is purely kinematic, so no need to worry about inertias or collisions.</li>
 <li>No need to worry about joint limits.</li>
-<li>There should be a frame at the end-effector location of the robot.</li>
+<li>There should be a frame at the location of the robot's end-effector.</li>
 </ul></li>
 <li><p>A launchfile that uses the <code>robot_state_publisher</code> to publish the transforms for the arm and a <code>joint_state_publisher</code>.</p>
 <ul>
@@ -642,6 +642,8 @@ y_d(t) = r \sin \frac{2 \pi t}{T} + C_y,
 <li>The <code>.rviz</code> file should be provided as an argument that has a default value of the file that you create for this purpose.</li>
 </ul></li>
 <li><p>A node that causes the end-effector to track the following figure trajectory: <span class="math display">\[
+  x_d(t) = r \cos(\frac{2\pi\theta}{T}) + c_x
+  y_d(t) = r \cos(\frac{4\pi\theta}{T})
   \]</span></p></li>
 <li><p>A node that listens to the end-effector position and draws spherical markers in <code>rviz</code>. The markers should fade away before the robot completes one cycle of the trajectory. You likely will need to publish these markers at a significantly slower rate than the trajectory because they can be slow to process.</p></li>
 <li><p>A node that broadcasts a frame that the base of the arm is attached to. This frame should be connected to the <code>tf</code> tree in such away that moving the frame moves the whole base of the arm.</p>

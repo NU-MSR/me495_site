@@ -470,9 +470,8 @@ table td {
 <li><a href="#transform-tree">Transform Tree</a></li>
 </ul></li>
 <li><a href="#ros-transform-api">ROS Transform API</a><ul>
-<li><a href="#listeners">Listeners</a></li>
-<li><a href="#broadcasters">Broadcasters</a></li>
-<li><a href="#static-frames">Static frames</a></li>
+<li><a href="#listeners"><span>Listeners</span></a></li>
+<li><a href="#broadcasters"><span>Broadcasters</span></a></li>
 <li><a href="#datatypes-and-representation">Datatypes and Representation</a></li>
 </ul></li>
 <li><a href="#ros-packages">ROS Packages</a><ul>
@@ -483,6 +482,7 @@ table td {
 <li><a href="#tips-and-tricks">Tips and Tricks</a></li>
 <li><a href="#other-resources">Other Resources</a></li>
 <li><a href="#demonstration">Demonstration</a></li>
+<li><a href="#exercises">Exercises</a></li>
 </ul>
 </nav>
 
@@ -518,19 +518,24 @@ table td {
 <li>The transform (<em>tf</em>) tree is available on the <code>/tf</code> topic</li>
 <li>Any node can publish transforms on <code>/tf</code> or retrieve information from <code>/tf</code></li>
 </ul>
-<h2 id="listeners">Listeners</h2>
+<h2 id="listeners"><a href="http://wiki.ros.org/tf2/Tutorials/Writing%20a%20tf2%20listener%20%28Python%29">Listeners</a></h2>
 <ul>
 <li>a <em>listener</em> subscribes to <code>/tf</code> and maintains a time-history of the received frames (by default, 10s of history is stored)</li>
 <li>The buffer can then be queried for information about the transforms</li>
 <li>For example, what is the transformation between frame X at time T and frame Y at time U?</li>
 </ul>
-<h2 id="broadcasters">Broadcasters</h2>
+<h2 id="broadcasters"><a href="http://wiki.ros.org/tf2_ros#Broadcasting_Transforms">Broadcasters</a></h2>
 <ul>
 <li>A <em>broadcaster</em> publishes frames to <code>/tf</code></li>
 <li>Multiple nodes can publish different frames to <code>/tf</code> and they will be added into the tree based on their names</li>
-<li>Be careful not to broadcast conflicting frame information.</li>
+<li>Each message you broadcast on <code>/tf</code> creates an edge in the tree
+<ul>
+<li>The transform converts <em>frame_id</em> into <em>child_frame_id</em></li>
+<li>Equivalently the transform converts coordinates in <em>child_frame_id</em> into coordinates in <em>frame_id</em></li>
+</ul></li>
+<li>Be careful not to broadcast conflicting frame information or information that violates the tree structure.</li>
 </ul>
-<h2 id="static-frames">Static frames</h2>
+<h3 id="static-frames">Static frames</h3>
 <ul>
 <li>Some frames do not change: these are known as <em>static frames</em></li>
 <li>Static frames can be broadcast to the <code>/tf_static</code> to consume less bandwidth</li>
@@ -552,14 +557,16 @@ table td {
 </ul>
 <h1 id="ros-packages">ROS Packages</h1>
 <ul>
-<li>There are two versions of tf in ROS, <code>tf</code> and <code>tf2</code></li>
+<li>There are two versions of tf in ROS, <a href="https://wiki.ros.org/tf">tf</a> and <a href="https://wiki.ros.org/tf2">tf2</a></li>
 <li><code>tf</code> is deprecated and implemented in terms of <code>tf2</code> now.</li>
-<li>New code should use <code>tf2</code>, however, many concepts in <code>tf</code> are still valid so the <code>tf</code> documentation is also a useful source of information</li>
+<li>Thus <code>tf</code> still works, and is still used. It is just a different API for the same underlying <code>tf2</code> mechanisms.</li>
+<li>New code should use <code>tf2</code>. However, many concepts are shared by both packages the <code>tf</code> documentation is still useful.</li>
+<li>Some parts of <code>tf</code> have not been fully or entirely replaced in <code>tf2</code> and are still used, even in the <code>tf2</code> tutorials!</li>
 <li>For example, the <code>tf_conversions.transformations</code> package is in <code>tf</code>, not in <code>tf2</code>.
 <ul>
 <li>In <code>tf2</code> the idea was that this functionality would be left to an external library called <code>transformations3d</code>.</li>
-<li>This library, however, i snot packaged for Ubuntu or ROS (though it is on <code>pip</code>)</li>
-<li>Thus, it seems that people just use <code>tf_conversions.transformations</code></li>
+<li>This library, however, is not packaged for Ubuntu or ROS (though it is on <code>pip</code>)</li>
+<li>Thus, it seems that people just use <code>tf_conversions.transformations</code> since it is already shipped with the base ROS installation.</li>
 </ul></li>
 </ul>
 <h2 id="documentation">Documentation</h2>
@@ -567,13 +574,17 @@ table td {
 <li><a href="http://wiki.ros.org/tf2">tf2 Documentation</a></li>
 <li><a href="http://wiki.ros.org/tf2/Migration">Migrating from tf</a> - useful for understanding differences between <code>tf</code> and <code>tf2</code></li>
 <li><a href="http://wiki.ros.org/tf2/Design">tf2 Design Guide</a> explains the rationale for <code>tf2</code></li>
-<li><a href="http://wiki.ros.org/tf2_ros">tf2_ros Documentation</a> provides a guide to the API The generated python API docs are broken; however,
+<li><a href="http://wiki.ros.org/tf2_ros">tf2_ros Documentation</a> provides a guide to the API The generated python API docs are broken.
 <ul>
-<li>If you download the source code (<a href="https://github.com/ros/geometry2">https://github.com/ros/geometry2</a>) and look in the python files in the <code>tf2_ros/src/tf2_ros</code> directory, comments in the code describe the api</li>
+<li>If you download the source code (<a href="https://github.com/ros/geometry2">https://github.com/ros/geometry2</a>) and look in the python files in the <code>tf2_ros/src/tf2_ros</code> directory, comments in the code describe the API</li>
 <li>The python API parallels the C++ API so the C++ API docs are also useful</li>
 <li>In particular, the python code for the <a href="https://github.com/ros/geometry2/tree/melodic-devel/tf2_ros/src/tf2_ros">tf2_ros</a> is a useful resource.</li>
+<li>It is also possible to generate the documentation locally using <a href="https://wiki.ros.org/rosdoc_lite">rosdoc_lite</a>.</li>
 </ul></li>
-<li>The transformations under <code>tf_conversions.transformations</code> are documented <a href="http://docs.ros.org/melodic/api/tf/html/python/transformations.html">here</a>.</li>
+<li>The transformations under <code>tf_conversions.transformations</code> are documented <a href="http://docs.ros.org/melodic/api/tf/html/python/transformations.html">here</a>.
+<ul>
+<li>It is also useful to read the source code to gain a better understanding of how it works.</li>
+</ul></li>
 </ul>
 <h1 id="conventions">Conventions</h1>
 <p>ROS follows a set of conventions for frames.</p>
@@ -682,6 +693,12 @@ rviz -d src/me495_tf/rviz/view.rviz
 # run the tracker node
 rosrun me495_tf tracker
 </code></pre>
+<h1 id="exercises">Exercises</h1>
+<ol>
+<li>Modify <code>in_out</code> so that the base frame is dynamic</li>
+<li>Make the base frame rotate about it's own z axis and visualize in rviz</li>
+<li>Make the base frame rotate about the <span class="math inline">\([1, ,1, 1]\)</span> axis and visualize in rviz</li>
+</ol>
 </div>
 <div class="footer">
 Author: Matthew Elwin.
