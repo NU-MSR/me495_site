@@ -1,0 +1,651 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Robot Modeling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#unified-robot-description-format">Unified Robot Description Format</a><ul>
+<li><a href="#urdf-xml">URDF XML</a></li>
+<li><a href="#related-formats">Related Formats</a></li>
+</ul></li>
+<li><a href="#robot_state_publisher">robot_state_publisher</a></li>
+<li><a href="#joint_state_publisher">joint_state_publisher</a></li>
+<li><a href="#debugging-urdf-hints">Debugging URDF hints</a></li>
+<li><a href="#xacro">xacro</a></li>
+<li><a href="#example">Example</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Robot Modeling</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="unified-robot-description-format">Unified Robot Description Format</h1>
+<ul>
+<li><code>urdf</code> is the main description format for robots in ROS</li>
+<li>It is an XML format with special tags for defining a robot</li>
+<li>The <a href="https://wiki.ros.org/urdf">urdf</a> ROS package that enables the file to be parsed from C++</li>
+</ul>
+<h2 id="urdf-xml">URDF XML</h2>
+<p>The <a href="https://wiki.ros.org/urdf/XML">urdf XML specification</a> contains nine sub-specifications. Many of the specifications are not used or only used with specific packages. The important specifications are described below.</p>
+<ul>
+<li><a href="https://wiki.ros.org/urdf/XML/model">model</a> - This specification provides a general guide to the <code>.urdf</code> format.</li>
+<li><a href="https://wiki.ros.org/urdf/XML/robot">robot</a> - The <code>&lt;robot&gt;</code> element is the top-level element in all urdf files. It contains links and joints.</li>
+<li><a href="https://wiki.ros.org/urdf/XML/link">link</a> - Describes properties of a rigid-body in your robot
+<ul>
+<li>Has a <code>name</code> attribute to name the link.</li>
+<li><code>&lt;inertial&gt;</code> Optionally specify mass and rotational inertia properties of the link.</li>
+<li><code>&lt;visual&gt;</code> Optionally describes how to draw the link. There are basic primitives or you can use a 3D model from CAD.
+<ul>
+<li><code>&lt;geometry&gt;</code> specifies the shape of the object. Can be <code>&lt;box&gt;</code>, <code>&lt;cylinder&gt;</code>, <code>&lt;sphere&gt;</code> or <code>&lt;mesh&gt;</code>.</li>
+<li><code>&lt;material&gt;</code> specifies the color of the object</li>
+</ul></li>
+<li><code>&lt;collision&gt;</code> Optionally describe geometry used for collision detection. Used by motion planning and simulation tools.</li>
+</ul></li>
+<li><a href="https://wiki.ros.org/urdf/XML/joint">joint</a> - Connects links together with various types of joint freedoms.
+<ul>
+<li>Has a <code>name</code> attribute to name the joint.</li>
+<li>Has a <code>type</code> attribute which determines what freedoms and constraints are imposed on the joint.
+<ul>
+<li><code>revolute</code>: a 1-degree of freedom (DOF) rotational joint with upper and lower joint limits (specified by a <code>&lt;limit&gt;</code> element)</li>
+<li><code>continuous</code>: a 1-DOF rotational joint without limits</li>
+<li><code>prismatic</code>: a 1-DOF translational joint with limits (specified by a <code>&lt;limit&gt;</code> element)</li>
+<li><code>fixed</code>: A transformation that does not change between two links</li>
+<li><code>floating</code>: A joint where all 6 DOF can move</li>
+<li><code>planar</code>: A 2-DOF joint allowing translation in the plane</li>
+</ul></li>
+<li>Joints have a <code>&lt;parent&gt;</code> link and a <code>&lt;child&gt;</code> link and determine where the <code>&lt;child&gt;</code> link is relative to the parent.</li>
+<li><code>&lt;origin&gt;</code> specifies the location of the child in the parent link frame
+<ul>
+<li>The child frame is translated by <code>xyz</code></li>
+<li>The child frame is rotated by <code>rpy</code>, roll ,pitch, yaw (which are rotations about the fixed <code>x</code>, <code>y</code>, and <code>z</code> axes).</li>
+</ul></li>
+<li>Other joints can be created by locating multiple joints at the same location. For example: a universal joint is two co-located <code>continuous</code> joints. Creating such joints may require using "dummy" links that lack inertial, visualization, or collision properties.</li>
+<li>There are many optional tags. The <code>&lt;safety_controller&gt;</code> tag is only used by the <code>pr2_controller_manager</code> and the <code>ros_control</code> packages.</li>
+</ul></li>
+<li><a href="http://wiki.ros.org/urdf/XML/Gazebo">gazebo</a> Gazebo extensions to URDF files, which it uses when converting to its <code>SDF</code> file format. For more information see <a href="http://gazebosim.org/tutorials?tut=ros_urdf&amp;cat=connect_ros">Gazebo Tutorial for Using URDF</a>.</li>
+<li>Go through the <a href="http://wiki.ros.org/urdf/Tutorials">ROS URDF Tutorials</a> to learn more.</li>
+</ul>
+<h2 id="related-formats">Related Formats</h2>
+<p>There are other formats used in robotics (not just ROS) that relate to URDF files.</p>
+<ul>
+<li><a href="https://wiki.ros.org/orocos_kdl">Kinematics and Dynamics Library (KDL)</a>
+<ul>
+<li>The <a href="https://wiki.ros.org/kdl_parser">kdl_parser</a> converts <code>urdf</code> to a format used by KDL</li>
+</ul></li>
+<li>Gazebo (the primary ROS simulation tool) uses <code>SDF</code> files, but can convert <code>URDF</code> files to <code>SDF</code> automatically
+<ul>
+<li>Many tags in a URDF file are mainly used when Gazebo converts to <code>SDF</code>.</li>
+</ul></li>
+<li><a href="https://www.krhonos.org/collada">Collada</a> is a generic 3D file format.
+<ul>
+<li>The <a href="https://wiki.ros.org/collada_urdf">collada_urdf</a> package converts between <code>.urdf</code> and collada (<code>.dae</code>) files</li>
+</ul></li>
+<li><a href="https://www.solidworks.com">SolidWorks</a> is a 3D computer aided design (CAD) program
+<ul>
+<li><a href="https://wiki.ros.org/sw_urdf_exporter">sw_urdf_exporter</a> an convert SolidWorks models to URDF.</li>
+</ul></li>
+</ul>
+<h1 id="robot_state_publisher">robot_state_publisher</h1>
+<p>The <a href="https://wiki.ros.org/robot_state_publisher">robot_state_publisher</a> is used to publish the transforms that compose your <code>urdf</code> file on <code>/tf</code> and integrate it with the transform tree.</p>
+<ul>
+<li>The <code>robot_state_publisher</code> performs forward kinematics in ROS
+<ul>
+<li>It reads a <code>urdf</code> file (as specified by the <code>robot_description</code> parameter to get the robot's kinematics and geometry</li>
+<li>It listens on the <code>joint_states</code> topic to get <a href="http://docs.ros.org/api/sensor_msgs/html/msg/JointState.html">sensor_msgs/JointState</a> messages.
+<ul>
+<li>Each message describes the position, velocity and <em>effort</em> (torque/force) of the joints</li>
+</ul></li>
+<li>It uses the <code>sensor_msgs/JointState</code> data to publish transforms on <code>/tf</code> that describe the positions of the robot's links.</li>
+</ul></li>
+<li>The <code>joint_state</code> messages typically come from sensors (such as encoders) on the robot, but can also be generated by other nodes, which is useful for testing the robot model without needing the physical robot.</li>
+</ul>
+<h1 id="joint_state_publisher">joint_state_publisher</h1>
+<p>The <a href="http://wiki.ros.org/joint_state_publisher">joint_state_publisher</a> publishes <code>sensor_msgs/JointState</code> messages on the <code>joint_states</code> topic.</p>
+<p>It operates in a few different modes:</p>
+<ol>
+<li>Creates a GUI that allows a user to manually specify the joint states
+<ul>
+<li>This happens when private parameter <code>~use_gui=true</code>. To specify with rosrun use <code>_use_gui:=true</code>.</li>
+<li>Very useful for debugging a URDF as it lets you manually change the joint values</li>
+</ul></li>
+<li>Reads <code>sensor_msgs/JointState</code> messages from topics specified by <code>source_list</code> and publishes the combined information on a single topic
+<ul>
+<li>Useful if various sensor nodes are providing readings and you want to use <code>robot_state_publisher</code> to show transforms for the whole system</li>
+</ul></li>
+<li>Default value: publishes a fixed default value for the joint.
+<ul>
+<li>Useful for keeping the <code>/tf</code> tree in a valid state when other parts of your system are not running.</li>
+</ul></li>
+<li>Mimic mode: publishes some joint states that follow the motion of other joints.</li>
+</ol>
+<h1 id="debugging-urdf-hints">Debugging URDF hints</h1>
+<ol>
+<li>Build up the URDF slowly. Test each time you add a new link or joint.</li>
+<li>Create a Launchfile to help with testing. This launchfile will likely evolve or parts of it will be used in your actual application
+<ol>
+<li>It should run the <code>robot_state_publisher</code> to read your <code>urdf</code> file.</li>
+<li>It should run the <code>joint_state_publihser</code> with <code>_use_gui:=true</code>.</li>
+<li>It should launch <code>rviz</code> (and optionally) load an appropriate <code>.rviz</code> configuration file.</li>
+<li><code>rviz</code> needs to be configured to
+<ul>
+<li>Have the proper fixed_frame.</li>
+<li>Add the "RobotModel" view to see the links of your robot</li>
+<li>Add the "tf" view to your rviz configuration.</li>
+</ul></li>
+</ol></li>
+<li>This setup allows you to run the launchfile and visualize the robot. You can also change the joint angles easily to see how it moves.</li>
+<li>If you name the first link of your robot "base_link" you can <code>roslaunch urdf_tutorial display.launch model:=&lt;path/to/urdf&gt;</code> to view your urdf.
+<ul>
+<li>If the first link is not called "base_link" you will need to change the fixed frame in rviz</li>
+</ul></li>
+</ol>
+<h1 id="xacro">xacro</h1>
+<ul>
+<li><a href="http://wiki.ros.org/xacro">xacro</a> is a macro language for XML.</li>
+</ul>
+<ol>
+<li>Variables can store values and basic math can be performed</li>
+<li>Blocks of <code>xml</code> code can be given names and used multiple times</li>
+<li><code>xacro</code> files can include other <code>xacro</code> files.</li>
+</ol>
+<p>For example, the Baxter robot has two identical arms. With URDF you would need to define each of those arms separately, even though they have the same structure. Using <code>xacro</code> you could create a macro for a Baxter arm and then use that macro to create two instances of the arm.</p>
+<ul>
+<li><p>Most robots use <code>xacro</code> files instead of urdf files.</p></li>
+<li><p>Typically, <code>xacro</code> files are converted into <code>urdf</code> and stored directly in the parameter server by a launchfile. For example, to store the <code>urdf</code> created from <code>mypackage/urdf/myrobot.urdf.xacro</code> in the <code>robot_description</code> parameter, you would use the following element:</p>
+<pre><code>&lt;param name=&quot;robot_description&quot;
+       command=&quot;$(find xacro)/xacro --inorder $(find mypackage)/urdf/myrobot.urdf.xacro&quot;/&gt;
+</code></pre></li>
+<li><p><code>xacro</code> files can also be converted into <code>urdf</code> files at compile time via <code>CMakeLists.txt</code>.</p>
+<ul>
+<li>First, <code>find_package(xacro REQUIRED)</code></li>
+<li>Then, <code>xacro_add_files(myxacrofiles TARGET xacro_files)</code></li>
+<li>To see updates to the <code>urdf</code> file you need to run <code>catkin_make</code></li>
+</ul></li>
+<li><p><a href="http://wiki.ros.org/urdf/Tutorials/Using%20Xacro%20to%20Clean%20Up%20a%20URDF%20File">How to introduce Xacro into a URDF</a></p></li>
+</ul>
+<h1 id="example">Example</h1>
+<ul>
+<li>Clone <code>https://github.com/m-elwin/me495_urdf.git</code></li>
+<li>See how the robot moves in rviz.</li>
+<li>Change the launchfile so it doesn't load the <code>rviz</code> configuration. Then, when rviz loads, set it up to see the robot.</li>
+<li>Add another arm to the other side of the robot.</li>
+</ul>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

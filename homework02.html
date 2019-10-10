@@ -501,9 +501,10 @@ table td {
 <p>This homework contains several tasks that will all be completed in a single git repository corresponding to a single ROS package.</p>
 <h2 id="setup-and-documentation">Setup and Documentation</h2>
 <ol>
-<li>Create a git repository using the link provided in Canvas. This repository will contain your <code>README.md</code> and the package you create.
+<li>Create a git repository using the link provided in Canvas.
 <ul>
-<li>You will also be practicing branching in git during this homework.</li>
+<li>The repository will contain all the source code for your package</li>
+<li>It will also include a <code>README.md</code></li>
 </ul></li>
 <li>Your <code>README.md</code> should contain the following:
 <ol>
@@ -627,42 +628,64 @@ y_d(t) = r \sin \frac{2 \pi t}{T} + C_y,
 <h2 id="what-to-turn-in-1">What to turn in</h2>
 <p>Note: this is just a list of what to turn in, it is not necessarily ordered by what you should do first.</p>
 <ol>
-<li><p>A urdf file for the robot arm. Each arm should be a different color when displayed in <code>rviz</code>. Choose <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> such that <span class="math inline">\(L_1 \neq L_2\)</span>.</p>
+<li>A urdf file for the robot arm. Each link should be a different color when displayed in <code>rviz</code>. Choose <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> such that <span class="math inline">\(L_1 \neq L_2\)</span>.
 <ul>
 <li>When <span class="math inline">\(\theta_1 = 0\)</span> and <span class="math inline">\(\theta_2 = 0\)</span>, the robot should be completely horizontal.</li>
 <li>The model is purely kinematic, so no need to worry about inertias or collisions.</li>
 <li>No need to worry about joint limits.</li>
 <li>There should be a frame at the location of the robot's end-effector.</li>
 </ul></li>
-<li><p>A launchfile that uses the <code>robot_state_publisher</code> to publish the transforms for the arm and a <code>joint_state_publisher</code>.</p>
+<li>A launchfile that starts a <code>robot_state_publisher</code>, a <code>joint_state_publisher</code>, and <code>rviz</code>.
 <ul>
 <li>It should have an argument to choose between launching the <code>joint_state_publisher</code> with the <code>_use_gui</code> parameter set or not launching the <code>joint_state_publisher</code> at all.</li>
 <li>It should have an argument to optionally launch rviz.</li>
 <li>If rviz is loaded, you should use the <code>-d</code> option to load a <code>.rviz</code> configuration file that you create to set up the fixed frame properly and make.</li>
-<li>The <code>.rviz</code> file should be provided as an argument that has a default value of the file that you create for this purpose.</li>
+<li>The name of the <code>.rviz</code> file should be provided as an argument to the launch file, with a default value. Remember to use the <code>$(find pkg)</code> replacement argument for the path to the file when setting the default configuration.</li>
 </ul></li>
-<li><p>A node that causes the end-effector to track the following figure trajectory: <span class="math display">\[
-  x_d(t) = r \cos(\frac{2\pi\theta}{T}) + c_x
-  y_d(t) = r \cos(\frac{4\pi\theta}{T})
-  \]</span></p></li>
-<li><p>A node that listens to the end-effector position and draws spherical markers in <code>rviz</code>. The markers should fade away before the robot completes one cycle of the trajectory. You likely will need to publish these markers at a significantly slower rate than the trajectory because they can be slow to process.</p></li>
-<li><p>A node that broadcasts a frame that the base of the arm is attached to. This frame should be connected to the <code>tf</code> tree in such away that moving the frame moves the whole base of the arm.</p>
+<li>A node that causes the end-effector to track the following figure trajectory: <span class="math display">\[
+  x_d(t) = r \cos\frac{2\pi\theta}{T} + c_x \\
+  y_d(t) = r \cos\frac{4\pi\theta}{T}
+  \]</span>
+<ul>
+<li>Unlike with the turtle trajectory, here you can specify joint angles directly by publishing <code>sensor_msg/JointState</code> messages on <code>joint_state</code>.</li>
+<li>Therefore, you only need the inverse kinematics: no derivatives.</li>
+</ul></li>
+<li>A node that listens to the end-effector position and draws spherical markers in <code>rviz</code>.
+<ul>
+<li>The markers should fade away before the robot completes one cycle of the trajectory.</li>
+<li>One cycle should take <span class="math inline">\(T\)</span> seconds</li>
+<li>You likely will need to publish these markers at a significantly slower rate than the trajectory updates because they can be slow to process.</li>
+</ul></li>
+<li>A node that broadcasts a transformation between a fixed parent frame and the base of the arm. This frame should be connected to the <code>tf</code> tree in such away that moving this frame moves the whole base of the arm.
 <ul>
 <li>Using an interactive marker in rviz, you should be able to interactively change the position and orientation of the whole arm while the arm is following the trajectory.</li>
 </ul></li>
-<li><p>A launchfile that includes the launchfile from step 2 to launch rviz, the robot<sub>statepublisher</sub> and also has the following features:</p>
+<li>A launchfile that lets you run all the nodes you've created and visualize the results. It should:
 <ul>
-<li>An option to either load the joint<sub>statepublisher</sub> with a gui or load your trajectory generation node.</li>
-<li>An option to load the node that sends the spherical markers to rviz, only if your trajectory generation node is also loaded</li>
-<li>An option to load the node that uses the interactive marker and broadcasts a frame. If this option is selected, a different <code>.rviz</code> configuration file should be loaded because your fixed frame will be different.</li>
+<li>Use an <code>&lt;include&gt;</code> tag to load launchfile from step 2, launching rviz and the robot<sub>statepublisher</sub> and either the <code>joint_state_publisher</code> or your trajectory generation node.</li>
+<li>An option to load the node that sends the spherical markers to rviz.</li>
+<li>An option to load the node that uses the interactive marker and broadcasts a frame. -If this option is selected, a different <code>.rviz</code> configuration file should be loaded because your fixed frame will be different.</li>
+<li>Hint: you may wish to write this launchfile incrementally, adding new <code>&lt;node&gt;</code> tasks for each node you create.</li>
 </ul></li>
-<li><p>A discussion in your <code>README.md</code> about what each launchfile and node is called and what it does. Comments in the docstring of each node should describe the ROS api for each node (publishers, subscribers, services, etc.).</p></li>
+<li>A discussion in your <code>README.md</code> about what each launchfile and node is called and what it does. Comments in the docstring of each node should describe the ROS api for each node (publishers, subscribers, services, etc.).</li>
 </ol>
 <h1 id="two-armed-xacro">Two Armed Xacro</h1>
 <ol>
 <li>Create a <code>.xacro</code> file based on the URDF in the previous section, that allows you to read the length of each arm from a <code>.yaml</code> file</li>
-<li>Create another <code>.xacro</code> file that uses the <code>.xacro</code> file from step 1 to create a robot with two planar arms. The two arms should be y<span class="math inline">\(\frac{L_1 + L_2}{2}\)</span> distance apart and face in opposite directions. They are fixed to a rotational link that rotates about the <span class="math inline">\(z\)</span> axis, but has upper and lower joint limits of <span class="math inline">\(-45^\circ\)</span> to <span class="math inline">\(45^\circ\)</span>.</li>
-<li>Write a launch file that converts your <code>.xacro</code> file into a <code>urdf</code>, loads it using the robot<sub>statepublisher</sub>, and loads a <code>joint_state_publisher</code> with the gui. The launchfile should load an <code>.rviz</code> file so that it is easy to see the arm you created. You should be able to use the <code>joint_state_publisher</code> gui to move the robot around.</li>
+<li>Create another <code>.xacro</code> file that includes the <code>.xacro</code> file from step 1 to create a robot with two planar arms.
+<ul>
+<li>The two arms should be in the <code>x-z</code> plane.</li>
+<li>Arm 1's base should be at <span class="math inline">\((\frac{L_1+L_2}{2}, 0 ,0)\)</span></li>
+<li>Arm 2's base should be at <span class="math inline">\((-\frac{L_1+L_2}{2}, 0,0)\)</span></li>
+<li>The arms should face away from the <code>z</code> axis when they are in the zero position.</li>
+<li>Both arms should be fixed to a parent link that rotates about the <span class="math inline">\(z\)</span> axis and has upper and lower joint limits of <span class="math inline">\(-45^\circ\)</span> to <span class="math inline">\(45^\circ\)</span>.</li>
+</ul></li>
+<li>Write a launch file that converts your <code>.xacro</code> file into a <code>urdf</code> and stores it in the parameter server.
+<ul>
+<li>It should load the <code>urdf</code> using the <code>robot_state_publisher</code></li>
+<li>It should load the <code>joint_state_publisher</code> with the gui.</li>
+<li>It should load <code>rviz</code> with an appropriate <code>.rviz</code> file.</li>
+</ul></li>
 <li>Be sure to describe the files you added in your <code>README.md</code></li>
 </ol>
 </div>
