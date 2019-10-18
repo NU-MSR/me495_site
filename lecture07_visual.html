@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>ME495 Fall 2019: Lecture Notes</title>
+<title>Visualization in ROS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -465,16 +465,15 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#resources">Resources</a></li>
-<li><a href="#schedule">Schedule</a><ul>
-<li><a href="#tuesday-september-24">Tuesday September 24</a></li>
-<li><a href="#thursday-september-26">Thursday September 26</a></li>
-<li><a href="#tuesday-october-1">Tuesday October 1</a></li>
-<li><a href="#thursday-october-3">Thursday October 3</a></li>
-<li><a href="#tuesday-october-8">Tuesday October 8</a></li>
-<li><a href="#thursday-october-10">Thursday October 10</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#rviz">RViz</a><ul>
+<li><a href="#visualization-messages">Visualization Messages</a></li>
+<li><a href="#markers">Markers</a></li>
+<li><a href="#markerarray">MarkerArray</a></li>
+<li><a href="#interactivemarkers">InteractiveMarkers</a></li>
+<li><a href="#plugins">Plugins</a></li>
 </ul></li>
-<li><a href="#homework">Homework</a></li>
+<li><a href="#rqt">rqt</a></li>
 </ul>
 </nav>
 
@@ -486,49 +485,108 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">ME495 Fall 2019: Lecture Notes</h1>
+<h1 class="title">Visualization in ROS</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="resources">Resources</h1>
+<h1 id="overview">Overview</h1>
 <ul>
-<li>The <a href="./syllabus.pdf">Syllabus</a></li>
-</ul>
-<h1 id="schedule">Schedule</h1>
-<h2 id="tuesday-september-24">Tuesday September 24</h2>
+<li>ROS has several tools for interacting graphically with robotic systems.
 <ul>
-<li><a href="./lecture00_preliminaries.html">Preliminaries.</a> We will only briefy cover this in class, but you will</li>
-<li><a href="./lecture01_basics.html">ROS Basics</a> (This is the actual lecture).</li>
+<li><a href="https://wiki.ros.org/rviz">rviz</a> is the primary tool for visualizing your robot and its sensor data in 3D</li>
+<li><a href="https://wiki.ros.org/rqt">rqt</a> is for creating a graphical user interface (GUI) in ROS.</li>
+</ul></li>
 </ul>
-<h2 id="thursday-september-26">Thursday September 26</h2>
+<h1 id="rviz">RViz</h1>
 <ul>
-<li><a href="./lecture02_catkin.html">Catkin and Packages</a></li>
-</ul>
-<h2 id="tuesday-october-1">Tuesday October 1</h2>
+<li><code>rviz</code> is used to visualize data in ROS in a 3D environment</li>
+<li>In <code>rviz</code> you add <em>Display Types</em> to the display and connect them to information that <code>rviz</code> receives via ROS messages and parameters.
 <ul>
-<li><a href="./lecture03_rospy_names.html">Rospy and Names</a></li>
-<li><a href="./homework01.html">Homework 1 Assigned</a> (Due October 8th).</li>
+<li>There are many built in <em>Display Types</em>, documented <a href="https://wiki.ros.org/rviz/DisplayTypes">on the wiki</a>.</li>
+</ul></li>
 </ul>
-<h2 id="thursday-october-3">Thursday October 3</h2>
+<h2 id="visualization-messages">Visualization Messages</h2>
 <ul>
-<li><a href="./lecture04_launch.html">Launchfiles</a></li>
+<li>The <a href="https://wiki.ros.org/visualization_msgs">visualization_msgs</a> package contains messages for displaying visual primitives in <code>rviz</code> using some Display Types in Rviz</li>
 </ul>
-<h2 id="tuesday-october-8">Tuesday October 8</h2>
+<h2 id="markers">Markers</h2>
 <ul>
-<li><a href="./lecture05_tf.html">Transforms</a></li>
-<li><a href="./homework02.html">Homework 2</a> is due on Tuesday October 22nd</li>
-</ul>
-<h2 id="thursday-october-10">Thursday October 10</h2>
+<li>Markers are the simplest visualization message</li>
+<li>They let you draw basic shapes at specified locations
 <ul>
-<li><a href="./lecture06_modeling.html">Modeling Robots</a></li>
-<li><a href="./lecture07_visual.html">Visualization Tools</a></li>
+<li>For example, spheres, cubes, cylinders, lines</li>
+</ul></li>
+<li>See <a href="http://wiki.ros.org/rviz/DisplayTypes/Marker">Marker Display Type</a> for an overview</li>
+<li>Markers are drawn by publishing <a href="http://docs.ros.org/melodic/api/visualization_msgs/html/msg/Marker.html">marker messages</a>
+<ul>
+<li>By default, the Marker display type listens on the <code>visualization_marker</code> topic, but this can be changed in the rviz gui or with remapping.</li>
+<li>Markers have a <code>header</code> field that requires the time. Using rospy.Time() for this ensures the Marker will be drawn</li>
+<li>Be sure to set the alpha (.a) field to be non-zero (e.g. 1) so that the marker is not drawn transparently</li>
+</ul></li>
+<li>These C++ tutorials mostly apply to python as well since they are simply setting values in the marker message topic
+<ul>
+<li><a href="http://wiki.ros.org/rviz/Tutorials/Markers%3A%20Basic%20Shapes">Basic shapes tutorial</a></li>
+<li><a href="http://wiki.ros.org/rviz/Tutorials/Markers%3A%20Points%20and%20Lines">Points and lines tutorial</a></li>
+</ul></li>
 </ul>
-<h1 id="homework">Homework</h1>
-<ol>
-<li>Not graded: You should have Linux and ROS installed by Thursday, September 26</li>
-<li><a href="./homework01.html">Homework 1</a> is due on Tuesday, October 8</li>
-<li><a href="./homework02.html">Homework 2</a> is due on Tuesday, October 22 (before class)</li>
-</ol>
+<h2 id="markerarray">MarkerArray</h2>
+<ul>
+<li>The <a href="http://docs.ros.org/melodic/api/visualization_msgs/html/msg/MarkerArray.html">MarkerArray</a> message consists of an array of Marker messages</li>
+<li>This message type lets you publish multiple markers with a single message</li>
+<li><code>rviz</code> has a DisplayType that can subscribe to a <code>MarkerArray</code> message and visualize all markers in the array</li>
+<li>If you are sending many markers, it is more efficient to send them as an array</li>
+</ul>
+<h2 id="interactivemarkers">InteractiveMarkers</h2>
+<ul>
+<li><a href="http://wiki.ros.org/interactive_markers">Interactive Markers</a> lets users manipulate markers inside RViz. Your nodes can then respond to the actions of the user.</li>
+<li>To use interactive markers, you create an <code>InteractiveMarkerServer</code>
+<ul>
+<li>This server creates the necessary publishers and subscribers</li>
+<li>You then provide a callback which gets called whenever the user manipulates the marker in rviz</li>
+<li>You can call functions to change the marker in rviz</li>
+</ul></li>
+<li>To learn interactive markers, you should go through at least the first two of these tutorials:
+<ul>
+<li><a href="https://wiki.ros.org/rviz/Tutorials/Interactive%20Markers%3A%20Getting%20Started">Getting Started with Interactive Markers</a></li>
+<li><a href="https://wiki.ros.org/rviz/Tutorials/Interactive%20Markers%3A%20Writing%20a%20Simple%20Interactive%20Marker%20Server">Writing a Simple Interactive Marker Server</a></li>
+<li><a href="http://wiki.ros.org/rviz/Tutorials/Interactive%20Markers%3A%20Basic%20Controls">Basic Controls</a></li>
+</ul></li>
+</ul>
+<h2 id="plugins">Plugins</h2>
+<ul>
+<li>Using markers enables you to create complex visualizations by building ROS messages</li>
+<li>However, marker messages are quite large and using many of them can become slow</li>
+<li>Fortunately, <code>rviz</code> is modular: each of the built-in DisplayTypes is actually a plugin.</li>
+<li>You can write your own plugins in C++ that contain display logic for your own message types
+<ul>
+<li><a href="http://docs.ros.org/melodic/api/rviz_plugin_tutorials/html/display_plugin_tutorial.html">Display Plugin Tutorial</a></li>
+</ul></li>
+<li>Plugins can also add panels in <code>rviz</code> (<a href="http://docs.ros.org/melodic/api/rviz_plugin_tutorials/html/panel_plugin_tutorial.html">Panels Tutorial</a>)</li>
+<li>Plugins can also add tools that change what the mouse does in <code>rviz</code> (<a href="http://docs.ros.org/melodic/api/rviz_plugin_tutorials/html/tool_plugin_tutorial.html">Tools Tutorial</a>).</li>
+</ul>
+<h1 id="rqt">rqt</h1>
+<ul>
+<li><a href="https://www.qt.io">Qt</a> is a library for creating graphical user interfaces</li>
+<li><a href="https://wiki.ros.org/rqt">rqt</a> is a ROS package that enables you to create GUIs using ROS nodes</li>
+<li>If you create a widget in <code>Qt</code> you can wrap that widget with <code>rqt</code> and use it as part of the ROS user interface</li>
+<li>Essentially, <code>rqt</code> widgets can be docked and split in a parent window. These configurations can be saved so that others can reproduce your view</li>
+<li>Many rqt plugins <a href="http://wiki.ros.org/rqt/Plugins">come with ROS</a></li>
+<li>All built-in rqt plugins can be run with <code>rosrun</code>
+<ul>
+<li>Type <code>rosrun rqt_</code> then hit tab to see a list of packages.</li>
+<li>Some of these tools are so useful and popular they have there own shortcuts on the path
+<ul>
+<li>Type <code>rqt_</code> then tab to see these. For example</li>
+<li>rqt_graph - seeing how nodes are connected to each other via topics</li>
+<li>rqt_console - reading debugging output from ros nodes</li>
+<li>rqt_plot - plotting message values versus time
+<ul>
+<li>For more advanced plotting I recommend <a href="http://wiki.ros.org/plotjuggler">PlotJuggler</a>.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>There are <a href="http://wiki.ros.org/rqt/Tutorials">Tutorials</a> for creating your own plugins</li>
+</ul>
 </div>
 <div class="footer">
 Author: Matthew Elwin.
