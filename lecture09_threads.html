@@ -1,0 +1,645 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Threads in ROS and Python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#thread-basics">Thread Basics</a><ul>
+<li><a href="#what-is-a-process">What is a process?</a></li>
+<li><a href="#what-is-a-thread">What is a thread?</a></li>
+<li><a href="#threads-in-python">Threads in Python</a></li>
+</ul></li>
+<li><a href="#threads-in-rospy">Threads in rospy</a><ul>
+<li><a href="#timers">Timers</a></li>
+<li><a href="#subscribers">Subscribers</a></li>
+<li><a href="#service-handlers">Service Handlers</a></li>
+<li><a href="#what-this-threading-model-means-for-you">What this threading model means for you</a></li>
+</ul></li>
+<li><a href="#roscpp-and-threads">roscpp and threads</a></li>
+<li><a href="#resources">Python Resources</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Threads in ROS and Python</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="overview">Overview</h1>
+<p>This is a practical guide to threads in ROS, focused on python. There are two goals:</p>
+<ol>
+<li>Suggest basic patterns to generally make your code safe in the face of the multiple threads that ROS implicitly creates in python</li>
+<li>Explore threading in python and ROS through experimentation</li>
+</ol>
+<p>Resources for learning more about threading in python are at the <a href="#resources">end of this page</a>.</p>
+<h1 id="thread-basics">Thread Basics</h1>
+<h2 id="what-is-a-process">What is a process?</h2>
+<ol>
+<li>A <a href="https://www.tldp.org/LDP/tlk/kernel/processes.html">process</a> is an abstraction used by the Linux Kernel (and other operating systems) to segregate sequences of machine instructions into their own memory address space and schedule their execution time.</li>
+<li>The operating system constantly switches the code that the CPU is executing between the machine code in various processes, to provide the illusion of simultaneous execution. On multi-core CPU's a few processes can run simultaneously. However, there are usually more processes than available CPU cores.</li>
+<li>Each process thinks it has access to a full memory-address space: in reality the kernel is hiding the true physical addresses and managing access to these physical addresses. The addresses used by processes are referred to as <em>virtual</em> addresses</li>
+<li>Because each process has its own view of memory, sharing data between processes requires the intervention of the operating system.</li>
+</ol>
+<h2 id="what-is-a-thread">What is a thread?</h2>
+<ol>
+<li>A <a href="https://www.tldp.org/FAQ/Threads-FAQ/Types.html">thread</a> is subordinate unit of execution within a process
+<ul>
+<li>Each process can have multiple threads each of which executes its respective machine code instructions simultaneously (as scheduled by the kernel)</li>
+<li>A given process's threads all share the same memory address space as the parent process</li>
+<li>One thread can directly affect the memory used by another thread, without operating system intervention (in contrast to a process).</li>
+<li>If two threads access the same memory, and are not coordinated properly, a race condition can occur.
+<ul>
+<li>A race condition can result in data corruption</li>
+<li>It can also result in a deadlock, where no thread can continue executing</li>
+</ul></li>
+<li>The exact interleaving of the instructions across multiple threads is non-deterministic because it depends on how the kernel schedules execution, which in turn depends on what else is happening on the computer</li>
+<li>As the operating system changes which code is executing, it is possible for instructions to be interrupted before completing:
+<ul>
+<li>Generally, a single python statement maps to multiple machine instructions and thus a statement can be interrupted in the middle of executing</li>
+<li>Consider <code>i = i + 1</code>. The thread can be interrupted in the middle of reading the value of <code>i</code>, adding <code>1</code> to it, or storing the result in <code>i</code></li>
+<li>In the meantime, another thread can modify <code>i</code>, leading to incorrect results.</li>
+</ul></li>
+<li>Atomic operations finish executing without interruption. Atomic operations guarantee that a complete result will be computed and seen by all threads.</li>
+<li>Synchronization primitives such as a mutex or a sempahore cane be used to coordinate execution between threads</li>
+</ul></li>
+</ol>
+<h2 id="threads-in-python">Threads in Python</h2>
+<ol>
+<li><p>The most common python interpreter, CPython, implements a <a href="http://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock (GIL)</a></p>
+<ul>
+<li>The GIL prevents multiple python instructions from executing simultaneously on a multi-core system.
+<ul>
+<li>Thus, multi-threading with CPython is like multi-threading on a single-core CPU: the python code is not executed simultaneously</li>
+<li>Operations on each thread are interleaved (that is, the python interpreter executes some commands on one thread, then switches to another).</li>
+<li>The order of this interleaving is generally non-deterministic</li>
+</ul></li>
+<li>The GIL does not prevent all race-conditions
+<ul>
+<li>You still need to synchronize threads that read/write to the same shared variables.</li>
+<li>Defects that occur due to specific orderings of operations on multiple threads can still occur</li>
+<li>Non-atomic python statements can be interrupted before completion</li>
+</ul></li>
+<li>The GIL only applies to python bytecode instructions
+<ul>
+<li>Python code can call C code, and that C code can bypass the GIL</li>
+<li>Python waits for a system function (e.g., to reading from a file), it is not executing bytecode. Thus, another thread can run while the other thread waits for the system.</li>
+</ul></li>
+</ul></li>
+<li><p>Atomic Operations: The following operations are guaranteed to complete once started, prior to another thread being run</p>
+<ul>
+<li>Reading or writing a single variable of a basic type (int, float, string)</li>
+<li>Assigning an object to a variable (e.g., x = y)</li>
+<li>Reading an item from a list</li>
+<li>Modifying an item in a list</li>
+<li>Getting an item from a dictionary</li>
+<li><a href="https://docs.python.org/2/faq/library.html#what-kinds-of-global-value-mutation-are-thread-safe">A complete list of python atomic operations</a></li>
+</ul></li>
+<li><p>If you perform a non-atomic operation, the thread you are running on can be interrupted in the middle. Assume we have two threads, both performing <code>i = i + 1</code>, a non-atomic operation. Thus what is actually executed gets broken into several interruptable steps</p>
+<pre><code>i = 0
+# Two threads are started
+Thread 1            |        Thread 2
+   i = i + 1        |           i = i + 1
+</code></pre>
+<p>Operations can happen in multiple ways leading to different results: for example</p>
+<pre><code>Thread 1, reads i, it is 0
+Thread 2, reads i, it is 0
+Thread 1 adds 1 to what it read, yielding 1
+Thread 1 stores 1 in i
+Thread 1 reads i it is 1
+Thread 1 adds 1 to what it read, yielding 2
+Thread 2 adds 1 to what it read, yielding 1
+Thread 1 stores 2 in i
+Thread 2 stores 1 in i
+</code></pre></li>
+</ol>
+<h1 id="threads-in-rospy">Threads in rospy</h1>
+<p>The threading model for rospy is poorly documented by ROS The information here comes from my own explorations and discussion here <a href="https://answers.ros.org/question/9543/rospy-threading-model/">https://answers.ros.org/question/9543/rospy-threading-model/</a> (the whole series of answers).</p>
+<h2 id="timers">Timers</h2>
+<ul>
+<li><code>rospy.Timer(Rate(hz), callback)</code> lets you execute a callback at a given frequency.</li>
+<li>Each timer runs in its own thread as soon as you create the timer.</li>
+<li>While a timer callback is executing, it blocks that timer callback from running again.
+<ul>
+<li>For example, if you have a timer with period 1 second, but your code takes 3 seconds to execute, The timer will effectively only trigger once every 3 seconds</li>
+</ul></li>
+</ul>
+<h2 id="subscribers">Subscribers</h2>
+<ul>
+<li>In rospy, it seems that each topic you subscribe to gets one thread per publisher.</li>
+<li>This means that a given subscriber callback can execute in different threads.</li>
+<li>If you have multiple subscribers on the same topic in the same node, they execute on the same thread.</li>
+</ul>
+<h2 id="service-handlers">Service Handlers</h2>
+<ul>
+<li>Service Handlers execute in their own threads</li>
+</ul>
+<h2 id="what-this-threading-model-means-for-you">What this threading model means for you</h2>
+<ol>
+<li>Be aware that the callbacks you write may operate in a separate threads</li>
+<li>These threads are different from the main thread of your program</li>
+<li>Synchronize between callbacks in the following order of complexity
+<ol>
+<li>Only use local variables</li>
+<li>Use atomic operations: A very common use case is that you use a service to signal a change in a timer that is publishing data. If you set variables using atomic operations, which in python includes simple assignments, then you should not run into issues or require explicit synchronization methods.
+<ol>
+<li>Use a Queue, especially with a producer/consumer pattern. Queues are thread-safe in python. One thread puts data onto the queue, the other thread reads it from the queue.</li>
+<li>If you must, resort to the thread locking mechanisms provided by python</li>
+</ol></li>
+</ol></li>
+<li>If you need tasks to happen concurrently, put them in different nodes.</li>
+</ol>
+<h1 id="roscpp-and-threads">roscpp and threads</h1>
+<ol>
+<li>The thread model for ROS is different in python and in C++</li>
+<li>In roscpp, there is a single thread unless you explicitly create multiple threads</li>
+<li>In C++ there is no GIL, thus threads can execute simultaneously on multi-core machines</li>
+<li>In C++ the order in which commands are executed is not necessarily the order in which they were coded; therefore, you must be very careful when synchronizing threads</li>
+<li>See <a href="http://wiki.ros.org/roscpp/Overview/Callbacks%20and%20Spinning">Callbacks and Spinning</a> for more details</li>
+</ol>
+<h1 id="resources">Python Resources</h1>
+<ul>
+<li><a href="https://docs.python.org/2.7/tutorial/stdlib2.html#multi-threading">threading module tutorial</a></li>
+<li><a href="https://docs.python.org/2.7/library/threading.html">Python Threading Library</a></li>
+<li><a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock (GIL)</a></li>
+<li><a href="https://docs.python.org/2/library/multiprocessing.html">Python Multiprocessing Library</a>.</li>
+<li><a href="https://docs.python.org/2/library/queue.html">Python Queue Class</a></li>
+<li>More to come!</li>
+</ul>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

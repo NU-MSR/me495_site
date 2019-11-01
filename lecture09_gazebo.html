@@ -1,0 +1,654 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Simulation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#advantages-of-simulation">Advantages of Simulation</a></li>
+<li><a href="#disadvantages-of-simulation">Disadvantages of Simulation</a></li>
+<li><a href="#choosing-a-simulator">Choosing a simulator</a><ul>
+<li><a href="#identifying-what-must-be-modeled">Identifying What Must Be Modeled</a></li>
+<li><a href="#differences-between-simulation-engines">Differences Between Simulation Engines</a></li>
+<li><a href="#custom-simulators">Custom Simulators</a></li>
+</ul></li>
+<li><a href="#gazebo">Gazebo</a><ul>
+<li><a href="#gazebo-features">Gazebo Features</a></li>
+</ul></li>
+<li><a href="#gazebo-and-ros">Gazebo and ROS</a></li>
+<li><a href="#how-to-learn-gazebo">How to Learn Gazebo</a></li>
+<li><a href="#some-other-simulators-for-reference-we-will-not-use-these">Some Other Simulators (for reference, we will not use these)</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Simulation</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="overview">Overview</h1>
+<p>Computer simulations represent the physical world as a set of state variables and perform computations to advance this state forward (or backward) in time.</p>
+<p>In robotics, simulation is used to perform robotic experiments without requiring robotic hardware. Instead, a mathematical model of the robot and its environment is used to approximate the behavior of a real robot.</p>
+<h1 id="advantages-of-simulation">Advantages of Simulation</h1>
+<ul>
+<li>You control all variables and can replay identical scenarios</li>
+<li>You can inspect and set the full state of the system accurately</li>
+<li>You can easily change properties of the robot, sensors, and the environment</li>
+<li>The robot does not break or run out of battery power</li>
+</ul>
+<h1 id="disadvantages-of-simulation">Disadvantages of Simulation</h1>
+<ul>
+<li>Behavior differs from the real world</li>
+<li>Only effects that are already modeled and known can be examined</li>
+<li>Even if an effect is modeled, numerical error can become an issue</li>
+<li>Simulated robots can't vacuum your floor</li>
+</ul>
+<h1 id="choosing-a-simulator">Choosing a simulator</h1>
+<h2 id="identifying-what-must-be-modeled">Identifying What Must Be Modeled</h2>
+<p>The needs of your robotic application dictate the complexity of your model and the requirements for your simulation engine. Choosing the correct level of simulated detail is an important design choice: the more detail, the more accuracy, but also the more computation time and complexity.</p>
+<p>Here are some types of simulations used in robotics:</p>
+<ul>
+<li>Discrete Position
+<ul>
+<li>Robots are agents that can move from grid-space to grid-space</li>
+<li>The mechanics of the movement are ignored</li>
+</ul></li>
+<li>Kinematic
+<ul>
+<li>Control positions and velocities of the joints</li>
+</ul></li>
+<li>Dynamic
+<ul>
+<li>Robots and objects have inertia and you control forces and torques</li>
+<li>Newton's Laws or Euler Lagrange can be used</li>
+<li>Complexity of the dynamic effects modeled can vary widely</li>
+</ul></li>
+<li>Finite Element
+<ul>
+<li>Parts of the robot can deform according to stress-strain relations</li>
+</ul></li>
+<li>Fluid Dynamics
+<ul>
+<li>For underwater or aerial robots</li>
+</ul></li>
+</ul>
+<h2 id="differences-between-simulation-engines">Differences Between Simulation Engines</h2>
+<ol>
+<li>What integration scheme do they use?
+<ul>
+<li>Most simulations ultimately hinge on integrating differential equations</li>
+<li>Many simulators provide a choice or parameters that can be tuned</li>
+<li>Accuracy vs speed trade-offs</li>
+<li>Specific types of differential equations may be better suited to different integration schemes</li>
+</ul></li>
+<li>What phenomenon can be modeled?
+<ul>
+<li>Collisions?</li>
+<li>Friction?</li>
+<li>Lighting conditions?</li>
+<li>Aerodynamics?</li>
+</ul></li>
+<li>Visualization tools?
+<ul>
+<li>Can you view the simulated objects?</li>
+<li>Can you generate plots based on the simulation?</li>
+<li>How do you provide input?</li>
+<li>How do you read the output?</li>
+</ul></li>
+<li>What robots are supported?
+<ul>
+<li>Specific to certain types of robots?</li>
+<li>General purpose, can make nearly anything?</li>
+<li>Are their pre-built models available?</li>
+</ul></li>
+</ol>
+<h2 id="custom-simulators">Custom Simulators</h2>
+<ul>
+<li>Sometimes, you have a simple model for your robot</li>
+<li>Using a simple model, you can usually write your own simulator</li>
+<li>In some cases, writing your own can be simpler than invoking a complicated general purpose simulator like gazebo.</li>
+<li>Writing a simulation for a robot is a good way to verify you understand the system</li>
+</ul>
+<h1 id="gazebo">Gazebo</h1>
+<ul>
+<li>The <a href="http://gazebosim.org">Gazebo</a> simulator is the main simulator for ROS</li>
+<li>Like ROS, it is maintained by the Open Source Robotics Foundation, but it is a standalone program</li>
+<li>Many concepts in Gazebo are similar to ROS but slightly different</li>
+<li>We will focus on how to use Gazebo from ROS</li>
+<li>Carefully designed ROS programs can seamlessly switch between controlling a Gazebo simulation and a real robot.</li>
+</ul>
+<h2 id="gazebo-features">Gazebo Features</h2>
+<ul>
+<li>Choice of physics engines:
+<ul>
+<li>By default it uses the <a href="https:/www.ode.org">Open Dynamics Engine (ODE)</a></li>
+<li>Can be compiled to use Bullet, DART, or Simbody</li>
+</ul></li>
+<li>Graphics: Gazebo provides a graphical interface for viewing and creating simulated worlds. It is like a cross between RViz and a mini CAD program.
+<ul>
+<li>The appearance of objects in Gazebo is how they appear in simulated camera sensors</li>
+</ul></li>
+<li>Plugin Architecture: Everything in Gazebo is written as a C++ plugin.
+<ul>
+<li>This makes Gazebo extendable, and provides you with the ability to not only add new objects in Gazebo but also new physical phenomena</li>
+<li>Gazebo comes with many plugins, representing, for example, different types of sensors</li>
+<li>ROS support for Gazebo is provided by a plugin</li>
+</ul></li>
+<li>Network: Like ROS, gazebo consists of multiple processes that communicate with each other using network protocols (different from those in ROS). However, Gazebo can be, for example, run on another remote server.</li>
+</ul>
+<h1 id="gazebo-and-ros">Gazebo and ROS</h1>
+<ul>
+<li>ROS uses URDF files to represent robots</li>
+<li>Gazebo uses <a href="https://sdformat.org/spec">SDF</a> files to represent robots and other objects</li>
+<li>Gazebo provides extensions to URDF files that enable it to convert URDF to SDF automatically</li>
+</ul>
+<h1 id="how-to-learn-gazebo">How to Learn Gazebo</h1>
+<p>Gazebo has many excellent <a href="https://gazebosim.org/tutorials">tutorials</a>. It also has its own <a href="https://answers.gazebosim.org">question/answer website</a>. I've created a guide below focusing on how to integrate Gazebo into what you already know about ROS. The more tutorials you go through the better, but you should at least go through the ones listed below.</p>
+<ol>
+<li><a href="http://gazebosim.org/tutorials?cat=guided_b&amp;tut=guided_b1 ">Basic Guide</a></li>
+<li><a href="http://gazebosim.org/tutorials?cat=connect_ros">Connect to ROS</a> Tutorials
+<ul>
+<li><a href="http://gazebosim.org/tutorials?tut=ros_overview&amp;cat=connect_ros">ROS Overview</a></li>
+<li><a href="http://gazebosim.org/tutorials?tut=ros_roslaunch&amp;cat=connect_ros">Using roslaunch</a></li>
+<li><a href="http://gazebosim.org/tutorials?tut=ros_urdf&amp;cat=connect_ros">URDF in Gazebo</a></li>
+<li><a href="http://gazebosim.org/tutorials?tut=ros_gzplugins&amp;cat=connect_ros">Gazebo Plugins in ROS</a>
+<ul>
+<li>Essentially, plugins are how you add sensors to your URDF for use in Gazebo</li>
+<li>Sensor plugins will publish sensor messages to ROS. They correspond to actual sensors and tend to publish the same messages as their physical counterparts</li>
+</ul></li>
+<li><a href="http://gazebosim.org/tutorials?tut=ros_control&amp;cat=connect_ros">Ros Control</a>
+<ul>
+<li>The ROS Control package lets you control a simulated and real robot using the same code</li>
+<li><a href="https://wiki.ros.org/urdf/XML/transmission">&lt;transmission&gt;</a> tags in the urdf are required to make this work</li>
+<li>See also <a href="https://wiki.ros.org/ros_control">ros_control</a></li>
+</ul></li>
+<li><a href="http://gazebosim.org/tutorials?tut=ros_comm&amp;cat=connect_ros">ROS communication</a>
+<ul>
+<li>Gazebo provides a ROS api for controlling it and getting information from it</li>
+</ul></li>
+</ul></li>
+</ol>
+<h1 id="some-other-simulators-for-reference-we-will-not-use-these">Some Other Simulators (for reference, we will not use these)</h1>
+<ul>
+<li><a href="https://drake.mit.edu">Drake</a> C++ Simulation tools for dynamic robots, using optimization techniques. Started at MIT, now backed by Toyota Research.</li>
+<li><a href="https://www.coppeliarobotics.com">V-Rep</a> Free for educational use, but not 100% open source. Has some ROS integration, scripted in Lua.</li>
+<li><a href="http://nxr.northwestern.edu/trep">trep</a> - Developed in Todd Murphey's lab. Good numerical algorithms and transparency in how the dynamics are actually solved. Does not support contact/friction.</li>
+<li><a href="https://cyberbotics.com">Webbots</a> - Robot simulator with a long history</li>
+</ul>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

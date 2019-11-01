@@ -623,7 +623,7 @@ table td {
 <li><p>Most robots use <code>xacro</code> files instead of urdf files.</p></li>
 <li><p>Typically, <code>xacro</code> files are converted into <code>urdf</code> and stored directly in the parameter server by a launchfile. For example, to store the <code>urdf</code> created from <code>mypackage/urdf/myrobot.urdf.xacro</code> in the <code>robot_description</code> parameter, you would use the following element:</p>
 <pre><code>&lt;param name=&quot;robot_description&quot;
-       command=&quot;$(find xacro)/xacro --inorder $(find mypackage)/urdf/myrobot.urdf.xacro&quot;/&gt;
+       command=&quot;$(find xacro)/xacro $(find mypackage)/urdf/myrobot.urdf.xacro&quot;/&gt;
 </code></pre></li>
 <li><p><code>xacro</code> files can also be converted into <code>urdf</code> files at compile time via <code>CMakeLists.txt</code>.</p>
 <ul>

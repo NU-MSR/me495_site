@@ -1,0 +1,635 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Image Processing with ROS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#cameras-on-linux">Cameras On Linux:</a></li>
+<li><a href="#ros-camera-drivers">ROS Camera Drivers</a><ul>
+<li><a href="#using-usb_cam">Using usb_cam</a></li>
+<li><a href="#using-libuvc_camera">Using libuvc_camera</a></li>
+</ul></li>
+<li><a href="#the-image-pipeline">The Image Pipeline</a></li>
+<li><a href="#other-image-tools">Other Image Tools</a></li>
+<li><a href="#opencv">OpenCV</a></li>
+<li><a href="#tag-tracking">Tag Tracking</a></li>
+<li><a href="#other-image-packages-and-libraries">Other Image Packages and Libraries</a></li>
+<li><a href="#example-image-processing">Example Image Processing</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Image Processing with ROS</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="overview">Overview</h1>
+<p>This lecture is about how to interface ROS with cameras and vision processing libraries.</p>
+<h1 id="cameras-on-linux">Cameras On Linux:</h1>
+<ul>
+<li>Cameras on Linux are viewed as files (like any other device).</li>
+<li>Cameras on Linux are usually called <code>/dev/videoX</code>, where <code>X</code> is a number</li>
+<li>Currently some cameras create two video devices, the lower numbered one is the one to use</li>
+<li><code>v4l2-ctl</code> is a command line tool for interfacing with cameras. See <code>man v4l2-ctl</code></li>
+<li><code>v4l2-ctl --list-formats-ext</code> prints useful information about the formats supported by cameras connected to your computer
+<ul>
+<li>You often need to specify these parameters to the ROS camera node, as parameters</li>
+</ul></li>
+<li><code>v4l2-ctl --all</code> prints all information about your cameras</li>
+<li>When working with cameras you should use <a href="http://www.reactivated.net/writing_udev_rules.html">udev rules</a> to give your cameras the proper permissions and a persistent name.</li>
+</ul>
+<h1 id="ros-camera-drivers">ROS Camera Drivers</h1>
+<p>The two main libraries for accessing basic USB cameras in ROS:</p>
+<ol>
+<li><a href="https://wiki.ros.org/usb_cam">usb_cam</a></li>
+<li><a href="https://wiki.ros.org/libuvc_camera">libuvc_camera</a></li>
+</ol>
+<p>Depending on your camera, one may work better than the other: libuvc is for cameras that follow the UVC standard (most modern webcameras) and usb_cam uses the v4l framework (video for linux).</p>
+<ul>
+<li>These camera nodes access your camera via the video device file</li>
+<li>These camera "drivers" accept several private parameters for setting camera options and formats.
+<ul>
+<li>Essentially, the node reads from the camera and publishes an image message</li>
+</ul></li>
+<li>Sometimes, you need to experiment with various options to get a usable webcam image.
+<ul>
+<li>If the node prints lots of warnings, it usually means a parameter like the image format should be changed</li>
+<li>Other information that the node prints can be useful for debugging issues or tweaking parameters:</li>
+<li>If possible, try to fix any warnings that you may find</li>
+</ul></li>
+<li>The image display type in rviz can be used to see the video from a camera</li>
+<li>Other industrial cameras may have their own ROS node drivers, or you may need to write your own.</li>
+<li><code>usb_cam</code> lets you access the camera via <code>/dev/videoX</code>, whereas <code>libuvc_camera</code> lets you access it via Vendor Id (VID), Product Id (PID), and Serial number</li>
+</ul>
+<h2 id="using-usb_cam">Using usb_cam</h2>
+<ol>
+<li>The camera is one of the <code>/dev/videoX</code> devices</li>
+<li>Run the <code>usb_cam</code> node. The basic parameters for the system76 laptop are: <code>rosrun usb_cam usb_cam_node _pixel_format:=yuyv</code></li>
+<li><code>rosrun image_view image_view image:=/usb_cam/raw_image</code> to view</li>
+<li>You can also view the image in <code>rviz</code> or <code>rqt_image_view</code></li>
+</ol>
+<h2 id="using-libuvc_camera">Using libuvc_camera</h2>
+<ol>
+<li>Find the VID, PID, and Serial number of your camera: requires some investiagion
+<ul>
+<li><code>lsusb</code> - Print VID and PID of cameras on your computer</li>
+<li><code>v4lctl --all</code> - See camera's attached to computer (can use this to guess which USB device it is)</li>
+</ul></li>
+<li>Create udev rules for the camera:
+<ul>
+<li>Copy udev rules to <code>/etc/udev/rules.d</code></li>
+<li><code>sudo udevadm control --reload</code> (reloads udev rules)</li>
+<li><code>sudo udevadm trigger</code> (re-runs udev rules)</li>
+</ul></li>
+<li>Start with the <a href="https://wiki.ros.org/libuvc_camera">launchfile</a> provided on the wiki and edit it to match your camera settings</li>
+</ol>
+<h1 id="the-image-pipeline">The Image Pipeline</h1>
+<p><a href="http://wiki.ros.org/image_pipeline">image_pipeline</a> contains several packages relating to image manipulation in ROS. The idea is to chain various calibration and image processing steps together to complete computer vision tasks. The pipeline also applies to stereo-vision cameras and 3D point clouds.</p>
+<p><a href="http://wiki.ros.org/camera_calibation">Camera Calibration</a></p>
+<ul>
+<li>Finds the intrinsic parameters of a camera using a checkerboard pattern and OpenCV.</li>
+<li>The calibration can be stored and used to provide a <code>camera_info</code> topic so that the calibration can be used by other nodes.
+<ul>
+<li>The <a href="http://docs.ros.org/api/sensor_msgs/html/msg/CameraInfo.html">CameraInfo Message Definition</a> has some useful information</li>
+</ul></li>
+<li>See this <a href="http://wiki.ros.org/camera_calibration/Tutorials/MonocularCalibration">tutorial</a></li>
+<li>More information about camera calibration <a href="http://wiki.ros.org/image_pipeline/CameraInfo">CameraInfo</a></li>
+<li>Some more information on calibration matrices for the <a href="http://ksimek.github.io/2012/08/13/introduction/#toc">pinhole camera model</a></li>
+<li><a href="https://www.mathworks.com/help/vision/ug/camera-calibration.html">Matlab tutorial on camera calibration</a></li>
+</ul>
+<p><a href="http://wiki.ros.org/image_proc">image_proc</a> Camera lenses cause distortion. Rectification is a transformation to make the image "rectangular" by accounting for camera lens distortion. This node handles rectification for you: Subscribes to a raw camera image (<code>image_raw</code>) and camera calibration information <code>camera_info</code> and publishes</p>
+<ol>
+<li><code>image_mono</code>: A monochrome unrectified image</li>
+<li><code>image_rect</code>: A monochrome rectified image</li>
+<li><code>image_color</code>: A color unrectified image. These images are de-omsaiced (that is it accounts for the rgb pixel pattern of the camera)</li>
+<li><code>image_rect_color</code> A color rectified image.</li>
+</ol>
+<p><a href="http://wiki.ros.org/image_view">image_view</a></p>
+<ul>
+<li>Simple, stand-alone image viewer. Specify the <code>raw_image</code> topic as a parameter and it will display the image</li>
+<li>There is also <code>rqt_image_view</code> (although that is part of rqt, not the image pipeline)</li>
+</ul>
+<p><a href="http://wiki.ros.org/depth_image_proc">depth_image_proc</a> Processes depth image</p>
+<ul>
+<li>In a depth image, each pixel corresponds to the depth (i.e., how far light has to travel before hitting something) in the scene.</li>
+<li>Used by RGB-D cameras such as the intel RealSense.</li>
+<li>Used to make point clouds (basically 3 dimensional pixelized images) from calibrated depth cameras</li>
+</ul>
+<h1 id="other-image-tools">Other Image Tools</h1>
+<ol>
+<li><a href="http://wiki.ros.org/image_transport">Image Transport</a> determines how image data is sent across the system.</li>
+</ol>
+<p>Rather than raw camera data, the image data can be compressed to use less bandwidth. For python usage, the <code>republish</code> feature is the most important</p>
+<ol>
+<li><a href="http://wiki.ros.org/web_video_server">Web Video Server</a> used to create an http stream of video, useful if interfacing your robot to a website.</li>
+</ol>
+<h1 id="opencv">OpenCV</h1>
+<p><a href="https://opencv.org">OpenCV</a> is a major image processing library. Their website has many tutorials on how to process images.</p>
+<p>Some packages that use/relate to OpenCV are:</p>
+<ol>
+<li><a href="http://wiki.ros.org/cv_bridge">cv_bridge</a> Converts between OpenCV data and ROS messages.
+<ul>
+<li>If you want to use opencv with ROS, you should use this package</li>
+</ul></li>
+<li><a href="http://wiki.ros.org/opencv_apps">opencv_apps</a> Each "app" is a node that performs a single image processing function using opencv. Thus you can chain together many computer vision algorithms by connecting some nodes together in a launchfile.</li>
+<li><a href="https://wiki.ros.org/image_geometry">image_geometry</a> Using a camera calibration, lets you convert between pixel coordinates and the other frames in your system.</li>
+</ol>
+<h1 id="tag-tracking">Tag Tracking</h1>
+<p>Tags are special 2-Dimensional patterns that are designed to be viewed with a camera. Computer vision algorithms can then determine the 6 Degree of freedom pose of the tag and often an identifier (thus Tags are like QR codes but they also contain geometric information.</p>
+<p>The best tags to use are April tags.</p>
+<ul>
+<li><a href="http://wiki.ros.org/apriltag_ros">apriltag_ros</a></li>
+<li><a href="https://april.eecs.umich.edu/software/apriltag">Information on the Theory of April Tags</a></li>
+</ul>
+<p>Prior to the invention of April tags, AR tags were a popular choice for tag tracking</p>
+<ul>
+<li><a href="http://wiki.ros.org/ar_track_alvar">ar_track_alvar</a></li>
+</ul>
+<h1 id="other-image-packages-and-libraries">Other Image Packages and Libraries</h1>
+<ol>
+<li><a href="https://github.com/tzutalin/awesome-visual-slam">Up to date list of visual SLAM solutions</a></li>
+<li><a href="http://wiki.ros.org/face_detector">face_detector</a></li>
+<li><a href="http://wiki.ros.org/face_recognition">facial_recognition</a> You will need to compile this since it was last released for ROS indigo.</li>
+<li><a href="http://florisvb.github.io/multi_tracker/">2D tracking of multiple objects</a></li>
+<li><a href="http://wiki.ros.org/find_object_2d">Find object 2D</a> Feature detection to find objects</li>
+</ol>
+<h1 id="example-image-processing">Example Image Processing</h1>
+<p>Make a new workspace and clone <a href="https://github.com/m-elwin/me495_image.git">https://github.com/m-elwin/me495_image.git</a></p>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

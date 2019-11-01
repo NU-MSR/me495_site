@@ -699,7 +699,7 @@ y_d(t) = r \sin \frac{2 \pi t}{T} + C_y,
 <li>A node that draws markers in <code>rviz</code> at the end-effector position.
 <ul>
 <li>One cycle should take <span class="math inline">\(T\)</span> seconds: you should read <span class="math inline">\(T\)</span> from the parameter server so you use the same value as in your trajectory node</li>
-<li>The markers should fade away after <span class="math inline">\(\frac{T}{5}\)</span> seconds</li>
+<li>The markers should disappear after <span class="math inline">\(\frac{T}{5}\)</span> seconds</li>
 <li>The markers should be published at a fixed rate</li>
 <li>You likely will need to publish these markers at a significantly slower rate than the trajectory updates because they can be slow to process.</li>
 <li>You can use any shape you want</li>

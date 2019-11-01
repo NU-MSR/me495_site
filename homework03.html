@@ -1,0 +1,698 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Homework 3</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#gazebo-differential-drive-challenge">Gazebo Differential Drive Challenge</a></li>
+<li><a href="#creating-the-world">Creating the World</a></li>
+<li><a href="#the-xacro-urdf">The Xacro URDF</a><ul>
+<li><a href="#robot-description">Robot Description</a></li>
+</ul></li>
+<li><a href="#gazebo-extensions">Gazebo Extensions</a><ul>
+<li><a href="#three-ways-of-gazebo-control">Three Ways of Gazebo Control</a></li>
+</ul></li>
+<li><a href="#hints">Hints</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Homework 3</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="overview">Overview</h1>
+<p>Reminder: Part A of the homework is a separate submission. For Part B of the homework, the same rules for turning in this assignment apply as for the previous assignments.</p>
+<ol>
+<li>Don't forget to commit to git often.</li>
+<li>Include a <code>README.md</code> that describes the nodes and launchfiles in your package.
+<ul>
+<li>Make sure your <code>README.md</code> is formatted correctly</li>
+</ul></li>
+<li>Remember to include docstrings in each node describing its ROS API</li>
+</ol>
+<h1 id="gazebo-differential-drive-challenge">Gazebo Differential Drive Challenge</h1>
+<p>The challenge is to create a differential-drive robot that can be simulated in Gazebo and controlled by ROS.</p>
+<ul>
+<li>The robot will be able to flip over and continue driving (although actually accomplishing this is optional).</li>
+<li>The robot will move through a world filled with Jersey Barriers and trash.</li>
+</ul>
+<p>Your submission should be a single package in a single git repository, with the following layout:</p>
+<ul>
+<li><code>package.xml</code></li>
+<li><code>CMakeLists.txt</code></li>
+<li><code>/config</code> (<code>.yaml</code> files)</li>
+<li><code>/urdf</code> (<code>.xacro</code> and <code>.gazebo</code> files)</li>
+<li><code>/launch</code> (<code>.launch</code> files)</li>
+<li><code>/worlds</code> (<code>.world</code> files)</li>
+<li><code>/nodes</code> (Your ROS nodes.)</li>
+</ul>
+<p>There is a hints section at the bottom of the page that you should read if you get stuck.</p>
+<h1 id="creating-the-world">Creating the World</h1>
+<ol>
+<li>Use the Gazebo GUI to create your world. Place an asphalt plane over the ground plane.</li>
+</ol>
+<p>Then add some Jersey Barriers (at least 2), A few cardboard boxes (at least 3) and something else you find interesting. Save your world as <code>ddrive.world</code> in the <code>world/</code> directory of your project</p>
+<ol>
+<li>Write a launchfile called <code>ddrive.launch</code>. For now, it should launch gazebo and load the world you just created.</li>
+</ol>
+<h1 id="the-xacro-urdf">The Xacro URDF</h1>
+<h2 id="robot-description">Robot Description</h2>
+<ol>
+<li>The robot has body consisting of a rectangular prism. It has two cylindrical wheels on the front and a caster at the rear.
+<ul>
+<li>There should be a caster on the top and bottom of the robot so that it is symmetrical about its horizontal plane</li>
+<li>Each caster link should be modified to have no friction in gazebo so that it can slide freely.</li>
+<li>Feel free to set the masses and dimensions of the robot to suit your needs.</li>
+</ul></li>
+<li>Create a <code>ddrive.urdf.xacro</code> file to describe the differential-drive robot.
+<ul>
+<li>The dimensional parameters of the robot should be stored in a <code>.yaml</code> file and referenced in the <code>xacro file</code></li>
+<li>Each link you add must have the proper collision bounding box and inertia.</li>
+<li>Place <code>gazebo</code> specific tags in a separate <code>.gazebo</code> file that is included in your main <code>urdf</code>.</li>
+</ul></li>
+<li>Create a launchfile called <code>ddrive_rviz.launch</code> that launches the <code>urdf</code> in RViz, along with a <code>robot_state_publisher</code> and optionally a <code>joint_state_publisher</code> with the GUI. This launchfile will be useful for debugging.</li>
+<li>Modify <code>ddrive.launch</code> so that it spawns your URDF model in the gazebo world.
+<ul>
+<li>Use a launchfile argument to start gazebo with the simulation paused. You will need to rember to unpause when you actually want the simulation to run.</li>
+</ul></li>
+<li>Modify <code>ddrive.launch</code> so that it loads the urdf into the <code>/robot_description</code> parameter.</li>
+</ol>
+<h1 id="gazebo-extensions">Gazebo Extensions</h1>
+<ol>
+<li>Add gazebo materials to each of your links so they appear as an appropriate color.</li>
+<li>Write a node that publishes <code>cmd_vel</code> twist messages corresponding to a rectangular trajectory.
+<ul>
+<li>You may adapt code from previous assignments.</li>
+<li>Launch this node from <code>ddrive.launch</code></li>
+</ul></li>
+</ol>
+<h2 id="three-ways-of-gazebo-control">Three Ways of Gazebo Control</h2>
+<p>We will now explore three ways of controlling your model in gazebo. Using gazebo services, using the Differential Drive plugin, and (optionally) using <code>ros_control</code>. You will pass a <code>mode</code> argument to your <code>ddrive.launch</code> launchfile to switch between modes.</p>
+<p>When you run <code>ddrive.launch</code>, the robot should move according to the <code>cmd_vel</code> commands you are publishing.</p>
+<ol>
+<li>Using the <code>/gazebo/apply_joint_effort</code> and <code>/gazebo/clear_joint_effort</code> services, write a node that subscribes to <code>cmd_vel</code> and commands the robot to follow the provided twist. (Depending on how this is implemented, you may not need <code>/gazebo/clear_joint_efforts</code>).
+<ul>
+<li>The linear.x component of the twist is the forward velocity. The angular.z component is the angular velocity.
+<ul>
+<li><a href="http://planning.cs.uiuc.edu/node659.html">Planning Algorithms</a> has some information on the math.</li>
+</ul></li>
+<li>The velocity is the body velocity of the base_link of the robot.</li>
+<li>In <code>ddrive.launch</code>, if <code>mode is 0</code> launch this node.</li>
+<li>your node should read the relevant physical parameters from your <code>.yaml</code> file</li>
+<li>Note that you should clear the joint_effort prior to sending a new joint effort as the effects are cumulative.</li>
+<li>This method is the most generic (works for every robot) but is inefficient due to the service calls and provides an interface that differs greatly from how you would interface with a real robot.</li>
+<li>You can use either an open or closed loop controller to choose velocities from torques:
+<ul>
+<li>Open Loop: Apply a torque for duration <span class="math inline">\(\Delta\)</span> such that, at the end of <span class="math inline">\(\Delta\)</span> the velocity is as desired
+<ul>
+<li><span class="math inline">\(J\ddot{\omega} = \tau\)</span>, where <span class="math inline">\(J\)</span> is the rotational inertia of the wheel, <span class="math inline">\(\ddot{\omega}\)</span> is the angular acceleration and <span class="math inline">\(\tau\)</span> is the applied torque.</li>
+<li>You need to keep track of what you expect the wheel velocities to be after each time you send torque to the wheels.</li>
+<li>By choosing <span class="math inline">\(\Delta\)</span> to be small, you can reach a desired velocity quickly.</li>
+</ul></li>
+<li>Closed Loop:
+<ul>
+<li>Subscribe to <code>/gazebo/link_states</code> to keep track of the velocities of the wheels and do closed-loop control (e.g. PID)</li>
+<li>From your subscriber, call <code>/gazebo_apply_joint_effort</code> to send the control effort to the wheels</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>If <code>mode is 1</code> your <code>.gazebo</code> file should conditionally include the "Differential Drive" plugin.
+<ul>
+<li><p>You may adapt the following code (which I adapted from the <em>Gazebo Plugins in Ros Tutorial</em></p>
+<pre><code>&lt;gazebo&gt;
+&lt;plugin name=&quot;differential_drive_controller&quot; filename=&quot;libgazebo_ros_diff_drive.so&quot;&gt;
+&lt;rosDebugLevel&gt;na&lt;/rosDebugLevel&gt;
+&lt;alwaysOn&gt;true&lt;/alwaysOn&gt;
+&lt;updateRate&gt;100&lt;/updateRate&gt;
+&lt;leftJoint&gt;left_wheel&lt;/leftJoint&gt;
+&lt;rightJoint&gt;right_wheel&lt;/rightJoint&gt;
+&lt;wheelSeparation&gt;${body_width+wheel_width}&lt;/wheelSeparation&gt;
+&lt;wheelDiameter&gt;${wheel_radius}&lt;/wheelDiameter&gt;
+&lt;wheelTorque&gt;20&lt;/wheelTorque&gt;
+&lt;commandTopic&gt;diff/cmd_vel&lt;/commandTopic&gt;
+&lt;odometryTopic&gt;diff/odom&lt;/odometryTopic&gt;
+&lt;odometryFrame&gt;odom&lt;/odometryFrame&gt;
+&lt;robotBaseFrame&gt;base_link&lt;/robotBaseFrame&gt;
+&lt;publishWheelTF&gt;false&lt;/publishWheelTF&gt;
+&lt;publishOdomTF&gt;true&lt;/publishOdomTF&gt;
+&lt;publishWheelJointState&gt;true&lt;/publishWheelJointState&gt;
+&lt;wheelAcceleration&gt;false&lt;/wheelAcceleration&gt;
+&lt;odometrySource&gt;world&lt;/odometrySource&gt;
+&lt;publishTf&gt;1&lt;/publishTf&gt;
+&lt;/plugin&gt;
+&lt;/gazebo&gt;
+</code></pre></li>
+</ul>
+<ul>
+<li>The above code assumes your wheel joints are called <code>left_wheel</code> and <code>right_wheel</code> and also refers to some <code>xacro</code> parameters I defined for the dimensions of the robot. You may need to modify it to match your urdf.</li>
+<li>You do not need to create a separate node to translate twists into wheel velocities, as this plugin does it for you!</li>
+<li>Create a new <code>rviz</code> configuration using the -odom= frame as the fixed frame. The <code>odom</code> frame is published by the differential drive gazebo plugin
+<ul>
+<li>If <code>mode is 1</code>, launch rviz with this configuration so that you can visualize where the robot thinks it is, according to it's wheel odometry.</li>
+</ul></li>
+<li>This plugin is much simpler than ROS controller and provides a realistic robot interface. It is, however, specific to differential drive robots.</li>
+</ul></li>
+<li>Bonus Question: Write a node that uses the <code>ros_control</code> package to drive the robot according to <code>cmd_vel</code> commands that it subscribes to.
+<ul>
+<li>The advantage of ROS control is it is generic, so you do not need to write a custom gazebo plugin for every robot. It also lets you interface with simulation in a manner equivalent to how you would with a real robot.</li>
+<li>In <code>ddrive.launch</code> if <code>mode is 2</code>, launch this node.</li>
+<li>Your <code>.gazebo</code> file should also take an argument that conditionally includes the <code>ros_control</code> plugin if <code>mode is 2</code>. The <code>transmission</code> tags in the <code>urdf.xacro</code> file need not be conditionally included.</li>
+<li>Configure the <code>ros_control</code> plugin to also publish joint states</li>
+<li>your node should read the relevant physical parameters from your <code>.yaml</code> file</li>
+<li>You should also launch <code>rviz</code> and verify that the wheels are spinning due to messages published by <code>ros_control</code> on the <code>/joint_states</code> topic.</li>
+<li><code>ros_control</code> is generic but a bit complicated. It provides a ROS API that is the same as what you would expect with a real robot</li>
+<li>You may need to install the <code>ros-melodic-effort-controllers</code> and <code>ros-melodic-ros-controllers</code> package to gain access to the ros control controllers.</li>
+<li>You can use the <code>hardware_interface/EffortJointInterface</code> to control wheel torques</li>
+</ul></li>
+<li>Bonus Question: Write a node that has the robot move back and forth along a line by flipping over itself rather than turning. (i.e., both wheels should move with the same velocity at all times). You will need to use the dynamics of the robot to accomplish this task. You may find that the <code>teleop_twist_keyboard</code> package is useful for letting you get a feel for the dynamics.</li>
+</ol>
+<h1 id="hints">Hints</h1>
+<ol>
+<li><p>Start with a simple <code>xacro</code> file and add one link at a time</p>
+<ul>
+<li>With one link, and no movable joints, the <code>robot_state_publisher</code> does not publish any transforms so you will see some errors until you add at least one joint.</li>
+<li>Use the <code>xacro</code> command line tool as a basic syntax checker.
+<ul>
+<li>By default it prints the urdf to the screen</li>
+<li>Use output stream redirection (<code>&gt;</code>) to save to a file: (e.g. <code>xacro robot.urdf.xacro &gt; robot.urdf</code>)</li>
+</ul></li>
+<li>Use your launchfile to run rviz and joint_state publisher gui to check the visual elements and load into the parameter server
+<ul>
+<li>Check if your model can be converted to sdf using <code>gz sdf -p robot.urdf</code>. Doing this manually is a great way to check if you have created your <code>urdf</code> properly for export to <code>sdf</code></li>
+</ul></li>
+<li>If your model is loaded into the <code>/robot_description parameter</code>, and gazebo is running: use <code>rosrun gazebo_ros spawn_model -urdf -param robot_description -model ddrive -b</code>
+<ul>
+<li>The <code>-b</code> will cause gazebo to delete the model when you kill the node</li>
+<li>The <code>-param</code> loads the urdf from the parameter server. You can use <code>-file</code> to load from a urdf file (converted using <code>xacro</code> as above)</li>
+<li>Links will not be exported to the <code>sdf</code> unless they have visual and inertial elements.</li>
+<li>I suggest pausing the simulation when you spawn the robot.
+<ul>
+<li>If you are not careful about where you spawn the robot or having a collision element (so it doesn't fall through the ground), it can fly off into space.</li>
+</ul></li>
+<li>You can run the spawn_model node from a launchfile for easier use</li>
+</ul></li>
+</ul></li>
+<li><p>For this exercise, you may wish to use <code>xacro</code> macros to create the visual, collision, and inertial elements from a single set of parameters specifying the geometry and orientation of the link.</p>
+<ul>
+<li>For example, in this case the visual and collision elements can be identical</li>
+<li>macro's can be nested. So build them up slowly and view the results incrementally by outputting the urdf file from the xacro file.</li>
+</ul></li>
+<li><p>For your links to show up with the proper colors in gazebo, you need to assign them a gazebo material, as per the Using URDF in Gazebo tutorial.</p>
+<ul>
+<li>The URDF material tag does not get translated so your links will just show up as gray if you don't include this separately.</li>
+</ul></li>
+<li><p>The view menu in gazebo can let you visualize the inertial properties See in the "Checking in Gazebo section" of <a href="http://gazebosim.org/tutorials?tut=inertia&amp;cat=build_robot">http://gazebosim.org/tutorials?tut=inertia&amp;cat=build_robot</a></p></li>
+<li><p>If gazebo is having trouble opening, it may not have exited cleanly:</p>
+<ul>
+<li><code>ps aux | grep gazebo</code> will show gazebo processes to kill</li>
+<li><code>rosnode kill</code> will show ros nodes to kill</li>
+<li><code>ps aux | grep ros</code> will show ros processes to kill</li>
+<li>You can try <code>killall gzserver</code> to kill the gazebo server</li>
+<li>You can try <code>killall gzclient</code> to kill the gazebo client</li>
+</ul></li>
+<li><p>It is helpful to not need to restart gazebo every time you want to test your robot.</p>
+<ul>
+<li>Feel free to arrange your launchfiles such that starting gazebo is optional and in a way that makes it easy to spawn/remove your model</li>
+<li>You can also call gazebo services from the command-line or use rosrun to help during debugging</li>
+</ul></li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

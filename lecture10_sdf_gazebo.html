@@ -1,0 +1,658 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Xacro, URDF, SDF, Gazebo</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#from-xacro-to-gazebo">From Xacro to Gazebo</a><ul>
+<li><a href="#xacro-to-urdf">Xacro to URDF</a></li>
+<li><a href="#urdf-to-sdf">URDF to SDF</a></li>
+<li><a href="#spawning-an-sdf">Spawning an SDF</a></li>
+</ul></li>
+<li><a href="#useful-xacro-patterns">Useful Xacro Patterns</a><ul>
+<li><a href="#xacro-properties">Xacro Properties</a></li>
+<li><a href="#xacro-macros">Xacro Macros</a></li>
+<li><a href="#xacro-include">Xacro Include</a></li>
+<li><a href="#xacro-if">Xacro If</a></li>
+<li><a href="#xacro-arguments">Xacro Arguments</a></li>
+<li><a href="#link-frames-vs-joint-frames">Link Frames vs Joint Frames</a></li>
+</ul></li>
+<li><a href="#exploration-of-turtlebot-3-urdf">Exploration of turtlebot 3 urdf</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Xacro, URDF, SDF, Gazebo</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="overview">Overview</h1>
+<p>This document describes my process for quickly building models and debugging in gazebo, without needing to restart it each time (which can be quite costly)</p>
+<h1 id="from-xacro-to-gazebo">From Xacro to Gazebo</h1>
+<p>There are three main steps when going from a <code>xacro</code> file to a gazebo file, convert to <code>URDF</code>, convert to <code>SDF</code>, and spawn in Gazebo.</p>
+<h2 id="xacro-to-urdf">Xacro to URDF</h2>
+<ol>
+<li>Use the xacro command and redirect to a urdf file:
+<ul>
+<li><code>xacro myrobot.urdf.xacro &gt; myrobot.urdf</code></li>
+<li>You can then inspect the URDF to make sure it makes sense</li>
+<li>Syntax and other errors from the <code>xacro</code> conversion will be easier to track down this way.</li>
+<li>Does not have the overhead of launching <code>rviz</code> to check</li>
+<li><code>xacro</code> error messages can be quite cryptic, especially if there is a non-xml syntax error (such as missing a closing <code>}</code> from <code>${}</code>. The only remedy I have found is reading carefully and using the text editor to make sure that all braces are matched.</li>
+</ul></li>
+<li>Write a launchfile to run <code>rviz</code>, and call <code>xacro</code></li>
+</ol>
+<h2 id="urdf-to-sdf">URDF to SDF</h2>
+<ol>
+<li>Use the <code>gz</code> command to convert <code>URDF</code> files to <code>sdf</code> files for gazebo
+<ul>
+<li><code>gz sdf -p myrobot.urdf &gt; myrobot.sdf</code></li>
+</ul></li>
+<li>Inspect the resulting <code>sdf</code> file. There may be some surprises:
+<ul>
+<li>By default, all links that are connected by fixed joints are merged into a single link in the sdf.
+<ul>
+<li>You can apply the <code>&lt;preserveFixedJoint&gt;true&lt;/preserveFixedJoint&gt;</code> sdf property to a joint to prevent this merging from happening</li>
+</ul></li>
+<li>The <code>&lt;material&gt;</code> tag in a urdf is ignored by gazebo
+<ul>
+<li>You should apply a <code>gazebo</code> <code>material</code> tag to have a color or texture appear on a link for your URDF.</li>
+</ul></li>
+</ul></li>
+<li>Think of <code>gazebo</code> tags as "decorating" parts of your <code>urdf</code>
+<ul>
+<li>With <code>&lt;gazebo reference = "name"&gt;</code> you associate the sdf-specific tags with joints, links, or globally in the urdf file.</li>
+</ul></li>
+</ol>
+<h2 id="spawning-an-sdf">Spawning an SDF</h2>
+<ol>
+<li>It is convenient to run gazebo (either from a launchfile or <code>rosrun gazebo_ros gazebo</code> and keep it running.</li>
+<li>After converting to <code>sdf</code> you can spawn directly in gazebo using <code>rosrun gazebo_ros spawn_model -sdf myrobot.sdf</code> (directly from an sdf), or <code>rosrun gazebo_ros spawn_model -urdf myrobot.urdf</code> (from a urdf which is converted to sdf first).
+<ul>
+<li>When you kill the spawned node your model also is removed in gazebo.</li>
+</ul></li>
+<li>Use the <code>view</code> menu in gazebo to see the moments of inertias and centers of mass
+<ul>
+<li>Since by default gazebo merges fixed links into a single rigid body, you may see fewer bodies than specified in your <code>urdf</code>.</li>
+<li>You may need to turn transparency on in the <code>view</code> menu to actually see the inertias (which appear as purple boxes)</li>
+</ul></li>
+</ol>
+<h1 id="useful-xacro-patterns">Useful Xacro Patterns</h1>
+<ul>
+<li>Using <code>xacro</code> effectively makes your robot description much more robust and easy to change because it cuts down on repetition and makes your file more modular.</li>
+</ul>
+<h2 id="xacro-properties">Xacro Properties</h2>
+<ul>
+<li>Use the <code>&lt;xacro:property name = "name" value = "value"&gt;</code> to define a constant in <code>xacro</code>
+<ul>
+<li><p>Basic constants (like <code>pi</code>) are already defined.</p></li>
+<li><p>You can use any python expression anywhere using the <code>${}</code> syntax</p></li>
+<li><p>It often makes sense to load non-changeable robot parameters directly from a yaml file</p>
+<pre><code>&lt;!-- Get the path to the yaml file relative to the package --&gt;
+&lt;xacro:property name=&quot;yaml_file&quot;    value=&quot;$(find package)/config/config.yaml&quot; /&gt;
+&lt;!-- load the values in the yaml file. They are stored in a dictionary called properties --&gt;
+&lt;xacro:property name=&quot;properties&quot;   value=&quot;${load_yaml(yaml_file)}&quot; /&gt;
+&lt;!-- access an individual variable --&gt;
+&lt;xacro:property name=&quot;property&quot;  value=&quot;${properties[&#39;property]}&quot; /&gt;
+</code></pre></li>
+</ul></li>
+</ul>
+<h2 id="xacro-macros">Xacro Macros</h2>
+<ul>
+<li><p>Macro's are the most useful tools when creating <code>urdf</code> files for eventual use with gazebo</p></li>
+<li><p>A common case: you want the visual, inertial, and collision elements of a link to correspond to each other:</p>
+<pre><code> &lt;!-- Create a link with
+      visual, inertial, and collision for a z-axis aligned cylinder.
+      Also enables specifying a material block.
+      Assumes the default cylinder orientation
+ --&gt;
+&lt;xacro:macro name=&quot;cylinder_link&quot; params=&quot;name length radius mass *material&quot;&gt;
+  &lt;link name=&quot;${name}&quot;&gt;
+    &lt;visual&gt;
+      &lt;geometry&gt;
+        &lt;cylinder length=&quot;${length}&quot; radius=&quot;${radius}&quot; /&gt;
+      &lt;/geometry&gt;
+      &lt;xacro:insert_block name=&quot;material&quot; /&gt;
+    &lt;/visual&gt;
+    &lt;collision&gt;
+      &lt;geometry&gt;
+        &lt;cylinder length=&quot;${length}&quot; radius=&quot;${radius}&quot; /&gt;
+      &lt;/geometry&gt;
+    &lt;/collision&gt;
+    &lt;inertial&gt;
+      &lt;mass value=&quot;${mass}&quot;/&gt;
+      &lt;inertia ixx=&quot;${(1.0/12.0)*mass*(3*radius**2 + length**2)}&quot;
+               ixy=&quot;0&quot;
+               ixz=&quot;0&quot;
+               iyy=&quot;${(1.0/12.0)*mass*(3*radius**2 + length**2)}&quot;
+               iyz=&quot;0&quot;
+               izz=&quot;${0.5*mass*radius**2}&quot; /&gt;
+    &lt;/inertial&gt;
+  &lt;/link&gt;
+&lt;/xacro:macro&gt;
+</code></pre></li>
+</ul>
+<h2 id="xacro-include">Xacro Include</h2>
+<ul>
+<li>You can include <code>xacro</code> files in other <code>xacro</code> files using <code>&lt;xacro:include filename = "$(find package)/urdf/myfile.xacro"&gt;</code></li>
+<li>Build your own library of useful <code>xacro</code> macros.</li>
+<li>Keep the <code>gazebo</code> tags for your <code>urdf</code> in a separate file and include it. Thus you can maintain a clean separation between the <code>gazebo</code> and non-gazebo parts of your file.</li>
+</ul>
+<h2 id="xacro-if">Xacro If</h2>
+<ul>
+<li>Conditionally include a block using <code>&lt;xacro:if value = "expression"&gt;</code></li>
+</ul>
+<h2 id="xacro-arguments">Xacro Arguments</h2>
+<ul>
+<li>Pass arguments to <code>xacro</code> using <code>xacro model variable:=value</code> syntax..</li>
+<li>Access arguments within <code>xacro</code> using <code>$(arg name)</code></li>
+</ul>
+<h2 id="link-frames-vs-joint-frames">Link Frames vs Joint Frames</h2>
+<ul>
+<li>There are multiple ways for laying out your <code>urdf</code></li>
+<li>If you place most of your transformations in <code>joints</code> rather than <code>links</code> you can avoid needing to transform moments of inertia to different reference frame rotations.
+<ul>
+<li>For example, the <code>cylinder_link</code> macro above only provides the correct inertia if the cylinder's length is aligned with the <code>z</code> axis.</li>
+</ul></li>
+</ul>
+<h1 id="exploration-of-turtlebot-3-urdf">Exploration of turtlebot 3 urdf</h1>
+<p>The turtlebot3 is a small differential drive robot designed to work with ROS. We will focus on the "burger" variant.</p>
+<ol>
+<li>Download the simulator <code>sudo apt install ros-melodic-turtlebot3</code></li>
+<li>Explore the project directory <code>roscd turtlebot3_description</code>.
+<ul>
+<li>This package describes the turtlebot3</li>
+<li>Of particular interest is the <code>urdf</code> directory</li>
+</ul></li>
+<li>Notice that the description is divided across several files</li>
+<li><code>common_properties.xacro</code> is a central place to define some colors for the <code>urdf</code> file</li>
+<li><code>turtlebot3_burger.urdf.xacro</code> is the basic <code>urdf</code> for rviz.
+<ul>
+<li>By using <code>.stl</code> files for the link geometry, complex geometry is captured with few links. If you had a CAD model of a robot you would convert to <code>.stl</code> or <code>.dae</code> and use this feature.</li>
+<li>Notice that the <code>.stl</code> file is visual only. The collision is a bounding box.</li>
+<li>The inertial values are likely the output of a CAD program</li>
+</ul></li>
+<li><code>turtlebot3_burger.gazebo.xacro</code> adds gazebo-specific tags to the link.
+<ul>
+<li>Notice that the Differential Drive plugin is used to control the robot.</li>
+<li>The turtlebot also has an <code>imu</code> and laser scanner that are modeled using built-in gazebo plugins.</li>
+</ul></li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
