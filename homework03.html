@@ -617,7 +617,7 @@ table td {
 <ul>
 <li>The above code assumes your wheel joints are called <code>left_wheel</code> and <code>right_wheel</code> and also refers to some <code>xacro</code> parameters I defined for the dimensions of the robot. You may need to modify it to match your urdf.</li>
 <li>You do not need to create a separate node to translate twists into wheel velocities, as this plugin does it for you!</li>
-<li>Create a new <code>rviz</code> configuration using the -odom= frame as the fixed frame. The <code>odom</code> frame is published by the differential drive gazebo plugin
+<li>Create a new <code>rviz</code> configuration using the <code>odom</code> frame as the fixed frame. The <code>odom</code> frame is published by the differential drive gazebo plugin
 <ul>
 <li>If <code>mode is 1</code>, launch rviz with this configuration so that you can visualize where the robot thinks it is, according to it's wheel odometry.</li>
 </ul></li>
