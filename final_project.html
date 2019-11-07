@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>ME495 Fall 2019: Lecture Notes</title>
+<title>Final Project (Fall 2019)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -465,24 +465,22 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#resources">Resources</a></li>
-<li><a href="#schedule">Schedule</a><ul>
-<li><a href="#tuesday-september-24">Tuesday September 24</a></li>
-<li><a href="#thursday-september-26">Thursday September 26</a></li>
-<li><a href="#tuesday-october-1">Tuesday October 1</a></li>
-<li><a href="#thursday-october-3">Thursday October 3</a></li>
-<li><a href="#tuesday-october-8">Tuesday October 8</a></li>
-<li><a href="#thursday-october-10">Thursday October 10</a></li>
-<li><a href="#tuesday-october-15">Tuesday October 15</a></li>
-<li><a href="#thursday-october-17">Thursday October 17</a></li>
-<li><a href="#tuesday-october-22">Tuesday October 22</a></li>
-<li><a href="#thursday-october-24">Thursday October 24</a></li>
-<li><a href="#tuesday-october-29">Tuesday October 29</a></li>
-<li><a href="#thursday-october-31-halloween">Thursday October 31 (Halloween)</a></li>
-<li><a href="#tuesday-nov-5">Tuesday Nov 5</a></li>
-<li><a href="#thursday-nov-7">Thursday Nov 7</a></li>
+<li><a href="#important-dates">Important Dates</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#requirements">Requirements</a><ul>
+<li><a href="#the-robots-tasks">The Robot's Tasks</a></li>
+<li><a href="#the-students-tasks">The Students' Tasks</a></li>
 </ul></li>
-<li><a href="#homework">Homework</a></li>
+<li><a href="#grading">Grading</a></li>
+<li><a href="#project-inspiration">Project Inspiration</a></li>
+<li><a href="#potentially-useful-ros-packages-and-libraries">Potentially useful ROS Packages and Libraries</a><ul>
+<li><a href="#tags">Tags</a></li>
+<li><a href="#perception">Perception</a></li>
+<li><a href="#motion">Motion</a></li>
+<li><a href="#simulation">Simulation</a></li>
+<li><a href="#state-machines">State Machines</a></li>
+</ul></li>
+<li><a href="#additional-hardware">Additional Hardware</a></li>
 </ul>
 </nav>
 
@@ -494,93 +492,129 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">ME495 Fall 2019: Lecture Notes</h1>
+<h1 class="title">Final Project (Fall 2019)</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="resources">Resources</h1>
-<ul>
-<li>The <a href="./syllabus.pdf">Syllabus</a></li>
-</ul>
-<h1 id="schedule">Schedule</h1>
-<h2 id="tuesday-september-24">Tuesday September 24</h2>
-<ul>
-<li><a href="./lecture00_preliminaries.html">Preliminaries.</a> We will only briefy cover this in class, but you will</li>
-<li><a href="./lecture01_basics.html">ROS Basics</a> (This is the actual lecture).</li>
-</ul>
-<h2 id="thursday-september-26">Thursday September 26</h2>
-<ul>
-<li><a href="./lecture02_catkin.html">Catkin and Packages</a></li>
-</ul>
-<h2 id="tuesday-october-1">Tuesday October 1</h2>
-<ul>
-<li><a href="./lecture03_rospy_names.html">Rospy and Names</a></li>
-<li><a href="./homework01.html">Homework 1 Assigned</a> (Due October 8th).</li>
-</ul>
-<h2 id="thursday-october-3">Thursday October 3</h2>
-<ul>
-<li><a href="./lecture04_launch.html">Launchfiles</a></li>
-</ul>
-<h2 id="tuesday-october-8">Tuesday October 8</h2>
-<ul>
-<li><a href="./lecture05_tf.html">Transforms</a></li>
-<li><a href="./homework02.html">Homework 2</a> is due on Tuesday October 22nd</li>
-</ul>
-<h2 id="thursday-october-10">Thursday October 10</h2>
-<ul>
-<li><a href="./lecture06_modeling.html">Modeling Robots</a></li>
-</ul>
-<h2 id="tuesday-october-15">Tuesday October 15</h2>
-<ul>
-<li><a href="./lecture07_visual.html">Visualization Tools</a></li>
-<li>"Pair Programming" with markers challenge</li>
-</ul>
-<h2 id="thursday-october-17">Thursday October 17</h2>
-<ul>
-<li>Review of Homework 1 solution</li>
-</ul>
-<h2 id="tuesday-october-22">Tuesday October 22</h2>
-<ul>
-<li><a href="./lecture08_threads.html">Threads, Rospy, and you</a></li>
-<li>Homework 3 Part A assigned.
+<h1 id="important-dates">Important Dates</h1>
 <ol>
-<li>Use the provided link to clone the Homework-3A repository into your <code>ws/src/</code> directory.</li>
-<li>It starts with code from <a href="https://github.com/m-elwin/me495_threads">https://github.com/m-elwin/me495_threads</a></li>
-<li>You answer by modifying the provided README and code and pushing.</li>
-</ol></li>
-<li>Homework 3 is due on Tuesday Nov 5th (before class)</li>
-</ul>
-<h2 id="thursday-october-24">Thursday October 24</h2>
-<ul>
-<li><a href="./lecture09_gazebo.html">Simulation and Gazebo</a></li>
-</ul>
-<h2 id="tuesday-october-29">Tuesday October 29</h2>
-<ul>
-<li><a href="./lecture10_sdf_gazebo.html">Modeling for Gazebo</a></li>
-<li><a href="./homework03.html">Homework 3 part B</a> Due Nov 5</li>
-</ul>
-<h2 id="thursday-october-31-halloween">Thursday October 31 (Halloween)</h2>
-<ul>
-<li><a href="./lecture11_images.html">Image Processing and ROS</a></li>
-</ul>
-<h2 id="tuesday-nov-5">Tuesday Nov 5</h2>
-<ul>
-<li><a href="./lecture12_navigation.html">Navigation</a></li>
-<li><a href="./homework04.html">Homework 4</a> Homework 4 is due Nov 19th</li>
-</ul>
-<h2 id="thursday-nov-7">Thursday Nov 7</h2>
-<ul>
-<li>Meet in A275 for Introduction to Baxter/Sawyer</li>
-</ul>
-<h1 id="homework">Homework</h1>
-<ol>
-<li>Not graded: You should have Linux and ROS installed by Thursday, September 26</li>
-<li><a href="./homework01.html">Homework 1</a> is due on Tuesday, October 8</li>
-<li><a href="./homework02.html">Homework 2</a> is due on Tuesday, October 22 (before class)</li>
-<li>Homework 3 part A assigned. All of homework 3 due Nov 5th</li>
-<li><a href="./homework03.html">Homework 3</a> Part B assigned. Due Nov 5th</li>
-<li><a href="./homework04.html">Homework 4</a> Homework 4 is due Nov 19th</li>
+<li>Final Demonstration: December 9th from 3-5pm.</li>
+<li>Final Submission: Friday 14th 12:01 am.</li>
 </ol>
+<h1 id="overview">Overview</h1>
+<p>The theme of this year's project is Recreational Robotics. Each team will develop a ROS package that enables the robot to participate in a recreational activity with or on behalf of one or more humans. The contest is open-ended but will be judged on creativity, difficulty, and reliability.</p>
+<h1 id="requirements">Requirements</h1>
+<h2 id="the-robots-tasks">The Robot's Tasks</h2>
+<ol>
+<li><p>Manipulation: The robot must physically interact with at least one object in the environment using the robot's arm and or grippers. The robot must be move under its own power.</p></li>
+<li><p>Sensing: The solution must use at least one sensor. The behavior of the robot must change its behavior in response to the sensor reading.</p></li>
+</ol>
+<h2 id="the-students-tasks">The Students' Tasks</h2>
+<ol>
+<li>Project Proposal (Due Nov 14th)
+<ul>
+<li>Brief (1-3 sentence) description of what the goal of the project is</li>
+<li>List of any external equipment required</li>
+<li>High level overview of your approach to the project
+<ul>
+<li>Important nodes to write</li>
+<li>Third party packages to use</li>
+<li>Concepts that are currently unfamiliar and must be learned</li>
+</ul></li>
+<li>Description of the proposed role for each team member</li>
+<li>Total proposal length should be under 2 pages.</li>
+</ul></li>
+<li>Source Code
+<ul>
+<li>Each team must use git to develop their project.</li>
+<li>The project can consist of one or more ROS packages. If you use multiple packages you should provide a rosinstall file.</li>
+<li>The project must have multiple custom nodes, launch files, topics, and services.</li>
+<li>Each student should work in their own branches in git. Working code should be merged into the master/ branch.</li>
+</ul></li>
+<li>Documentation
+<ul>
+<li>All source code must be documented, with a docstring at the top describing the ROS API and docstrings for each function and class</li>
+<li>There should be a single <code>README.md</code> describing the project, which can link to other documents as needed
+<ul>
+<li>Documentation can be done as a <code>README.md</code> that renders nicely on github or using github pages.</li>
+</ul></li>
+<li>The <code>README.md</code> must include:
+<ol>
+<li>Brief project overview</li>
+<li>Quickstart guide providing the exact commands</li>
+<li>List of all nodes and launchfiles and what they do</li>
+<li>A discussion of the overall system architecture and high level concepts</li>
+<li>Any other information, as appropriate (for example: algorithms used, lessons learned, future work)</li>
+</ol></li>
+</ul></li>
+<li>Videos
+<ul>
+<li>You should produce a video showing your demonstration working.</li>
+<li>The video should be hosted on line and linked to in your README or embedded in your project website.</li>
+</ul></li>
+<li>Live Demonstration
+<ul>
+<li>There will be a 15 minute oral presentation and demonstration on December 9th. No slides are required.</li>
+</ul></li>
+</ol>
+<h1 id="grading">Grading</h1>
+<ol>
+<li>The proposal</li>
+<li>Group Grade: All students receive the same grade based on:
+<ul>
+<li>How well the robot worked (weighed against the complexity of the task)</li>
+<li>The documentation.</li>
+<li>The quality of the python code and how well your package conforms to ROS standards.</li>
+<li>How well git was used</li>
+</ul></li>
+<li>Grade adjustments:
+<ul>
+<li>I will get confidential feedback from each of you about your group members effort grades.</li>
+<li>I will also look at the git history to see how much each individual contributed.</li>
+<li>Grades may be adjusted up or down based on how your effort is perceived by your peers and demonstrating in the git history.</li>
+</ul></li>
+</ol>
+<h1 id="project-inspiration">Project Inspiration</h1>
+<ul>
+<li>Board Games</li>
+<li>Puzzles</li>
+<li>Musical instrument</li>
+<li>Sports</li>
+<li>Video Game with a Physical Component</li>
+</ul>
+<h1 id="potentially-useful-ros-packages-and-libraries">Potentially useful ROS Packages and Libraries</h1>
+<h2 id="tags">Tags</h2>
+<ul>
+<li><a href="http://wiki.ros.org/apriltag_ros">April Tags</a>: Used for 3D pose estimation of a tag in space</li>
+<li><a href="http://wiki.ros.org/ar_track_alvar">AR Tags</a>: An older form of 3D pose estimation with tags</li>
+<li><a href="http://wiki.ros.org/vision_visp">Visual Servoing</a> Uses vision to determine location of objects in space</li>
+</ul>
+<h2 id="perception">Perception</h2>
+<ul>
+<li><a href="https://opencv.org/opencv">OpenCV</a>: Computer vision library, accessible through ROS
+<ul>
+<li>See <a href="http://wiki.ros.or/opencv_bridge">opencv<sub>bridge</sub></a> For ROS support</li>
+</ul></li>
+<li><a href="https://pointclouds.org">PCL</a> Point cloud library: see <a href="https://wiki.ros.org/perception_pcl">perception<sub>pcl</sub></a> for ROS support</li>
+</ul>
+<h2 id="motion">Motion</h2>
+<ul>
+<li><a href="https://moveit.ros.org">MoveIt</a> Motion planning library: sophisticated motion planning, beyond the built-in baxter/sawyer routines; however, it is more complicated to set up.</li>
+<li><a href="http://sdk.rethinkrobotics.com/wiki/Joint_Trajectory_Action_Server">Joint Trajectory Action Server</a>
+<ul>
+<li>Enables executing complex trajectories using software built-in to Baxter/Sawyer</li>
+</ul></li>
+</ul>
+<h2 id="simulation">Simulation</h2>
+<ul>
+<li>Baxter and Sawyer both have Gazebo support. See <a href="./lecture13_rethink.html">Rethink Robots</a> for details.</li>
+</ul>
+<h2 id="state-machines">State Machines</h2>
+<ul>
+<li><a href="http://wiki.ros.org/smach">SMACH</a> Provides a method for creating higher level state machines. This is a useful way to organize/switch between the higher level tasks in your robot.</li>
+</ul>
+<h1 id="additional-hardware">Additional Hardware</h1>
+<p>Virtually any hardware in the lab can be used in this project. If it is requested in your proposal we may be able to purchase additional items. If your project hinges on a purchase, please talk to me before committing to it.</p>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>ME495 Fall 2019: Lecture Notes</title>
+<title>Homework 4</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -465,24 +465,10 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#resources">Resources</a></li>
-<li><a href="#schedule">Schedule</a><ul>
-<li><a href="#tuesday-september-24">Tuesday September 24</a></li>
-<li><a href="#thursday-september-26">Thursday September 26</a></li>
-<li><a href="#tuesday-october-1">Tuesday October 1</a></li>
-<li><a href="#thursday-october-3">Thursday October 3</a></li>
-<li><a href="#tuesday-october-8">Tuesday October 8</a></li>
-<li><a href="#thursday-october-10">Thursday October 10</a></li>
-<li><a href="#tuesday-october-15">Tuesday October 15</a></li>
-<li><a href="#thursday-october-17">Thursday October 17</a></li>
-<li><a href="#tuesday-october-22">Tuesday October 22</a></li>
-<li><a href="#thursday-october-24">Thursday October 24</a></li>
-<li><a href="#tuesday-october-29">Tuesday October 29</a></li>
-<li><a href="#thursday-october-31-halloween">Thursday October 31 (Halloween)</a></li>
-<li><a href="#tuesday-nov-5">Tuesday Nov 5</a></li>
-<li><a href="#thursday-nov-7">Thursday Nov 7</a></li>
-</ul></li>
-<li><a href="#homework">Homework</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#image-processing">Image Processing</a></li>
+<li><a href="#navigation">Navigation</a></li>
+<li><a href="#hints">Hints</a></li>
 </ul>
 </nav>
 
@@ -494,93 +480,77 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">ME495 Fall 2019: Lecture Notes</h1>
+<h1 class="title">Homework 4</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="resources">Resources</h1>
-<ul>
-<li>The <a href="./syllabus.pdf">Syllabus</a></li>
-</ul>
-<h1 id="schedule">Schedule</h1>
-<h2 id="tuesday-september-24">Tuesday September 24</h2>
-<ul>
-<li><a href="./lecture00_preliminaries.html">Preliminaries.</a> We will only briefy cover this in class, but you will</li>
-<li><a href="./lecture01_basics.html">ROS Basics</a> (This is the actual lecture).</li>
-</ul>
-<h2 id="thursday-september-26">Thursday September 26</h2>
-<ul>
-<li><a href="./lecture02_catkin.html">Catkin and Packages</a></li>
-</ul>
-<h2 id="tuesday-october-1">Tuesday October 1</h2>
-<ul>
-<li><a href="./lecture03_rospy_names.html">Rospy and Names</a></li>
-<li><a href="./homework01.html">Homework 1 Assigned</a> (Due October 8th).</li>
-</ul>
-<h2 id="thursday-october-3">Thursday October 3</h2>
-<ul>
-<li><a href="./lecture04_launch.html">Launchfiles</a></li>
-</ul>
-<h2 id="tuesday-october-8">Tuesday October 8</h2>
-<ul>
-<li><a href="./lecture05_tf.html">Transforms</a></li>
-<li><a href="./homework02.html">Homework 2</a> is due on Tuesday October 22nd</li>
-</ul>
-<h2 id="thursday-october-10">Thursday October 10</h2>
-<ul>
-<li><a href="./lecture06_modeling.html">Modeling Robots</a></li>
-</ul>
-<h2 id="tuesday-october-15">Tuesday October 15</h2>
-<ul>
-<li><a href="./lecture07_visual.html">Visualization Tools</a></li>
-<li>"Pair Programming" with markers challenge</li>
-</ul>
-<h2 id="thursday-october-17">Thursday October 17</h2>
-<ul>
-<li>Review of Homework 1 solution</li>
-</ul>
-<h2 id="tuesday-october-22">Tuesday October 22</h2>
-<ul>
-<li><a href="./lecture08_threads.html">Threads, Rospy, and you</a></li>
-<li>Homework 3 Part A assigned.
+<h1 id="overview">Overview</h1>
+<p>The same rules for turning in this assignment apply as for the previous assignments.</p>
 <ol>
-<li>Use the provided link to clone the Homework-3A repository into your <code>ws/src/</code> directory.</li>
-<li>It starts with code from <a href="https://github.com/m-elwin/me495_threads">https://github.com/m-elwin/me495_threads</a></li>
-<li>You answer by modifying the provided README and code and pushing.</li>
-</ol></li>
-<li>Homework 3 is due on Tuesday Nov 5th (before class)</li>
-</ul>
-<h2 id="thursday-october-24">Thursday October 24</h2>
+<li>Don't forget to commit to git often.</li>
+<li>Include a <code>README.md</code> that describes the nodes and launchfiles in your package.
 <ul>
-<li><a href="./lecture09_gazebo.html">Simulation and Gazebo</a></li>
-</ul>
-<h2 id="tuesday-october-29">Tuesday October 29</h2>
-<ul>
-<li><a href="./lecture10_sdf_gazebo.html">Modeling for Gazebo</a></li>
-<li><a href="./homework03.html">Homework 3 part B</a> Due Nov 5</li>
-</ul>
-<h2 id="thursday-october-31-halloween">Thursday October 31 (Halloween)</h2>
-<ul>
-<li><a href="./lecture11_images.html">Image Processing and ROS</a></li>
-</ul>
-<h2 id="tuesday-nov-5">Tuesday Nov 5</h2>
-<ul>
-<li><a href="./lecture12_navigation.html">Navigation</a></li>
-<li><a href="./homework04.html">Homework 4</a> Homework 4 is due Nov 19th</li>
-</ul>
-<h2 id="thursday-nov-7">Thursday Nov 7</h2>
-<ul>
-<li>Meet in A275 for Introduction to Baxter/Sawyer</li>
-</ul>
-<h1 id="homework">Homework</h1>
-<ol>
-<li>Not graded: You should have Linux and ROS installed by Thursday, September 26</li>
-<li><a href="./homework01.html">Homework 1</a> is due on Tuesday, October 8</li>
-<li><a href="./homework02.html">Homework 2</a> is due on Tuesday, October 22 (before class)</li>
-<li>Homework 3 part A assigned. All of homework 3 due Nov 5th</li>
-<li><a href="./homework03.html">Homework 3</a> Part B assigned. Due Nov 5th</li>
-<li><a href="./homework04.html">Homework 4</a> Homework 4 is due Nov 19th</li>
+<li>Make sure your <code>README.md</code> is formatted correctly</li>
+</ul></li>
+<li>Remember to include docstrings in each node describing its ROS API</li>
 </ol>
+<h1 id="image-processing">Image Processing</h1>
+<ol>
+<li><p>Follow the instructions to obtain YOLO ROS, a package that enables real-time object detection in ROS: <a href="https://github.com/leggedrobotics/darknet_ros">https://github.com/leggedrobotics/darknet_ros</a></p></li>
+<li><p>Write a launchfile and rviz config files that sets up your webcamera and YOLO ROS to detect objects and view the results in RViz in real time.</p>
+<ul>
+<li>Include a screenshot of you using this in your README.md</li>
+<li>Downloading and compiling this package may take a while! Do something else while it compiles.</li>
+</ul></li>
+</ol>
+<h1 id="navigation">Navigation</h1>
+<p>The turtlebot3 tutorials (especially those related to simulation) will be a useful reference for you</p>
+<ol>
+<li><p>Write a launchfile that loads the turtlebot3 in the house environment, loads <code>rviz</code> and visualizes it's laser scan, starts a teleoperation node, and gmapping.</p>
+<ul>
+<li>You will need to set the <code>TURTLEBOT3_MODEL</code> environment variable to <code>burger</code> to use the launchfile</li>
+<li>Many of these actions can be accomplished by including appropriate launchfiles from <code>turtlebot3</code> packages. However, if you want more control you can use these launchfiles as inspiration rather than directly including them</li>
+<li>You should make sure that <code>rviz</code> shows the Map, the laser scan, and the robot.</li>
+<li>The fixed frame in rviz should be the map frame.</li>
+</ul></li>
+<li><p>Drive the turtlebot3 throughout the interior of the house (at least two rooms) while running gmapping. Use the mapserver to save the map file. Include both the resulting <code>.yaml</code> file and <code>.pgm</code> file in your git repository.</p></li>
+<li><p>Create launchfile that uses <code>amcl</code> to localize your robot, using the map created in the previous step.</p>
+<ul>
+<li>You should also launch the move_base so that you can use 2D navigation goals in rviz to move your robot.</li>
+<li>Use parameters to pass it a reasonable initial pose.</li>
+<li>Try to make the global or local planner fail</li>
+<li>Create a screenshot showing the plan being executed in RViz.
+<ul>
+<li>The robot, the motion plan, the static map, the costmap, and the costs for the global plan should be visible.</li>
+<li>You should show the Path that is planned</li>
+</ul></li>
+</ul></li>
+<li><p>After running the setup above, add some new obstacles into the gazebo world.</p>
+<ul>
+<li>Some obstacles should be added within sight of the laser scanner and can be immediately incorporated into the global plan</li>
+<li>Other obstacles that are not immediately visible will need to be avoided with local planning</li>
+<li>Send goals that require the robot to avoid the obstacles.</li>
+<li>Include a screenshot in your README.md of the turtlebot moving around an obstacle in rviz</li>
+</ul></li>
+<li><p>Write a node that causes the robot to explore the environment autonomously while mapping the world with gmapping.</p>
+<ul>
+<li>Provide a launchfile that lets the robot use this node and gmapping to autonomously map the environment</li>
+<li>You can use any algorithm you want: if you use an existing algorithm cite it</li>
+<li>You can subscribe to the <code>/map</code> topic to get information about the robot's current knowledge of the environment</li>
+<li>Your algorithm can issue <code>cmd_vel</code> commands directly or work in conjunction with the <code>move_base</code> node to plan via waypoints.</li>
+<li>Include a brief description of your strategy in the <code>README.md</code></li>
+<li>Include a map that you created after running the exploration algorithm in your repository and refer to it in your README.</li>
+<li>The exploration does not need to be complete, perfect, or optimal in any way.</li>
+<li>You may wish to test your algorithm at multiple initial poses.</li>
+<li>There are purposely no performance constraints on this task; however, you should come up with a strategy, describe that strategy in the <code>README.md</code>, and make sure that you have actually implemented what you intended to implement.</li>
+</ul></li>
+</ol>
+<h1 id="hints">Hints</h1>
+<ul>
+<li>Refer to the <a href="http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/">Turtlebot 3 Manual</a>.</li>
+<li>Use tab completion to view available launch files for turtlebot3</li>
+<li>You may need to install additional ROS packages to complete this assignment</li>
+</ul>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

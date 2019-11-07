@@ -1,0 +1,587 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>ROS Navigation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#frames-of-reference">Frames of Reference</a></li>
+<li><a href="#conceptual-components">Conceptual Components</a></li>
+<li><a href="#navigation-packages">Navigation Packages</a></li>
+<li><a href="#other-packages">Other Packages</a></li>
+<li><a href="#older-packages">Older/ packages</a></li>
+<li><a href="#recover-nodes">Recover Nodes</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">ROS Navigation</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="overview">Overview</h1>
+<ul>
+<li>The ROS <a href="https://wiki.ros.org/navigation">navigation "stack"</a> enables mobile robots to navigate in 2D</li>
+<li>Provides the ability to estimate the location of the robot based on feedback from multiple sensors</li>
+<li>Provides global and local planning capabilities</li>
+<li>Highly configurable. To see many of the configuration options on running examples use <code>rqt</code>
+<ul>
+<li>A large amount of time is spent simply tuning various parameters</li>
+</ul></li>
+</ul>
+<h1 id="frames-of-reference">Frames of Reference</h1>
+<ul>
+<li><a href="https://www.ros.org/reps/rep-0105.html">REP 105</a> defines standard ROS frames for robots, and the navigation stack adheres to this standard</li>
+<li>Your robot should have a frame called <code>base_link</code>. All other frames on the robot are relative to this frame</li>
+<li>The robot's location in the world, based on its wheel odometry, is expressed in the <code>odom</code> frame</li>
+<li>The robot's location in the world, based on range sensors such as lidar is expressed in the <code>map</code> frame</li>
+<li>The parent-child relationship between these frames (from parent to child) is <code>map -&gt; odom -&gt; base_link</code>
+<ul>
+<li>The transform from <code>odom -&gt; base_link</code> is typically subtracted from the estimate of the robot in the <code>map</code> frame. Thus the transform from <code>map -&gt; base_link</code> is always the map estimate.</li>
+</ul></li>
+<li>The map frame is attached to a fixed <code>world</code> or <code>earth</code> frame</li>
+</ul>
+<h1 id="conceptual-components">Conceptual Components</h1>
+<ol>
+<li>Base Controller: Subscribes to a <code>geometry_msgs/Twist</code> (by default on the <code>cmd_vel</code> topic) and makes the robot move.</li>
+<li>Odometry: <code>nav_msgs/Odometry</code> is a published estimate of the position and velocity of the robot, based on the wheel odometry. This message is used to publish the <code>odom</code> <code>tf</code> transform.
+<ul>
+<li>Odometry and the Base controller are often a single node</li>
+</ul></li>
+<li>Sensors: Including laser scanners (publishing <code>sensor_msgs/LaserScan</code>) or depth cameras publishing <code>sensor_msgs/PointCloud2</code>.</li>
+<li>Cost Maps: Occupancy grids representing where obstacles are located in the environment, as a grid of cells
+<ul>
+<li>Global cost map - this is the overall environment, used for global planners such as <code>A*</code></li>
+<li>Local cost map - the map in the immediate area, primarily used for obstacle avoidance.</li>
+<li>Most grid locations in a cost map have 3 states: free, occupied, or uncertain</li>
+</ul></li>
+<li>Path planners: find collision free paths
+<ul>
+<li>Global Planner - moves robot to ultimate goal, runs at low frequency against a mostly-static global map</li>
+<li>Local Planner - modifies the global plan to avoid collisions against a dynamic local map.</li>
+</ul></li>
+<li>Recovery Behaviors - When a planner fails to find a path, ad-hoc behaviors can be executed to try to improve the sensor information or location of the robot in order to retry planning</li>
+</ol>
+<h1 id="navigation-packages">Navigation Packages</h1>
+<p>There are many packages available in the navigation stack</p>
+<ol>
+<li><a href="https://wiki.ros.org/amcl">amcl</a> Adaptive Monte-Carlo Localization. A particle filter based approach to finding the robot location given a previously created map.</li>
+<li><a href="https://wiki.ros.org/map_server">map_server</a> - Provides maps to the rest of the navigation stack. Also provides a <code>map_saver</code> node to save a map that you create.</li>
+<li><a href="https://wiki.ros.org/costmap_2d">costmap_2d</a> - An occupancy grid implementation. Multiple layers contain information about various types of obstacles.
+<ul>
+<li>"static" obstacles (e.g., a pre-existing map,</li>
+<li>"inflation layer" (e.g., increasing cost near obstacles to add conservativeness)</li>
+<li>"obstacle map layer" (e.g., for obstacles recently viewed by sensors).</li>
+<li>Ultimately, these layers are combined into a grid with three states: occupied, free, or unknown.</li>
+<li><a href="https://wiki.ros.org/costmap_2d/hydro">costmap2d/hyrdo</a> has additional information; despite the name, it is not specific to ROS hydro.</li>
+</ul></li>
+<li><a href="https://wiki.ros.org/global_planner">global_planner</a> - Contains basic global planning algorithms such as <code>A*</code>. Publishes a <code>nav_msgs/Path</code> message.</li>
+<li><a href="https://wiki.ros.org/dwa_local_planner">dwa_local_planner</a> Dynamic window approach local planner (the default local planner). Integrates kinematics of robot forward in time given the possible controls. Then it predicts a trajectory and rates it based on if there is a collision and other criteria such as distance from the global plan.</li>
+<li><a href="https://wiki.ros.org/move_base">move_base</a> - Coordinates the global and local planners and the cost maps and publishes the <code>geometry_msgs/Twist</code> commands to drive the robot to a goal.</li>
+<li><a href="https://wiki.ros.org/nav_core">nav_core</a> Defines the software interface for the planners and enables people to write custom planners that can be used with the rest of the nav stack.</li>
+<li><a href="https://wiki.ros.org/gmapping">gmapping</a> Basic map generation and localization (SLAM): running this algorithm is how the map is produced, after which you save it using the <code>map_server</code>.</li>
+<li><a href="https://wiki.ros.org/robot_localization">robot_localization</a> Estimate robot state by combining information using sensor fusion algorithms (for example, wheel odemetry and an inertial measurement unit).</li>
+</ol>
+<h1 id="other-packages">Other Packages</h1>
+<ul>
+<li><a href="https://wiki.ros.org/carrot_planner">carrot_planner</a> A global planner that gets robots as close to obstacles as possible</li>
+<li><a href="https://wiki.ros.org/sbpl">sbpl</a> Search based planning library: a global planner based on "motion primitives"</li>
+<li><a href="https://wiki.ros.org/fake_localization">fake_localization</a> Uses odometry information to provide the same localization messages as <code>amcl</code> Used for simulation and debugging.</li>
+<li><a href="https://wiki.ros.org/voxel_grid">voxel_grid</a> 3 Dimensional pixel grid, useful for representing 3 dimensional cost maps.</li>
+<li><a href="https://wiki.ros.org/hector_slam">hector_slam</a> SLAM method specifically designed to solve loop-closure issues present in other SLAM methods such as <code>gmapping</code>.</li>
+<li><a href="https://google-cartographer-ros.readthedocs.io/en/latest">google_cartographer_ros</a> ROS support for google's SLAM implementations</li>
+<li><a href="https://wiki.ros.org/rtabmap_ros">rtabmap_ros</a> RGB-D SLAM with provision for detecting loop closure.</li>
+<li><a href="https://wiki.ros.org/laser_scan_matcher">laser_scan_matcher</a> Provides odometry based on laser scan. It estimates the transform between two laser scans. Many uses including: standalone odometry or input for <code>robot_localization</code>.</li>
+<li><a href="https://github.com/locusrobotics/robot_navigation">robot_navigation2</a> The "spiritual successor" to the ROS navigation package</li>
+<li><a href="https://wiki.ros/org/move_base_flex">move_base_flex</a> Replacement for <code>move_base</code> with enhanced capabilities.</li>
+</ul>
+<h1 id="older-packages">Older/ packages</h1>
+<ul>
+<li><a href="https://wiki.ros.org/eband_local_planner">eband_local_planner</a> Elastic band optimization for local planning</li>
+<li><a href="https://wiki.ros.org/rgbdslam">rgbdslam</a> Old SLAM package used with RGB-D cameras</li>
+<li><a href="https://wiki.ros.org/robot_pose_ekf">robot_pose_ekf</a> Sensor fusion for a robot. Replaced by <code>robot_localization</code></li>
+</ul>
+<h1 id="recover-nodes">Recover Nodes</h1>
+<p>There are several nodes that can implement recovery behaviors when planning fails:</p>
+<ul>
+<li><a href="https://wiki.ros.org/clear_costmap_recovery">clear_costmap_recovery</a> Clears costmaps near the robot, eliminating any recently seen obstacles</li>
+<li><a href="https://wiki.ros.org/move_slow_and_clear">move_slow_and_clear</a> Makes robot move very slowly after clearing a costmap, as it tries to plan again</li>
+<li><a href="https://wiki.ros.org/rotate_recovery">rotate_recovery</a> Causes the robot to spin in place to try to get better laser scanner data, for example.</li>
+</ul>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
