@@ -497,7 +497,7 @@ table td {
 
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
-<p>The Baxter and Sawyer robots from <a href="http://rethinkrobotics.com">Rethink Robotics</a> are manufacturing robots designed to operate around people. Both robots use series elastic actuators (SEAs) in all their joints, meaning that there is a spring</p>
+<p>The Baxter and Sawyer robots from <a href="http://rethinkrobotics.com">Rethink Robotics</a> are manufacturing robots designed to operate around people. Both robots use series elastic actuators (SEAs) in all their joints, meaning that there is an elastic element (e.g., a spring) between the gearbox and the joint. These actuators add mechanical compliance, enabling easier force control at the expense of position control bandwidth.</p>
 <h2 id="robot-features">Robot Features</h2>
 <ul>
 <li><a href="https://sdk.rethinkrobotics.com/wiki/Hardware_Specifications">Baxter Hardware Specifications</a></li>
@@ -505,16 +505,44 @@ table td {
 </ul>
 <h3 id="summary">Summary</h3>
 <ul>
-<li>Baxter: Two 7 Degree of Freedom Arms.</li>
-<li>Sawyer: One 7 Degree of Freedom Arm</li>
-<li>Cameras in each hand</li>
-<li>IR distance sensor in each hand</li>
-<li>Sonar Ring around head</li>
-<li>Camera in the head</li>
-<li>Pan/Tilt the head</li>
+<li>Arms
+<ul>
+<li>Baxter: Two arms, each with seven degrees of freedom (DOF)</li>
+<li>Sawyer: One arm with seven degrees of freedom</li>
+<li>Series elastic actuators at each joint</li>
+<li>Accurate joint torque measurements (when calibrated)</li>
+</ul></li>
+<li>Head
+<ul>
+<li>Pan/tilt ability</li>
+<li>Built in camera</li>
 <li>Display</li>
-<li>Buttons on arms and grippers</li>
-<li>Accelerometers in hands</li>
+</ul></li>
+<li>Control
+<ul>
+<li>On-board computer running Gentoo Linux and ROS Kinetic</li>
+<li>Can run ROS nodes remotely or on-board</li>
+<li>Low-level controllers prevent self-collisions and enforce limits on acceleration, torque, and position.</li>
+<li>Buttons on arm and grippers.</li>
+<li>Zero-g mode: when enabled you can grab the cuff of an arm and move it anywhere</li>
+</ul></li>
+<li>Distance sensors
+<ul>
+<li>Infrared distance sensor in the hand</li>
+<li>Baxter: Sonar ring around head</li>
+</ul></li>
+<li>Cameras
+<ul>
+<li>One camera per hand</li>
+<li>One camera in the head</li>
+<li>Baxter has three cameras, but you can only stream from two simultaneously</li>
+</ul></li>
+<li>Grippers
+<ul>
+<li>Interchangeable grippers and jaws</li>
+<li>We use electric grippers, but vacuum grippers are also available</li>
+<li>Custom grippers are possible as well</li>
+</ul></li>
 </ul>
 <h1 id="setup">Setup</h1>
 <ul>
@@ -535,6 +563,11 @@ table td {
 <li>Some code comes from forked repositories, with fixes to make it compile on Ubuntu 18.04 with <code>melodic</code></li>
 </ul></li>
 <li>Build the workspace. I recommend sourcing the <code>devel/setup.bash</code> from your <code>.bashrc</code> so you will always have the packages accessible.</li>
+<li>You also need some dependencies. Install
+<ul>
+<li><code>ros-melodic-effort_controllers</code></li>
+<li><code>ros-melodic-effort-controllers</code></li>
+</ul></li>
 </ul>
 <p>Instructions:</p>
 <pre><code>mkdir rethink_ws/src
@@ -550,24 +583,28 @@ catkin_make
 <li>Copy <a href="./Rethink">this file</a> to <code>/etc/NetworkManager/system-connections/</code> and restart NetworkManager (<code>systemctl restart NetworkManager</code>)</li>
 <li>Select this profile when connecting to Baxter or Sawyer. Or via the command-line do <code>nmcli connection up Rethink</code></li>
 <li>When connected to Baxter or Sawyer, your ip address is <code>10.42.0.1</code> and the robot's ip addres is <code>10.42.0.2</code></li>
-<li>To have nodes on your computer connect to the remote <code>rosmaster</code>, you must
+<li>To have nodes on your computer connect to the remote <code>rosmaster</code>:
 <ul>
-<li>The <code>ROS_MASTER_URI</code> environment variable must be set to the robot's rosmaster uri: <code>http://10.42.0.2:113111</code>
+<li><p>The <code>ROS_MASTER_URI</code> environment variable must be set to the robot's rosmaster uri: <code>http://10.42.0.2:113111</code></p>
 <ul>
 <li>This variable tells ROS nodes how to connect to <code>rosmaster</code></li>
 </ul></li>
-<li>The <code>ROS_IP</code> environment variable should be the ip address of your computer (<code>10.42.0.1</code>).
+<li><p>The <code>ROS_IP</code> environment variable should be the ip address of your computer (<code>10.42.0.1</code>).</p>
 <ul>
 <li>This variable tells <code>rosmaster</code> how to connect to your computer</li>
 </ul></li>
-<li>Feel free to write a <code>bash</code> script that you can source to set these environment variables appropriately</li>
-<li>If you read Rethink's instructions, they provide a script that sets these variables for you. I don't like everything it does so I just use my own script.</li>
+<li><p>Feel free to write a <code>bash</code> script that you can source to set these environment variables appropriately</p>
+<pre><code>export ROS_MASTER_URI=http://10.42.0.2:11311
+export ROS_IP=10.42.0.1
+</code></pre></li>
+<li><p>If you read Rethink's instructions, they provide a script that sets these variables for you. I don't like everything it does so I just use my own script.</p></li>
 </ul></li>
 </ul>
 <h2 id="testing-your-setup">Testing Your Setup</h2>
 <ol>
 <li>Make sure you can ping 10.42.0.2.</li>
 <li>When you run <code>rqt_graph</code> you should see all the ROS nodes that are running on baxter/sawyer</li>
+<li>You may be able to ping <code>sawyer.local</code> or <code>baxter.local</code>, but this name resolution need not work for you to be able to connect.</li>
 </ol>
 <h1 id="using-the-robots">Using the Robots</h1>
 <ol>
@@ -591,7 +628,7 @@ catkin_make
 </ul></li>
 </ol>
 <h1 id="programming-the-robots">Programming the Robots</h1>
-<p>Sawyer and Baxter are programmed using very similar interfaces; therefore, information for one robot often applies to another.</p>
+<p>Sawyer and Baxter are programmed using very similar interfaces; therefore, information for one robot often applies to the other. Especially relevant is that much of the Baxter ROS API documentation applies to sawyer as well.</p>
 <ul>
 <li><a href="https://sdk.rethinkrobotics.com/wiki/Home">Baxter SDK Wiki</a></li>
 <li><a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Baxter API Reference</a></li>
@@ -599,10 +636,7 @@ catkin_make
 <li><a href="https://sdk.rethinkrobotics.com/intera/Main_Page">Sawyer SDK Wiki</a></li>
 <li><a href="https://sdk.rethinkrobotics.com/intera/API_Reference">Sawyer ROS API Reference</a></li>
 <li><a href="https://rethinkrobotics.github.io/intera_sdk_docs/5.1.0/intera_interface/html/index.html">Sawyer Python API</a></li>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Advanced_Understanding">Baxter Advanced Understanding</a>
-<ul>
-<li>Gain a full understanding of how Baxter works by reading everything.</li>
-</ul></li>
+<li><a href="https://sdk.rethinkrobotics.com/wiki/Advanced_Understanding">Baxter Advanced Understanding</a> (Not too advanced for you!)</li>
 </ul>
 <h2 id="urdf-for-baxter-and-sawyer">URDF for Baxter and Sawyer</h2>
 <ul>
@@ -639,19 +673,21 @@ catkin_make
 </ul>
 <h1 id="simulators">Simulators</h1>
 <ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Baxter_Simulator">Baxter Gazebo</a>
+<li><p><a href="https://sdk.rethinkrobotics.com/wiki/Baxter_Simulator">Baxter Gazebo</a></p>
 <ul>
 <li>Note: you do not need to actually run baxter.sh to use the simulator.</li>
+<li>baxter.sh is an example of the Rethink Setup script that I do not use because I set my ROS environment variables manually</li>
 </ul></li>
-<li><a href="https://sdk.rethinkrobotics.com/intera/Gazebo_Tutorial">Sawyer Gazebo Tutorial</a></li>
+<li><p><a href="https://sdk.rethinkrobotics.com/intera/Gazebo_Tutorial">Sawyer Gazebo Tutorial</a></p></li>
+<li><p>The simulated robots use the same API's as the real robots. However, your <code>ROS_MASTER_URI</code> should be <code>http://localhost:11311</code> and <code>ROS_IP</code> unset for you to use the simulator.</p></li>
 </ul>
 <h1 id="series-elastic-actuators">Series Elastic Actuators</h1>
-<p>The Baxter and Sawyer robots use Series Elastic Actuators (SEAs) at each joint. In a series elastic actuator, the motor drives a gearbox which is then connected to the joint via a spring (rather than stiffly, as in a traditional element). This design sacrifices bandwidth in exchange for robustness and more precise force control.</p>
+<p>The Baxter and Sawyer robots use Series Elastic Actuators (SEAs) at each joint. In a series elastic actuator, the motor drives a gearbox which is then connected to the joint via a spring (rather than via a stiff rigid link, as in a traditional actuator). This design sacrifices bandwidth in exchange for robustness and more precise force control.</p>
 <p>For example, rather than requiring a precise motor/gearbox model to estimate joint torque from motor current estimates, with a series elastic actuator joint torque can determined by measuring the displacement of the elastic element. Additionally, controlling joint torque can be accomplished by controlling position (i.e, the displacement of the elastic element).</p>
 <h2 id="thought-experiments">Thought Experiments</h2>
 <h3 id="regular-actuator">Regular Actuator</h3>
-<p>Imagine you are holding a solid steel rod. The rod is stiff. As you move the rod around, its tip remains fixed relative to where your hand is, it does not bounce around. The tip remains steady even if you move your hand really fast. Thus, you have high bandwidth and high precision control of the rod tip.</p>
-<p>Now imagine that you want drag the rod along the wall. You move the rod against the wall. However, what if your position measurement is slightly imprecise? You think tip is 0.001 inches away from the wall when it is actually touching. Your controller will continue to try to move that extra 0.001 inches, pushing into the wall. To accomplish this task the stiff rod (or the wall) will need to deform by 0.001 inches; however, because they are stiff this deformation requires a lot of force, that you will feel in your hand. Thus, a small error in position can cause a large force on the motor (your hand).</p>
+<p>Imagine you are holding a solid steel rod. The rod is stiff. As you move the rod around, its tip remains fixed relative to where your hand is; it does not bounce around. The tip remains steady even if you move your hand really fast. Thus, you have high bandwidth and high precision control of the rod tip.</p>
+<p>Now imagine that you want drag the rod along the wall. You move the rod against the wall. However, what if your position measurement is slightly imprecise? You think the rod tip is 0.001 inches away from the wall when it is actually touching. Your controller will continue to try to move that extra 0.001 inches, pushing into the wall. To accomplish this task the stiff rod (or the wall) will need to deform by 0.001 inches; however, because they are stiff this deformation requires a lot of force, which you will feel in your hand. Thus, a small error in position can cause a large force on the motor (your hand).</p>
 <h3 id="series-elastic-actuator">Series Elastic Actuator</h3>
 <p>Now imagine that the tip of the rod is connected to your hand via a spring. As you move your hand around, the tip will bounce around on the spring, unless you move really slowly. Thus you experience lower positional bandwidth and precision for the location of the rod tip.</p>
 <p>However, when you go to move the rod against the wall, as soon as you make contact the spring will start to compress. Thus, even if your position controller thinks the tip is 0.001 inches away from the wall when it is actually touching, it can move the extra 0.001 inch easily: the spring will simply compress an amount according to its stiffness (assumed to be significantly less than the stiff rod). Furthermore, measuring the spring's displacement will tell use the applied force.</p>

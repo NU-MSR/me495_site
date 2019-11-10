@@ -1,6 +1,5 @@
 [connection]
 id=Rethink
-uuid=c3ff4d2d-e108-49c6-b741-9848243148fb
 type=ethernet
 autoconnect=false
 permissions=
