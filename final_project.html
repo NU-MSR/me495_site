@@ -537,10 +537,9 @@ table td {
 <li>Each team must use git to develop the project.</li>
 <li>The project can consist of one or more ROS packages. If you use multiple packages in different git repositories or need to compile 3rd party packages in your workspace, provide a rosinstall file. Given the size of the project it most likely makes sense to have one git repository (although it may contain multiple packages)</li>
 <li>The project must have multiple custom nodes, launch files, topics, and services.</li>
-<li>Each student should work in their own branches in git. Working code should be merged into the master/ branch.
-<ul>
+<li>Each student should work in their own branches in git. Working code should be merged into the master/ branch.</li>
 <li>Follow the branch naming convention yourname/branch</li>
-</ul></li>
+<li>You should have automated tests using rostest and unittest fo your code</li>
 </ul></li>
 <li>Documentation
 <ul>
@@ -556,7 +555,13 @@ table td {
 <li>List of all nodes and launchfiles and what they do</li>
 <li>A discussion of the overall system architecture and high level concepts</li>
 <li>Any other information, as appropriate (for example: algorithms used, lessons learned, future work)</li>
-</ol></li>
+</ol>
+<ul>
+<li>Setup Sphinx to autogenerate your html API documentation
+<ul>
+<li>You may include more detailed documentation in sphinx rather than README.md and simply have The README.md link to sphinx documentation hosted on github.io for example, if you wish.</li>
+</ul></li>
+</ul></li>
 </ul></li>
 <li>Videos
 <ul>

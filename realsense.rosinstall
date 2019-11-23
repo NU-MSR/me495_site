@@ -1,0 +1,4 @@
+- git:
+    local-name: realsense2_camera
+    uri: https://github.com/intel-ros/realsense.git
+    version: 2.2.9

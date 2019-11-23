@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>Homework 4</title>
+<title>Exploring the Baxter</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -466,9 +466,17 @@ table td {
 <h3>Table of Contents</h3>
 <ul>
 <li><a href="#overview">Overview</a></li>
-<li><a href="#image-processing">Image Processing</a></li>
-<li><a href="#navigation">Navigation</a></li>
-<li><a href="#hints">Hints</a></li>
+<li><a href="#layers-of-the-robot">Layers of the Robot</a></li>
+<li><a href="#the-simulator">The Simulator</a><ul>
+<li><a href="#experimenting">Experimenting</a></li>
+</ul></li>
+<li><a href="#exploring-the-ros-api">Exploring the ROS API</a></li>
+<li><a href="#starting-out">Starting Out</a><ul>
+<li><a href="#tools">Tools</a></li>
+</ul></li>
+<li><a href="#moving-an-arm">Moving an Arm</a></li>
+<li><a href="#tips">Tips:</a></li>
+<li><a href="#exercise-1">Exercise:</a></li>
 </ul>
 </nav>
 
@@ -480,77 +488,105 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">Homework 4</h1>
+<h1 class="title">Exploring the Baxter</h1>
 </header>
 
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
-<p>The same rules for turning in this assignment apply as for the previous assignments.</p>
+<p>When approaching a robot for the first time, you must read documentation, read example source code, and perform experiments to become familiar with it's features. This document guides you in how to learn about Baxter, using the task of being able to move the robot arm to a desired location. The <a href="./lecture13_rethink.html">previous lecture</a> describes how to setup the robots and provides other reference material.</p>
+<h1 id="layers-of-the-robot">Layers of the Robot</h1>
+<p>There are three layers to Baxter:</p>
 <ol>
-<li>Don't forget to commit to git often.</li>
-<li>Include a <code>README.md</code> that describes the nodes and launchfiles in your package.
+<li><a href="https://sdk.rethinkrobotics.com/wiki/Robot_Components">Physical Hardware</a></li>
+<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">ROS API</a>
 <ul>
-<li>Make sure your <code>README.md</code> is formatted correctly</li>
+<li>Use ROS topics and services to directly control the robot</li>
 </ul></li>
-<li>Remember to include docstrings in each node describing its ROS API</li>
-</ol>
-<h1 id="image-processing">Image Processing</h1>
-<ol>
-<li><p>Follow the instructions to obtain YOLO ROS, a package that enables real-time object detection in ROS: <a href="https://github.com/leggedrobotics/darknet_ros">https://github.com/leggedrobotics/darknet_ros</a></p></li>
-<li><p>Write a launchfile and rviz config files that sets up your webcamera and YOLO ROS to detect objects and view the results in RViz in real time.</p>
+<li><a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Python API</a>
 <ul>
-<li>Include a screenshot of you using this in your README.md</li>
-<li>Downloading and compiling this package may take a while! Do something else while it compiles.</li>
+<li>Python wrapper around many of the ROS topics and services</li>
 </ul></li>
 </ol>
-<h1 id="navigation">Navigation</h1>
-<p>The turtlebot3 tutorials (especially those related to simulation) will be a useful reference for you</p>
+<p>For an overview see <a href="https://sdk.rethinkrobotics.com/wiki/Foundations">Foundations</a></p>
+<h1 id="the-simulator">The Simulator</h1>
+<ul>
+<li><a href="https://sdk.rethinkrobotics.com/wiki/Baxter_Simulator">The Baxter Simulator</a> provides a safe method of testing out ideas.</li>
+<li><code>roslaunch baxter_gazebo baxter_world.launch</code> to start the simulator</li>
+</ul>
+<h2 id="experimenting">Experimenting</h2>
+<ul>
+<li>Run <code>rostopic list</code> and <code>rosservice list</code>
+<ul>
+<li>Just by looking at these topics, the available features should start to be visible</li>
+</ul></li>
+<li>Run <code>rviz</code>, see if you can get a model of the robot visible.</li>
+</ul>
+<h1 id="exploring-the-ros-api">Exploring the ROS API</h1>
+<ul>
+<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">ROS API</a></li>
+</ul>
 <ol>
-<li><p>Write a launchfile that loads the turtlebot3 in the house environment, loads <code>rviz</code> and visualizes it's laser scan, starts a teleoperation node, and gmapping.</p>
+<li>Enable the robot: <code>rosrun baxter_tools enable.py -e</code></li>
+<li>From the <code>rostopic list</code> notice two topics: <code>/robot/limb/left/joint_control</code> and <code>/robot/limb/right/joint_control</code>
 <ul>
-<li>You will need to set the <code>TURTLEBOT3_MODEL</code> environment variable to <code>burger</code> to use the launchfile</li>
-<li>Many of these actions can be accomplished by including appropriate launchfiles from <code>turtlebot3</code> packages. However, if you want more control you can use these launchfiles as inspiration rather than directly including them</li>
-<li>You should make sure that <code>rviz</code> shows the Map, the laser scan, and the robot.</li>
-<li>The fixed frame in rviz should be the map frame.</li>
-</ul></li>
-<li><p>Drive the turtlebot3 throughout the interior of the house (at least two rooms) while running gmapping. Use the mapserver to save the map file. Include both the resulting <code>.yaml</code> file and <code>.pgm</code> file in your git repository.</p></li>
-<li><p>Create launchfile that uses <code>amcl</code> to localize your robot, using the map created in the previous step.</p>
-<ul>
-<li>You should also launch the move_base so that you can use 2D navigation goals in rviz to move your robot.</li>
-<li>Use parameters to pass it a reasonable initial pose.</li>
-<li>Try to make the global or local planner fail</li>
-<li>Create a screenshot showing the plan being executed in RViz.
-<ul>
-<li>The robot, the motion plan, the static map, the costmap, and the costs for the global plan should be visible.</li>
-<li>You should show the Path that is planned</li>
-</ul></li>
-</ul></li>
-<li><p>After running the setup above, add some new obstacles into the gazebo world.</p>
-<ul>
-<li>Some obstacles should be added within sight of the laser scanner and can be immediately incorporated into the global plan</li>
-<li>Other obstacles that are not immediately visible will need to be avoided with local planning</li>
-<li>Send goals that require the robot to avoid the obstacles.</li>
-<li>Include a screenshot in your README.md of the turtlebot moving around an obstacle in rviz</li>
-<li>Create a new launchfile that loads the world with the additional obstacles.</li>
-</ul></li>
-<li><p>Write a node that causes the robot to explore the environment autonomously while mapping the world with gmapping.</p>
-<ul>
-<li>Provide a launchfile that lets the robot use this node and gmapping to autonomously map the environment</li>
-<li>You can use any algorithm you want: if you use an existing algorithm cite it</li>
-<li>You can subscribe to the <code>/map</code> topic to get information about the robot's current knowledge of the environment</li>
-<li>Your algorithm can issue <code>cmd_vel</code> commands directly or work in conjunction with the <code>move_base</code> node to plan via waypoints.</li>
-<li>Include a brief description of your strategy in the <code>README.md</code></li>
-<li>Include a map that you created after running the exploration algorithm in your repository and refer to it in your README.</li>
-<li>The exploration does not need to be complete, perfect, or optimal in any way.</li>
-<li>You may wish to test your algorithm at multiple initial poses.</li>
-<li>There are purposely no performance constraints on this task; however, you should come up with a strategy, describe that strategy in the <code>README.md</code>, and make sure that you have actually implemented what you intended to implement.</li>
+<li>These topics are documented in the ROS API Documentation</li>
 </ul></li>
 </ol>
-<h1 id="hints">Hints</h1>
+<h1 id="starting-out">Starting Out</h1>
 <ul>
-<li>Refer to the <a href="http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/">Turtlebot 3 Manual</a>.</li>
-<li>Use tab completion to view available launch files for turtlebot3</li>
-<li>You may need to install additional ROS packages to complete this assignment</li>
+<li><a href="https://sdk.rethinkrobotics.com/wiki/Foundations">Foundations</a> Baxter Foundations Page
+<ul>
+<li>Provides a Good Overview of What to Do</li>
+</ul></li>
+</ul>
+<h2 id="tools">Tools</h2>
+<ul>
+<li><a href="https://sdk.rethinkrobotics.com/wiki/Foundations#Baxter_SDK_Tools">Tools</a></li>
+<li><code>rosrun baxter_tools robot_enable.py</code> Used to enable/disable the robot
+<ul>
+<li>From the ROS API documentation, we can see what rostopics this tool uses</li>
+<li>You can also examine the source code (note that all source code is in your rethink workspace)</li>
+</ul></li>
+</ul>
+<p>-<a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Python API Reference</a> also has a method to enable/disable the robot ( see baxter_interface.robot_enable)</p>
+<h3 id="exercise">Exercise</h3>
+<ul>
+<li>Enable the robot, get its state, and disable the robot:
+<ul>
+<li><p>Using the <code>enable_robot.py</code> tool</p></li>
+<li><p>Using <code>rostopics</code></p></li>
+<li><p>Using python (code below to get you started)</p>
+<pre><code>import baxter_interface
+import rospy
+rospy.init_node(&quot;resetter&quot;)
+r = baxter_interface.robot_enable.RobotEnable()
+</code></pre></li>
+</ul></li>
+</ul>
+<h1 id="moving-an-arm">Moving an Arm</h1>
+<ul>
+<li><a href="https://sdk.rethinkrobotics.com/wiki/API_Reference#Arm_Joints">ROS API: Arm Joints</a></li>
+<li>There are 4 joint control modes</li>
+<li>Send <code>/robot/limb/&lt;side&gt;/joint_command</code> messages to an enabled robot to move an arm</li>
+<li>The <a href="https://sdk.rethinkrobotics.com/wiki/Robot_Components">Components</a> page describes the hardware of the robot:
+<ul>
+<li>See <a href="https://sdk.rethinkrobotics.com/wiki/Arms">Arms</a> for the joint names (note: use lowercase and prefix with "left" or "right")</li>
+</ul></li>
+<li>Python API to move arm: <code>baxter_interface.Limb</code>
+<ul>
+<li>Create a Node</li>
+<li>Create a <code>Limb</code> object</li>
+</ul></li>
+</ul>
+<h1 id="tips">Tips:</h1>
+<ul>
+<li>You can use the source code for <code>baxter_interface</code> to help understand the meanings of some fields in messages, since it is just a thin wrapper around the ROS API</li>
+<li>For example, after creating a Limb object, <code>joint_names()</code> provides the name of each joint</li>
+</ul>
+<h1 id="exercise-1">Exercise:</h1>
+<ul>
+<li>Repeat the above with Sawyer</li>
+<li>Open and close the grippers using both ROS messages and the python API</li>
 </ul>
 </div>
 <div class="footer">

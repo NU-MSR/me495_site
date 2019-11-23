@@ -475,6 +475,8 @@ table td {
 </ul></li>
 <li><a href="#using-the-robots">Using the Robots</a></li>
 <li><a href="#programming-the-robots">Programming the Robots</a><ul>
+<li><a href="#baxter">Baxter</a></li>
+<li><a href="#sawyer">Sawyer</a></li>
 <li><a href="#urdf-for-baxter-and-sawyer">URDF for Baxter and Sawyer</a></li>
 </ul></li>
 <li><a href="#simulators">Simulators</a></li>
@@ -562,11 +564,13 @@ table td {
 <ul>
 <li>Some code comes from forked repositories, with fixes to make it compile on Ubuntu 18.04 with <code>melodic</code></li>
 </ul></li>
-<li>Build the workspace. I recommend sourcing the <code>devel/setup.bash</code> from your <code>.bashrc</code> so you will always have the packages accessible.</li>
+<li>Build the workspace. I recommend sourcing the <code>devel/setup.bash</code> from your <code>.bashrc</code> so you will always have the packages accessible.
+<ul>
+<li>Use <code>catkin_make -DCMAKE_BUILD_TYPE = Release</code> to enable optimizations and improve the resulting performance</li>
+</ul></li>
 <li>You also need some dependencies. Install
 <ul>
 <li><code>ros-melodic-effort_controllers</code></li>
-<li><code>ros-melodic-effort-controllers</code></li>
 </ul></li>
 </ul>
 <p>Instructions:</p>
@@ -629,14 +633,19 @@ export ROS_IP=10.42.0.1
 </ol>
 <h1 id="programming-the-robots">Programming the Robots</h1>
 <p>Sawyer and Baxter are programmed using very similar interfaces; therefore, information for one robot often applies to the other. Especially relevant is that much of the Baxter ROS API documentation applies to sawyer as well.</p>
+<p>Note: if you have your <code>ROS_MASTER_URI</code> and <code>ROS_IP</code> setup correctly you can ignore parts about running <code>baxter.sh</code> or the <code>RSDK shell</code></p>
+<h2 id="baxter">Baxter</h2>
 <ul>
 <li><a href="https://sdk.rethinkrobotics.com/wiki/Home">Baxter SDK Wiki</a></li>
 <li><a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Baxter API Reference</a></li>
 <li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">Baxter ROS API Reference</a></li>
+<li><a href="https://sdk.rethinkrobotics.com/wiki/Advanced_Understanding">Baxter Advanced Understanding</a> (Not too advanced for you!)</li>
+</ul>
+<h2 id="sawyer">Sawyer</h2>
+<ul>
 <li><a href="https://sdk.rethinkrobotics.com/intera/Main_Page">Sawyer SDK Wiki</a></li>
 <li><a href="https://sdk.rethinkrobotics.com/intera/API_Reference">Sawyer ROS API Reference</a></li>
 <li><a href="https://rethinkrobotics.github.io/intera_sdk_docs/5.1.0/intera_interface/html/index.html">Sawyer Python API</a></li>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Advanced_Understanding">Baxter Advanced Understanding</a> (Not too advanced for you!)</li>
 </ul>
 <h2 id="urdf-for-baxter-and-sawyer">URDF for Baxter and Sawyer</h2>
 <ul>

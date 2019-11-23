@@ -1,0 +1,719 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Git, Documentation, and Testing</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#git">Git</a></li>
+<li><a href="#project-layout">Project Layout</a></li>
+<li><a href="#documentation">Documentation</a><ul>
+<li><a href="#quick-setup">Quick Setup</a></li>
+<li><a href="#setup">Setup</a></li>
+</ul></li>
+<li><a href="#testing">Testing</a><ul>
+<li><a href="#unit-testing-vs-integration-testing">Unit Testing vs Integration Testing</a></li>
+<li><a href="#why-automating-testing">Why Automating Testing</a></li>
+<li><a href="#testing-in-ros-and-python">Testing in ROS and Python</a></li>
+<li><a href="#test-as-plain-python-code">Test as plain python Code</a></li>
+<li><a href="#test-a-ros-node">Test a ROS node</a></li>
+</ul></li>
+<li><a href="#example">Example</a><ul>
+<li><a href="#other-resources">Other Resources</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Git, Documentation, and Testing</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="overview">Overview</h1>
+<h1 id="git">Git</h1>
+<ul>
+<li>Git provides powerful methods for collaborating with other people</li>
+<li>However, if you are undisciplined with your git usage, problems such as conflicts my occur</li>
+<li>There are several <a href="https://www.atlassian.com/git/tutorials/comparing-workflows">Git Workflows</a></li>
+<li>For your final projects, you should have the following setup
+<ol>
+<li>Each team will have a repository setup on github classrooms. Every team member will have write access to this repository.</li>
+<li>Each person should fork the github classroom repository, and then clone the forked version on their local machine
+<ul>
+<li>This <code>origin</code> repository serves as an online backup of your local repository and is used as before</li>
+<li>It can also be used to allow your team members to easily veiw what you are working on.</li>
+</ul></li>
+<li>Each person then adds a remote called <code>upstream</code> to their repository. Remote points to the shared github classroom repository.</li>
+<li>In your local repository, create one or more feature branches.
+<ul>
+<li>Do all your work in feature branches</li>
+<li>Push to <code>origin</code> to have a backup and enable others to easily see what you have been doing without you needing to merge into the <code>upstream</code> repository</li>
+</ul></li>
+<li>When you are ready to integrate your code with the main team's repository
+<ul>
+<li><code>git fetch</code> the latest code from <code>upstream</code></li>
+<li><code>git merge</code> or <code>git rebase</code> the latest code from <code>upstream/master</code> into your feature branch
+<ul>
+<li>See <a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing">merge vs rebase</a> for a discussion about rebasing vs merging</li>
+<li>Generally, only rebase code on branches that you are exclusively working on and not sharing with others.</li>
+</ul></li>
+<li>Resolve any conflicts, test your code, make any fixes required</li>
+<li><code>push</code> your code to both <code>upstream</code> and <code>origin</code>
+<ul>
+<li>At this step, your code is now in the canonical <code>upstream/master</code> branch</li>
+<li>Your teamates can now fetch and merge <code>upstream/master</code> into their local branches to retreive your changes</li>
+<li>Only push to <code>upstream master</code> when you and your teammates agree with the changes you have made and are ready to integrate them into your main project.</li>
+</ul></li>
+</ul>
+<ol>
+<li>It is also possible to create auxiliary branches in <code>upstream</code> for sharing code with your team that is not ready for <code>master</code></li>
+</ol></li>
+</ol></li>
+</ul>
+<h1 id="project-layout">Project Layout</h1>
+<ul>
+<li><p>For any non-trivial ROS package, you should write the bulk of your code as a separate python package and import that package in nodes</p>
+<ul>
+<li>The python package has the same name as your ROS package</li>
+<li>It is located in <code>src/package_name</code></li>
+<li>Thus nodes are just light-weight ROS wrappers around more general purpose python code</li>
+<li>The python files in the package are intended to be imported, not run
+<ul>
+<li>They should end in <code>.py</code></li>
+<li>They should not be executable</li>
+</ul></li>
+</ul></li>
+<li><p>Following this design makes your code easier to test and debug (since you can use regular python without ROS for most of it) and easier to document</p></li>
+<li><p>Below is a sample layout</p>
+<pre><code>src/package_name/__init__.py # mark this as a python package.
+                             # package_name should match the name of the ROS package
+src/package_name/module.py # a module in the package
+nodes/node1  # this node imports module.py
+</code></pre></li>
+<li><p>Include a <code>setup.py</code> file in your base directory. See <a href="http://docs.ros.org/melodic/api/catkin/html/user_guide/setup_dot_py.html">catkin documentation</a> for details.</p></li>
+<li><p>Also see <a href="http://docs.ros.org/melodic/api/catkin/html/howto/format2/installing_python.html">installing python in catkin</a></p></li>
+</ul>
+<h1 id="documentation">Documentation</h1>
+<ul>
+<li><a href="http://sphinx-doc.org/en/master">Sphinx</a> is a tool that converts docstrings in your python source code into well-formatted documentation</li>
+<li><a href="http://wiki.ros.org/rosdoc_lit">rosdoc_lite</a> Is a ROS tool that integrates Sphinx with ROS and helps produce ROS documentation
+<ul>
+<li>It also helps setup Sphinx appropriately for a ROS project</li>
+</ul></li>
+</ul>
+<h2 id="quick-setup">Quick Setup</h2>
+<ul>
+<li>Create a <code>doc</code> directory in your package</li>
+<li>Copy <a href="./conf.py">conf.py</a> and <a href="./index.rst">index.rst</a> to the <code>doc</code> directory</li>
+<li>Run <code>sphinx-apidoc -o doc src</code> to add your python modules to the documentation
+<ul>
+<li>Python code in the <code>scripts/</code> and <code>nodes</code> directory will not be added, but these should be basic scripts wrapping more complex api code stored in <code>src/</code></li>
+<li>These files are provided for convenience. To make the most out of sphinx you will need to edit them and create additional documentation files</li>
+</ul></li>
+<li>Run <code>rosdoc_lite .</code></li>
+<li>View <code>doc/html/index.html</code> in web browser. You can also see your messages and services listed in <code>doc/html/index-msg.html</code></li>
+</ul>
+<h2 id="setup">Setup</h2>
+<p>These are more complete setup instructions that explain what I did to create the example <code>conf.py</code> file above.</p>
+<ol>
+<li>See the <a href="http://wiki.ros.org/Sphinx">ROS Sphinx</a> wiki page for details.</li>
+<li>In the root directory of your package, create a <code>rosdoc.yaml</code> file with contents:</li>
+</ol>
+<pre><code>- builder: sphinx
+  sphinx_root_dir: doc # this is where documentation will be created
+</code></pre>
+<ol>
+<li>Run <code>sphinx-quickstart</code> in the root of your package directory to create <code>conf.py</code>
+<ul>
+<li><a href="https://www.sphinx-doc.org/en/master/usage/configuration.html">conf.py</a> is the configuration file used by Sphinx</li>
+<li>See <a href="http://wiki.ros.org/Sphinx">ROS Sphinx</a> wiki for answers to the questions</li>
+<li>They also have code to "rosify" your configuration. Modify the resulting <code>conf.py</code> to follow their conventions</li>
+<li>When modifying <code>conf.py</code> see <a href="http://docs.ros.org/independent/api/catkin_pkg/catkin_pkg.html">catkin_pkg</a> to view how to customize some values based on what is in your <code>package.xml</code>
+<ul>
+<li>I also <code>import string</code> and use <code>string.joint(catkin_package.authors)</code> to automatically fill in authors from the <code>package.xml</code>, for example</li>
+</ul></li>
+</ul></li>
+<li>Add sphinx.ext.napoleon to the extensions list to allow sphinx to parse google and numpy style docstrings. Otherwise you have to annotate your functions using a hard-to-read format.</li>
+</ol>
+<h1 id="testing">Testing</h1>
+<p>"Testing shows the presence, not the absence of bugs" - Edsger Dijkstra</p>
+<h2 id="unit-testing-vs-integration-testing">Unit Testing vs Integration Testing</h2>
+<ul>
+<li>Unit Testing usually refers to testing a single function</li>
+<li>Unit tests should ideally be run after every "compile" and can also be run after every push to a git repository using continuous integration</li>
+<li>Thus, unit tests should execute quickly and test only a single isolated item.</li>
+<li>Integration tests are tests that require multiple components to work together to function
+<ul>
+<li>These tests can take longer to run, are typically run less often then unit tests, and encompass a broader range of functionality</li>
+</ul></li>
+</ul>
+<h2 id="why-automating-testing">Why Automating Testing</h2>
+<ul>
+<li>Provides some level of assurance that your code is correct</li>
+<li>When your code changes, it helps you avoid breaking existing functionality</li>
+<li>Provides built in working examples of how to use your code</li>
+<li>Designing your code to be tested leads to better code</li>
+<li><a href="http://wiki.ros.org/Quality/Tutorials/UnitTesting">Why Test?</a></li>
+</ul>
+<h3 id="test-strategies">Test Strategies</h3>
+<ul>
+<li>Write tests whenever you encounter a bug
+<ul>
+<li>helps you reproduce the bug</li>
+<li>ensures that you won't encounter the same exact problem again</li>
+</ul></li>
+<li>Test Driven Development: write tests prior to writing code</li>
+<li>In robotics, testing is generally orders of magnitude harder than in most other disciplines
+<ul>
+<li>Testing everything often requires physical hardware to move or sense in the real world
+<ul>
+<li>Try to isolate as much of the "software" part of the robot from the hardware to facilitate testing</li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="testing-in-ros-and-python">Testing in ROS and Python</h2>
+<ul>
+<li>Testing ROS python code involves several layers</li>
+<li>At its core, ROS uses the built-in python unit testing framework, <a href="https://docs.python.org/2.7/library/unittest.html">unittest</a></li>
+<li>To create unit tests
+<ul>
+<li>import the code you wish to test</li>
+<li>import <code>unitttest</code></li>
+<li>Write a class that serves as a "Test Case"
+<ul>
+<li>the class inherits from <code>unittest.TestCase</code></li>
+<li>each method in the class that starts with the word "test" defines a unit test</li>
+<li>Each unit test calls the code it wants to test and asserts the result using special <code>unittest</code> assertion functions (e.g., <code>self.assertTrue</code>, <code>self.assertEqual</code>)</li>
+<li>In python simply invoke <code>unittest.main()</code> in your script to run the tests, however, in ROS the procedure is different and you should call ROS specific functions.</li>
+</ul></li>
+</ul></li>
+<li>In ROS, you use <code>unittest</code> as normal, but apply some special ROS wrappers to put the output in a format ROS understands (see <a href="http://wiki.ros.org/unittest">unittest</a>).
+<ul>
+<li>Tests can be run either as plane python scripts or as ROS Nodes</li>
+</ul></li>
+</ul>
+<h2 id="test-as-plain-python-code">Test as plain python Code</h2>
+<ul>
+<li><p>Place your test in a <code>tests/</code> directory</p></li>
+<li><p>Your main code should be</p>
+<pre><code>if __name__ == &quot;__main__&quot;:
+    import rosunit
+    rosunit.unitrun(PackageName, &#39;test_class_name&#39;, TestClass)
+</code></pre></li>
+<li><p>Make sure the test is not executable</p></li>
+<li><p>Add <code>catkin_add_nosetests(directory_with_tests)</code> to <code>CMakeLists.txt</code></p></li>
+<li><p>You must <code>&lt;build_depend&gt;</code> on <code>rosunit</code> in your <code>package.xml</code></p></li>
+<li><p>Your test will run with <code>catkin_make run_tests</code></p>
+<ul>
+<li>You should see information about the tests that were executing when using <code>catkin_make run_tests</code></li>
+</ul></li>
+</ul>
+<h2 id="test-a-ros-node">Test a ROS node</h2>
+<ul>
+<li><p>Testing with ROS nodes is done with <a href="http://wiki.ros.org/rostest">rostest</a></p></li>
+<li><p><code>rostest</code> reads launchfiles, enabling you to create tests involving multiple nodes</p></li>
+<li><p>Launchfiles used exclusively for testing typically end in <code>.test</code> and use the tag <a href="http://wiki.ros.org/roslaunch/XML/test">&lt;test&gt;</a> rather than <code>&lt;node&gt;</code> to launch the nodes.</p>
+<ul>
+<li>The <code>&lt;test&gt;</code> tag uses a <code>test-name</code> attribute instead of a <code>name</code> attribute</li>
+</ul></li>
+<li><p>You can add <code>&lt;test&gt;</code> nodes to your existing launchfiles and those nodes will only run when you are testing</p></li>
+<li><p>In your <code>CMakeLists.txt</code> add</p>
+<pre><code>if(CATKIN_ENABLE_TESTING)
+find_package(rostest REQUIRED)
+add_rostest(test/mytest.test)
+endif()
+</code></pre>
+<p>Then <code>test/mytest.test</code> will be run on a call to <code>catkin_make run_tests</code>.</p>
+<p>#+END_SRC</p></li>
+<li><p>You can write a test node by calling <code>rospy</code> functions within <code>unittests</code>.</p></li>
+<li><p>The main for your <code>unittest</code> should be</p>
+<pre><code>if __name__ == &quot;__main__&quot;:
+   import rostest
+   rostest.rosrun(PackageName, &#39;test_class_name&#39;, TestClassName)
+</code></pre></li>
+<li><p>You must <code>&lt;build_depend&gt;</code> on <code>rostest</code> in your <code>package.xml</code></p></li>
+<li><p>You can also invoke <code>.test</code> files using <code>rostest</code> (like <code>roslaunch</code>)</p></li>
+<li><p>Nodes that you are testing should be executable</p></li>
+<li><p>based on the <a href="http://wiki.ros.org/rostest/Nodes">existing example nodes</a>, I call <code>rospy.init_node</code> from the constructor of the test case.</p></li>
+</ul>
+<h1 id="example">Example</h1>
+<p>See <a href="http://github.com/m-elwin/me495_practices">github</a> for an example combining Sphinx documentation and unittesting.</p>
+<h2 id="other-resources">Other Resources</h2>
+<p><a href="http://wiki.ros.org/rostest/Nodes">Standard Test Nodes</a> Some nodes that perform some standard tests <a href="http://wiki.ros.org/Quality/Tutorials">Tutorials on ROS Quality</a></p>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
