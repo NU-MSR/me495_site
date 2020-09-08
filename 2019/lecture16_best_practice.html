@@ -203,7 +203,6 @@ pre, code, kbd, samp {
   font-family: monospace, monospace;
   _font-family: 'courier new', monospace;
   font-size: 0.98em;
-  line-height: normal;
 }
 
 .line-block {
@@ -695,7 +694,8 @@ find_package(rostest REQUIRED)
 add_rostest(test/mytest.test)
 endif()
 </code></pre>
-<p>Then <code>test/mytest.test</code> will be run on a call to <code>catkin_make run_tests</code>.</p></li>
+<p>Then <code>test/mytest.test</code> will be run on a call to <code>catkin_make run_tests</code>.</p>
+<p>#+END_SRC</p></li>
 <li><p>You can write a test node by calling <code>rospy</code> functions within <code>unittests</code>.</p></li>
 <li><p>The main for your <code>unittest</code> should be</p>
 <pre><code>if __name__ == &quot;__main__&quot;:

@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>Exploring the Baxter</title>
+<title>Visualization in ROS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -203,7 +203,6 @@ pre, code, kbd, samp {
   font-family: monospace, monospace;
   _font-family: 'courier new', monospace;
   font-size: 0.98em;
-  line-height: normal;
 }
 
 .line-block {
@@ -467,19 +466,15 @@ table td {
 <h3>Table of Contents</h3>
 <ul>
 <li><a href="#overview">Overview</a></li>
-<li><a href="#layers-of-the-robot">Layers of the Robot</a></li>
-<li><a href="#the-simulator">The Simulator</a>
+<li><a href="#rviz">RViz</a>
 <ul>
-<li><a href="#experimenting">Experimenting</a></li>
+<li><a href="#visualization-messages">Visualization Messages</a></li>
+<li><a href="#markers">Markers</a></li>
+<li><a href="#markerarray">MarkerArray</a></li>
+<li><a href="#interactivemarkers">InteractiveMarkers</a></li>
+<li><a href="#plugins">Plugins</a></li>
 </ul></li>
-<li><a href="#exploring-the-ros-api">Exploring the ROS API</a></li>
-<li><a href="#starting-out">Starting Out</a>
-<ul>
-<li><a href="#tools">Tools</a></li>
-</ul></li>
-<li><a href="#moving-an-arm">Moving an Arm</a></li>
-<li><a href="#tips">Tips:</a></li>
-<li><a href="#exercise-1">Exercise:</a></li>
+<li><a href="#rqt">rqt</a></li>
 </ul>
 </nav>
 
@@ -491,105 +486,107 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">Exploring the Baxter</h1>
+<h1 class="title">Visualization in ROS</h1>
 </header>
 
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
-<p>When approaching a robot for the first time, you must read documentation, read example source code, and perform experiments to become familiar with it's features. This document guides you in how to learn about Baxter, using the task of being able to move the robot arm to a desired location. The <a href="./lecture13_rethink.html">previous lecture</a> describes how to setup the robots and provides other reference material.</p>
-<h1 id="layers-of-the-robot">Layers of the Robot</h1>
-<p>There are three layers to Baxter:</p>
-<ol>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Robot_Components">Physical Hardware</a></li>
-<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">ROS API</a>
 <ul>
-<li>Use ROS topics and services to directly control the robot</li>
-</ul></li>
-<li><a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Python API</a>
+<li>ROS has several tools for interacting graphically with robotic systems.
 <ul>
-<li>Python wrapper around many of the ROS topics and services</li>
-</ul></li>
-</ol>
-<p>For an overview see <a href="https://sdk.rethinkrobotics.com/wiki/Foundations">Foundations</a></p>
-<h1 id="the-simulator">The Simulator</h1>
-<ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Baxter_Simulator">The Baxter Simulator</a> provides a safe method of testing out ideas.</li>
-<li><code>roslaunch baxter_gazebo baxter_world.launch</code> to start the simulator</li>
-</ul>
-<h2 id="experimenting">Experimenting</h2>
-<ul>
-<li>Run <code>rostopic list</code> and <code>rosservice list</code>
-<ul>
-<li>Just by looking at these topics, the available features should start to be visible</li>
-</ul></li>
-<li>Run <code>rviz</code>, see if you can get a model of the robot visible.</li>
-</ul>
-<h1 id="exploring-the-ros-api">Exploring the ROS API</h1>
-<ul>
-<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">ROS API</a></li>
-</ul>
-<ol>
-<li>Enable the robot: <code>rosrun baxter_tools enable.py -e</code></li>
-<li>From the <code>rostopic list</code> notice two topics: <code>/robot/limb/left/joint_control</code> and <code>/robot/limb/right/joint_control</code>
-<ul>
-<li>These topics are documented in the ROS API Documentation</li>
-</ul></li>
-</ol>
-<h1 id="starting-out">Starting Out</h1>
-<ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Foundations">Foundations</a> Baxter Foundations Page
-<ul>
-<li>Provides a Good Overview of What to Do</li>
+<li><a href="https://wiki.ros.org/rviz">rviz</a> is the primary tool for visualizing your robot and its sensor data in 3D</li>
+<li><a href="https://wiki.ros.org/rqt">rqt</a> is for creating a graphical user interface (GUI) in ROS.</li>
 </ul></li>
 </ul>
-<h2 id="tools">Tools</h2>
+<h1 id="rviz">RViz</h1>
 <ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Foundations#Baxter_SDK_Tools">Tools</a></li>
-<li><code>rosrun baxter_tools robot_enable.py</code> Used to enable/disable the robot
+<li><code>rviz</code> is used to visualize data in ROS in a 3D environment</li>
+<li>In <code>rviz</code> you add <em>Display Types</em> to the display and connect them to information that <code>rviz</code> receives via ROS messages and parameters.
 <ul>
-<li>From the ROS API documentation, we can see what rostopics this tool uses</li>
-<li>You can also examine the source code (note that all source code is in your rethink workspace)</li>
+<li>There are many built in <em>Display Types</em>, documented <a href="https://wiki.ros.org/rviz/DisplayTypes">on the wiki</a>.</li>
 </ul></li>
 </ul>
-<p>-<a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Python API Reference</a> also has a method to enable/disable the robot ( see baxter_interface.robot_enable)</p>
-<h3 id="exercise">Exercise</h3>
+<h2 id="visualization-messages">Visualization Messages</h2>
 <ul>
-<li>Enable the robot, get its state, and disable the robot:
+<li>The <a href="https://wiki.ros.org/visualization_msgs">visualization_msgs</a> package contains messages for displaying visual primitives in <code>rviz</code> using some Display Types in Rviz</li>
+</ul>
+<h2 id="markers">Markers</h2>
 <ul>
-<li><p>Using the <code>enable_robot.py</code> tool</p></li>
-<li><p>Using <code>rostopics</code></p></li>
-<li><p>Using python (code below to get you started)</p>
-<pre><code>import baxter_interface
-import rospy
-rospy.init_node(&quot;resetter&quot;)
-r = baxter_interface.robot_enable.RobotEnable()
-</code></pre></li>
+<li>Markers are the simplest visualization message</li>
+<li>They let you draw basic shapes at specified locations
+<ul>
+<li>For example, spheres, cubes, cylinders, lines</li>
+</ul></li>
+<li>See <a href="http://wiki.ros.org/rviz/DisplayTypes/Marker">Marker Display Type</a> for an overview</li>
+<li>Markers are drawn by publishing <a href="http://docs.ros.org/melodic/api/visualization_msgs/html/msg/Marker.html">marker messages</a>
+<ul>
+<li>By default, the Marker display type listens on the <code>visualization_marker</code> topic, but this can be changed in the rviz gui or with remapping.</li>
+<li>Markers have a <code>header</code> field that requires the time. Using rospy.Time() for this ensures the Marker will be drawn</li>
+<li>Be sure to set the alpha (.a) field to be non-zero (e.g. 1) so that the marker is not drawn transparently</li>
+</ul></li>
+<li>These C++ tutorials mostly apply to python as well since they are simply setting values in the marker message topic
+<ul>
+<li><a href="http://wiki.ros.org/rviz/Tutorials/Markers%3A%20Basic%20Shapes">Basic shapes tutorial</a></li>
+<li><a href="http://wiki.ros.org/rviz/Tutorials/Markers%3A%20Points%20and%20Lines">Points and lines tutorial</a></li>
 </ul></li>
 </ul>
-<h1 id="moving-an-arm">Moving an Arm</h1>
+<h2 id="markerarray">MarkerArray</h2>
 <ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/API_Reference#Arm_Joints">ROS API: Arm Joints</a></li>
-<li>There are 4 joint control modes</li>
-<li>Send <code>/robot/limb/&lt;side&gt;/joint_command</code> messages to an enabled robot to move an arm</li>
-<li>The <a href="https://sdk.rethinkrobotics.com/wiki/Robot_Components">Components</a> page describes the hardware of the robot:
+<li>The <a href="http://docs.ros.org/melodic/api/visualization_msgs/html/msg/MarkerArray.html">MarkerArray</a> message consists of an array of Marker messages</li>
+<li>This message type lets you publish multiple markers with a single message</li>
+<li><code>rviz</code> has a DisplayType that can subscribe to a <code>MarkerArray</code> message and visualize all markers in the array</li>
+<li>If you are sending many markers, it is more efficient to send them as an array</li>
+</ul>
+<h2 id="interactivemarkers">InteractiveMarkers</h2>
 <ul>
-<li>See <a href="https://sdk.rethinkrobotics.com/wiki/Arms">Arms</a> for the joint names (note: use lowercase and prefix with "left" or "right")</li>
+<li><a href="http://wiki.ros.org/interactive_markers">Interactive Markers</a> lets users manipulate markers inside RViz. Your nodes can then respond to the actions of the user.</li>
+<li>To use interactive markers, you create an <code>InteractiveMarkerServer</code>
+<ul>
+<li>This server creates the necessary publishers and subscribers</li>
+<li>You then provide a callback which gets called whenever the user manipulates the marker in rviz</li>
+<li>You can call functions to change the marker in rviz</li>
 </ul></li>
-<li>Python API to move arm: <code>baxter_interface.Limb</code>
+<li>To learn interactive markers, you should go through at least the first two of these tutorials:
 <ul>
-<li>Create a Node</li>
-<li>Create a <code>Limb</code> object</li>
+<li><a href="https://wiki.ros.org/rviz/Tutorials/Interactive%20Markers%3A%20Getting%20Started">Getting Started with Interactive Markers</a></li>
+<li><a href="https://wiki.ros.org/rviz/Tutorials/Interactive%20Markers%3A%20Writing%20a%20Simple%20Interactive%20Marker%20Server">Writing a Simple Interactive Marker Server</a></li>
+<li><a href="http://wiki.ros.org/rviz/Tutorials/Interactive%20Markers%3A%20Basic%20Controls">Basic Controls</a></li>
 </ul></li>
 </ul>
-<h1 id="tips">Tips:</h1>
+<h2 id="plugins">Plugins</h2>
 <ul>
-<li>You can use the source code for <code>baxter_interface</code> to help understand the meanings of some fields in messages, since it is just a thin wrapper around the ROS API</li>
-<li>For example, after creating a Limb object, <code>joint_names()</code> provides the name of each joint</li>
+<li>Using markers enables you to create complex visualizations by building ROS messages</li>
+<li>However, marker messages are quite large and using many of them can become slow</li>
+<li>Fortunately, <code>rviz</code> is modular: each of the built-in DisplayTypes is actually a plugin.</li>
+<li>You can write your own plugins in C++ that contain display logic for your own message types
+<ul>
+<li><a href="http://docs.ros.org/melodic/api/rviz_plugin_tutorials/html/display_plugin_tutorial.html">Display Plugin Tutorial</a></li>
+</ul></li>
+<li>Plugins can also add panels in <code>rviz</code> (<a href="http://docs.ros.org/melodic/api/rviz_plugin_tutorials/html/panel_plugin_tutorial.html">Panels Tutorial</a>)</li>
+<li>Plugins can also add tools that change what the mouse does in <code>rviz</code> (<a href="http://docs.ros.org/melodic/api/rviz_plugin_tutorials/html/tool_plugin_tutorial.html">Tools Tutorial</a>).</li>
 </ul>
-<h1 id="exercise-1">Exercise:</h1>
+<h1 id="rqt">rqt</h1>
 <ul>
-<li>Repeat the above with Sawyer</li>
-<li>Open and close the grippers using both ROS messages and the python API</li>
+<li><a href="https://www.qt.io">Qt</a> is a library for creating graphical user interfaces</li>
+<li><a href="https://wiki.ros.org/rqt">rqt</a> is a ROS package that enables you to create GUIs using ROS nodes</li>
+<li>If you create a widget in <code>Qt</code> you can wrap that widget with <code>rqt</code> and use it as part of the ROS user interface</li>
+<li>Essentially, <code>rqt</code> widgets can be docked and split in a parent window. These configurations can be saved so that others can reproduce your view</li>
+<li>Many rqt plugins <a href="http://wiki.ros.org/rqt/Plugins">come with ROS</a></li>
+<li>All built-in rqt plugins can be run with <code>rosrun</code>
+<ul>
+<li>Type <code>rosrun rqt_</code> then hit tab to see a list of packages.</li>
+<li>Some of these tools are so useful and popular they have there own shortcuts on the path
+<ul>
+<li>Type <code>rqt_</code> then tab to see these. For example</li>
+<li>rqt_graph - seeing how nodes are connected to each other via topics</li>
+<li>rqt_console - reading debugging output from ros nodes</li>
+<li>rqt_plot - plotting message values versus time
+<ul>
+<li>For more advanced plotting I recommend <a href="http://wiki.ros.org/plotjuggler">PlotJuggler</a>.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>There are <a href="http://wiki.ros.org/rqt/Tutorials">Tutorials</a> for creating your own plugins</li>
 </ul>
 </div>
 <div class="footer">

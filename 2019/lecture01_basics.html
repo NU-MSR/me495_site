@@ -203,7 +203,6 @@ pre, code, kbd, samp {
   font-family: monospace, monospace;
   _font-family: 'courier new', monospace;
   font-size: 0.98em;
-  line-height: normal;
 }
 
 .line-block {
@@ -473,6 +472,7 @@ table td {
 <li><a href="#devices-that-we-own-that-run-ros-non-exhaustive">Devices that we own that run ROS (non-exhaustive)</a></li>
 <li><a href="#other-items-that-we-own-that-are-compatible-with-ros-non-exhaustive">Other items that we own that are compatible with ROS (non-exhaustive)</a></li>
 </ul></li>
+<li><a href="#installation">Installation</a></li>
 <li><a href="#ros-basics-1">ROS Basics</a>
 <ul>
 <li><a href="#documentation">Documentation</a></li>
@@ -490,6 +490,7 @@ table td {
 <li><a href="#old-terminology">Old Terminology</a></li>
 </ul></li>
 <li><a href="#design-guidelines">Design Guidelines</a></li>
+<li><a href="#activity">Activity</a></li>
 </ul>
 </nav>
 
@@ -508,39 +509,35 @@ table td {
 <h1 id="introduction-and-brief-history">Introduction and Brief History</h1>
 <p>The <a href="https://www.ros.org/">Robot Operating System</a> (ROS) is a a collection of tools, software libraries, and documentation facilitating the development and sharing of robotics software. The term "Operating System" is a bit of a misnomer, it is more like a framework or middleware plus a developer community.</p>
 <p>Historically people and companies developed robotics software specifically tailored to their own robots and needs. For example, industrial robotics companies developed their own proprietary control software and even programming languages, while there was no central location for robotics researchers to find useful software libraries. Over the years there have been several attempts at creating libraries for robotics engineers to share, and ROS can be seen as one of the more recent and popular of these attempts. For more information see <a href="https://www.ros.org/about-ros">About ROS</a>.</p>
-<p>In 2007, <a href="https://en.wikipedia.org/Willow_Garage">Willow Garage</a> provided resources for researchers to create general-purpose robotics software that could be reused and shared. From the start, it was an effort involving a community of people at different institutions working on the core infrastructure and various packages. In 2014, Willow Garage went out of business and stewardship of ROS was transferred to the <a href="https://www.openrobotics.org">Open Source Robotics Foundation</a> (now referred to as Open Robotics) a 501(c)(3) non-profit organization. For more information, see <a href="https://www.ros.org/history">ROS History</a>.</p>
+<p>In 2007, <a href="https://en.wikipedia.org/Willow_Garage">Willow Garage</a> provided resources to researches to create general-purpose robotics software that could be re-used and shared. From the start, it was an effort involving a community of people at different institutions working on the core infrastructure and various packages. In 2014, Willow Garage went out of business and stewardship of ROS was transferred to the <a href="https://www.openrobotics.org">Open Source Robotics Foundation</a> (now referred to as Open Robotics) a 501(c)(3) non-profit organization. For more information, see <a href="https://www.ros.org/history">ROS History</a>.</p>
 <p>In the intervening years, ROS has been adopted as a defacto standard in industry and academia. While proprietary systems from many major robot manufactures still exist (and perhaps predominate), there are now several robots on the market that explicitly support ROS (including the robots you will be using in this class). Many start-up robotics companies also use ROS because it enables them to take advantage of the work of others to start with a baseline working system. There are also initiatives such as <a href="https://rosindustrial.org">ROS Industrial</a>, which are bringing in more industrial robots into the fold of ROS. In academia, ROS enables easy sharing of code between research groups and allows people to use the latest code from experts in the field.</p>
 <h2 id="some-usage-statistics">Some Usage Statistics</h2>
-<p>In July 2019 (data taken from <a href="http://wiki.ros.org/metrics">http://wiki.ros.org/metrics</a>) there were</p>
+<p>In July 2018 (data taken from <a href="https://wiki.ros.org/metrics">https://wiki.ros.org/metrics</a>) there were</p>
 <ul>
-<li>2,307,659 Page views of the ROS wiki</li>
-<li>793,740 views of answers. ROS.org</li>
-<li>20,645,089 package downloads</li>
+<li>2,000,000 Page views of the ROS wiki</li>
+<li>600,000 views of answers. ROS.org</li>
+<li>16,155,301 package downloads</li>
 <li>Courses are taught at 33 universities around the world (<em>wiki.ros.org/Courses</em>)</li>
 </ul>
-<p>As of July 2019, there were 5875 papers explicitly citing ROS.</p>
+<p>As of July 2018, there were 4806 papers explicitly citing ROS.</p>
 <h2 id="ros-versions">ROS Versions</h2>
 <ul>
-<li>ROS names each version with an adjective and the name of a turtle species, both starting with the same letter.</li>
+<li>ROS names each version with an adjective and the name of a turtle species.</li>
 <li>Versions are usually referred to by the adjective only</li>
 <li>The versions increase alphabetically</li>
-<li>The latest stable version of ROS is <code>noetic</code>, which was released in May 2020.</li>
-<li><code>noetic</code> is the first version of ROS to support <code>python 3</code>, which is what we will use in this course.</li>
-<li><code>ROS2</code> is currently available, in parallel with <code>ROS 1</code>. It is not directly supported by many robots yet so we be sticking with ROS 1 for now; however, having a thorough understanding of ROS 1 will greatly facilitate you learning ROS 2.</li>
+<li>The latest stable version of ROS is <code>melodic</code></li>
+<li>The next version, <code>noetic</code> will be released in May 2020.</li>
+<li><code>noetic</code> will support <code>python 3</code> but we use <code>python 2</code> in this class because that is what <code>melodic</code> supports</li>
+<li><code>noetic</code> is the last scheduled ROS release. The current hope of the ROS developers appears to be that after <code>noetic</code> everyone will transition to <code>ROS2</code>.</li>
+<li><code>ROS2</code> is currently available, in parallel with <code>ROS 1</code>, but it is not quite ready for general use.</li>
 </ul>
 <h2 id="devices-that-we-own-that-run-ros-non-exhaustive">Devices that we own that run ROS (non-exhaustive)</h2>
-<h3 id="industrial-robots">Industrial Robots</h3>
 <ul>
 <li><a href="https://www.rethinkrobotics.com/sawyer">Rethink Sawyer</a></li>
 <li>Rethink Baxter Robot</li>
 <li><a href="https://clearpathrobotics.com/jackal-small-unmanned-ground-vehicle/">Clearpath Jackal</a></li>
-<li><a href="https://clearpathrobotics.com/ridgeback-indoor-robot-platform">Clearpath Ridgeback</a></li>
-<li><a href="https://www.turtlebot.com/turtlebot2">Turtlebot 2</a></li>
-</ul>
-<h3 id="your-robot-kit">Your Robot Kit</h3>
-<ul>
 <li><a href="https://www.robotis.us/turtlebot-3">Turtlebot 3</a></li>
-<li><a href="https://www.trossenrobotics.com/pincherx-100-robot-arm.aspx">PincherX 100</a></li>
+<li><a href="https://www.turtlebot.com/turtlebot2">Turtlebot 2</a></li>
 </ul>
 <h2 id="other-items-that-we-own-that-are-compatible-with-ros-non-exhaustive">Other items that we own that are compatible with ROS (non-exhaustive)</h2>
 <ul>
@@ -548,18 +545,30 @@ table td {
 <li><a href="https://www.hokuyo-aut.jp/">Hokuyo Laser Scanners</a></li>
 <li><a href="https://raspberrypi.org">RaspberryPi</a>, <a href="https://http://www.hardkernel.com/main/main.php">Odroid</a>, <a href="https://beagleboard.com/black">Beagle Bone Black</a>, <a href="https://developer.nvidia.com/buy-jetson">Jetson</a> - These are embedded computers.</li>
 </ul>
+<h1 id="installation">Installation</h1>
+<ol>
+<li>For this class you need to install the Desktop image of <a href="http://releases.ubuntu.com/18.04/">Ubuntu Linux 18.04 LTS</a> to run ROS.
+<ul>
+<li>Backup your system before installing Linux</li>
+</ul></li>
+<li>Install the Desktop-Full version of ROS melodic
+<ul>
+<li>Follow the instructions <a href="http://wiki.ros.org/melodic/Installation/Ubuntu">here</a></li>
+</ul></li>
+<li>If you need help with these steps please come to my office hours. More information is in the <a href="./lecture00_preliminaries.html">preliminaries</a> section.</li>
+</ol>
 <h1 id="ros-basics-1">ROS Basics</h1>
 <p>The ROS ecosystem consists of a collection of tools, software, and documentation. These are used to describe, implement, and inspect a ROS program, which consists of multiple processes (called <em>nodes</em>) that communicate with each other using inter-process communication.</p>
 <h2 id="documentation">Documentation</h2>
 <ul>
-<li><a href="https://wiki.ros.org">https://wiki.ros.org</a> - The ROS wiki should be your first stop for documentation. Some packages are better documented than others
+<li><a href="https://wiki.ros.org">https://wiki.ros.org</a> - The ROS wiki, this is the first stop for documentation. Some packages are better documented than others
 <ul>
 <li>The wiki contains a getting started overview here: <a href="https://wiki.ros.org/ROS/StartGuide">https://wiki.ros.org/ROS/StartGuide</a>.</li>
 </ul></li>
 <li><a href="https://answers.ros.org">https://answers.ros.org</a> - Ask questions about ROS. Often one of the developers will respond.</li>
 <li><a href="https://docs.ros.org">https://docs.ros.org</a> - Many packages wiki page have a "Code API" link that brings you to automatically generated API documentation for the package.</li>
 <li><a href="https://www.ros.org/reps/rep-0000.html">ROS Enhancement Proposals (REP)</a> - Documents ROS design decisions and best practices.</li>
-<li>External Documentation - sometimes the package itself has an external documentation website (often linked on the ROS wiki)</li>
+<li>External Documentation - sometimes the package itself has an external documentation website</li>
 <li>Some of the tools used in ROS are actually maintained separately from ROS and have their own documentation as well</li>
 <li>Part of this course is about learning how to use the documentation, so not all the answers will be provided in these notes or in lecture or these notes!</li>
 </ul>
@@ -698,6 +707,11 @@ then you should keep them in a single node.</li>
 </ul></li>
 </ol>
 <p>There is also a list of ROS design patterns <a href="https://wiki.ros.org/ROS/Patterns/">here.</a></p>
+<h1 id="activity">Activity</h1>
+<ul>
+<li><a href="./lecture00_preliminaries.html">Install Ubuntu Linux 18.04 LTS</a></li>
+<li><a href="./lecture00_preliminaries.html">Install ROS Melodic</a></li>
+</ul>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

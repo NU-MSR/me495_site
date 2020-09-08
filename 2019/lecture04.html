@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>Exploring the Baxter</title>
+<title>Launchfiles</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -203,7 +203,6 @@ pre, code, kbd, samp {
   font-family: monospace, monospace;
   _font-family: 'courier new', monospace;
   font-size: 0.98em;
-  line-height: normal;
 }
 
 .line-block {
@@ -458,7 +457,7 @@ table td {
 }
 
 
-</style> 
+</style>
 </head>
 <body>
 
@@ -466,20 +465,10 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#layers-of-the-robot">Layers of the Robot</a></li>
-<li><a href="#the-simulator">The Simulator</a>
-<ul>
-<li><a href="#experimenting">Experimenting</a></li>
+<li><a href="#launchfiles-and-ros">Launchfiles and ROS</a><ul>
+<li><a href="#using-roslaunch">Using roslaunch</a></li>
+<li><a href="#writing-a-launchfile">Writing a Launchfile</a></li>
 </ul></li>
-<li><a href="#exploring-the-ros-api">Exploring the ROS API</a></li>
-<li><a href="#starting-out">Starting Out</a>
-<ul>
-<li><a href="#tools">Tools</a></li>
-</ul></li>
-<li><a href="#moving-an-arm">Moving an Arm</a></li>
-<li><a href="#tips">Tips:</a></li>
-<li><a href="#exercise-1">Exercise:</a></li>
 </ul>
 </nav>
 
@@ -491,106 +480,68 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">Exploring the Baxter</h1>
+<h1 class="title">Launchfiles</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="overview">Overview</h1>
-<p>When approaching a robot for the first time, you must read documentation, read example source code, and perform experiments to become familiar with it's features. This document guides you in how to learn about Baxter, using the task of being able to move the robot arm to a desired location. The <a href="./lecture13_rethink.html">previous lecture</a> describes how to setup the robots and provides other reference material.</p>
-<h1 id="layers-of-the-robot">Layers of the Robot</h1>
-<p>There are three layers to Baxter:</p>
+<h1 id="launchfiles-and-ros">Launchfiles and ROS</h1>
+<ul>
+<li>ROS programs consist of many nodes communicating over topics and services</li>
+<li>For non-trivial programs, manually running nodes using <code>rosrun</code> becomes tedious and hard to reproduce</li>
+<li>Launchfiles solve this problem by enabling you to specify
+<ul>
+<li>Which nodes are run</li>
+<li>What parameters they use</li>
+<li>What topics are named</li>
+<li>and more!</li>
+</ul></li>
+</ul>
+<h2 id="using-roslaunch">Using roslaunch</h2>
+<ul>
+<li>The command-line tool for using launch files is <a href="https://wiki.ros.org/roslaunch">roslaunch</a>.</li>
+<li>There are two ways of invoking a launchfile:
 <ol>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Robot_Components">Physical Hardware</a></li>
-<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">ROS API</a>
-<ul>
-<li>Use ROS topics and services to directly control the robot</li>
-</ul></li>
-<li><a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Python API</a>
-<ul>
-<li>Python wrapper around many of the ROS topics and services</li>
-</ul></li>
-</ol>
-<p>For an overview see <a href="https://sdk.rethinkrobotics.com/wiki/Foundations">Foundations</a></p>
-<h1 id="the-simulator">The Simulator</h1>
-<ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Baxter_Simulator">The Baxter Simulator</a> provides a safe method of testing out ideas.</li>
-<li><code>roslaunch baxter_gazebo baxter_world.launch</code> to start the simulator</li>
+<li><code>roslaunch package file.launch [arg_name:=value]...</code> This method assumes you have sourced your <code>setup.bash</code></li>
+<li><code>roslaunch package /path/to/launch/file.launch [arg_name:=value...]</code> Here, the launch file at the given location is directly used.</li>
+</ol></li>
+<li>You can pass arguments to a launch file using the <code>arg_name:=value</code> syntax, which is shared with the remapping arguments syntax.</li>
+<li><code>roslaunch</code> automatically starts <code>roscore</code>, if it is not already running.</li>
 </ul>
-<h2 id="experimenting">Experimenting</h2>
-<ul>
-<li>Run <code>rostopic list</code> and <code>rosservice list</code>
-<ul>
-<li>Just by looking at these topics, the available features should start to be visible</li>
-</ul></li>
-<li>Run <code>rviz</code>, see if you can get a model of the robot visible.</li>
-</ul>
-<h1 id="exploring-the-ros-api">Exploring the ROS API</h1>
-<ul>
-<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">ROS API</a></li>
-</ul>
+<h3 id="roslaunch-options">Roslaunch options</h3>
 <ol>
-<li>Enable the robot: <code>rosrun baxter_tools enable.py -e</code></li>
-<li>From the <code>rostopic list</code> notice two topics: <code>/robot/limb/left/joint_control</code> and <code>/robot/limb/right/joint_control</code>
-<ul>
-<li>These topics are documented in the ROS API Documentation</li>
-</ul></li>
+<li><code>--nodes</code> shows the nodes that are launched by the launchfile</li>
+<li><code>--args</code> shows the arguments passed to run the nodes</li>
+<li><code>--ros-args</code> You can pass arguments to a launchfile (using <code>arg_name:=value</code>) to change the behavior of the launchfile. This flag shows all the possible arguments and their documentation.</li>
+<li><code>--files</code>: Launchfiles can include other launchfiles. This shows which launchfiles a given launchfile includes.</li>
+<li><code>--find /node</code>: Used to find which of the included launchfiles started the node with the given name.</li>
 </ol>
-<h1 id="starting-out">Starting Out</h1>
 <ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Foundations">Foundations</a> Baxter Foundations Page
+<li><code>roslaunch --help</code> provides more options</li>
+</ul>
+<h2 id="writing-a-launchfile">Writing a Launchfile</h2>
+<ol>
+<li><p>The <a href="http://wiki.ros.org/roslaunch/XML">Launchfile format</a> relies on XML along with a special enhanced substitution argument syntax.</p></li>
+<li><p>Launchfiles list nodes to be launched; however, the order in which they start is non-deterministic.</p></li>
+<li><p>Important Launchfile XML elements:</p>
 <ul>
-<li>Provides a Good Overview of What to Do</li>
+<li><p><a href="http://wiki.ros.org/XML/launch">&lt;launch&gt;</a> - the root element, every launchfile starts with this</p></li>
+<li><p><a href="http://wiki.ros.org/XML/node">&lt;node&gt;</a> - Used to run a node. Attributes:</p></li>
+<li><p><a href="http://wiki.ros.org/XML/include">&lt;include&gt;</a> - Lets you include a launchfile in another launchfile</p></li>
+<li><p><a href="http://wiki.ros.org/XML/remap">&lt;remap&gt;</a> - Used for <a href="http://wiki.ros.org/Remapping%20Arguments">Remapping arguments</a></p></li>
+<li><p><a href="http://wiki.ros.org/XML/param">&lt;param&gt;</a> - Sets an individual parameter on the parameter server</p></li>
+<li><p><a href="http://wiki.ros.org/XML/rosparam">&lt;rosparam&gt;</a> - Controls groups of parameters using <code>.yaml</code> files.</p></li>
+<li><p><a href="http://wiki.ros.org/XML/group">&lt;group&gt;</a> - Groups nodes together and allows you to easily apply common settings</p></li>
+<li><p><a href="http://wiki.ros.org/XML/arg">&lt;arg&gt;</a> - Used to specify arguments which can be used to change the behavior of the launchfile from the command-line</p></li>
 </ul></li>
-</ul>
-<h2 id="tools">Tools</h2>
-<ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Foundations#Baxter_SDK_Tools">Tools</a></li>
-<li><code>rosrun baxter_tools robot_enable.py</code> Used to enable/disable the robot
-<ul>
-<li>From the ROS API documentation, we can see what rostopics this tool uses</li>
-<li>You can also examine the source code (note that all source code is in your rethink workspace)</li>
-</ul></li>
-</ul>
-<p>-<a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Python API Reference</a> also has a method to enable/disable the robot ( see baxter_interface.robot_enable)</p>
-<h3 id="exercise">Exercise</h3>
-<ul>
-<li>Enable the robot, get its state, and disable the robot:
-<ul>
-<li><p>Using the <code>enable_robot.py</code> tool</p></li>
-<li><p>Using <code>rostopics</code></p></li>
-<li><p>Using python (code below to get you started)</p>
-<pre><code>import baxter_interface
-import rospy
-rospy.init_node(&quot;resetter&quot;)
-r = baxter_interface.robot_enable.RobotEnable()
-</code></pre></li>
-</ul></li>
-</ul>
-<h1 id="moving-an-arm">Moving an Arm</h1>
-<ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/API_Reference#Arm_Joints">ROS API: Arm Joints</a></li>
-<li>There are 4 joint control modes</li>
-<li>Send <code>/robot/limb/&lt;side&gt;/joint_command</code> messages to an enabled robot to move an arm</li>
-<li>The <a href="https://sdk.rethinkrobotics.com/wiki/Robot_Components">Components</a> page describes the hardware of the robot:
-<ul>
-<li>See <a href="https://sdk.rethinkrobotics.com/wiki/Arms">Arms</a> for the joint names (note: use lowercase and prefix with "left" or "right")</li>
-</ul></li>
-<li>Python API to move arm: <code>baxter_interface.Limb</code>
-<ul>
-<li>Create a Node</li>
-<li>Create a <code>Limb</code> object</li>
-</ul></li>
-</ul>
-<h1 id="tips">Tips:</h1>
-<ul>
-<li>You can use the source code for <code>baxter_interface</code> to help understand the meanings of some fields in messages, since it is just a thin wrapper around the ROS API</li>
-<li>For example, after creating a Limb object, <code>joint_names()</code> provides the name of each joint</li>
-</ul>
-<h1 id="exercise-1">Exercise:</h1>
-<ul>
-<li>Repeat the above with Sawyer</li>
-<li>Open and close the grippers using both ROS messages and the python API</li>
-</ul>
+<li><p>Substitution arguments: The following items can be used within attribute values to perform a computation and expand into the result of that computation The general syntax uses <code>$()</code> (just like bash substitution arguments. Within XML, a substitution argument would be used like <code>&lt;tag attribute ="$()" /&gt;</code>.</p>
+<p>A list of some possible substitution arguments is below:</p>
+<ol>
+<li><code>$(env ENVIRONMENT_VARIABLE)</code> Expands into the value of the environment variable</li>
+<li><code>$(find pkg)$</code> expands to the location of a given package. Useful for referencing a specific file in another package</li>
+<li><code>$(arg myarg)$ expands into the value of =myarg</code>, as specified by an <code>&lt;arg&gt;</code> element and passed in on the call to <code>roslaunch</code></li>
+<li><code>$(eval &lt;expression&gt;)</code> Run's python code and expands to the result</li>
+</ol></li>
+</ol>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

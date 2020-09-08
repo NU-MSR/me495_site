@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>ME495 Fall 2019: Lecture Notes</title>
+<title>ROS Lecture Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -203,6 +203,7 @@ pre, code, kbd, samp {
   font-family: monospace, monospace;
   _font-family: 'courier new', monospace;
   font-size: 0.98em;
+  line-height: normal;
 }
 
 .line-block {
@@ -457,38 +458,11 @@ table td {
 }
 
 
-</style>
+</style> 
 </head>
 <body>
 
 <!-- Sidebar for table of contents -->
-<nav id="TOC" role="doc-toc">
-<h3>Table of Contents</h3>
-<ul>
-<li><a href="#resources">Resources</a></li>
-<li><a href="#schedule">Schedule</a><ul>
-<li><a href="#tuesday-september-24">Tuesday September 24</a></li>
-<li><a href="#thursday-september-26">Thursday September 26</a></li>
-<li><a href="#tuesday-october-1">Tuesday October 1</a></li>
-<li><a href="#thursday-october-3">Thursday October 3</a></li>
-<li><a href="#tuesday-october-8">Tuesday October 8</a></li>
-<li><a href="#thursday-october-10">Thursday October 10</a></li>
-<li><a href="#tuesday-october-15">Tuesday October 15</a></li>
-<li><a href="#thursday-october-17">Thursday October 17</a></li>
-<li><a href="#tuesday-october-22">Tuesday October 22</a></li>
-<li><a href="#thursday-october-24">Thursday October 24</a></li>
-<li><a href="#tuesday-october-29">Tuesday October 29</a></li>
-<li><a href="#thursday-october-31-halloween">Thursday October 31 (Halloween)</a></li>
-<li><a href="#tuesday-november-5">Tuesday November 5</a></li>
-<li><a href="#thursday-november-7">Thursday November 7</a></li>
-<li><a href="#tuesday-november-12">Tuesday November 12</a></li>
-<li><a href="#thursday-november-14">Thursday November 14</a></li>
-<li><a href="#tuesday-november-19">Tuesday November 19</a></li>
-<li><a href="#thursday-november-21">Thursday November 21</a></li>
-</ul></li>
-<li><a href="#homework">Homework</a></li>
-</ul>
-</nav>
 
 <nav class="home_up">
   <a href="index.html">Home</a>
@@ -498,112 +472,14 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">ME495 Fall 2019: Lecture Notes</h1>
+<h1 class="title">ROS Lecture Notes</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="resources">Resources</h1>
 <ul>
-<li>The <a href="./syllabus.pdf">Syllabus</a></li>
+<li><p><a href="./lecture00_preliminaries.html">Preliminaries</a></p></li>
+<li><p><a href="https://nu-msr.github.com/me495_site/2019/">2019 Version (Reference for ROS melodic users)</a></p></li>
 </ul>
-<h1 id="schedule">Schedule</h1>
-<h2 id="tuesday-september-24">Tuesday September 24</h2>
-<ul>
-<li><a href="./lecture00_preliminaries.html">Preliminaries.</a> We will only briefy cover this in class, but you will</li>
-<li><a href="./lecture01_basics.html">ROS Basics</a> (This is the actual lecture).</li>
-</ul>
-<h2 id="thursday-september-26">Thursday September 26</h2>
-<ul>
-<li><a href="./lecture02_catkin.html">Catkin and Packages</a></li>
-</ul>
-<h2 id="tuesday-october-1">Tuesday October 1</h2>
-<ul>
-<li><a href="./lecture03_rospy_names.html">Rospy and Names</a></li>
-<li><a href="./homework01.html">Homework 1 Assigned</a> (Due October 8th).</li>
-</ul>
-<h2 id="thursday-october-3">Thursday October 3</h2>
-<ul>
-<li><a href="./lecture04_launch.html">Launchfiles</a></li>
-</ul>
-<h2 id="tuesday-october-8">Tuesday October 8</h2>
-<ul>
-<li><a href="./lecture05_tf.html">Transforms</a></li>
-<li><a href="./homework02.html">Homework 2</a> is due on Tuesday October 22nd</li>
-</ul>
-<h2 id="thursday-october-10">Thursday October 10</h2>
-<ul>
-<li><a href="./lecture06_modeling.html">Modeling Robots</a></li>
-</ul>
-<h2 id="tuesday-october-15">Tuesday October 15</h2>
-<ul>
-<li><a href="./lecture07_visual.html">Visualization Tools</a></li>
-<li>"Pair Programming" with markers challenge</li>
-</ul>
-<h2 id="thursday-october-17">Thursday October 17</h2>
-<ul>
-<li>Review of Homework 1 solution</li>
-</ul>
-<h2 id="tuesday-october-22">Tuesday October 22</h2>
-<ul>
-<li><a href="./lecture08_threads.html">Threads, Rospy, and you</a></li>
-<li>Homework 3 Part A assigned.
-<ol>
-<li>Use the provided link to clone the Homework-3A repository into your <code>ws/src/</code> directory.</li>
-<li>It starts with code from <a href="https://github.com/m-elwin/me495_threads">https://github.com/m-elwin/me495_threads</a></li>
-<li>You answer by modifying the provided README and code and pushing.</li>
-</ol></li>
-<li>Homework 3 is due on Tuesday Nov 5th (before class)</li>
-</ul>
-<h2 id="thursday-october-24">Thursday October 24</h2>
-<ul>
-<li><a href="./lecture09_gazebo.html">Simulation and Gazebo</a></li>
-</ul>
-<h2 id="tuesday-october-29">Tuesday October 29</h2>
-<ul>
-<li><a href="./lecture10_sdf_gazebo.html">Modeling for Gazebo</a></li>
-<li><a href="./homework03.html">Homework 3 part B</a> Due Nov 5</li>
-</ul>
-<h2 id="thursday-october-31-halloween">Thursday October 31 (Halloween)</h2>
-<ul>
-<li><a href="./lecture11_images.html">Image Processing and ROS</a></li>
-</ul>
-<h2 id="tuesday-november-5">Tuesday November 5</h2>
-<ul>
-<li><a href="./lecture12_navigation.html">Navigation</a></li>
-<li><a href="./homework04.html">Homework 4</a> Homework 4 is due Nov 19th</li>
-</ul>
-<h2 id="thursday-november-7">Thursday November 7</h2>
-<ul>
-<li>Meet in A275 for Introduction to Baxter/Sawyer</li>
-<li><a href="./lecture13_rethink.html">Baxter and Sawyer</a></li>
-<li><a href="./final_project.html">Final Project</a></li>
-</ul>
-<h2 id="tuesday-november-12">Tuesday November 12</h2>
-<ul>
-<li><a href="./lecture14_baxter_explore.html">Exploring Baxter</a></li>
-</ul>
-<h2 id="thursday-november-14">Thursday November 14</h2>
-<ul>
-<li><a href="./lecture16_best_practice.html">Git, Documentation, and Testing</a></li>
-</ul>
-<h2 id="tuesday-november-19">Tuesday November 19</h2>
-<ul>
-<li><a href="./lecture18_moveit.html">Introduction to MoveIt</a></li>
-</ul>
-<h2 id="thursday-november-21">Thursday November 21</h2>
-<ul>
-<li>Final Project Advising</li>
-<li>For reference: <a href="./lecture15_pointclouds.html">Point Clouds</a></li>
-</ul>
-<h1 id="homework">Homework</h1>
-<ol>
-<li>Not graded: You should have Linux and ROS installed by Thursday, September 26</li>
-<li><a href="./homework01.html">Homework 1</a> is due on Tuesday, October 8</li>
-<li><a href="./homework02.html">Homework 2</a> is due on Tuesday, October 22 (before class)</li>
-<li>Homework 3 part A assigned. All of homework 3 due Nov 5th</li>
-<li><a href="./homework03.html">Homework 3</a> Part B assigned. Due Nov 5th</li>
-<li><a href="./homework04.html">Homework 4</a> Homework 4 is due Nov 19th</li>
-</ol>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>Exploring the Baxter</title>
+<title>Point Clouds</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -203,7 +203,6 @@ pre, code, kbd, samp {
   font-family: monospace, monospace;
   _font-family: 'courier new', monospace;
   font-size: 0.98em;
-  line-height: normal;
 }
 
 .line-block {
@@ -466,20 +465,14 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#layers-of-the-robot">Layers of the Robot</a></li>
-<li><a href="#the-simulator">The Simulator</a>
+<li><a href="#point-clouds-1">Point Clouds</a></li>
+<li><a href="#devices-that-generate-point-clouds">Devices that Generate Point Clouds</a></li>
+<li><a href="#intel-realsense">Intel RealSense</a>
 <ul>
-<li><a href="#experimenting">Experimenting</a></li>
+<li><a href="#installation">Installation</a></li>
 </ul></li>
-<li><a href="#exploring-the-ros-api">Exploring the ROS API</a></li>
-<li><a href="#starting-out">Starting Out</a>
-<ul>
-<li><a href="#tools">Tools</a></li>
-</ul></li>
-<li><a href="#moving-an-arm">Moving an Arm</a></li>
-<li><a href="#tips">Tips:</a></li>
-<li><a href="#exercise-1">Exercise:</a></li>
+<li><a href="#pcl-in-python">PCL in Python</a></li>
+<li><a href="#demonstration">Demonstration</a></li>
 </ul>
 </nav>
 
@@ -491,106 +484,69 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">Exploring the Baxter</h1>
+<h1 class="title">Point Clouds</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="overview">Overview</h1>
-<p>When approaching a robot for the first time, you must read documentation, read example source code, and perform experiments to become familiar with it's features. This document guides you in how to learn about Baxter, using the task of being able to move the robot arm to a desired location. The <a href="./lecture13_rethink.html">previous lecture</a> describes how to setup the robots and provides other reference material.</p>
-<h1 id="layers-of-the-robot">Layers of the Robot</h1>
-<p>There are three layers to Baxter:</p>
-<ol>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Robot_Components">Physical Hardware</a></li>
-<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">ROS API</a>
+<h1 id="point-clouds-1">Point Clouds</h1>
 <ul>
-<li>Use ROS topics and services to directly control the robot</li>
-</ul></li>
-<li><a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Python API</a>
-<ul>
-<li>Python wrapper around many of the ROS topics and services</li>
-</ul></li>
-</ol>
-<p>For an overview see <a href="https://sdk.rethinkrobotics.com/wiki/Foundations">Foundations</a></p>
-<h1 id="the-simulator">The Simulator</h1>
-<ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Baxter_Simulator">The Baxter Simulator</a> provides a safe method of testing out ideas.</li>
-<li><code>roslaunch baxter_gazebo baxter_world.launch</code> to start the simulator</li>
+<li>A Point Cloud is a group of 3 dimensional coordinates (points) that constitute a discrete description of 3-dimensional objects.</li>
+<li>The <a href="https://pointclouds.org">point cloud library</a> contains routines for manipulating point clouds</li>
+<li><a href="https://wiki.ros.org/perception_pcl">perception pcl</a> ROS meta-package for point clouds</li>
+<li><a href="http://wiki.ros.org/pcl_ros/Tutorials">Point Cloud Tutorials</a></li>
 </ul>
-<h2 id="experimenting">Experimenting</h2>
+<h1 id="devices-that-generate-point-clouds">Devices that Generate Point Clouds</h1>
 <ul>
-<li>Run <code>rostopic list</code> and <code>rosservice list</code>
+<li>Lidars/Laser Scanners <a href="http://wiki.ros/org/velodyne">Velodyne</a> <a href="http://wiki.ros.node/urg_node">SCIP 2.2 laser range-finders</a></li>
+<li>Stereo Cameras</li>
+<li>Depth Cameras
 <ul>
-<li>Just by looking at these topics, the available features should start to be visible</li>
-</ul></li>
-<li>Run <code>rviz</code>, see if you can get a model of the robot visible.</li>
-</ul>
-<h1 id="exploring-the-ros-api">Exploring the ROS API</h1>
-<ul>
-<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">ROS API</a></li>
-</ul>
-<ol>
-<li>Enable the robot: <code>rosrun baxter_tools enable.py -e</code></li>
-<li>From the <code>rostopic list</code> notice two topics: <code>/robot/limb/left/joint_control</code> and <code>/robot/limb/right/joint_control</code>
-<ul>
-<li>These topics are documented in the ROS API Documentation</li>
-</ul></li>
-</ol>
-<h1 id="starting-out">Starting Out</h1>
-<ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Foundations">Foundations</a> Baxter Foundations Page
-<ul>
-<li>Provides a Good Overview of What to Do</li>
+<li><a href="http://www.intelrealsense.com">RealSense</a></li>
+<li><a href="http://wiki.ros.org/openni2_launch">opennni</a> (Like the Asus Xtion 2)</li>
+<li>Kinect for Box 360 using <a href="http://wiki.ros.org/freenect_launch">freenect_launch</a></li>
+<li>Kinect for Xbox One using <a href="https://github.com/code-iai/iai_kinect2">iai_kinect2</a></li>
 </ul></li>
 </ul>
-<h2 id="tools">Tools</h2>
+<h1 id="intel-realsense">Intel RealSense</h1>
+<h2 id="installation">Installation</h2>
 <ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Foundations#Baxter_SDK_Tools">Tools</a></li>
-<li><code>rosrun baxter_tools robot_enable.py</code> Used to enable/disable the robot
-<ul>
-<li>From the ROS API documentation, we can see what rostopics this tool uses</li>
-<li>You can also examine the source code (note that all source code is in your rethink workspace)</li>
-</ul></li>
-</ul>
-<p>-<a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Python API Reference</a> also has a method to enable/disable the robot ( see baxter_interface.robot_enable)</p>
-<h3 id="exercise">Exercise</h3>
-<ul>
-<li>Enable the robot, get its state, and disable the robot:
-<ul>
-<li><p>Using the <code>enable_robot.py</code> tool</p></li>
-<li><p>Using <code>rostopics</code></p></li>
-<li><p>Using python (code below to get you started)</p>
-<pre><code>import baxter_interface
-import rospy
-rospy.init_node(&quot;resetter&quot;)
-r = baxter_interface.robot_enable.RobotEnable()
+<li><p><a href="https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages">Official Instructions</a></p></li>
+<li><p>Condensed Instructions:</p>
+<pre><code>sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
+sudo add-apt-repository &quot;deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main&quot; -u
+sudo apt-get install librealsense2-dkms librealsense2-utils librealsense2-dev librealsense2-dbg
+# Plug In RealSense
+realsense-viewer
+# Make sure it is plugged into a USB 3 port!
+# The port type is shown in the upper left corner of the realsense viewer
 </code></pre></li>
+<li><p>Install the ROS Package</p>
+<ol>
+<li>RealSense is not released for melodic, so you will have to clone the repository and compile it yourself.</li>
+<li>You can use this <a href="./realsense.rosinstall">realsense.rosinstall</a> file
+<ul>
+<li>You will also need to install <code>ros-melodic-ddynamic-reconfigure</code></li>
+</ul></li>
+<li>We are accumulating quite a few packages that have not been released for <code>melodic</code>. How exactly you deal with this issue is a personal preference
+<ol>
+<li>Separate workspace for each group of packages (e.g., baxter, sawyer, realsense)</li>
+<li>All rosinstall files for these dependencies merged into a single workspace</li>
+<li>Add the individual dependencies to the rosinstall files of your individual projects</li>
+</ol>
+I usually combine 2 and 3 (so I have a workspace for all "third-party packages not released on melodic" and each project that depends on one of these packages has these dependencies provided in their <code>rosinstall</code> file, to make it easier for users to compile the code.</li>
+</ol></li>
+<li><p>To get pointclouds: <code>roslaunch realsense2_camera rs_camera.launch filters: = pointcloud</code></p>
+<ul>
+<li>Visualize in Rviz</li>
 </ul></li>
 </ul>
-<h1 id="moving-an-arm">Moving an Arm</h1>
+<h1 id="pcl-in-python">PCL in Python</h1>
 <ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/API_Reference#Arm_Joints">ROS API: Arm Joints</a></li>
-<li>There are 4 joint control modes</li>
-<li>Send <code>/robot/limb/&lt;side&gt;/joint_command</code> messages to an enabled robot to move an arm</li>
-<li>The <a href="https://sdk.rethinkrobotics.com/wiki/Robot_Components">Components</a> page describes the hardware of the robot:
-<ul>
-<li>See <a href="https://sdk.rethinkrobotics.com/wiki/Arms">Arms</a> for the joint names (note: use lowercase and prefix with "left" or "right")</li>
-</ul></li>
-<li>Python API to move arm: <code>baxter_interface.Limb</code>
-<ul>
-<li>Create a Node</li>
-<li>Create a <code>Limb</code> object</li>
-</ul></li>
+<li>You can install python bindings for pcl using pip (<code>pip install python-pcl</code>)</li>
+<li>Currently, there are some <a href="https://github.com/strawlab/python-pcl/issues/296">issues</a> installing this on Ubuntu 18.04</li>
 </ul>
-<h1 id="tips">Tips:</h1>
-<ul>
-<li>You can use the source code for <code>baxter_interface</code> to help understand the meanings of some fields in messages, since it is just a thin wrapper around the ROS API</li>
-<li>For example, after creating a Limb object, <code>joint_names()</code> provides the name of each joint</li>
-</ul>
-<h1 id="exercise-1">Exercise:</h1>
-<ul>
-<li>Repeat the above with Sawyer</li>
-<li>Open and close the grippers using both ROS messages and the python API</li>
-</ul>
+<h1 id="demonstration">Demonstration</h1>
+<p>The following code demonstrates using some basic pcl "nodelets". Nodelets are essentially ROS nodes that can all be run in a single process to reduce communication overhead. The <a href="https://github.com/NU-MSR/nodelet_pcl_demo">Nodelet PCL demo</a> shows you how to combine several built-in nodelets to filter point cloud data. There is then a C++ node that uses the point cloud library (PCL) to perform additional processing.</p>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

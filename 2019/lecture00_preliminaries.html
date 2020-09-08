@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>Exploring the Baxter</title>
+<title>Preliminaries</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -203,7 +203,6 @@ pre, code, kbd, samp {
   font-family: monospace, monospace;
   _font-family: 'courier new', monospace;
   font-size: 0.98em;
-  line-height: normal;
 }
 
 .line-block {
@@ -466,20 +465,14 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#layers-of-the-robot">Layers of the Robot</a></li>
-<li><a href="#the-simulator">The Simulator</a>
+<li><a href="#overview">Overview</a>
 <ul>
-<li><a href="#experimenting">Experimenting</a></li>
+<li><a href="#installing-ubuntu-18.04-lts">Installing Ubuntu 18.04 LTS</a></li>
+<li><a href="#installing-ros">Installing ROS</a></li>
+<li><a href="#linux">Linux</a></li>
+<li><a href="#python-programming">Python Programming</a></li>
+<li><a href="#git">Git</a></li>
 </ul></li>
-<li><a href="#exploring-the-ros-api">Exploring the ROS API</a></li>
-<li><a href="#starting-out">Starting Out</a>
-<ul>
-<li><a href="#tools">Tools</a></li>
-</ul></li>
-<li><a href="#moving-an-arm">Moving an Arm</a></li>
-<li><a href="#tips">Tips:</a></li>
-<li><a href="#exercise-1">Exercise:</a></li>
 </ul>
 </nav>
 
@@ -491,105 +484,36 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">Exploring the Baxter</h1>
+<h1 class="title">Preliminaries</h1>
 </header>
 
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
-<p>When approaching a robot for the first time, you must read documentation, read example source code, and perform experiments to become familiar with it's features. This document guides you in how to learn about Baxter, using the task of being able to move the robot arm to a desired location. The <a href="./lecture13_rethink.html">previous lecture</a> describes how to setup the robots and provides other reference material.</p>
-<h1 id="layers-of-the-robot">Layers of the Robot</h1>
-<p>There are three layers to Baxter:</p>
+<h2 id="installing-ubuntu-18.04-lts">Installing Ubuntu 18.04 LTS</h2>
 <ol>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Robot_Components">Physical Hardware</a></li>
-<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">ROS API</a>
-<ul>
-<li>Use ROS topics and services to directly control the robot</li>
-</ul></li>
-<li><a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Python API</a>
-<ul>
-<li>Python wrapper around many of the ROS topics and services</li>
-</ul></li>
+<li>Backup your system</li>
+<li><a href="https://ubuntu.com/download/desktop">Install Ubuntu 18.0.4 LTS</a></li>
 </ol>
-<p>For an overview see <a href="https://sdk.rethinkrobotics.com/wiki/Foundations">Foundations</a></p>
-<h1 id="the-simulator">The Simulator</h1>
-<ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Baxter_Simulator">The Baxter Simulator</a> provides a safe method of testing out ideas.</li>
-<li><code>roslaunch baxter_gazebo baxter_world.launch</code> to start the simulator</li>
-</ul>
-<h2 id="experimenting">Experimenting</h2>
-<ul>
-<li>Run <code>rostopic list</code> and <code>rosservice list</code>
-<ul>
-<li>Just by looking at these topics, the available features should start to be visible</li>
-</ul></li>
-<li>Run <code>rviz</code>, see if you can get a model of the robot visible.</li>
-</ul>
-<h1 id="exploring-the-ros-api">Exploring the ROS API</h1>
-<ul>
-<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">ROS API</a></li>
-</ul>
+<h2 id="installing-ros">Installing ROS</h2>
 <ol>
-<li>Enable the robot: <code>rosrun baxter_tools enable.py -e</code></li>
-<li>From the <code>rostopic list</code> notice two topics: <code>/robot/limb/left/joint_control</code> and <code>/robot/limb/right/joint_control</code>
-<ul>
-<li>These topics are documented in the ROS API Documentation</li>
-</ul></li>
+<li><a href="http://wiki.ros.org/melodic/Installation/Ubuntu">Install ROS Melodic</a></li>
+<li>Be sure to <code>source /opt/ros/melodic/setup.bash</code> in your <code>.bashrc</code></li>
 </ol>
-<h1 id="starting-out">Starting Out</h1>
+<h2 id="linux">Linux</h2>
 <ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Foundations">Foundations</a> Baxter Foundations Page
-<ul>
-<li>Provides a Good Overview of What to Do</li>
-</ul></li>
+<li><a href="http://robotics.mech.northwestern.edu/~elwin/linux_interactive.html">My introduction to Linux</a></li>
 </ul>
-<h2 id="tools">Tools</h2>
+<h2 id="python-programming">Python Programming</h2>
 <ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Foundations#Baxter_SDK_Tools">Tools</a></li>
-<li><code>rosrun baxter_tools robot_enable.py</code> Used to enable/disable the robot
-<ul>
-<li>From the ROS API documentation, we can see what rostopics this tool uses</li>
-<li>You can also examine the source code (note that all source code is in your rethink workspace)</li>
-</ul></li>
+<li>ROS Melodic only officially supports python 2, so unfortunately we are stuck with that.</li>
+<li><a href="http://robotics.mech.northwestern.edu/~elwin/python_intro.html">My Brief Introduction To Python</a></li>
+<li><a href="https://www.python.org/dev/peps/pep-0008/">Try to adhere to the PEP8 style guide</a></li>
+<li><a href="https://github.com/google/styleguide/blob/gh-pages/pyguide.md">Google Style Guide</a> (Especially good for docstring format)</li>
 </ul>
-<p>-<a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Python API Reference</a> also has a method to enable/disable the robot ( see baxter_interface.robot_enable)</p>
-<h3 id="exercise">Exercise</h3>
+<h2 id="git">Git</h2>
 <ul>
-<li>Enable the robot, get its state, and disable the robot:
-<ul>
-<li><p>Using the <code>enable_robot.py</code> tool</p></li>
-<li><p>Using <code>rostopics</code></p></li>
-<li><p>Using python (code below to get you started)</p>
-<pre><code>import baxter_interface
-import rospy
-rospy.init_node(&quot;resetter&quot;)
-r = baxter_interface.robot_enable.RobotEnable()
-</code></pre></li>
-</ul></li>
-</ul>
-<h1 id="moving-an-arm">Moving an Arm</h1>
-<ul>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/API_Reference#Arm_Joints">ROS API: Arm Joints</a></li>
-<li>There are 4 joint control modes</li>
-<li>Send <code>/robot/limb/&lt;side&gt;/joint_command</code> messages to an enabled robot to move an arm</li>
-<li>The <a href="https://sdk.rethinkrobotics.com/wiki/Robot_Components">Components</a> page describes the hardware of the robot:
-<ul>
-<li>See <a href="https://sdk.rethinkrobotics.com/wiki/Arms">Arms</a> for the joint names (note: use lowercase and prefix with "left" or "right")</li>
-</ul></li>
-<li>Python API to move arm: <code>baxter_interface.Limb</code>
-<ul>
-<li>Create a Node</li>
-<li>Create a <code>Limb</code> object</li>
-</ul></li>
-</ul>
-<h1 id="tips">Tips:</h1>
-<ul>
-<li>You can use the source code for <code>baxter_interface</code> to help understand the meanings of some fields in messages, since it is just a thin wrapper around the ROS API</li>
-<li>For example, after creating a Limb object, <code>joint_names()</code> provides the name of each joint</li>
-</ul>
-<h1 id="exercise-1">Exercise:</h1>
-<ul>
-<li>Repeat the above with Sawyer</li>
-<li>Open and close the grippers using both ROS messages and the python API</li>
+<li><a href="http://robotics.mech.northwestern.edu/~elwin/git_intro.html">MSR Hackathon Git Introduction</a></li>
+<li><a href="https://git-scm.com/book/en/v2">Git-SCM Book</a> - I highly recommend reading at least the first 3 chapters.</li>
 </ul>
 </div>
 <div class="footer">
