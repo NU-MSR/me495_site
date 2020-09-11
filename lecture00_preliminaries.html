@@ -525,7 +525,7 @@ sudo apt install /tmp/librealsense.deb
 <pre><code>source /opt/ros/noetic/setup.bash
 mkdir -p ~/nuws/src
 cd ~/nuws/src
-vcs import --input https://nu-msr.github.io/me495_site/nuws.repos
+vcs import --input https://nu-msr.github.io/me495_site/nuws.repo
 cd ~/nuws
 rosdep install --from-paths src --ignore-src -r -y
 catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo 
