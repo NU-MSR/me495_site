@@ -544,6 +544,9 @@ catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo
 </ul></li>
 </ol>
 <h3 id="building-librealsense">Building librealsense</h3>
+<ul>
+<li><strong>NOTE</strong> You do not need to perform these steps. This is a description of how I created <code>librealsense.deb</code></li>
+</ul>
 <p>For reference, here are the steps I used to build <code>librealsense</code> I also use <code>checkinstall</code> as a quick hack for creating <code>.deb</code> packages from the results. I do not recommend this approach: <code>checkinstall</code> can <a href="https://bugs.launchpad.net/ubuntu/+source/checkinstall/+bug/909859">completely destroy your system</a>. You need not follow any of these steps if you downloaded the binary provided by me. Compile the library</p>
 <pre><code>git clone https://github.com/IntelRealSense/librealsense.git
 cd librealsense
