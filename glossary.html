@@ -1,0 +1,806 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<title>ROS Glossary</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#ros-concepts">ROS Concepts</a></li>
+<li><a href="#ros-utilities">ROS Utilities</a></li>
+<li><a href="#ros-packages">ROS Packages</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">ROS Glossary</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="ros-concepts">ROS Concepts</h1>
+<dl>
+<dt><a href="http://wiki.ros.org/actionlib#Overview">action</a></dt>
+<dd><p>A <em>service</em> that can be interrupted prior to completion.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/Bags">bag</a></dt>
+<dd><p>A file that contains recorded topic data. See <em>rosbag</em></p>
+</dd>
+<dt>callback</dt>
+<dd><p>A function that is called whenever an event occurs. Events in ROS occur when a <em>subscriber</em> receives a message/ over a <em>topic</em>, a <em>timer</em> expires, or a <em>service</em> returns.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/catkin">catkin</a></dt>
+<dd><p>This build system for ROS, used to generate code from <em>message</em> definitions, compile C++ code into binary form, define package installation instructions, and run unit tests.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/Client%2520Libraries">client libraries</a></dt>
+<dd><p>Programming language specific libraries that enable code to interact with ROS through concepts such as <em>nodes</em>, <em>parameters</em>, <em>publishers</em>, <em>subscribers</em>, etc. The two primary client libraries are <em><a href="http://wiki.ros.org/rospy">rospy</a></em> (for python) and <em><a href="http://wiki.ros.org/roscpp">roscpp</a></em> (for C++).</p>
+</dd>
+<dt><a href="http://wiki.ros.org/ROS/Concepts#ROS_Computation_Graph_Level">computation graph</a></dt>
+<dd><p>A network containing all ROS processes and their interconnections. Consists of <em>nodes</em>, the <em>master</em> the <em>parameter server</em>, <em>messages</em>, <em>services</em>, <em>topics</em>, and <em>bags</em>.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/catkin/CMakeLists.txt">CMakeLists.txt</a></dt>
+<dd><p>Part of the <a href="https://www.cmake.org">CMake</a> build system which describes how a package should be built and installed. Much of <em>catkin</em> is implemented using <em>CMake</em> and every ROS package has a <em>CMakeLists.txt</em> which is used to control the build process.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/ROS/EnvironmentVariables">environment variables</a></dt>
+<dd><p>Variables stored by the shell. ROS uses several of these to determine where to find packages. They are typically set in <em>setup.bash</em> (for bash) and /setup.zsh) for zsh.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/roslaunch">launching</a></dt>
+<dd><p>A <em>launch</em> file along with the command line tool <em>roslaunch</em> allow you to perform many ROS operations with a single command. You can set <em>parameters</em>, run <em>nodes</em>, include other launch files, parse command line arguments, and more.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/rospy/Overview/Publishers%20and%20Subscribers#rospy.Publisher_initialization">latching</a></dt>
+<dd><p>When a publisher is created, if it is set to <em>latch</em>, then every time a new subscriber to that publisher's topic is created, it will automatically receive a copy of the last message that was published on that topic. This feature can be useful for topics that are only published occasionally (like map data or status indicators).</p>
+</dd>
+<dt><a href="http://wiki.ros.org/rospy/Overview/Logging">logging</a></dt>
+<dd><p>ROS has a special mechanism for storing, sorting, filtering, etc. messages that are printed to the terminal from running nodes. Logs are created from messages published to the <em><a href="http://wiki.ros.org/rosout">rosout</a></em> topic, using ROS logging statements instead of standard print statements. Log files can be sorted and searched in real-time via <a href="http://wiki.ros.org/rqt_console"><em>rqt<sub>console</sub></em></a>, and they can be parsed/searched manually by looking in the '~/.ros/log/' directory. Use <em>rosclean</em> to clear old log files.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/Manifest">manifest</a></dt>
+<dd><p>Alternative name for <em>package.xml</em>. The original build system in ROS was called <em>rosbuild</em> and it used <em>manifest.xml</em> files to identify packages. When the build system switched to <em>catkin</em> the file changed names as well.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/Master">master</a></dt>
+<dd><p>The <em>master</em> is a ROS process that helps <em>nodes</em> locate each other and establish communication channels based on their <em>publisher</em> <em>subscriber</em> relationships and any <em>services</em>. The <em>master</em> also manages the <em>parameter</em> server. The master is typically started through the <em>roscore</em> command-line tool, or it is automatically started via a <em>roslaunch</em> call.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/msg">message</a></dt>
+<dd><p>A <em>.msg</em> file defines the contents of a ROS <em>message</em> using a simple text description format. A <em>message</em> is a data structure that is communicated over a ROS topic. Packages containing <em>.msg</em> files must add commands in their <em>CMakeLists.txt</em> that cause the <em>.msg</em> files to be converted to language-specific implementations which can then included in your ROS nodes (using <code>import</code> in python and <code>#include</code> in C++).</p>
+<dl>
+<dt><a href="http://wiki.ros.org/Metapackages">metapackage</a></dt>
+<dd><p>A package used for grouping other packages by declaring them as dependencies. Formerly and colloquially referred to as <em>stacks</em> (e.g. "the navigation stack").</p>
+</dd>
+<dt><a href="http://wiki.ros.org/Names">names</a></dt>
+<dd><p>All elements in the <a href="http://wiki.ros.org/ROS/Concepts#ROS_Computation_Graph_Level">ROS computation graph</a> (nodes, services, topics, parameters, etc.) must have a valid <em>graph resource name</em>. The <em>master</em> uses these names when forming connections, and they are an important part of how simple systems can scale up to complex systems through encapsulation.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/Nodes">node</a></dt>
+<dd><p>A process that, when run, registers itself with the ROS master and serves as the basic unit of computation in ROS. Nodes communicate with each other via <em>topics</em>, <em>services</em>, and <em>parameters</em>.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/Packages">package</a></dt>
+<dd><p>A collection of source code, configuration files, and other resources that implements functionality in ROS. By dividing related functionality into packages, it can be shared with others and reused across projects. All packages must have a <em>package.xml</em> file defining its <em>manifest</em>.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/catkin/package.xml">package.xml</a></dt>
+<dd><p>A file that must be included in the root directory of any ROS package. The file declares the package name, dependencies, version number, author, and other meta information.</p>
+</dd>
+</dl>
+</dd>
+<dt><a href="http://wiki.ros.org/Parameter%2520Server">parameters</a></dt>
+<dd><p>Globally accessible variables (all nodes can see them) typically containing configuration information or calibration data. They are set and retrieved via the <em>parameter server</em> run by <em>roscore</em>.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/rospy/Overview/Publishers%2520and%2520Subscribers">publisher</a></dt>
+<dd><p>Nodes use <em>publishers</em> to send or "publish" data, on a particular <em>topic</em>.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/Remapping%2520Arguments">remapping</a></dt>
+<dd><p>Many ROS <em>names</em> such as <em>topics</em>, <em>services</em>, and <em>parameters</em> can be changed at runtime, allowing multiple nodes of the same type to communicate over different topic names and nodes to be reused in different projects</p>
+</dd>
+<dt><a href="http://wiki.ros.org/rosbuild">rosbuild</a></dt>
+<dd><p>An old build-system for ROS that was replaced by <em>catkin</em> in ROS Groovy (back in 2012)</p>
+</dd>
+<dt><a href="http://wiki.ros.org/Services">service</a></dt>
+<dd><p>Request-reply communication between nodes, defined by <em>.srv</em> files.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/rosbuild/Stacks">stack</a></dt>
+<dd><p>A <em>stack</em> is an older term for what are now called <em>metapackages</em></p>
+</dd>
+<dt><a href="http://wiki.ros.org/rospy/Overview/Publishers%2520and%2520Subscribers">subscriber</a></dt>
+<dd><p>Nodes use <em>subscribers</em> to listen to data being <em>published</em> on topics. A <em>callback</em> is issued whenever a new message arrives.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/tf">tf</a></dt>
+<dd><p>A compatibility layer built on top of <em>tf2</em> for tracking coordinate systems in ROS.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/tf2">tf2</a></dt>
+<dd><p>The package used to track coordinate systems and transformations in ROS.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/rospy/Overview/Time">time</a></dt>
+<dd><p>ROS has built-in primitives for defining the current ROS time. Often messages are timestamped, and this can be an important for "synchronizing" portions of your system.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/rospy/Overview/Time#Timer">timer</a></dt>
+<dd><p>Timers are used to run callbacks at a specified frequency.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/Topics">topic</a></dt>
+<dd><p>A <em>topic</em> is a <em>named</em> channel over which <em>nodes</em> communicate <em>messages</em>. Topics facilitate a one-to-many or many-to-many communication. One or more <em>publishers</em> send messages to a <em>topic</em> and one or more <em>subscribers</em> receive these messages and call a callback function.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/urdf">URDF</a></dt>
+<dd><p>The "Universal Robot Description Format" (of course it is not universal as it cannot describe closed chain robots). This is an XML schema that defines a standard for describing robot models, sensors, environments, etc.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/catkin/workspaces">workspace</a></dt>
+<dd><p>A directory where you develop, compile, and install <em>catkin</em> packages. Typically a user will work out of a single workspace, but workspaces allow chaining/overlaying so that you can combine packages in several different workspaces in varying ways to create different "effective-workspace" configurations.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/xacro">xacro</a></dt>
+<dd><p>Most real-world URDFs are built using <code>xacro</code>, an XML macro language. <code>xacro</code> files enables you to use variables, math, and other constructs to generate an XML file.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/YAML%2520Overview">YAML</a></dt>
+<dd><p>YAML is a "markup language" for defining dictionary-like data (e.g., key-value pairs) ROS uses YAML files for defining many parameters and configurations. YAML syntax is also used in command-line options for several ROS tools.</p>
+</dd>
+</dl>
+<h1 id="ros-utilities">ROS Utilities</h1>
+<p>This is a list of tools I commonly use.</p>
+<dl>
+<dt><a href="http://wiki.ros.org/ROS/Tutorials/CreatingPackage#ROS.2BAC8-Tutorials.2BAC8-catkin.2BAC8-CreatingPackage.Creating_a_catkin_Package">catkin<sub>createpkg</sub></a></dt>
+<dd><p>Automatically create a new directory with a template <em>CMakeLists.txt</em> and <em>package.xml</em> – the two files required by all ROS packages. Allows you to list dependencies and have them automatically be filled out in the <em>package.xml</em>.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/catkin/commands/catkin_make">catkin<sub>make</sub></a></dt>
+<dd><p>Builds targets contained in a workspace. Must be executed from the root of the workspace. This is the simplest and fastest ROS build tool but it builds all packages as a single CMake project which often leads to difficulties.</p>
+</dd>
+<dt><a href="https://www.ros.org/reps/rep-0134.html">catkin<sub>makeisolated</sub></a></dt>
+<dd><p>Builds each package in your workspace as a separate CMake project. This also allows including non-catkin CMake project in the workspace.</p>
+</dd>
+<dt><a href="https://catkin-tools.readthedocs.io/en/latest/">catkin<sub>tools</sub></a></dt>
+<dd><p>The ROS build tool that is still in "beta", but works quiet well. It has the nicest interface of all the <em>catkin</em> build tools.</p>
+</dd>
+<dt><a href="https://github.com/fkie/catkin_lint">catkin<sub>lint</sub></a></dt>
+<dd><p>A tool for finding issues with catkin <em>package.xml</em> and <em>CMakeLists.txt</em> files.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/vcstool">vcstool</a></dt>
+<dd><p>This command/package is used for updating and installing multiple source-code-based packages into a workspace.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/rosservice">rosservice</a></dt>
+<dd><p>This can be used for listing and calling <em>services</em></p>
+<dl>
+<dt><a href="http://wiki.ros.org/rosbag/Commandline">rosbag</a></dt>
+<dd>This is a command line tool for creating, analyzing, playing, etc., bag files
+</dd>
+</dl>
+</dd>
+<dt><a href="http://wiki.ros.org/rosinstall_generator">rosinstall<sub>generator</sub></a></dt>
+<dd><p>Used for creating <em>rosinstall</em> files which can then be read by <em>vcstool</em> to enable compiling a workspace and its dependencies from source.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/rosmsg">rosmsg</a></dt>
+<dd>Display information about messages including message definitions, packages using a message, and the messages defined in a package.
+</dd>
+<dt><a href="http://wiki.ros.org/rosmsg#rossrv">rossrv</a></dt>
+<dd>Display information about services including service definitions, packages using a service, and the services defined in a package.
+</dd>
+<dt><a href="http://docs.ros.org/independent/api/rosdep/html/">rosdep</a></dt>
+<dd>Used for installing system dependencies for ROS packages. Can be used across many different Linux distributions
+</dd>
+<dt><a href="http://wiki.ros.org/roslaunch">roslaunch</a></dt>
+<dd>When called with a <em><a href="http://wiki.ros.org/roslaunch/XML">.launch</a></em> file, starts many nodes at once, sets parameters, automatically respawns crashed nodes, and automatically start <em>master</em>.
+</dd>
+<dt><a href="http://wiki.ros.org/rosbash#roscd">roscd</a></dt>
+<dd>Change directory to the location of a package/metapackage using just the package name.
+</dd>
+<dt><a href="http://wiki.ros.org/rosnode">rosnode</a></dt>
+<dd>Control and display information about running nodes. It can list nodes, kill nodes, display topic and parameter information for a particular node, and more.
+</dd>
+<dt><a href="http://wiki.ros.org/rosclean">rosclean</a></dt>
+<dd>Used for checking disk usage and clearing out ROS log files.
+</dd>
+<dt><a href="http://docs.ros.org/independent/api/rospkg/html/rospack.html">rospack</a></dt>
+<dd>Displays information about packages, and it is used by catkin for determining information about packages.
+</dd>
+<dt><a href="http://wiki.ros.org/rostopic">rostopic</a></dt>
+<dd>Display debug information about ROS <em>topics</em> including publishers, subscribers, frequency, and raw values.
+</dd>
+<dt><a href="http://wiki.ros.org/rosparam">rosparam</a></dt>
+<dd>List, get, and set <em>parameters</em>
+</dd>
+<dt><a href="http://wiki.ros.org/roscore">roscore</a></dt>
+<dd>Start the <em>master</em> and the parameter server.
+</dd>
+<dt><a href="http://wiki.ros.org/rosbash#roscp">roscp</a></dt>
+<dd>Copy files from ROS packages
+</dd>
+<dt><a href="http://wiki.ros.org/ROS/Tutorials/UsingRosEd">rosed</a></dt>
+<dd>Used to automatically open ROS files from a given ROS package in a text editor
+</dd>
+<dt><a href="http://wiki.ros.org/rosbash#rosls">rosls</a></dt>
+<dd>View contents of a package/metapackage or location
+</dd>
+<dt><a href="http://wiki.ros.org/rosbash#rosrun">rosrun</a></dt>
+<dd>Start a nodes.
+</dd>
+<dt><a href="http://wiki.ros.org/roswtf">roswtf</a></dt>
+<dd>Diagnosing common issues with a ROS system.
+</dd>
+<dt><a href="http://wiki.ros.org/rqt">rqt</a></dt>
+<dd>A Qt-based framework for GUI development in ROS. The <a href="http://wiki.ros.org/rqt_common_plugins">rqt<sub>commonplugins</sub></a> metapackage provides many pre-made ROS GUIs that are great for working with ROS. Built in tools include bagfile plotting, playing, and recording, visualization of the <code>/tf</code> tree, image stream viewers but you can also create ;your own GUI tools
+</dd>
+<dt><a href="http://wiki.ros.org/rviz">rviz</a></dt>
+<dd><p>The primary 3D visualization tool used in ROS.</p>
+</dd>
+</dl>
+<h1 id="ros-packages">ROS Packages</h1>
+<p>This is a brief list of packages and non-ros libraries that you may encounter.</p>
+<dl>
+<dt><a href="https://arma.sourceforge.net">armadillo</a></dt>
+<dd>This is a C++ matrix library that works as a front-end to standardized linear algebra code.
+</dd>
+</dl>
+<dl>
+<dt><a href="http://bulletphysics.org/wordpress/">bullet</a></dt>
+<dd><p>Bullet is a non-ROS physics library that is a system dependency of ROS that is used in many of the geometric calculations done in <code>tf</code>. It's python version <a href="https://pybullet.org/wordpress">pybullet</a> is a popular simulation engine in the machine learning community and is the way that most people interact with bullet currently.</p>
+<dl>
+<dt><a href="http://wiki.ros.org/camera_calibration">camera<sub>calibration</sub></a></dt>
+<dd>This is a ROS package that allows easy calibration of monocular and stereo cameras using a checkerboard pattern.
+</dd>
+<dt><a href="http://wiki.ros.org/cv_bridge">cv<sub>bridge</sub></a></dt>
+<dd><code>cv_bridge</code> is part of the <code>vision_opencv</code> metapackage. It allows conversions between ROS image formats and OpenCV image formats.
+</dd>
+<dt><a href="http://wiki.ros.org/dynamic_reconfigure">dynamic<sub>reconfigure</sub></a></dt>
+<dd><p>Provides a mechanism for changing a variety of node configurations without having to restart the node.</p>
+</dd>
+<dt><a href="http://eigen.tuxfamily.org/">eigen</a></dt>
+<dd><p>Eigen is a C++ template library for linear algebra, matrix math, etc. It is a system dependency of ROS, and many core ROS packages use Eigen for computation. It is probably the most popular C++ matrix library; however, I find <em>armadillo</em> to have a cleaner syntax and more versatile since it directly uses BLAS and LAPACK instead of being a complete re-implementation.</p>
+</dd>
+<dt><a href="http://gazebosim.org/">gazebo</a></dt>
+<dd><p>Gazebo is a standalone robotics simulation tool that is developed by OSRF. It is designed to integrate nicely with ROS, and ROS provides <a href="http://wiki.ros.org/gazebo_ros_pkgs">several tools</a> for the interface.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/geometry_msgs">geometry<sub>msgs</sub></a></dt>
+<dd><p>Contains a collection of ROS message definitions for common geometric primitives such as points, vectors, and quaternions.</p>
+</dd>
+<dt><a href="http://wiki.ros.org/image_pipeline">image<sub>pipeline</sub></a></dt>
+<dd>The packages contained in this metapackage are designed to fill in the gap between a camera driver and an image processing node. The nodes in these packages implement algorithms that are extremely common in image processing so that you don't have to. Capabilities include rectifying distorted images, generating disparity maps, and converting color images to grayscale. The idea is to chain the topics of these nodes together so the final output image that you receive has already gone through basic processing steps.
+</dd>
+<dt><a href="http://wiki.ros.org/image_transport">image<sub>transport</sub></a></dt>
+<dd>Supports transparent compression of images. Quoting from their Overview: <em>When working with images we often want specialized transport strategies, such as using image compression or streaming video codecs. <code>image_transport</code> provides classes and nodes for transporting images in arbitrary over-the-wire representations, while abstracting this complexity so that the developer only sees sensor<sub>msgs</sub>/Image messages.</em>
+</dd>
+<dt><a href="http://wiki.ros.org/joystick_drivers">joystick<sub>drivers</sub></a></dt>
+<dd>A metapackage that provides tools for working with a variety of joysticks and game controllers (PS3, XBox, wiimote, etc.).
+</dd>
+<dt><a href="http://www.orocos.org/kdl">kdl</a></dt>
+<dd>KDL stands for "Kinematics and Dynamics Library" and is part of the Orocos project. Several ROS tools, most notably <code>MoveIt!</code>, rely heavily on KDL for geometric computation.
+</dd>
+<dt><a href="http://moveit.ros.org/">MoveIt!</a></dt>
+<dd>MoveIt! is the primary package for path planning and manipulation in ROS.
+</dd>
+<dt><a href="http://wiki.ros.org/navigation">navigation</a></dt>
+<dd>This is a metapackage that enables safe 2D navigation of mobile robots. It includes tools for estimation, localization, and planning.
+</dd>
+<dt><a href="http://wiki.ros.org/nodelet">nodelet</a></dt>
+<dd><p>Allows multiple nodes to share memory with a zero copy transport between them by running them in the same process. Nodelets are extremely useful when working with message types that have a significant memory footprint such as <a href="http://docs.ros.org/api/sensor_msgs/html/msg/Image.html">sensor<sub>msgs</sub>/Image</a> and <a href="http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html">sensor<sub>msgs</sub>/PointCloud2</a>, but they are only accessible through C++.</p>
+</dd>
+<dt><a href="http://ompl.kavrakilab.org/">ompl</a></dt>
+<dd>The Open Motion Planning Library is used within ROS for motion planning. Notably, <code>MoveIt!</code> uses OMPL for its default planners.
+</dd>
+<dt><a href="http://opencv.org/">OpenCV</a></dt>
+<dd>OpenCV is an extremely popular open-source computer vision and machine learning software library. Through tools such as <code>cv_bridge</code>, already-existing image processing code utilizing OpenCV can easily be converted to work within the ROS framework.
+</dd>
+<dt><a href="http://wiki.ros.org/openni_launch">openni<sub>launch</sub></a></dt>
+<dd>A package that facilitates using OpenNI-compliant devices with ROS. Specifically, most people use this for Kinects and ASUS Xtion PRO LIVE devices.
+</dd>
+<dt><a href="http://wiki.ros.org/openni_tracker">openni<sub>tracker</sub></a></dt>
+<dd>This package uses the NITE skeleton tracking library in conjunction with an OpenNI-compliant device to provide estimates of human poses.
+</dd>
+<dt><a href="http://www.orocos.org/">orocos</a></dt>
+<dd>The Orocos project is broken into 3 main parts: i) the Kinematics and Dynamics Library (KDL) ii) the Bayesian Filtering Libarary (BFL) iii) Orocos Toolchain (OT). All three of these parts are used by various core packages in the ROS world. (KDL = <a href="http://moveit.ros.org/">MoveIt!</a>, BFL = <a href="http://wiki.ros.org/robot_pose_ekf">robot<sub>poseekf</sub></a>, OT = <a href="https://github.com/orocos/rtt_ros_integration/blob/indigo-devel/README.md">rtt<sub>rosintegration</sub></a>).
+</dd>
+<dt><a href="http://pointclouds.org/">pcl</a></dt>
+<dd>The Point Cloud Library (PCL) is a standalone project for 2D and 3D image and point cloud processing. It is used extensively by ROS users.
+</dd>
+<dt><a href="Http://www.qt.io/">Qt</a></dt>
+<dd>Qt is a cross-platform framework most-commonly used for creating GUIs. Qt is used for creating nearly all GUIs that you will use in the ROS world.
+</dd>
+<dt><a href="http://wiki.ros.org/robot_localization">robot<sub>localization</sub></a></dt>
+<dd>Nonlinear state estimation through sensor fusion and an arbitrary number of sensors.
+</dd>
+<dt><a href="http://wiki.ros.org/robot_pose_ekf">robot<sub>poseekf</sub></a></dt>
+<dd>This package uses an EKF to estimate the 3D pose of a robot based on pose measurements coming from wheel odometry, IMU sensors, and visual odometry.
+</dd>
+<dt><a href="http://wiki.ros.org/roscpp">roscpp</a></dt>
+<dd>This is the client library for C++. It allows C++ programmers to easily interface with ROS topics, services, and parameters.
+</dd>
+<dt><a href="http://wiki.ros.org/rospy">rospy</a></dt>
+<dd><code>rospy</code> is a pure Python client library for ROS. We will use it extensively in this course.
+</dd>
+<dt><a href="http://wiki.ros.org/rosserial">rosserial</a></dt>
+<dd>This metapackage defines a protocol for transmitting standard ROS serialized messages/services over a character device such as a serial port. This is commonly used for transmitting data between a microcontroller and a ROS node.
+</dd>
+<dt><a href="http://wiki.ros.org/sensor_msgs">sensor<sub>msgs</sub></a></dt>
+<dd>A package containing a collection of message definitions used with sensors.
+</dd>
+<dt><a href="http://wiki.ros.org/std_msgs">std<sub>msgs</sub></a></dt>
+<dd>A package containing a collection of standard ROS messages.
+</dd>
+<dt><a href="http://wiki.ros.org/tf">tf</a></dt>
+<dd>This package allows users to track multiple coordinate frames over time. It is extremely important in nearly all ROS systems. Technically, <code>tf</code> isn't actually used anymore. Most of the <code>tf</code> functionality has been replaced by <code>tf2</code>. However, the developers of <code>tf2</code> created a backwards-compatible API, and many packages still use the old <code>tf</code> API (even though they are calling <code>tf2</code> functions).
+</dd>
+<dt><a href="http://wiki.ros.org/tf2">tf2</a></dt>
+<dd>The second generation transform library; this has replaced <code>tf</code>.
+</dd>
+<dt><a href="http://wiki.ros.org/topic_tools">topic<sub>tools</sub></a></dt>
+<dd>This package provides tools for redirecting, throttling, transforming, and multiplexing topics.
+</dd>
+<dt><a href="http://wiki.ros.org/turtlesim">turtlesim</a></dt>
+<dd>This is a ROS package made for teaching basic ROS concepts.
+</dd>
+<dt><a href="http://wiki.ros.org/urdfdom_py">urdf<sub>parserpy</sub></a></dt>
+<dd>This is a simple API for parsing URDF files in Python.
+</dd>
+<dt><a href="http://wiki.ros.org/usb_cam">usb<sub>cam</sub></a></dt>
+<dd>A ROS driver for V4L cameras (most webcams). It appears to be the most recently updated of the several ROS camera packages.
+</dd>
+<dt><a href="http://wiki.ros.org/visualization_msgs">visualization<sub>msgs</sub></a></dt>
+<dd><p>This package contains several message definitions used specifically for visualization. <code>rviz</code> contains plugins that can already display and interact with the messages defined in this package. Using these messages is a very easy way to build 2D/3D user interfaces and displays.</p>
+</dd>
+</dl>
+<p>This work, "ROS Glossary" is a derivative of <a href="http://nu-msr.github.io/embedded-course-site/resources/ros_glossary.html">ROS Glossary</a> by Jarvis Schultz used under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> by Matthew Elwin.</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

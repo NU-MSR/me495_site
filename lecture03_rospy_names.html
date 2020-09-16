@@ -469,7 +469,6 @@ table td {
 <li><a href="#rospy">rospy</a>
 <ul>
 <li><a href="#how-to-use">How to use</a></li>
-<li><a href="#python-package-layout">Python Package Layout</a></li>
 <li><a href="#messages-and-services-in-python">Messages and Services in Python</a></li>
 <li><a href="#ros-api">ROS API</a></li>
 </ul></li>
@@ -481,6 +480,7 @@ table td {
 </ul></li>
 <li><a href="#activities">Activities</a>
 <ul>
+<li><a href="#ros-tutorials">ROS Tutorials</a></li>
 <li><a href="#names-clients-and-publishing">Names, Clients, and Publishing</a></li>
 </ul></li>
 </ul>
@@ -498,16 +498,20 @@ table td {
 </header>
 
 <!-- The main content of the file -->
+<p>The python ROS client library rospy allows your python programs to interact with other ROS processes running on your system. ROS uses a special naming convention to allow multiple ROS clients to communicate.</p>
 <h1 id="rospy">rospy</h1>
 <ul>
 <li>The <a href="https://wiki.ros.org/rospy">python client library</a> for ROS.</li>
-<li>Go beyond the tutorials and read the <a href="http://docs.ros.org/melodic/api/rospy/html/">Code API documentation</a>.</li>
+<li>Go beyond the tutorials and read the <a href="http://docs.ros.org/melodic/api/rospy/html/">Code API documentation</a>.
+<ul>
+<li>Documentation for noetic has not been generated as of this writing but should be substantially the same</li>
+</ul></li>
 </ul>
 <h2 id="how-to-use">How to use</h2>
 <p>Rospy is just like any other python library.</p>
 <ol>
 <li><code>import rospy</code></li>
-<li>Create classes and call functions in Rospy</li>
+<li>Create classes and call functions in rospy</li>
 <li>Calling <code>rospy.init_node(name)</code> is what makes your code a ROS node, with a given <code>name</code>.</li>
 <li>Calling <code>rospy.logXXX</code> functions is how to use the ROS logging system</li>
 <li><code>rospy.Subscriber</code> is how to subscribe to messages</li>
@@ -518,33 +522,21 @@ table td {
 <li><code>rospy.Rate</code> sleeps for a duration such that the time between <code>sleep()</code> calls matches a specified period.</li>
 <li>There are many other ROS functions available in <code>rospy</code>.</li>
 </ol>
-<h2 id="python-package-layout">Python Package Layout</h2>
-<ol>
-<li>The <a href="http://docs.ros.org/melodic/api/catkin/html/howto/format2/installing_python.html">catkin documentation</a> explains how to setup a python package
-<ul>
-<li>Executable python code (e.g., nodes) go in a <code>scripts</code> directory, start with a <code>#!/usr/bin/env python</code> and do not end in a <code>.py</code> extension</li>
-<li>Edit your <code>CMakeLists.txt</code> to explicitly install the nodes in the <code>scripts/</code> directory</li>
-<li>Most of your python code goes in a python module stored in <code>src/packagename</code>.</li>
-<li><code>src/packagename/__init__.py</code> is required</li>
-<li>Place a <code>setup.py</code> modeled after the one <a href="http://docs.ros.org/melodic/api/catkin/html/howto/format2/installing_python.html">here</a> is placed in the top-level package directory</li>
-<li>Uncomment <code>catkin_python_setup()</code> in your <code>CMakeLists.txt</code></li>
-</ul></li>
-</ol>
 <h2 id="messages-and-services-in-python">Messages and Services in Python</h2>
-<p>When a package creates a <code>.msg</code> or a <code>.srv</code>, <code>catkin</code> generates python classes that encapsulates the data types used by the service. These data types follow a naming convention.</p>
-<p>To use the message type <code>MType</code> in package <code>pkg</code>:</p>
+<p>When a package uses a custom <code>.msg</code> or <code>.srv</code> file, <code>catkin</code> generates python classes that encapsulates the data types used by the service. The python package that is created is stored in <code>devel/lib/python3/dist-packages/&lt;pkg&gt;</code></p>
+<p>To use the message type <code>MType</code> defined in <code>msg/MType.msg</code> in package <code>pkg</code>:</p>
 <ol>
 <li><code>from pkg.msg import Mtype</code></li>
 <li><code>Mtype.field</code> is to access a field in the message type</li>
 <li><code>Mtype(field1 = x, field2 =y)</code> let's you construct the message.</li>
 </ol>
-<p>To use a service type <code>SType</code> with request type <code>STypeRequest</code> and response type <code>STypeResponse</code> in package <code>pkg</code>:</p>
+<p>To use a service type <code>SType</code> defined in <code>srv/SType.srv</code> with request type <code>STypeRequest</code> and response type <code>STypeResponse</code> in package <code>pkg</code>:</p>
 <ol>
 <li><code>from pkg.srv import SType, STypeResponse</code></li>
 <li><code>SType</code> is the service type, this is needed when registering the service.</li>
 <li><code>STypeResponse</code> is the type of the response.
 <ul>
-<li>The response type corresponds to the part of the service after the <code>---</code></li>
+<li>The response type corresponds to the part of the service after the <code>---</code> in the <code>.srv</code> file</li>
 <li>Service callback handlers should explicitly return an object of <code>STypeResponse</code>.</li>
 <li>Returning <code>None</code> from a service callback triggers an error. To return an empty response use <code>STypeResponse()</code></li>
 <li>Its constructor and members work follow the same convention as a message type.</li>
@@ -654,6 +646,7 @@ table td {
 <li><code>~topic1</code>, resolves to <code>/ns1/node1/topic1</code></li>
 </ol>
 <h1 id="activities">Activities</h1>
+<h2 id="ros-tutorials">ROS Tutorials</h2>
 <ol>
 <li><a href="http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28python%29">Writing A Publisher and Subscriber</a></li>
 <li><a href="http://wiki.ros.org/ROS/Tutorials/ExaminingPublisherSubscriber">Examining the Publisher and Subscriber</a></li>

@@ -465,10 +465,13 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#goal">Goal</a>
+<li><a href="#logistics">Logistics</a></li>
+<li><a href="#part-i-inspection">Part I: Inspection</a></li>
+<li><a href="#part-ii-turtle-control">Part II: Turtle Control</a>
 <ul>
 <li><a href="#velocity-translator">Velocity Translator</a></li>
 <li><a href="#turtle-waypoint">Turtle Waypoint</a></li>
+<li><a href="#demonstration">Demonstration</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -485,83 +488,123 @@ table td {
 </header>
 
 <!-- The main content of the file -->
-<h1 id="goal">Goal</h1>
-<p>In this assignment you will make a Turtlebot3 follow a series of waypoints.</p>
+<h1 id="logistics">Logistics</h1>
 <ol>
-<li>Create a new ROS workspace</li>
-<li>Create a package called <code>turtle_waypoints</code>
+<li>Create a git repository using the link provided in Canvas.</li>
+<li>Your homework will be submitted via this git repository.</li>
+<li>I will grade whatever is on the <code>master</code> branch when I clone the repository.</li>
+<li>See <a href="./homework/guidelines.html">Guidelines</a> for important information about coding standards</li>
+</ol>
+<h1 id="part-i-inspection">Part I: Inspection</h1>
+<p>Here you will inspect a poorly-documented ROS package, inspect it, and improve its documentation.</p>
+<ol>
+<li>Create a new ROS workspace.</li>
+<li>Clone <a href="https://github.com/m-elwin/crazy_turtle">https://github.com/m-elwin/crazy_turtle</a> into the source space of your workspace.</li>
+<li>Clone your homework repository (call it <code>turtle_control</code>) into the source space of your workspace</li>
+<li>Copy <code>crazy_turtle/README.md</code> into <code>homework1/inspection.md</code>.
 <ul>
-<li>I recommend using <code>catkin_create_pkg</code> so you can read the comments in the generated files and learn about the formats.</li>
-<li>Edit the <code>package.xml</code> to change the default but required fields to reflect your name, email, and a description of this package.</li>
-<li>After the initial creation is a good time to commit to git for the first time.</li>
+<li><code>inspection.md</code> contains further questions that you should answer and places to write your answers.</li>
+<li>This exercise also serves as a quick introduction to some <a href="https://guides.github.com/features/mastering-markdwon">markdown</a> basics.</li>
 </ul></li>
+<li>Copy <code>crazy_turtle/scripts/mover</code> to <code>homework1/mover</code>. Edit the file and search for <code>&lt;&gt;</code> angle brackets, replacing their contents to fill in the appropriate comments.</li>
+</ol>
+<h1 id="part-ii-turtle-control">Part II: Turtle Control</h1>
+<p>You will create a package that lets the turtle follow waypoints. The package you create depends on <code>turtlesim</code> because it is designed to control the turtle and uses messages/services from the <code>turtlesim</code> package.</p>
+<ol>
+<li>Create a <code>package.xml</code> and <code>CMakeLists.txt</code> in your <code>turtle_control</code> <code>git</code> repository. I recommend using <code>catkin_create_pkg</code> so you can read the comments in the generated files and learn about the format.</li>
+<li>Be sure to edit the <code>package.xml</code> to change the default but required fields to reflect your name, email, and a description of this package.</li>
+<li>Commit the changes and push to the remote.</li>
 </ol>
 <h2 id="velocity-translator">Velocity Translator</h2>
-<p>Write a node called <code>turtle_interpret</code> that translates a custom velocity message into a <code>geometry_msgs/Twist</code> that can be used by the <code>turtlesim</code>. The node should be placed in your package's <code>scripts</code> directory. Be sure to make your python script executable (<code>chmod 755</code>).</p>
+<h3 id="message-turtlevel">Message: TurtleVel</h3>
+<p>Write a node called <code>turtle_interpret</code> that translates a custom velocity message into a <code>geometry_msgs/Twist</code> that can be used by the <code>turtlesim</code>. The node should be placed in your package's <code>nodes</code> directory. Be sure to make your python script executable (<code>chmod 755</code>).</p>
 <ol>
 <li>Create a new message (in the <code>msg</code> directory) called <code>TurtleVel</code>. The message should have the following fields:
 <ul>
-<li><code>linear</code>: the linear velocity of the turtle</li>
-<li><code>angular</code>: the angular velocity of the turtle.</li>
+<li><code>linear</code>: the linear velocity of the turtle in m/s</li>
+<li><code>angular</code>: the angular velocity of the turtle in rad/s.</li>
 <li>Be sure to add comments (the <code>#</code> character begins a comment) describing the fields.</li>
-<li>To properly add the message you will need to read <code>CMakeLists.txt</code> and adjust it and <code>package.xml</code>. There is a long comment block describing what you need to do.</li>
+<li>To properly add the message you will need to read <code>CMakeLists.txt</code> and adjust it and <code>package.xml</code>. There is a long comment block in <code>CMakeLists.txt</code> describing what you need to do.</li>
 <li>The process of adding a service is nearly identical to that of adding a message.</li>
 </ul></li>
 <li>Make sure your package compiles with <code>catkin_make</code> and has no linting errors from <code>catkin_lint</code> before proceeding.
 <ul>
-<li>The errors from <code>catkin_lint</code> sometimes help explain why <code>catkin_make</code> fails.</li>
+<li>The errors from <code>catkin_lint</code> help explain why <code>catkin_make</code> fails.</li>
 </ul></li>
-<li>Write a node called <code>turtle_interpret</code> that subscribes to a topic <code>turtle_vel</code>, listening for <code>TurtleVel</code> messages. It should publish a corresponding <code>geometry_msgs/Twist</code> on <code>cmd_vel</code>.</li>
-<li>In the subscription callback, log the input as a debug-level message.</li>
-<li>Test the node by using ROS commands to send messages while watching the log and the <code>cmd_vel</code> topic.
+</ol>
+<h3 id="node-turtle_interpret">Node: turtle_interpret</h3>
+<ol>
+<li>Write a node called <code>turtle_interpret</code> that
+<ol>
+<li>Subscribes to a topic <code>turtle_vel</code>, listening for <code>TurtleVel</code> messages.
 <ul>
-<li>To see the debugging message you will need to adjust the logger level of your node's <code>rosout</code> to debug.</li>
-<li>You can use either <code>rqt_logger_level</code> or change settings in <code>rqt_console</code>.</li>
+<li>The subscriber should log the input as a debug level message</li>
+<li>The subscriber should publishes a corresponding <code>geometry_msgs/Twist</code> on <code>cmd_vel</code>.</li>
 </ul></li>
-<li>Add a service called <code>vel_translate</code> to your node. It converts a <code>geometry_msgs/Twist</code> into a <code>TurtleVel</code> and returns it.
+<li>Offers a service called <code>vel_translate</code> that converts a <code>geometry_msgs/Twist</code> into a <code>TurtleVel</code> message and returns it.
 <ul>
 <li>Create a service file called <code>VelTranslate.srv</code> to define this service.</li>
 <li>Your <code>.srv</code> will depend on the <code>geometry_msgs</code> package. You now must <code>depend</code> on this package in your <code>package.xml</code>.</li>
 <li>The service should return <code>None</code> (indicating an error) if the twist has non-zero fields that don't correspond to the <code>linear</code> and <code>angular</code> velocity of a <code>TurtleVel</code></li>
 <li>Your project should compile with <code>catkin_make</code> and have no <code>catkin_lint</code> errors before proceeding.</li>
 </ul></li>
-<li>Test the service by using ROS commands to convert a <code>geometry_msgs/Twist</code> into a <code>TurtleVel</code>.
+<li>Use relative ROS names for everything so that it can be remapped and namespaced more easily</li>
+</ol></li>
+<li>Test the subscriber/publisher part of the node by using ROS commands to send messages while watching the ROS log and the <code>cmd_vel</code> topic.
 <ul>
-<li>Record one instance of the test in your <code>README.md</code>, showing the command its output.</li>
-<li>Be sure to test both the error and the normal case.</li>
+<li>To see the debugging message you will need to adjust the logger level of your node's <code>rosout</code> to debug.</li>
+<li>You can use either <code>rqt_logger_level</code> or change settings in <code>rqt_console</code>.</li>
 </ul></li>
+<li>Test the service by using ROS commands to convert a <code>geometry_msgs/Twist</code> into a <code>TurtleVel</code>.</li>
 </ol>
 <h2 id="turtle-waypoint">Turtle Waypoint</h2>
-<p>Write a node called <code>waypoint</code> that causes the turtle to follow a series of waypoints. The waypoints consist of a list of <code>(x,y)</code> coordinates and should be stored in a YAML file under a <code>config</code> directory in your package. A launchfile that you will write will load the trajectory into the Parameter Server. You may wish to hard-code the waypoints at first and transition to the YAML file once the rest of the code is working.</p>
-<p>The trajectory that you turn in must have at least 4 non-collinear waypoints.</p>
-<p>Your node should also use a private parameter called <code>dist_thresh</code>, which determines when the turtle is close enough to its destination.</p>
+<p>Write a node called <code>waypoint</code> that causes <code>turtle1</code> to follow a series of waypoints (stored as a list of <code>(x,y)</code> positions). When the turtle reaches the last waypoint it should head to the first waypoint and restart the cycle.</p>
+<h3 id="parameters">Parameters</h3>
 <ol>
-<li><p>Your node should subscribe to a <code>pose</code> topic, to read the pose as reported by a turtle. It will then publish a <code>TurtleVel</code> message to <code>turtle_vel</code>. The <code>turtle_interpret</code> mode will subscribe to the <code>turtle_vel</code> topic and publish <code>cmd_vel</code> for the turtle to follow.</p>
+<li>The waypoints should be stored in a <code>config/waypoint.yaml</code> file which gets loaded into the Parameter Server and read by the node.</li>
+<li>There should be a private parameter called <code>dist_thresh</code>, which determines when the turtle is close enough to its destination to move to the next waypoint.</li>
+</ol>
+<h3 id="subscribers">Subscribers</h3>
+<ol>
+<li>The turtle may subscribe to the <code>pose</code> topic to read the pose as reported by the turtle.</li>
+</ol>
+<h3 id="publishers">Publishers</h3>
+<ol>
+<li>The node should publish a <code>TurtleVel</code> message on the <code>turtle_vel</code> topic to control the turtle.
 <ul>
-<li>When the node is initialized, it should use the <code>/spawn</code> service spawn a new turtle called <code>mark</code> at the first waypoint.</li>
-<li>it should also read the <code>dist_thresh</code> parameter from the Parameter Server</li>
-<li>Use the <code>/mark/SetPen</code> service to turn <code>mark's</code> pen off.</li>
-<li>If the turtle is close (based on the thresholds) to its destination position, it should teleport <code>mark</code> to the next waypoint and start heading toward it.</li>
-<li>If the final waypoint is reached, it should start from the beginning</li>
-<li>Feel free to have the turtle log debugging information.</li>
-<li>Especially at first, don't worry too much about performance.</li>
+<li>Your <code>turtle_interpret</code> node will subscribe to <code>turtle_vel</code> and publish a <code>cmd_vel</code> for the turtle to follow</li>
 </ul></li>
-<li><p>Write a launchfile <code>waypoint_follow.launch</code> that loads all the parameters, launches the <code>turtlesim</code>, <code>turtle_interpret</code> and <code>waypoint</code> nodes, and connects everything together to have the turtle follow the waypoints.</p></li>
+</ol>
+<h3 id="startup">Startup</h3>
+<ul>
+<li>When the node is initialized, it should use the <code>/spawn</code> service spawn a new turtle called <code>mark</code>.</li>
+<li>Prior to the node starting, <code>mark</code> should be moved to each waypoint location and run a small trajectory to draw an X marking each waypoint</li>
+<li>Then <code>mark</code> should lift its pen and teleport to the next waypoint (one waypoint ahead of <code>turtle1</code>)
+<ul>
+<li>Essentially, <code>mark</code> will always sit one waypoint ahead of <code>turtle1</code></li>
+</ul></li>
+<li>When <code>turtle1</code> gets close to <code>mark</code> (based on <code>dist_thresh</code>), teleport <code>mark</code> to the next waypoint and have <code>turtle1</code> head to it</li>
+<li>If the final waypoint is reached, head back to the first waypoint and continue the cycle</li>
+</ul>
+<h2 id="demonstration">Demonstration</h2>
+<ol>
+<li><p>Write a launchfile called <code>launch/waypoint_follow.launch</code> that loads all the parameters, launches the <code>turtlesim</code>, <code>turtle_interpret</code> and <code>waypoint</code> nodes, and connects everything together to have the turtle follow the waypoints.</p></li>
+<li><p>Install <code>simplescreenrecorder</code> (via <code>apt</code>) or different screen recording software and use it to create a video of your code working.</p></li>
+<li><p>Upload your video to a sharing website, and include a link in your <code>README.md</code></p>
+<ul>
+<li>Alternatively, you can include your on Google Drive or Northwestern Box and link to it in your <code>README.md</code> (make sure I have access to it)</li>
+<li>You can also convert the video to a <code>gif</code> and embed it in your README.md <a href="https://engineering.giphy.com/how-to-make-gifs-with-ffmpeg/">https://engineering.giphy.com/how-to-make-gifs-with-ffmpeg/</a></li>
+</ul></li>
 <li><p>Use a ROS command line tool to capture enough <code>cmd_vel</code> commands for the turtle to visit each waypoint twice.</p>
 <ul>
 <li>One way to do this is to start <code>roscore</code> manually, then start the recording, then run <code>rosbag</code>. This ensures that you capture all the data from the beginning.</li>
 <li>Add the bagged data as a <code>waypoint.bag</code> file to your repository.</li>
 </ul></li>
 <li><p>Kill the <code>turtle_interpret</code> node to stop the turtle from moving.</p></li>
-<li><p>Reset the turtle to its initial configuration using a service.</p></li>
+<li><p>Reset the turtle to its initial configuration using a <code>turtlesim</code> service.</p></li>
 <li><p>Use a ROS command line tool to play back your bagged data and make the turtle move.</p>
 <ul>
 <li>You should not expect the trajectory to be duplicated, due to the inexact timing with ROS bags (see <a href="http://wiki.ros.org/rosbag/Tutorials/Recording%20and%20playing%20back%20data#The_limitations_of_rosbag_record.2BAC8-play">here</a>)</li>
-</ul></li>
-<li><p>Install <code>simplescreenrecorder</code> (via <code>apt</code>) or different screen recording software and use it to create a video of your code working.</p></li>
-<li><p>Upload your video to a sharing website, and include a link in your <code>README.md</code></p>
-<ul>
-<li>Alternatively, you can include your video in your git repository or Northwestern box (as long as I can access it), but you should still link to it in your <code>README.md</code>.</li>
 </ul></li>
 </ol>
 </div>

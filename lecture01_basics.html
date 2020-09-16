@@ -466,8 +466,9 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#introduction-and-brief-history">Introduction and Brief History</a>
+<li><a href="#introduction-and-history">Introduction and History</a>
 <ul>
+<li><a href="#the-future-of-ros">The Future of ROS</a></li>
 <li><a href="#some-usage-statistics">Some Usage Statistics</a></li>
 <li><a href="#ros-versions">ROS Versions</a></li>
 <li><a href="#devices-that-we-own-that-run-ros-non-exhaustive">Devices that we own that run ROS (non-exhaustive)</a></li>
@@ -478,7 +479,7 @@ table td {
 <li><a href="#documentation">Documentation</a></li>
 <li><a href="#packages">Packages</a></li>
 <li><a href="#nodes">Nodes</a></li>
-<li><a href="#messages-nodes-communicate-with-each-other-using-messages-which-define-the-structure-of-the-data-that-is-passed-between-nodes.">Messages Nodes communicate with each other using <span>messages</span>, which define the structure of the data that is passed between nodes.</a></li>
+<li><a href="#messages">Messages</a></li>
 <li><a href="#topics">Topics</a></li>
 <li><a href="#services">Services</a></li>
 <li><a href="#launchfiles">Launchfiles</a></li>
@@ -489,7 +490,6 @@ table td {
 <li><a href="#other-tools">Other tools</a></li>
 <li><a href="#old-terminology">Old Terminology</a></li>
 </ul></li>
-<li><a href="#design-guidelines">Design Guidelines</a></li>
 </ul>
 </nav>
 
@@ -505,20 +505,23 @@ table td {
 </header>
 
 <!-- The main content of the file -->
-<h1 id="introduction-and-brief-history">Introduction and Brief History</h1>
-<p>The <a href="https://www.ros.org/">Robot Operating System</a> (ROS) is a a collection of tools, software libraries, and documentation facilitating the development and sharing of robotics software. The term "Operating System" is a bit of a misnomer, it is more like a framework or middleware plus a developer community.</p>
-<p>Historically people and companies developed robotics software specifically tailored to their own robots and needs. For example, industrial robotics companies developed their own proprietary control software and even programming languages, while there was no central location for robotics researchers to find useful software libraries. Over the years there have been several attempts at creating libraries for robotics engineers to share, and ROS can be seen as one of the more recent and popular of these attempts. For more information see <a href="https://www.ros.org/about-ros">About ROS</a>.</p>
+<h1 id="introduction-and-history">Introduction and History</h1>
+<p>The <a href="https://www.ros.org/">Robot Operating System</a> (ROS) is a collection of tools, software libraries, and documentation facilitating the development and sharing of robotics software. The term "Operating System" is a bit of a misnomer, it is more like a framework or middleware plus a developer community. Its federated package model allows unrelated entities to create and reuse compatible software.</p>
+<p>Historically people and companies developed robotics software specifically tailored to their own robots and needs. For example, industrial robotics companies developed proprietary control software and programming languages and there was no central location for robotics researchers to find useful software libraries. Over the years there have been several attempts at creating libraries for robotics engineers to share, and ROS can be seen as one of the more recent and popular of these attempts. For more information see <a href="https://www.ros.org/about-ros">About ROS</a>.</p>
 <p>In 2007, <a href="https://en.wikipedia.org/Willow_Garage">Willow Garage</a> provided resources for researchers to create general-purpose robotics software that could be reused and shared. From the start, it was an effort involving a community of people at different institutions working on the core infrastructure and various packages. In 2014, Willow Garage went out of business and stewardship of ROS was transferred to the <a href="https://www.openrobotics.org">Open Source Robotics Foundation</a> (now referred to as Open Robotics) a 501(c)(3) non-profit organization. For more information, see <a href="https://www.ros.org/history">ROS History</a>.</p>
 <p>In the intervening years, ROS has been adopted as a defacto standard in industry and academia. While proprietary systems from many major robot manufactures still exist (and perhaps predominate), there are now several robots on the market that explicitly support ROS (including the robots you will be using in this class). Many start-up robotics companies also use ROS because it enables them to take advantage of the work of others to start with a baseline working system. There are also initiatives such as <a href="https://rosindustrial.org">ROS Industrial</a>, which are bringing in more industrial robots into the fold of ROS. In academia, ROS enables easy sharing of code between research groups and allows people to use the latest code from experts in the field.</p>
+<h2 id="the-future-of-ros">The Future of ROS</h2>
+<p>The successor of ROS, ROS 2, began development in parallel to ROS, and its first alpha release was in 2015. ROS 2 attempts to address many of the perceived shortcomings in ROS 1 and is currently the primary focus of the core ROS developers. While you can use ROS 2 today, it is still undergoing heavy development and not yet supported directly by most hardware. The concepts that you learn in ROS 1, however, should easily transfer over to ROS 2.</p>
+<p>For the latest ROS news see <a href="https://planet.ros.org">https://planet.ros.org</a></p>
 <h2 id="some-usage-statistics">Some Usage Statistics</h2>
-<p>In July 2019 (data taken from <a href="http://wiki.ros.org/metrics">http://wiki.ros.org/metrics</a>) there were</p>
+<p>In July 2020 (data taken from <a href="http://wiki.ros.org/Metrics">http://wiki.ros.org/Metrics</a>) there were</p>
 <ul>
-<li>2,307,659 Page views of the ROS wiki</li>
-<li>793,740 views of answers. ROS.org</li>
-<li>20,645,089 package downloads</li>
+<li>2,026,515 Page views of the ROS wiki</li>
+<li>795,114 views of answers. ROS.org</li>
+<li>38,554,145 package downloads</li>
 <li>Courses are taught at 33 universities around the world (<em>wiki.ros.org/Courses</em>)</li>
 </ul>
-<p>As of July 2019, there were 5875 papers explicitly citing ROS.</p>
+<p>As of July 2020, there were 7410 papers explicitly citing ROS.</p>
 <h2 id="ros-versions">ROS Versions</h2>
 <ul>
 <li>ROS names each version with an adjective and the name of a turtle species, both starting with the same letter.</li>
@@ -526,13 +529,13 @@ table td {
 <li>The versions increase alphabetically</li>
 <li>The latest stable version of ROS is <code>noetic</code>, which was released in May 2020.</li>
 <li><code>noetic</code> is the first version of ROS to support <code>python 3</code>, which is what we will use in this course.</li>
-<li><code>ROS2</code> is currently available, in parallel with <code>ROS 1</code>. It is not directly supported by many robots yet so we be sticking with ROS 1 for now; however, having a thorough understanding of ROS 1 will greatly facilitate you learning ROS 2.</li>
+<li><code>ROS 2</code> is currently available, in parallel with <code>ROS 1</code>. It is not directly supported by many robots yet so we be sticking with ROS 1 for now; however, having a thorough understanding of ROS 1 will greatly facilitate you learning ROS 2.</li>
 </ul>
 <h2 id="devices-that-we-own-that-run-ros-non-exhaustive">Devices that we own that run ROS (non-exhaustive)</h2>
 <h3 id="industrial-robots">Industrial Robots</h3>
 <ul>
 <li><a href="https://www.rethinkrobotics.com/sawyer">Rethink Sawyer</a></li>
-<li>Rethink Baxter Robot</li>
+<li><a href="https://sdk.rethinkrobotics.com/intera/Main_Page">Rethink Baxter Robot</a></li>
 <li><a href="https://clearpathrobotics.com/jackal-small-unmanned-ground-vehicle/">Clearpath Jackal</a></li>
 <li><a href="https://clearpathrobotics.com/ridgeback-indoor-robot-platform">Clearpath Ridgeback</a></li>
 <li><a href="https://www.turtlebot.com/turtlebot2">Turtlebot 2</a></li>
@@ -541,10 +544,10 @@ table td {
 <ul>
 <li><a href="https://www.robotis.us/turtlebot-3">Turtlebot 3</a></li>
 <li><a href="https://www.trossenrobotics.com/pincherx-100-robot-arm.aspx">PincherX 100</a></li>
+<li><a href="https://www.intelrealsense.com/depth-camera-d435i/">Intel RealSense D435i</a></li>
 </ul>
 <h2 id="other-items-that-we-own-that-are-compatible-with-ros-non-exhaustive">Other items that we own that are compatible with ROS (non-exhaustive)</h2>
 <ul>
-<li><a href="https://www.intel.com/content/www/us/en/architecture-and-technology/realsense-overview.html">Intel RealSense Cameras</a></li>
 <li><a href="https://www.hokuyo-aut.jp/">Hokuyo Laser Scanners</a></li>
 <li><a href="https://raspberrypi.org">RaspberryPi</a>, <a href="https://http://www.hardkernel.com/main/main.php">Odroid</a>, <a href="https://beagleboard.com/black">Beagle Bone Black</a>, <a href="https://developer.nvidia.com/buy-jetson">Jetson</a> - These are embedded computers.</li>
 </ul>
@@ -561,7 +564,8 @@ table td {
 <li><a href="https://www.ros.org/reps/rep-0000.html">ROS Enhancement Proposals (REP)</a> - Documents ROS design decisions and best practices.</li>
 <li>External Documentation - sometimes the package itself has an external documentation website (often linked on the ROS wiki)</li>
 <li>Some of the tools used in ROS are actually maintained separately from ROS and have their own documentation as well</li>
-<li>Part of this course is about learning how to use the documentation, so not all the answers will be provided in these notes or in lecture or these notes!</li>
+<li>The source code is often the ultimate documentation. Do not be afraid to read the code.</li>
+<li>Part of this course is about learning how to use the documentation, so not all the answers will be provided in these notes or in lecture!</li>
 </ul>
 <h2 id="packages">Packages</h2>
 <p><a href="https://wiki.ros.org/Packages">Packages</a> are the basic organizational unit in ROS.</p>
@@ -575,10 +579,25 @@ table td {
 <li>The <code>catkin_create_pkg</code> tool can automatically create a package for you, providing boilerplate code that is needed. However, packages can also be created by hand simply by creating a <code>package.xml</code> and a <code>CMakeLists.txt</code> file.</li>
 <li>The <a href="https://wiki.ros.org/rospack">rospack</a> tool can be used to investigate dependencies for a ROS package</li>
 </ul>
+<h3 id="installing-packages">Installing Packages</h3>
+<ul>
+<li>You can install a ROS package called <code>&lt;package&gt;</code> released for <code>noetic</code> using <code>apt</code>:
+<ol>
+<li><code>sudo apt install ros-noetic-&lt;package&gt;</code>, where <code>&lt;package&gt;</code> is the package name where the underscores (<code>_</code>) have been changed to dashes (<code>-</code>).</li>
+</ol></li>
+<li><a href="http://repositories.ros.org/status_page/ros_noetic_default.html">Package Status</a> Displays the status of various ROS packages.
+<ul>
+<li>If a package is not released yet for Noetic, you can usually download its source code into your workspace and compile it.</li>
+</ul></li>
+<li>The <a href="http://wiki.ros.org/TestingRepository">ROS Testing Repository</a> contains pre-release packages that you can also install.</li>
+</ul>
 <h3 id="navigating-packages">Navigating Packages</h3>
 <ul>
 <li>ROS provides some tools for navigating packages,as part of <a href="https://wiki.ros.org/rosbash">rosbash</a>. Below is a non-comprehensive list.</li>
-<li><a href="http://wiki.ros.org/rosbash#roscd">roscd</a> changes directory to a package. <code>roscd log</code> will take you to where the log files are stored, if any have been created</li>
+<li><a href="http://wiki.ros.org/rosbash#roscd">roscd</a> changes directory to a package.
+<ul>
+<li><code>roscd log</code> will take you to where the log files are stored, if any have been created</li>
+</ul></li>
 <li><a href="http://wiki.ros.org/rosbash#roscd">rosls</a> lists the files in a package</li>
 <li><a href="http://wiki.ros.org/rosbash#roscd">rosed</a> Opens a file in a package in your text editor</li>
 </ul>
@@ -591,13 +610,15 @@ table td {
 <li><a href="https://wiki.ros.org/roscpp">roscpp</a> is the client library for C++</li>
 <li>There are <a href="http://wiki.ros.org/Client%20Libraries">client libraries</a> for other languages, but they are used less frequently</li>
 </ul></li>
-<li>A node is an executable like any other on your computer, except it uses the ROS client library to adhere to ROS conventions and communicate with other nodes using <a href="http://wiki.ros.org/ROS/Technical%20Overview">XMLRPC</a>.</li>
-<li>The source code for ROS nodes is conventionally stored under the <code>&lt;pkg&gt;/src</code> directory. For some python packages, python scripts are stored in a <code>&lt;pkg&gt;/scripts</code> directory.</li>
+<li>A node is an executable, like any other on your computer, except it uses the ROS client library to adhere to ROS conventions and communicate with other nodes using <a href="http://wiki.ros.org/ROS/Technical%20Overview">XMLRPC</a>.</li>
+<li>The source code for ROS C++ nodes is conventionally stored under the <code>&lt;pkg&gt;/src</code> directory.</li>
+<li>The source code for python nodes is typically under <code>&lt;pkg&gt;/scripts</code> or <code>&lt;pkg&gt;/nodes</code>. These files usually do not have a <code>.py</code> extension</li>
 <li>The <a href="https://wiki.ros/org/rosnode">rosnode</a> is the command line tool for getting information about nodes.</li>
 <li>The <a href="https://wiki.ros.org/rosbash#rosrun">rosrun</a> command lets you run a node.</li>
 </ul>
-<h2 id="messages-nodes-communicate-with-each-other-using-messages-which-define-the-structure-of-the-data-that-is-passed-between-nodes.">Messages Nodes communicate with each other using <a href="https://wiki.ros.org/Messages">messages</a>, which define the structure of the data that is passed between nodes.</h2>
+<h2 id="messages">Messages</h2>
 <ul>
+<li>Nodes communicate with each other using <a href="https://wiki.ros.org/Messages">messages</a>, which define the structure of the data that is passed between nodes.</li>
 <li>Standard datatypes such as <code>int64</code>, <code>int8</code>, <code>string</code>, <code>time</code>, <code>bool</code>, <code>float32</code>, <code>float64</code>, and arrays thereof are supported</li>
 <li>Messages can be nested</li>
 <li>There are several standard message types that come with commonly used packages</li>
@@ -668,36 +689,6 @@ table td {
 <li><em>rosbuild</em> - the old ros build system, prior to catkin</li>
 <li><em>wet</em> vs <em>dry</em> packages - <em>wet</em> packages use catkin, <em>dry</em> packages use <em>rosbuild</em></li>
 </ul>
-<h1 id="design-guidelines">Design Guidelines</h1>
-<p>ROS adds methods for abstraction beyond those provided by a programming language. When thinking about the design of a ROS system, here are some questions that often arise and some guidelines about the trade-offs experienced in these decisions. These concerns are a bit beyond your current ROS level, but keep them in the back of your mind for your final projects.</p>
-<ol>
-<li>How should the code be divided across nodes?
-<ul>
-<li>Code in a single node is simpler and can take advantage of the abstractions provided by the programming language</li>
-<li>Code that is split across multiple nodes can be re-used and mixed-and-matched with other ROS nodes more easily</li>
-<li>Code that is split across multiple nodes is inherently parallel (since nodes run in parallel).</li>
-<li>My (very loose) guideline is that if two nodes are
-<ol>
-<li>Always are either both running or not running</li>
-<li>Subscribed to each other's topics</li>
-<li>Do not need to be running in parallel</li>
-</ol>
-then you should keep them in a single node.</li>
-</ul></li>
-<li>How should the code be divided across packages?
-<ul>
-<li>A single package promotes simplicity</li>
-<li>Multiple packages enable re-use</li>
-<li>I start with a single package. If part of the package seems individually useful, I will spin it off into a separate package.</li>
-</ul></li>
-<li>How should the code be divided across repositories?
-<ul>
-<li>Single repository is simpler and makes it easier to keep related changes between the packages synchronized.</li>
-<li>Multiple repositories promote decoupling between the packages, potentially making one more generally useful.</li>
-<li>For me, if the packages will be released together and are used for the same project, I keep them in the same repository</li>
-</ul></li>
-</ol>
-<p>There is also a list of ROS design patterns <a href="https://wiki.ros.org/ROS/Patterns/">here.</a></p>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

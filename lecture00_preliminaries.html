@@ -490,7 +490,7 @@ table td {
 <p>This page provides an overview of the prerequisites for ME-495 Embedded Systems in Robotics.</p>
 <h1 id="install-ubuntu-linux-20.04-lts">Install Ubuntu Linux 20.04 LTS</h1>
 <ol>
-<li>Backup your system, if the install goes wrong, you want to be able to recover your data</li>
+<li>Backup your system, if the install goes wrong, you want to be able to recover your data.</li>
 <li><a href="https://ubuntu.com/tutorials/install-ubuntu-desktop#1-overview">The Official Ubuntu Tutorial</a></li>
 <li><a href="https://help.ubuntu.com/lts/installation-guide/amd64/index.html">The Ubuntu Installation Manual</a></li>
 <li>Follow these <a href="https://nu-msr.github.io/hackathon_site/computer_setup.html">Computer Setup Instructions</a></li>
@@ -499,80 +499,20 @@ table td {
 <li>To take the course, all students are required to have Ubuntu Linux 20.04 LTS installed on their computer (not in a virtual machine).</li>
 </ul>
 <h1 id="installing-ros">Installing ROS</h1>
-<p>Here are instructions for installing ROS <code>noetic</code> and some packages that have not yet been released for <code>noetic</code> (which only came out in May 2020). Since we are compiling some packages from scratch, you can expect this total process to take approximately 1 hour.</p>
+<p>Here are instructions for installing ROS <code>noetic</code>.</p>
 <ol>
 <li><p><a href="http://wiki.ros.org/noetic/Installation/Ubuntu">Install ROS Noetic</a> (Choose the desktop-full version and follow all of the instructions)</p></li>
-<li><p>Install <code>python3-rosdep</code>. Make sure you have installed ROS first or this will cause many problems down the road.</p>
+<li><p>Install <code>python3-rosdep</code>.</p>
 <pre><code>sudo apt install python3-rosdep
 sudo rosdep init
 rosdep update
-</code></pre>
-<ul>
-<li>Don't forget to <code>echo "source /opt/ros/noetic/setup.bash" &gt;&gt; ~/.bashrc</code></li>
-<li>Caution: if you try to run <code>rosdep</code> prior to installing it, the similarly-named <code>python3-rosdep2</code> will be suggested. Do NOT install it.</li>
-</ul></li>
-<li><p>Install some dependencies that we need to build everything: <code>sudo apt install python3-vcstool git gitk python3-pip</code>.</p></li>
-<li><p>Install some dependencies that are not properly accounted for by the package's ROS dependency system</p>
-<pre><code>sudo apt install ros-noetic-dynamixel-sdk libnlopt-cxx-dev
-pip3 install modern_robotics
 </code></pre></li>
-<li><p>Install <code>librealsense2</code>, as compiled by me (see below for how if you are curious):</p>
-<pre><code>curl -L &quot;http://drive.google.com/uc?export=download&amp;id=1zPS8Q84a59-GDaZKQuR4KwtUS3zzoc56&quot; \ 
-&gt; /tmp/librealsense.deb
-sudo apt install /tmp/librealsense.deb
-</code></pre></li>
-<li><p>We will now create a ROS workspace that contains packages that have not yet been released for <code>noetic</code>. This step takes a long time so be patient!</p>
-<pre><code>source /opt/ros/noetic/setup.bash
-mkdir -p ~/nuws/src
-cd ~/nuws/src
-vcs import --input https://nu-msr.github.io/me495_site/nuws.repo
-cd ~/nuws
-rosdep install --from-paths src --ignore-src -r -y
-catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo 
-</code></pre>
+<li><p>Don't forget to <code>echo "source /opt/ros/noetic/setup.bash" &gt;&gt; ~/.bashrc</code></p>
 <ul>
-<li>You may see an error about <code>orocos_kdl</code> and <code>librealsense2</code> when running <code>rosdep</code>. These are expected.</li>
+<li>This sets up your ROS environment every time you start bash</li>
 </ul></li>
-<li><p>Install the <code>udev</code> rules for the pincherX 100</p>
-<ul>
-<li><code>sudo cp src/interbotix_ros_arms/interbotix_sdk/10-interbotix-udev.rules /etc/udev/rules.d</code></li>
-</ul></li>
-<li><p>To use the packages you just compiled you must source the workspace.</p>
-<ul>
-<li><code>source ~/nuws/devel/setup.bash</code></li>
-<li>Append to your <code>.bashrc</code>: <code>echo "source ~/nuws/devel_isolated/setup.bash" &gt;&gt; ~/.bashrc</code></li>
-</ul></li>
+<li><p>Install some dependencies that we need to build everything: <code>sudo apt install python3-vcstool git gitk python3-pip catkin-lint</code>.</p></li>
 </ol>
-<h3 id="building-librealsense">Building librealsense</h3>
-<ul>
-<li><strong>NOTE</strong> You do not need to perform these steps. This is a description of how I created <code>librealsense.deb</code></li>
-</ul>
-<p>For reference, here are the steps I used to build <code>librealsense</code> I also use <code>checkinstall</code> as a quick hack for creating <code>.deb</code> packages from the results. I do not recommend this approach: <code>checkinstall</code> can <a href="https://bugs.launchpad.net/ubuntu/+source/checkinstall/+bug/909859">completely destroy your system</a>. You need not follow any of these steps if you downloaded the binary provided by me. Compile the library</p>
-<pre><code>git clone https://github.com/IntelRealSense/librealsense.git
-cd librealsense
-git checkout v2.38.1
-cmake -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_PYTHON_BINDINGS:bool=true .
-cd build
-make -j8
-</code></pre>
-<ul>
-<li>There is a race condition in build paraellization so if you run into an error just run <code>make</code> again.</li>
-</ul>
-<p>Create the installation script, called <code>makeit</code> and place it in <code>build/</code></p>
-<pre><code>#!/usr/bin/env bash
-cd ..
-./scripts/setup_udev_rules.sh
-cd build
-make install
-mv /usr/lib/python3/dist-packages/pyrealsense2/*.so /usr/lib/python3/dist-packages
-mv /usr/lib/python3/dist-packages/pyrealsense2/*.so.* /usr/lib/python3/dist-packages
-</code></pre>
-<p>Make the script executable: <code>chmod 755 makeit</code></p>
-<p>Run <code>checkinstall</code> to create the package <code>sudo checkinstall --pkgname=northwestern-librealsense --provides=ros-noetic-librealsense2 --conflicts=ros-noetic-librealsense2 ./makeit</code></p>
-<ul>
-<li>Exclude files from the home directory from the package</li>
-<li>You can edit metadata if you got it wrong on the initial <code>checkinstall</code> by following <a href="https://wiki.debian.org/EditingBinaryPackageMetadata">this guide</a></li>
-</ul>
 <h1 id="python-programming">Python Programming</h1>
 <ul>
 <li><a href="https://nu-msr.github.io/hackathon_site/python_intro.html">My Brief Introduction To Python</a></li>

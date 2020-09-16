@@ -579,7 +579,6 @@ nodes/node1  # this node imports module.py
 <li>Copy <a href="./conf.py">conf.py</a> and <a href="./index.rst">index.rst</a> to the <code>doc</code> directory</li>
 <li>Run <code>sphinx-apidoc -o doc src</code> to add your python modules to the documentation
 <ul>
-<li>Python code in the <code>scripts/</code> and <code>nodes</code> directory will not be added, but these should be basic scripts wrapping more complex api code stored in <code>src/</code></li>
 <li>These files are provided for convenience. To make the most out of sphinx you will need to edit them and create additional documentation files</li>
 </ul></li>
 <li>Run <code>rosdoc_lite .</code></li>
@@ -602,7 +601,7 @@ nodes/node1  # this node imports module.py
 <li>They also have code to "rosify" your configuration. Modify the resulting <code>conf.py</code> to follow their conventions</li>
 <li>When modifying <code>conf.py</code> see <a href="http://docs.ros.org/independent/api/catkin_pkg/catkin_pkg.html">catkin_pkg</a> to view how to customize some values based on what is in your <code>package.xml</code>
 <ul>
-<li>I also <code>import string</code> and use <code>string.joint(catkin_package.authors)</code> to automatically fill in authors from the <code>package.xml</code>, for example</li>
+<li>I also <code>import string</code> and use <code>"".join(catkin_package.authors)</code> to automatically fill in authors from the <code>package.xml</code>, for example</li>
 </ul></li>
 </ul></li>
 <li>Add sphinx.ext.napoleon to the extensions list to allow sphinx to parse google and numpy style docstrings. Otherwise you have to annotate your functions using a hard-to-read format.</li>
