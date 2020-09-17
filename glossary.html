@@ -7,6 +7,7 @@ Modified by Matthew Elwin.
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="This work, &quot;ROS Glossary&quot; is a derivative of ROS Glossary by Jarvis Schultz used under CC BY-NC-SA 4.0 by Matthew Elwin." />
 <title>ROS Glossary</title>
 <style>
 code{white-space: pre-wrap;}
@@ -516,7 +517,7 @@ table td {
 <dd><p>When a publisher is created, if it is set to <em>latch</em>, then every time a new subscriber to that publisher's topic is created, it will automatically receive a copy of the last message that was published on that topic. This feature can be useful for topics that are only published occasionally (like map data or status indicators).</p>
 </dd>
 <dt><a href="http://wiki.ros.org/rospy/Overview/Logging">logging</a></dt>
-<dd><p>ROS has a special mechanism for storing, sorting, filtering, etc. messages that are printed to the terminal from running nodes. Logs are created from messages published to the <em><a href="http://wiki.ros.org/rosout">rosout</a></em> topic, using ROS logging statements instead of standard print statements. Log files can be sorted and searched in real-time via <a href="http://wiki.ros.org/rqt_console"><em>rqt<sub>console</sub></em></a>, and they can be parsed/searched manually by looking in the '~/.ros/log/' directory. Use <em>rosclean</em> to clear old log files.</p>
+<dd><p>ROS has a special mechanism for storing, sorting, filtering, etc. messages that are printed to the terminal from running nodes. Logs are created from messages published to the <em><a href="http://wiki.ros.org/rosout">rosout</a></em> topic, using ROS logging statements instead of standard print statements. Log files can be sorted and searched in real-time via <a href="http://wiki.ros.org/rqt_console"><em>rqt_console</em></a>, and they can be parsed/searched manually by looking in the '~/.ros/log/' directory. Use <em>rosclean</em> to clear old log files.</p>
 </dd>
 <dt><a href="http://wiki.ros.org/Manifest">manifest</a></dt>
 <dd><p>Alternative name for <em>package.xml</em>. The original build system in ROS was called <em>rosbuild</em> and it used <em>manifest.xml</em> files to identify packages. When the build system switched to <em>catkin</em> the file changed names as well.</p>
@@ -596,19 +597,19 @@ table td {
 <h1 id="ros-utilities">ROS Utilities</h1>
 <p>This is a list of tools I commonly use.</p>
 <dl>
-<dt><a href="http://wiki.ros.org/ROS/Tutorials/CreatingPackage#ROS.2BAC8-Tutorials.2BAC8-catkin.2BAC8-CreatingPackage.Creating_a_catkin_Package">catkin<sub>createpkg</sub></a></dt>
+<dt><a href="http://wiki.ros.org/ROS/Tutorials/CreatingPackage#ROS.2BAC8-Tutorials.2BAC8-catkin.2BAC8-CreatingPackage.Creating_a_catkin_Package">catkin_create_pkg</a></dt>
 <dd><p>Automatically create a new directory with a template <em>CMakeLists.txt</em> and <em>package.xml</em> – the two files required by all ROS packages. Allows you to list dependencies and have them automatically be filled out in the <em>package.xml</em>.</p>
 </dd>
-<dt><a href="http://wiki.ros.org/catkin/commands/catkin_make">catkin<sub>make</sub></a></dt>
+<dt><a href="http://wiki.ros.org/catkin/commands/catkin_make">catkin_make</a></dt>
 <dd><p>Builds targets contained in a workspace. Must be executed from the root of the workspace. This is the simplest and fastest ROS build tool but it builds all packages as a single CMake project which often leads to difficulties.</p>
 </dd>
-<dt><a href="https://www.ros.org/reps/rep-0134.html">catkin<sub>makeisolated</sub></a></dt>
+<dt><a href="https://www.ros.org/reps/rep-0134.html">catkin_make_isolated</a></dt>
 <dd><p>Builds each package in your workspace as a separate CMake project. This also allows including non-catkin CMake project in the workspace.</p>
 </dd>
-<dt><a href="https://catkin-tools.readthedocs.io/en/latest/">catkin<sub>tools</sub></a></dt>
+<dt><a href="https://catkin-tools.readthedocs.io/en/latest/">catkin_tools</a></dt>
 <dd><p>The ROS build tool that is still in "beta", but works quiet well. It has the nicest interface of all the <em>catkin</em> build tools.</p>
 </dd>
-<dt><a href="https://github.com/fkie/catkin_lint">catkin<sub>lint</sub></a></dt>
+<dt><a href="https://github.com/fkie/catkin_lint">catkin_lint</a></dt>
 <dd><p>A tool for finding issues with catkin <em>package.xml</em> and <em>CMakeLists.txt</em> files.</p>
 </dd>
 <dt><a href="http://wiki.ros.org/vcstool">vcstool</a></dt>
@@ -622,7 +623,7 @@ table td {
 </dd>
 </dl>
 </dd>
-<dt><a href="http://wiki.ros.org/rosinstall_generator">rosinstall<sub>generator</sub></a></dt>
+<dt><a href="http://wiki.ros.org/rosinstall_generator">rosinstall_generator</a></dt>
 <dd><p>Used for creating <em>rosinstall</em> files which can then be read by <em>vcstool</em> to enable compiling a workspace and its dependencies from source.</p>
 </dd>
 <dt><a href="http://wiki.ros.org/rosmsg">rosmsg</a></dt>
@@ -674,7 +675,7 @@ table td {
 <dd>Diagnosing common issues with a ROS system.
 </dd>
 <dt><a href="http://wiki.ros.org/rqt">rqt</a></dt>
-<dd>A Qt-based framework for GUI development in ROS. The <a href="http://wiki.ros.org/rqt_common_plugins">rqt<sub>commonplugins</sub></a> metapackage provides many pre-made ROS GUIs that are great for working with ROS. Built in tools include bagfile plotting, playing, and recording, visualization of the <code>/tf</code> tree, image stream viewers but you can also create ;your own GUI tools
+<dd>A Qt-based framework for GUI development in ROS. The <a href="http://wiki.ros.org/rqt_common_plugins">rqt_common_plugins</a> metapackage provides many pre-made ROS GUIs that are great for working with ROS. Built in tools include bagfile plotting, playing, and recording, visualization of the <code>/tf</code> tree, image stream viewers but you can also create ;your own GUI tools
 </dd>
 <dt><a href="http://wiki.ros.org/rviz">rviz</a></dt>
 <dd><p>The primary 3D visualization tool used in ROS.</p>
@@ -691,13 +692,13 @@ table td {
 <dt><a href="http://bulletphysics.org/wordpress/">bullet</a></dt>
 <dd><p>Bullet is a non-ROS physics library that is a system dependency of ROS that is used in many of the geometric calculations done in <code>tf</code>. It's python version <a href="https://pybullet.org/wordpress">pybullet</a> is a popular simulation engine in the machine learning community and is the way that most people interact with bullet currently.</p>
 <dl>
-<dt><a href="http://wiki.ros.org/camera_calibration">camera<sub>calibration</sub></a></dt>
+<dt><a href="http://wiki.ros.org/camera_calibration">camera_calibration</a></dt>
 <dd>This is a ROS package that allows easy calibration of monocular and stereo cameras using a checkerboard pattern.
 </dd>
-<dt><a href="http://wiki.ros.org/cv_bridge">cv<sub>bridge</sub></a></dt>
+<dt><a href="http://wiki.ros.org/cv_bridge">cv_bridge</a></dt>
 <dd><code>cv_bridge</code> is part of the <code>vision_opencv</code> metapackage. It allows conversions between ROS image formats and OpenCV image formats.
 </dd>
-<dt><a href="http://wiki.ros.org/dynamic_reconfigure">dynamic<sub>reconfigure</sub></a></dt>
+<dt><a href="http://wiki.ros.org/dynamic_reconfigure">dynamic_reconfigure</a></dt>
 <dd><p>Provides a mechanism for changing a variety of node configurations without having to restart the node.</p>
 </dd>
 <dt><a href="http://eigen.tuxfamily.org/">eigen</a></dt>
@@ -706,16 +707,16 @@ table td {
 <dt><a href="http://gazebosim.org/">gazebo</a></dt>
 <dd><p>Gazebo is a standalone robotics simulation tool that is developed by OSRF. It is designed to integrate nicely with ROS, and ROS provides <a href="http://wiki.ros.org/gazebo_ros_pkgs">several tools</a> for the interface.</p>
 </dd>
-<dt><a href="http://wiki.ros.org/geometry_msgs">geometry<sub>msgs</sub></a></dt>
+<dt><a href="http://wiki.ros.org/geometry_msgs">geometry_msgs</a></dt>
 <dd><p>Contains a collection of ROS message definitions for common geometric primitives such as points, vectors, and quaternions.</p>
 </dd>
-<dt><a href="http://wiki.ros.org/image_pipeline">image<sub>pipeline</sub></a></dt>
+<dt><a href="http://wiki.ros.org/image_pipeline">image_pipeline</a></dt>
 <dd>The packages contained in this metapackage are designed to fill in the gap between a camera driver and an image processing node. The nodes in these packages implement algorithms that are extremely common in image processing so that you don't have to. Capabilities include rectifying distorted images, generating disparity maps, and converting color images to grayscale. The idea is to chain the topics of these nodes together so the final output image that you receive has already gone through basic processing steps.
 </dd>
-<dt><a href="http://wiki.ros.org/image_transport">image<sub>transport</sub></a></dt>
-<dd>Supports transparent compression of images. Quoting from their Overview: <em>When working with images we often want specialized transport strategies, such as using image compression or streaming video codecs. <code>image_transport</code> provides classes and nodes for transporting images in arbitrary over-the-wire representations, while abstracting this complexity so that the developer only sees sensor<sub>msgs</sub>/Image messages.</em>
+<dt><a href="http://wiki.ros.org/image_transport">image_transport</a></dt>
+<dd>Supports transparent compression of images. Quoting from their Overview: <em>When working with images we often want specialized transport strategies, such as using image compression or streaming video codecs. <code>image_transport</code> provides classes and nodes for transporting images in arbitrary over-the-wire representations, while abstracting this complexity so that the developer only sees sensor_msgs/Image messages.</em>
 </dd>
-<dt><a href="http://wiki.ros.org/joystick_drivers">joystick<sub>drivers</sub></a></dt>
+<dt><a href="http://wiki.ros.org/joystick_drivers">joystick_drivers</a></dt>
 <dd>A metapackage that provides tools for working with a variety of joysticks and game controllers (PS3, XBox, wiimote, etc.).
 </dd>
 <dt><a href="http://www.orocos.org/kdl">kdl</a></dt>
@@ -728,7 +729,7 @@ table td {
 <dd>This is a metapackage that enables safe 2D navigation of mobile robots. It includes tools for estimation, localization, and planning.
 </dd>
 <dt><a href="http://wiki.ros.org/nodelet">nodelet</a></dt>
-<dd><p>Allows multiple nodes to share memory with a zero copy transport between them by running them in the same process. Nodelets are extremely useful when working with message types that have a significant memory footprint such as <a href="http://docs.ros.org/api/sensor_msgs/html/msg/Image.html">sensor<sub>msgs</sub>/Image</a> and <a href="http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html">sensor<sub>msgs</sub>/PointCloud2</a>, but they are only accessible through C++.</p>
+<dd><p>Allows multiple nodes to share memory with a zero copy transport between them by running them in the same process. Nodelets are extremely useful when working with message types that have a significant memory footprint such as <a href="http://docs.ros.org/api/sensor_msgs/html/msg/Image.html">sensor_msgs/Image</a> and <a href="http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html">sensor_msgs/PointCloud2</a>, but they are only accessible through C++.</p>
 </dd>
 <dt><a href="http://ompl.kavrakilab.org/">ompl</a></dt>
 <dd>The Open Motion Planning Library is used within ROS for motion planning. Notably, <code>MoveIt!</code> uses OMPL for its default planners.
@@ -736,14 +737,14 @@ table td {
 <dt><a href="http://opencv.org/">OpenCV</a></dt>
 <dd>OpenCV is an extremely popular open-source computer vision and machine learning software library. Through tools such as <code>cv_bridge</code>, already-existing image processing code utilizing OpenCV can easily be converted to work within the ROS framework.
 </dd>
-<dt><a href="http://wiki.ros.org/openni_launch">openni<sub>launch</sub></a></dt>
+<dt><a href="http://wiki.ros.org/openni_launch">openni_launch</a></dt>
 <dd>A package that facilitates using OpenNI-compliant devices with ROS. Specifically, most people use this for Kinects and ASUS Xtion PRO LIVE devices.
 </dd>
-<dt><a href="http://wiki.ros.org/openni_tracker">openni<sub>tracker</sub></a></dt>
+<dt><a href="http://wiki.ros.org/openni_tracker">openni_tracker</a></dt>
 <dd>This package uses the NITE skeleton tracking library in conjunction with an OpenNI-compliant device to provide estimates of human poses.
 </dd>
 <dt><a href="http://www.orocos.org/">orocos</a></dt>
-<dd>The Orocos project is broken into 3 main parts: i) the Kinematics and Dynamics Library (KDL) ii) the Bayesian Filtering Libarary (BFL) iii) Orocos Toolchain (OT). All three of these parts are used by various core packages in the ROS world. (KDL = <a href="http://moveit.ros.org/">MoveIt!</a>, BFL = <a href="http://wiki.ros.org/robot_pose_ekf">robot<sub>poseekf</sub></a>, OT = <a href="https://github.com/orocos/rtt_ros_integration/blob/indigo-devel/README.md">rtt<sub>rosintegration</sub></a>).
+<dd>The Orocos project is broken into 3 main parts: i) the Kinematics and Dynamics Library (KDL) ii) the Bayesian Filtering Libarary (BFL) iii) Orocos Toolchain (OT). All three of these parts are used by various core packages in the ROS world. (KDL = <a href="http://moveit.ros.org/">MoveIt!</a>, BFL = <a href="http://wiki.ros.org/robot_pose_ekf">robot_pose_ekf</a>, OT = <a href="https://github.com/orocos/rtt_ros_integration/blob/indigo-devel/README.md">rtt_ros_integration</a>).
 </dd>
 <dt><a href="http://pointclouds.org/">pcl</a></dt>
 <dd>The Point Cloud Library (PCL) is a standalone project for 2D and 3D image and point cloud processing. It is used extensively by ROS users.
@@ -751,10 +752,10 @@ table td {
 <dt><a href="Http://www.qt.io/">Qt</a></dt>
 <dd>Qt is a cross-platform framework most-commonly used for creating GUIs. Qt is used for creating nearly all GUIs that you will use in the ROS world.
 </dd>
-<dt><a href="http://wiki.ros.org/robot_localization">robot<sub>localization</sub></a></dt>
+<dt><a href="http://wiki.ros.org/robot_localization">robot_localization</a></dt>
 <dd>Nonlinear state estimation through sensor fusion and an arbitrary number of sensors.
 </dd>
-<dt><a href="http://wiki.ros.org/robot_pose_ekf">robot<sub>poseekf</sub></a></dt>
+<dt><a href="http://wiki.ros.org/robot_pose_ekf">robot_pose_ekf</a></dt>
 <dd>This package uses an EKF to estimate the 3D pose of a robot based on pose measurements coming from wheel odometry, IMU sensors, and visual odometry.
 </dd>
 <dt><a href="http://wiki.ros.org/roscpp">roscpp</a></dt>
@@ -766,10 +767,10 @@ table td {
 <dt><a href="http://wiki.ros.org/rosserial">rosserial</a></dt>
 <dd>This metapackage defines a protocol for transmitting standard ROS serialized messages/services over a character device such as a serial port. This is commonly used for transmitting data between a microcontroller and a ROS node.
 </dd>
-<dt><a href="http://wiki.ros.org/sensor_msgs">sensor<sub>msgs</sub></a></dt>
+<dt><a href="http://wiki.ros.org/sensor_msgs">sensor_msgs</a></dt>
 <dd>A package containing a collection of message definitions used with sensors.
 </dd>
-<dt><a href="http://wiki.ros.org/std_msgs">std<sub>msgs</sub></a></dt>
+<dt><a href="http://wiki.ros.org/std_msgs">std_msgs</a></dt>
 <dd>A package containing a collection of standard ROS messages.
 </dd>
 <dt><a href="http://wiki.ros.org/tf">tf</a></dt>
@@ -778,26 +779,27 @@ table td {
 <dt><a href="http://wiki.ros.org/tf2">tf2</a></dt>
 <dd>The second generation transform library; this has replaced <code>tf</code>.
 </dd>
-<dt><a href="http://wiki.ros.org/topic_tools">topic<sub>tools</sub></a></dt>
+<dt><a href="http://wiki.ros.org/topic_tools">topic_tools</a></dt>
 <dd>This package provides tools for redirecting, throttling, transforming, and multiplexing topics.
 </dd>
 <dt><a href="http://wiki.ros.org/turtlesim">turtlesim</a></dt>
 <dd>This is a ROS package made for teaching basic ROS concepts.
 </dd>
-<dt><a href="http://wiki.ros.org/urdfdom_py">urdf<sub>parserpy</sub></a></dt>
+<dt><a href="http://wiki.ros.org/urdfdom_py">urdf_parser_py</a></dt>
 <dd>This is a simple API for parsing URDF files in Python.
 </dd>
-<dt><a href="http://wiki.ros.org/usb_cam">usb<sub>cam</sub></a></dt>
+<dt><a href="http://wiki.ros.org/usb_cam">usb_cam</a></dt>
 <dd>A ROS driver for V4L cameras (most webcams). It appears to be the most recently updated of the several ROS camera packages.
 </dd>
-<dt><a href="http://wiki.ros.org/visualization_msgs">visualization<sub>msgs</sub></a></dt>
+<dt><a href="http://wiki.ros.org/visualization_msgs">visualization_msgs</a></dt>
 <dd><p>This package contains several message definitions used specifically for visualization. <code>rviz</code> contains plugins that can already display and interact with the messages defined in this package. Using these messages is a very easy way to build 2D/3D user interfaces and displays.</p>
 </dd>
 </dl>
-<p>This work, "ROS Glossary" is a derivative of <a href="http://nu-msr.github.io/embedded-course-site/resources/ros_glossary.html">ROS Glossary</a> by Jarvis Schultz used under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> by Matthew Elwin.</p>
 </dd>
 </dl>
 </div>
+<div class="footer">
+Author: This work, "ROS Glossary" is a derivative of <a href="http://nu-msr.github.io/embedded-course-site/resources/ros_glossary.html">ROS Glossary</a> by Jarvis Schultz used under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> by Matthew Elwin..
 </div>
 </div>
 </div>
