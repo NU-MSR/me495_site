@@ -466,13 +466,15 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#guidelines">Guidelines</a></li>
-<li><a href="#git">Git</a>
+<li><a href="#guidelines">Guidelines</a>
 <ul>
+<li><a href="#git">Git</a></li>
 <li><a href="#readme">README</a></li>
 <li><a href="#documentation">Documentation</a></li>
 <li><a href="#coding-guidelines">Coding Guidelines</a></li>
 </ul></li>
+<li><a href="#asking-for-help">Asking For Help</a></li>
+<li><a href="#tips">Tips</a></li>
 </ul>
 </nav>
 
@@ -490,7 +492,7 @@ table td {
 <!-- The main content of the file -->
 <h1 id="guidelines">Guidelines</h1>
 <p>This document describes expectations for homework submissions. You should aim for a professional level of code in all of your homework assignments, which means providing documentation, using git properly, and providing tests where appropriate.</p>
-<h1 id="git">Git</h1>
+<h2 id="git">Git</h2>
 <ol>
 <li>Create a git repository using the link provided under the homework assignment in Canvas.</li>
 <li>Your homework will be graded based on what is in the <code>master</code> branch when I clone the repository at some point after the deadline.
@@ -560,7 +562,40 @@ table td {
 <li>This format is also described <a href="https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html">in the Sphinx documentation</a>,</li>
 <li>Other formats that can be understood by Sphinx are also permissible including NumPy style docstrings or the default reStructured text.</li>
 </ul></li>
+<li>Errors and Warnings should be heeded and fixed</li>
 </ol>
+<h1 id="asking-for-help">Asking For Help</h1>
+<ol>
+<li>Try to narrow down the problem to a self-contained example
+<ul>
+<li>This is especially important when asking for help on internet forums</li>
+</ul></li>
+<li>Don't send screenshots for non-graphical items
+<ul>
+<li>The person helping you can't easily copy and paste text from an image!</li>
+<li>For small code snippets, include code inline, formatted as code</li>
+<li>For larger code snippets, provide a link to your github or attach a file</li>
+</ul></li>
+<li>Use the Discussion Forums in Canvas</li>
+</ol>
+<h1 id="tips">Tips</h1>
+<ul>
+<li><p>Read the class notes</p></li>
+<li><p>Read the whole assignment prior to starting</p></li>
+<li><p>Read the documentation on the ROS wiki</p></li>
+<li><p>Read every error message.</p></li>
+<li><p>Draw a diagram of what nodes you expect to run and how they are connected prior to coding</p></li>
+<li><p>Before doing any other debugging steps:</p>
+<pre><code>catkin_make
+source devel/setup.bash
+</code></pre>
+<ul>
+<li>It never hurts to run these commands again</li>
+<li>You may have forgotten to, for example, source the workspace in a new terminal window</li>
+</ul></li>
+<li><p>Look at the <code>rosgraph</code> using <code>rqt_graph</code></p></li>
+<li><p>If the <code>rosgraph</code> looks correct, use <code>rostopic echo</code> to make sure publishers are actually publishing</p></li>
+</ul>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

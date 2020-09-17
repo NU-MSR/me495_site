@@ -498,21 +498,31 @@ table td {
 <h1 id="part-i-inspection">Part I: Inspection</h1>
 <p>Here you will inspect a poorly-documented ROS package, inspect it, and improve its documentation.</p>
 <ol>
-<li>Create a new ROS workspace.</li>
-<li>Clone <a href="https://github.com/m-elwin/crazy_turtle">https://github.com/m-elwin/crazy_turtle</a> into the source space of your workspace.</li>
-<li>Clone your homework repository (call it <code>turtle_control</code>) into the source space of your workspace</li>
-<li>Copy <code>crazy_turtle/README.md</code> into <code>homework1/inspection.md</code>.
+<li><p>Create a new ROS workspace.</p></li>
+<li><p>Clone <a href="https://github.com/m-elwin/crazy_turtle">https://github.com/m-elwin/crazy_turtle</a> into the source space of your workspace.</p></li>
+<li><p>Clone your homework repository (call it <code>turtle_control</code>) into the source space of your workspace</p></li>
+<li><p>Copy <code>crazy_turtle/README.md</code> into <code>turtle_control/inspection.md</code>.</p>
 <ul>
 <li><code>inspection.md</code> contains further questions that you should answer and places to write your answers.</li>
 <li>This exercise also serves as a quick introduction to some <a href="https://guides.github.com/features/mastering-markdwon">markdown</a> basics.</li>
+<li><code>inspection.md</code> should be added to your <code>crazy_turtle</code> repository and filled out by you.</li>
 </ul></li>
-<li>Copy <code>crazy_turtle/scripts/mover</code> to <code>homework1/mover</code>. Edit the file and search for <code>&lt;&gt;</code> angle brackets, replacing their contents to fill in the appropriate comments.</li>
+<li><p>Copy <code>crazy_turtle/scripts/mover</code> to <code>turtle_control/mover</code>. Edit the file and search for <code>&lt;&gt;</code> angle brackets, replacing their contents to fill in the appropriate comments.</p></li>
+<li><p>Your Workspace should look like</p>
+<pre><code>ws/
+ws/src
+ws/src/crazy_turtle
+ws/src/turtle_control  # This is the only directory that should be in your git repository!
+</code></pre></li>
 </ol>
 <h1 id="part-ii-turtle-control">Part II: Turtle Control</h1>
-<p>You will create a package that lets the turtle follow waypoints. The package you create depends on <code>turtlesim</code> because it is designed to control the turtle and uses messages/services from the <code>turtlesim</code> package.</p>
+<p>Create a package that lets the simulated turtle follow a series of waypoints. The package you create depends on <code>turtlesim</code> because it is designed to control the turtle and uses messages/services from the <code>turtlesim</code> package.</p>
 <ol>
-<li>Create a <code>package.xml</code> and <code>CMakeLists.txt</code> in your <code>turtle_control</code> <code>git</code> repository. I recommend using <code>catkin_create_pkg</code> so you can read the comments in the generated files and learn about the format.</li>
-<li>Be sure to edit the <code>package.xml</code> to change the default but required fields to reflect your name, email, and a description of this package.</li>
+<li>Create a <code>package.xml</code> and <code>CMakeLists.txt</code> in your <code>turtle_control</code> repository.
+<ul>
+<li>I recommend using <code>catkin_create_pkg</code> so you can read the comments in the generated files and learn about the format.</li>
+</ul></li>
+<li>Edit the <code>package.xml</code> to change the default but required fields to reflect your name, email, and a description of this package.</li>
 <li>Commit the changes and push to the remote.</li>
 </ol>
 <h2 id="velocity-translator">Velocity Translator</h2>
@@ -527,7 +537,7 @@ table td {
 <li>To properly add the message you will need to read <code>CMakeLists.txt</code> and adjust it and <code>package.xml</code>. There is a long comment block in <code>CMakeLists.txt</code> describing what you need to do.</li>
 <li>The process of adding a service is nearly identical to that of adding a message.</li>
 </ul></li>
-<li>Make sure your package compiles with <code>catkin_make</code> and has no linting errors from <code>catkin_lint</code> before proceeding.
+<li>Make sure your package compiles cleanly with <code>catkin_make</code> and has no linting errors from <code>catkin_lint</code> before proceeding.
 <ul>
 <li>The errors from <code>catkin_lint</code> help explain why <code>catkin_make</code> fails.</li>
 </ul></li>
