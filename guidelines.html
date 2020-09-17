@@ -1,0 +1,589 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Homework Guidelines: ME495 Embedded Systems in Robotics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#guidelines">Guidelines</a></li>
+<li><a href="#git">Git</a>
+<ul>
+<li><a href="#readme">README</a></li>
+<li><a href="#documentation">Documentation</a></li>
+<li><a href="#coding-guidelines">Coding Guidelines</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Homework Guidelines: ME495 Embedded Systems in Robotics</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="guidelines">Guidelines</h1>
+<p>This document describes expectations for homework submissions. You should aim for a professional level of code in all of your homework assignments, which means providing documentation, using git properly, and providing tests, where appropriate.</p>
+<h1 id="git">Git</h1>
+<ol>
+<li>Create a git repository using the link provided in Canvas.</li>
+<li>Your homework will be graded based on what is in the <code>master</code> branch when I clone the repository at some point after the deadline.
+<ul>
+<li>I recommend working on a separate branch and merging into master when you are ready to submit</li>
+</ul></li>
+<li>You should have multiple commits with meaningful commit messages.
+<ul>
+<li>There is no exact number of commits you need, it is more about the appropriateness of each commit</li>
+<li>Each commit should capture a single "thought" that you coded and tried</li>
+<li>Bugs will be easier to fix if you make small changes and test them frequently</li>
+<li>Committing often frees you to experiment while knowing you can always revert the code.</li>
+</ul></li>
+<li>Maintain a <code>.gitignore</code> file to prevent improperly tracked files.
+<ol>
+<li>There should be no backup files your text editor created (such as <code>file.py~</code> or <code>.#file</code>).</li>
+<li>There should be no python bytecode files (<code>file.pyc</code>) committed.</li>
+<li>There should be no files that are generated based off of source code that you wrote.</li>
+</ol></li>
+<li>The parent directory of your repository should be <code>ws/src</code>.
+<ul>
+<li>There should be no files from outside the <code>src/</code> space.</li>
+</ul></li>
+<li>Refer to the <a href="https://git-scm.com">Git Book</a> and <a href="https://nu-msr.github.io/hackathon_site/git_intro.html">Git Intro</a> for more information on how to use <code>git</code></li>
+</ol>
+<h2 id="readme">README</h2>
+<ol>
+<li>Your <code>README.md</code> should be formatted using markdown: see <a href="https://guides.github.com/features/mastering-markdown/">this guide</a>.
+<ul>
+<li>Be sure to format any code using the appropriate code formatting</li>
+<li>Some text editors like <code>atom</code> or <code>vscode</code> will preview markdown for you locally.</li>
+<li>You can also use tools like <code>markdown</code> or <code>pandoc</code> to generate <code>.html</code> from <code>.md</code> files.</li>
+</ul></li>
+<li>Your <code>README.md</code> should contain the following:
+<ol>
+<li>Title</li>
+<li>Your Name</li>
+<li>Brief overview (1-3 sentences) describing what the package does</li>
+<li>Usage instructions. I will use these instructions to run your code while grading so if they don't work your code does not work!
+<ul>
+<li>Assume that the reader has a turtlebot3 somewhere on their network, but it might be at an address different from the one on your network
+<ul>
+<li>How do I specify the turtlebot3 address?</li>
+</ul></li>
+<li>What commands do I need to type to
+<ul>
+<li>Create a ROS workspace</li>
+<li>Clone your repository</li>
+<li>Compile your workspace</li>
+<li>Run your code?</li>
+<li>Run your tests?</li>
+<li>How do I generate your Sphinx documentation?</li>
+</ul></li>
+</ul>
+<ol>
+<li>Configuration instructions
+<ul>
+<li>What options are available to change the behavior of the program, and what values can I set them to and</li>
+</ul></li>
+</ol></li>
+</ol></li>
+</ol>
+<h2 id="documentation">Documentation</h2>
+<ol>
+<li>Each node that you write should start with a python docstring describing its ROS API:
+<ol>
+<li>What topics are published, their type, and what they do.</li>
+<li>What topics are subscribed to, their type, and what the data is used for.</li>
+<li>What services are offered, their type, and what they do</li>
+<li>What parameters are used, their type, and what they do.</li>
+<li>See <em>github.com/m-elwin/crazy_turtle</em> for a basic template.</li>
+</ol></li>
+</ol>
+<h2 id="coding-guidelines">Coding Guidelines</h2>
+<ol>
+<li>You should follow the <a href="https://www.python.org/dev/peps/pep-0008/">PEP8</a> Style guidelines.</li>
+<li>Every class and function you write should have an associated docstring.
+<ul>
+<li>A brief description of what the class or function does</li>
+<li>What the arguments are</li>
+<li>What the return value is</li>
+<li>What exceptions may be raised</li>
+<li>See the <a href="http://google.github.io/styleguide/pyguide.html">Google Python Style Guide</a> (specifically the section on docstrings) for how to format.</li>
+<li>This format is also described <a href="https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html">in the Sphinx documentation</a>,</li>
+<li>Other formats that can be understood by Sphinx are also permissible including NumPy style docstrings or the default reStructured text.</li>
+</ul></li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
