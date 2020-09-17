@@ -501,19 +501,21 @@ table td {
 <li><p>Create a new ROS workspace.</p></li>
 <li><p>Clone <a href="https://github.com/m-elwin/crazy_turtle">https://github.com/m-elwin/crazy_turtle</a> into the source space of your workspace.</p></li>
 <li><p>Clone your homework repository (call it <code>turtle_control</code>) into the source space of your workspace</p></li>
-<li><p>Copy <code>crazy_turtle/README.md</code> into <code>turtle_control/inspection.md</code>.</p>
-<ul>
-<li><code>inspection.md</code> contains further questions that you should answer and places to write your answers.</li>
-<li>This exercise also serves as a quick introduction to some <a href="https://guides.github.com/features/mastering-markdwon">markdown</a> basics.</li>
-<li><code>inspection.md</code> should be added to your <code>crazy_turtle</code> repository and filled out by you.</li>
-</ul></li>
-<li><p>Copy <code>crazy_turtle/scripts/mover</code> to <code>turtle_control/mover</code>. Edit the file and search for <code>&lt;&gt;</code> angle brackets, replacing their contents to fill in the appropriate comments.</p></li>
 <li><p>Your Workspace should look like</p>
 <pre><code>ws/
 ws/src
 ws/src/crazy_turtle
 ws/src/turtle_control  # This is the only directory that should be in your git repository!
 </code></pre></li>
+<li><p>Copy <code>crazy_turtle/README.md</code> into <code>turtle_control/inspection.md</code>.</p>
+<ul>
+<li>Add <code>inspection.md</code> to your <code>git</code> repository</li>
+</ul></li>
+<li><p><code>inspection.md</code> contains some additional exercises that you should complete. Fill in the <code>&lt;&gt;</code> angle brackets with the answer.</p>
+<ul>
+<li>This exercise also serves as a quick introduction to some <a href="https://guides.github.com/features/mastering-markdwon">markdown</a> basics.</li>
+</ul></li>
+<li><p>Copy <code>crazy_turtle/scripts/mover</code> to <code>turtle_control/mover</code>. Edit the file and search for <code>&lt;&gt;</code> angle brackets, replacing them with the appropriate word or phrase.</p></li>
 </ol>
 <h1 id="part-ii-turtle-control">Part II: Turtle Control</h1>
 <p>Create a package that lets the simulated turtle follow a series of waypoints. The package you create depends on <code>turtlesim</code> because it is designed to control the turtle and uses messages/services from the <code>turtlesim</code> package.</p>
@@ -576,7 +578,7 @@ ws/src/turtle_control  # This is the only directory that should be in your git r
 </ol>
 <h3 id="subscribers">Subscribers</h3>
 <ol>
-<li>The turtle may subscribe to the <code>pose</code> topic to read the pose as reported by the turtle.</li>
+<li>The turtle may subscribe to the <code>pose</code> topic to read the pose, as reported by the turtle.</li>
 </ol>
 <h3 id="publishers">Publishers</h3>
 <ol>
@@ -588,7 +590,7 @@ ws/src/turtle_control  # This is the only directory that should be in your git r
 <h3 id="startup">Startup</h3>
 <ul>
 <li>When the node is initialized, it should use the <code>/spawn</code> service spawn a new turtle called <code>mark</code>.</li>
-<li>Prior to the node starting, <code>mark</code> should be moved to each waypoint location and run a small trajectory to draw an X marking each waypoint</li>
+<li>Prior to the node starting, <code>mark</code> should be moved to each waypoint location and run a small trajectory to draw an X marking each waypoint.</li>
 <li>Then <code>mark</code> should lift its pen and teleport to the next waypoint (one waypoint ahead of <code>turtle1</code>)
 <ul>
 <li>Essentially, <code>mark</code> will always sit one waypoint ahead of <code>turtle1</code></li>
