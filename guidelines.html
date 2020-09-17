@@ -489,10 +489,10 @@ table td {
 
 <!-- The main content of the file -->
 <h1 id="guidelines">Guidelines</h1>
-<p>This document describes expectations for homework submissions. You should aim for a professional level of code in all of your homework assignments, which means providing documentation, using git properly, and providing tests, where appropriate.</p>
+<p>This document describes expectations for homework submissions. You should aim for a professional level of code in all of your homework assignments, which means providing documentation, using git properly, and providing tests where appropriate.</p>
 <h1 id="git">Git</h1>
 <ol>
-<li>Create a git repository using the link provided in Canvas.</li>
+<li>Create a git repository using the link provided under the homework assignment in Canvas.</li>
 <li>Your homework will be graded based on what is in the <code>master</code> branch when I clone the repository at some point after the deadline.
 <ul>
 <li>I recommend working on a separate branch and merging into master when you are ready to submit</li>
@@ -508,7 +508,7 @@ table td {
 <ol>
 <li>There should be no backup files your text editor created (such as <code>file.py~</code> or <code>.#file</code>).</li>
 <li>There should be no python bytecode files (<code>file.pyc</code>) committed.</li>
-<li>There should be no files that are generated based off of source code that you wrote.</li>
+<li>There should be no files that are generated form source code that you wrote.</li>
 </ol></li>
 <li>The parent directory of your repository should be <code>ws/src</code>.
 <ul>
@@ -529,28 +529,11 @@ table td {
 <li>Title</li>
 <li>Your Name</li>
 <li>Brief overview (1-3 sentences) describing what the package does</li>
-<li>Usage instructions. I will use these instructions to run your code while grading so if they don't work your code does not work!
+<li>Usage instructions. What do I need to do to download, compile, run, and test your code?</li>
+<li>Configuration instructions:
 <ul>
-<li>Assume that the reader has a turtlebot3 somewhere on their network, but it might be at an address different from the one on your network
-<ul>
-<li>How do I specify the turtlebot3 address?</li>
+<li>What options are available to change the behavior of the program and how are they used?</li>
 </ul></li>
-<li>What commands do I need to type to
-<ul>
-<li>Create a ROS workspace</li>
-<li>Clone your repository</li>
-<li>Compile your workspace</li>
-<li>Run your code?</li>
-<li>Run your tests?</li>
-<li>How do I generate your Sphinx documentation?</li>
-</ul></li>
-</ul>
-<ol>
-<li>Configuration instructions
-<ul>
-<li>What options are available to change the behavior of the program, and what values can I set them to and</li>
-</ul></li>
-</ol></li>
 </ol></li>
 </ol>
 <h2 id="documentation">Documentation</h2>
@@ -566,7 +549,7 @@ table td {
 </ol>
 <h2 id="coding-guidelines">Coding Guidelines</h2>
 <ol>
-<li>You should follow the <a href="https://www.python.org/dev/peps/pep-0008/">PEP8</a> Style guidelines.</li>
+<li>Strive to follow the <a href="https://www.python.org/dev/peps/pep-0008/">PEP8</a> Style guidelines.</li>
 <li>Every class and function you write should have an associated docstring.
 <ul>
 <li>A brief description of what the class or function does</li>
