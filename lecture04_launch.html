@@ -504,8 +504,12 @@ table td {
 <li>The command-line tool for using launch files is <a href="https://wiki.ros.org/roslaunch">roslaunch</a>.</li>
 <li>There are two ways of invoking a launchfile:
 <ol>
-<li><code>roslaunch package file.launch [arg_name:=value]...</code> This method assumes you have sourced your <code>setup.bash</code></li>
-<li><code>roslaunch package /path/to/launch/file.launch [arg_name:=value...]</code> Here, the launch file at the given location is directly used.</li>
+<li><code>roslaunch package file.launch [arg_name:=value]...</code></li>
+<li><code>roslaunch package /path/to/launch/file.launch [arg_name:=value...]</code>
+<ul>
+<li>Here, the launch file at the given location is directly used.</li>
+<li>This method is not used very often</li>
+</ul></li>
 </ol></li>
 <li>You can pass arguments to a launch file using the <code>arg_name:=value</code> syntax, which is shared with the remapping arguments syntax.</li>
 <li><code>roslaunch</code> automatically starts <code>roscore</code>, if it is not already running.</li>
