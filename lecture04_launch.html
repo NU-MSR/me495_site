@@ -466,12 +466,13 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#launchfiles-and-ros">Launchfiles and ROS</a>
+<li><a href="#launchfiles-and-ros">Launchfiles and ROS</a></li>
+<li><a href="#using-roslaunch">Using roslaunch</a>
 <ul>
-<li><a href="#using-roslaunch">Using roslaunch</a></li>
-<li><a href="#writing-a-launchfile">Writing a Launchfile</a></li>
+<li><a href="#roslaunch-options">Roslaunch options</a></li>
 </ul></li>
-<li><a href="#an-interactive-demonstration">An Interactive Demonstration</a></li>
+<li><a href="#writing-a-launchfile">Writing a Launchfile</a></li>
+<li><a href="#references">References</a></li>
 </ul>
 </nav>
 
@@ -499,7 +500,7 @@ table td {
 <li>and more!</li>
 </ul></li>
 </ul>
-<h2 id="using-roslaunch">Using roslaunch</h2>
+<h1 id="using-roslaunch">Using roslaunch</h1>
 <ul>
 <li>The command-line tool for using launch files is <a href="https://wiki.ros.org/roslaunch">roslaunch</a>.</li>
 <li>There are two ways of invoking a launchfile:
@@ -514,7 +515,7 @@ table td {
 <li>You can pass arguments to a launch file using the <code>arg_name:=value</code> syntax, which is shared with the remapping arguments syntax.</li>
 <li><code>roslaunch</code> automatically starts <code>roscore</code>, if it is not already running.</li>
 </ul>
-<h3 id="roslaunch-options">Roslaunch options</h3>
+<h2 id="roslaunch-options">Roslaunch options</h2>
 <p>Note: - <code>roslaunch --help</code> provides more options</p>
 <ol>
 <li><code>--nodes</code> shows the nodes that are launched by the launchfile</li>
@@ -523,7 +524,7 @@ table td {
 <li><code>--files</code>: Launchfiles can include other launchfiles. This shows which launchfiles a given launchfile includes.</li>
 <li><code>--find /node</code>: Used to find which of the included launchfiles started the node with the given name.</li>
 </ol>
-<h2 id="writing-a-launchfile">Writing a Launchfile</h2>
+<h1 id="writing-a-launchfile">Writing a Launchfile</h1>
 <ol>
 <li><p>The <a href="http://wiki.ros.org/roslaunch/XML">Launchfile format</a> relies on XML along with a special enhanced substitution argument syntax.</p></li>
 <li><p>Launchfiles list nodes to be launched; however, the order in which they start is non-deterministic.</p></li>
@@ -562,49 +563,12 @@ table td {
 </ol></li>
 <li><p><a href="https://wiki.ros.org/roswtf">roswtf</a> can be used to check launchfiles: <code>roswtf file.launch</code>.</p></li>
 </ol>
-<h1 id="an-interactive-demonstration">An Interactive Demonstration</h1>
-<pre><code># Create a new workspace
-mkdir -p ws/src
-
-# clone the demonstration code
-cd ws/src
-git clone https://github.com/m-elwin/me495_counter.git counter
-
-# return to ws root
-cd ../
-
-# rebuild and resource the workspace
-catkin_make
-source devel/setup.bash
-
-# Run the launchfile
-# NOTE: launchfiles will automatically start 
-# roscore if not already running
-
-roslaunch counter count_nodes.launch
-
-# In a new terminal, source your devel.bash and run rqt_graph
-# What nodes to you see? What topics are being published and
-# subscribed to?
-
-# examine the source code for count_steady node
-# What topic does it publish to?
-
-# examine the source code for the accumulate node
-# what topic does it publish to?
-
-# Examine count_nodes.launch
-# How does the code in count_nodes.launch result in the graph that you
-#  see in rqt_graph?
-
-# You can also see what nodes are launched using roslaunch
-# The namespaces will be resolved properly when doing this:
-roslaunch --nodes counter count_nodes.launch
-
-# After listing the nodes, you can use this information to see the
-# exact command that is run
-roslaunch --args=/basic/accum1 counter count_nodes.launch
-</code></pre>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="http://wiki.ros.org/roslaunch">Roslaunch</a></li>
+<li><a href="http://wiki.ros.org/roslaunch/XML">Roslaunch XML format</a></li>
+<li><a href="http://wiki.ros.org/roslaunch/API%20Usage">Roslaunch Python API</a></li>
+</ul>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

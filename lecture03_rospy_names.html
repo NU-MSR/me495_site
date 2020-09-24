@@ -476,8 +476,8 @@ table td {
 <ul>
 <li><a href="#whats-in-a-name">What's in a name?</a></li>
 <li><a href="#understanding-names">Understanding Names</a></li>
+<li><a href="#remapping">Remapping</a></li>
 <li><a href="#example">Example</a></li>
-<li><a href="#names-clients-and-publishing">Names, Clients, and Publishing</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -561,6 +561,10 @@ table td {
 <h2 id="understanding-names">Understanding Names</h2>
 <ol>
 <li>In ROS, every topic, parameter, and service has a <a href="https://wiki.ros.org/Names">Graph Resource Name</a></li>
+<li>Message Types, Service Types, and Node Types also have names that can be referred to by a similar mechanism:
+<ul>
+<li>For example <code>turtlesim/Color</code> refers to <code>/path/to/turtlesim/msg/Color.msg</code></li>
+</ul></li>
 <li>You pass strings to <code>rospy</code> API calls to access a resource by its name.
 <ul>
 <li>When you initialize a node, you provide a name</li>
@@ -598,13 +602,20 @@ table td {
 <li>Anyone can access private names but you shouldn't do it.</li>
 </ul></li>
 </ul></li>
-<li>Parameters in the parameter server also use namespaces for access.</li>
-<li>Nodes can be launched in any namespace that you want
+<li>Parameters in the parameter server also use namespaces for access.
+<ul>
+<li>Private parameters are useful for constants that only a single node instance needs.</li>
+<li>If you run multiple instances of a node with private parameters, it will get multiple instances of those parameters</li>
+</ul></li>
+<li>Nodes can be launched in any namespace
 <ul>
 <li>The change can be done in a launchfile or by setting the <code>ROS_NAMESPACE</code> environment variable</li>
 <li>If your node uses relative names, you can then change the node namespace to group everything from a given node.</li>
 <li>This is useful, for example, if you have two nodes from different packages that publish on the same topics but you don't want to connect them.</li>
 </ul></li>
+</ol>
+<h2 id="remapping">Remapping</h2>
+<ol>
 <li>Resources can be <em>remapped</em> to any name that you want
 <ul>
 <li>This is like a <code>mv</code> operation in the Linux filesystem</li>
@@ -612,8 +623,9 @@ table td {
 </ul></li>
 <li>Remapping can occur by passing arguments to <code>rosrun</code>, <code>roslaunch</code> or in a <code>launchfile</code>
 <ul>
-<li>The basic syntax is passed as a command-line argument: <code>oldname:=newname</code></li>
+<li>The basic syntax is passed as a command-line argument: <code>oldname:=newname</code> (see <a href="https://wiki.ros.org/Remapping%20Arguments">Remapping Arguments</a>)</li>
 <li>a preceding underscore (<code>_</code>) on the command-line becomes a <code>~</code> to indicate a private name</li>
+<li>You can change the name of a node by remapping <code>__name</code></li>
 </ul></li>
 <li>In practice, ROS nodes are written with <code>remapping</code> in mind
 <ul>
@@ -622,14 +634,7 @@ table td {
 <li>Document these names as part of the node's ROS API</li>
 <li>Users of the node then remap these topics and services as needed</li>
 <li>By using base or relative names enables easy remapping of all the topics/services used by a node.</li>
-</ul></li>
-<li>Private parameters are useful for constants that only a single node instance needs.
-<ul>
-<li>If you run multiple instances of a node with private parameters, it will get multiple instances of those parameters</li>
-</ul></li>
-<li>Message Types, Service Types, and Node Types also have names that can be referred to by a similar mechanism:
-<ul>
-<li>For example <code>turtlesim/Color</code> refers to <code>/path/to/turtlesim/msg/Color.msg</code></li>
+<li>Typically, you should not use a global name in a ROS node, as this makes it impossible for a user to move your node and all its topics under a desired namespace</li>
 </ul></li>
 <li>Names should start with a lower case letter, and then can contain letters, or underscores.</li>
 </ol>
@@ -638,16 +643,11 @@ table td {
 <ol>
 <li><code>/ns1/node1</code> is the global name of <code>node1</code></li>
 <li><code>node1</code> is the base name of <code>node1</code></li>
-<li><code>topic1</code>, resolves to <code>/ns1/topic1</code></li>
+<li>From within <code>node1</code>, <code>topic1</code>, resolves to <code>/ns1/topic1</code></li>
 <li><code>/topic1</code>, resolves to <code>/topic1</code></li>
-<li><code>~topic1</code>, resolves to <code>/ns1/node1/topic1</code></li>
-</ol>
-<h2 id="names-clients-and-publishing">Names, Clients, and Publishing</h2>
-<p>Try experimenting with names and remapping when launching nodes, using the nodes you wrote in the activity. Some things to try:</p>
-<ol>
-<li>Launch two publisher/subscriber pairs in different namespaces</li>
-<li>Try renaming the topics of the names in code and still connecting the publisher and subscriber at runtime.</li>
-<li>Have the <code>talker</code> node publish on a private topic. Then use remapping to have the listener subscribe to the private topic.</li>
+<li>From within <code>node1</code>, <code>~topic1</code>, resolves to <code>/ns1/node1/topic1</code></li>
+<li>If within <code>node1</code> you subscribe <code>topic2</code> then the node is connected to <code>/ns1/topic2</code></li>
+<li>If within <code>node1</code> you subscribe to <code>/topic2</code> then the node is connected to <code>/topic2</code></li>
 </ol>
 </div>
 <div class="footer">

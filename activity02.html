@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>ROS Lecture Notes</title>
+<title>Launchfile and Names Activity</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -466,10 +466,10 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#description">Description</a></li>
-<li><a href="#notes">Notes</a></li>
-<li><a href="#activities">Activities</a></li>
-<li><a href="#homework">Homework</a></li>
+<li><a href="#zoom-setup">Zoom Setup</a></li>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#exploring-names">Exploring Names</a></li>
+<li><a href="#exploring-launchfiles">Exploring Launchfiles</a></li>
 </ul>
 </nav>
 
@@ -481,31 +481,115 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">ROS Lecture Notes</h1>
+<h1 class="title">Launchfile and Names Activity</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="description">Description</h1>
-<p>Welcome to the lecture notes for ME495: Embedded Systems in Robotics!</p>
-<p>This project-based course provides experience with a variety of software tools and concepts useful for a robotics engineer working with practical embedded systems. The Robot Operating System (ROS) will be used as an example framework, and learning ROS will be a primary goal of the course. By the end of the course, student teams will have completed a robotics project using a real robot.</p>
-<h1 id="notes">Notes</h1>
-<ul>
-<li><a href="./lecture00_preliminaries.html">Preliminaries</a></li>
-<li><a href="./lecture01_basics.html">ROS Basics</a></li>
-<li><a href="./lecture02_catkin.html">Catkin and Packages</a></li>
-<li><a href="./lecture03_rospy_names.html">Rospy and Names</a></li>
-<li><a href="./lecture04_launch.html">Launchfiles</a></li>
-<li><a href="./glossary.html">ROS Glossary</a></li>
-</ul>
-<h1 id="activities">Activities</h1>
-<ul>
-<li><a href="./activity01.html">Basic ROS Activity</a></li>
-<li><a href="./activity02.html">Names and Launchfiles</a></li>
-</ul>
-<h1 id="homework">Homework</h1>
+<h1 id="zoom-setup">Zoom Setup</h1>
 <ol>
-<li><a href="./guidelines.html">Guidelines</a>: These apply to every homework</li>
-<li><a href="./homework01.html">Homework 1</a> is due on Tuesday, September 29</li>
+<li>In your group, one person is the leader.
+<ul>
+<li>The leader will share their screen and do most of the typing</li>
+</ul></li>
+<li>Go through the steps in this activity as a group, while discussing answers to each question.
+<ul>
+<li>If there is some surprising behavior that you want explained more thoroughly note it in the Google doc under your Group number.</li>
+</ul></li>
+<li>The google doc is <a href="https://docs.google.com/document/d/1TxQW8NQd6OOPZU8uzLqVlM04bemXrkXwuAxqC3KGvwI/edit?usp=sharing">here</a>. You must be logged in to your <code>u.northwestern.edu</code> account to see the google doc</li>
+</ol>
+<h1 id="setup">Setup</h1>
+<ol>
+<li><p>Create a new workspace and clone the demonstration code</p>
+<pre><code># Create a new workspace
+mkdir -p ws/src
+
+# clone the demonstration code
+cd ws/src
+git clone https://github.com/m-elwin/me495_counter.git counter
+
+# return to ws root
+cd ../
+</code></pre></li>
+<li><p>Build the workspace and activate it</p>
+<ul>
+<li><p>For each new terminal window that you open you will need to re-source the workspace</p>
+<pre><code>catkin_make
+source devel/setup.bash
+</code></pre></li>
+</ul></li>
+</ol>
+<h1 id="exploring-names">Exploring Names</h1>
+<p>The <code>counter</code> package provides several nodes (<code>count_up</code>, <code>count_down</code>, <code>count_steady</code> and <code>accumulator</code>). The nodes that start with <code>count_</code> publish on the <code>count</code> topic. The accumulator subscribes to <code>count</code> and logs information.</p>
+<ol>
+<li>Run <code>roscore</code></li>
+<li>Run <code>rqt_graph</code> after each node that you run, refresh <code>rqt_graph</code> to see the changes to the ROS graph
+<ul>
+<li>I recommend selecting Nodes/Topics (all) and un-checking Dead Sinks and Leaf topics</li>
+</ul></li>
+<li>Use <code>rosrun</code> to start an accumulator node and a <code>count_up</code> node
+<ul>
+<li>What behavior do you see?</li>
+</ul></li>
+<li>Run a <code>count_down</code> node along with the <code>count_up</code> node that is already running
+<ul>
+<li>What behavior do you see?</li>
+</ul></li>
+<li>Use <code>rosnode kill</code> to kill the <code>count_up</code> node
+<ul>
+<li>What behavior do you see</li>
+</ul></li>
+<li>Try to running another <code>count_down</code> node. What happens?</li>
+<li>Use the <code>__name</code> parameter and remapping to run two <code>count_down</code> nodes simultaneously
+<ul>
+<li>What happens?</li>
+</ul></li>
+<li>Kill all the nodes that are running</li>
+<li>Use namespaces by setting the <code>ROS_NAMESPACE</code> environment variable to run two sets of nodes:
+<ol>
+<li>An accumulator subscribed to a count_up in the <code>up</code> namespace</li>
+<li>An accumulator subscribed to a count_down in the <code>down</code> namespace</li>
+<li>You can do <code>ROS_NAMESPACE=name rosrun &lt;...&gt;</code> to set <code>ROS_NAMESPACE</code> just for a single <code>rosrun</code> command</li>
+<li>You can <code>export ROS_NAMESPACE=name</code> to set it permanently for a given terminal</li>
+</ol></li>
+<li>Run a <code>count_steady</code> node by specifying it's private parameter <code>~val</code> to be 1 at the command line.
+<ul>
+<li>Run it in the global namespace</li>
+<li>Have it publish to the accumulator node running in the <code>down</code> namespace.</li>
+<li>Note, the <code>~</code> in a private parameter is represented as an <code>_</code> on the commandline</li>
+<li>You will need to remap the <code>count</code> topic</li>
+</ul></li>
+<li>Kill all nodes.</li>
+<li>Use <code>rosparam</code> to set the <code>count_steady/val</code> parameter to 2</li>
+<li>Run a <code>count_steady</code> node and note what value it is publishing</li>
+<li>Use <code>rosparam</code> to change the <code>count_steady/val</code> parameter to 5
+<ul>
+<li>Does the value published by <code>count_steady</code> change?</li>
+</ul></li>
+<li>Kill and re-run the <code>count_steady</code> node. What value is it publishing now?</li>
+<li>Close all terminal windows to kill everything</li>
+</ol>
+<h1 id="exploring-launchfiles">Exploring Launchfiles</h1>
+<p>I'm sure you're tired of running all these nodes… Launchfiles to the rescue!</p>
+<ol>
+<li>Run <code>roslaunch counter count_nodes.launch</code>
+<ul>
+<li>Note, <code>roslaunch</code> starts <code>roscore</code> automatically if it is not yet running</li>
+</ul></li>
+<li>Run <code>rqt_graph</code> to see what nodes are running and how they are connected
+<ul>
+<li>What topics are being published and subscribed to</li>
+</ul></li>
+<li>Examine the source code for count_steady node and see if you can tell where the publishing happens.</li>
+<li>Examine count_nodes.launch
+<ul>
+<li>How does the code in count_nodes.launch result in the graph that you see in rqt_graph?</li>
+<li>You can see what nodes a launchfile runs without actually running them by executing <code>roslaunch --nodes counter count_nodes.launch</code> (notice the <code>--nodes</code> flag)</li>
+</ul></li>
+<li>After listing the nodes, you can use this information to see the exact command that will be run to start a node:
+<ul>
+<li><code>roslaunch --args=/basic/accum1 counter count_nodes.launch</code></li>
+<li>Useful for debugging Launch files</li>
+</ul></li>
 </ol>
 </div>
 <div class="footer">
