@@ -512,7 +512,7 @@ table td {
 <li>There should be no python bytecode files (<code>file.pyc</code>) committed.</li>
 <li>There should be no files that are generated form source code that you wrote.</li>
 </ol></li>
-<li>The parent directory of your repository should be <code>ws/src</code>.
+<li>The parent directory of your repository should be <code>ws/src/&lt;pkg&gt;</code>.
 <ul>
 <li>There should be no files from outside the <code>src/</code> space.</li>
 </ul></li>
@@ -563,6 +563,7 @@ table td {
 <li>Other formats that can be understood by Sphinx are also permissible including NumPy style docstrings or the default reStructured text.</li>
 </ul></li>
 <li>Errors and Warnings should be heeded and fixed</li>
+<li>In general, refer to <code>ROS</code> entities using relative names from within your nodes.</li>
 </ol>
 <h1 id="asking-for-help">Asking For Help</h1>
 <ol>
