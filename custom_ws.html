@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>ROS Lecture Notes</title>
+<title>Custom Workspce</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -466,10 +466,16 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#description">Description</a></li>
-<li><a href="#notes">Notes</a></li>
-<li><a href="#activities">Activities</a></li>
-<li><a href="#homework">Homework</a></li>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#general-steps">General Steps</a>
+<ul>
+<li><a href="#sharing">Sharing</a></li>
+</ul></li>
+<li><a href="#for-me495-in-fall-2020">For ME495 in Fall 2020</a>
+<ul>
+<li><a href="#to-msr-students-who-participated-in-the-hackathon">To MSR students who participated in the hackathon</a></li>
+<li><a href="#to-everyone">To Everyone</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -481,37 +487,68 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">ROS Lecture Notes</h1>
+<h1 class="title">Custom Workspce</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="description">Description</h1>
-<p>Welcome to the lecture notes for ME495: Embedded Systems in Robotics!</p>
-<p>This project-based course provides experience with a variety of software tools and concepts useful for a robotics engineer working with practical embedded systems. The Robot Operating System (ROS) will be used as an example framework, and learning ROS will be a primary goal of the course. By the end of the course, student teams will have completed a robotics project using a real robot.</p>
-<h1 id="notes">Notes</h1>
+<h1 id="introduction">Introduction</h1>
 <ul>
-<li><a href="./lecture00_preliminaries.html">Preliminaries</a></li>
-<li><a href="./lecture01_basics.html">ROS Basics</a></li>
-<li><a href="./lecture02_catkin.html">Catkin and Packages</a></li>
-<li><a href="./lecture03_rospy_names.html">Rospy and Names</a></li>
-<li><a href="./lecture04_launch.html">Launchfiles</a></li>
-<li><a href="./lecture08_threads.html">Threads</a></li>
-<li><a href="./lecture06_modeling.html">Robot Modeling</a></li>
-<li><a href="./lecture05_tf.html">The Tf Tree</a></li>
-<li><a href="./lecture07_visual.html">Visualization</a></li>
-<li><a href="./glossary.html">ROS Glossary</a></li>
+<li>When you encounter a package released for another ROS distribution but not the one you are on, chances are you can still use it.</li>
+<li>The ROS API has not changed in a long time</li>
+<li>The way to use these packages is to build them from source and then source the workspace</li>
 </ul>
-<h1 id="activities">Activities</h1>
-<ul>
-<li><a href="./activity01.html">Basic ROS Activity</a></li>
-<li><a href="./activity02.html">Names and Launchfiles</a></li>
-<li><a href="./custom_ws.html">Install Necessary Packages</a></li>
-</ul>
-<h1 id="homework">Homework</h1>
+<h1 id="general-steps">General Steps</h1>
 <ol>
-<li><a href="./guidelines.html">Guidelines</a>: These apply to every homework (Updated</li>
-<li><a href="./homework01.html">Homework 1</a> is due on Tuesday, September 29 (extended to October 2)</li>
-<li><a href="./homework02.html">Homework 2</a> is due Tuesday October 13</li>
+<li><p>These steps are for a package called <code>foo</code></p></li>
+<li><p>Make a new workspace and clone the repository for <code>foo</code> into <code>ws/src/</code>. The upstream repository is listed on the wiki page</p></li>
+<li><p>Make sure that you have installed and initialized <code>rosdep</code></p>
+<pre><code>sudo apt install python3-rosdep
+sudo rosdep init
+rosdep update
+</code></pre></li>
+<li><p><a href="https://wiki.ros.org/rosdep">rosdep</a> is ROS's dependency management tool. It allows ROS packages to depend on libraries and other <code>system dependencies</code>, that is packages that are a part of the operating system and entirely seperate from ROS</p></li>
+<li><p>From <code>ws/</code> run <code>rosdep install --from-paths src --ignore-src -y</code></p>
+<ul>
+<li>This will attempt to install all the packages dependencies</li>
+<li>If some dependencies could not be found, you should clone those dependencies into your <code>src/</code> space and re-run rosdep</li>
+</ul></li>
+<li><p><code>catkin_make</code></p></li>
+<li><p>Source <code>ws/devel/setup.bash</code> from your <code>.bashrc</code></p></li>
+</ol>
+<h2 id="sharing">Sharing</h2>
+<ol>
+<li>During this process you may have cloned many repositories</li>
+<li>You can use <code>vscstool</code> (<code>sudo apt install python3-vcstool</code>) to easily share these repositories with others</li>
+<li>Navigate to <code>ws/src</code></li>
+<li>Run <code>vcs export &gt; myrepos.repo</code>. This creates a file that <code>vcs import</code> can use to clone the same repositories that you have in your workspace. The <code>--exact</code> flag when exporting will even have <code>vcs import</code> cloning the exact commits in your source space</li>
+</ol>
+<h1 id="for-me495-in-fall-2020">For ME495 in Fall 2020</h1>
+<h2 id="to-msr-students-who-participated-in-the-hackathon">To MSR students who participated in the hackathon</h2>
+<p>MoveIT has been released for <code>noetic</code></p>
+<pre><code>sudo apt update
+sudo apt upgrade
+</code></pre>
+<h2 id="to-everyone">To Everyone</h2>
+<p>Remove the <code>source /home/$USER/nuws/devel/setup.bash</code> line that you added for the hackathon.</p>
+<ol>
+<li>Create a new workspace: <code>mkdir -p nuws/src</code></li>
+<li><code>cd ~/nuws/src</code></li>
+<li><code>vcs import https://nu-msr.github.io/me495_site/nuws.repo</code></li>
+<li><code>cd ~/nuws</code></li>
+<li><code>rosdep install --from-paths src --ignore-src -y</code></li>
+<li><code>pip3 install modern_robotics</code></li>
+<li><code>sudo apt install ros-noetic-dynamixel-sdk</code></li>
+<li><code>catkin_make</code></li>
+<li><code>echo "source ~/nuws/devel/setup.bash" &gt;&gt; ~/.bashrc</code></li>
+<li><code>sudo cp ~/nuws/src/interbotix_ros_arms/interbotix_sdk/10-interbotix-udev.rules /etc/udev/rules.d/</code>
+<ul>
+<li>Udev rules control actions that occur when devices are plugged into the computer</li>
+</ul></li>
+<li><code>sudo udevadm control --reload &amp;&amp; usdevadm trigger</code></li>
+<li>Now all the packages you've compiled will be available.
+<ul>
+<li>If something goes wrong with compilation, please let me know!</li>
+</ul></li>
 </ol>
 </div>
 <div class="footer">

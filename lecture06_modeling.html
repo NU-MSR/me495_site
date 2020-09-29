@@ -562,7 +562,7 @@ table td {
 <ul>
 <li>The <code>robot_state_publisher</code> performs forward kinematics in ROS
 <ul>
-<li>It reads a <code>urdf</code> file (as specified by the <code>robot_description</code> parameter to get the robot's kinematics and geometry</li>
+<li>It reads <code>urdf</code> data (as specified by the <code>robot_description</code> parameter to get the robot's kinematics and geometry)</li>
 <li>It listens on the <code>joint_states</code> topic to get <a href="http://docs.ros.org/api/sensor_msgs/html/msg/JointState.html">sensor_msgs/JointState</a> messages.
 <ul>
 <li>Each message describes the position, velocity and <em>effort</em> (torque/force) of the joints</li>
@@ -579,6 +579,7 @@ table td {
 <ul>
 <li>This happens when private parameter <code>~use_gui=true</code>. To specify with rosrun use <code>_use_gui:=true</code>.</li>
 <li>Very useful for debugging a URDF as it lets you manually change the joint values</li>
+<li>The gui is provided by the <code>joint_state_publisher_gui</code> node.</li>
 </ul></li>
 <li>Reads <code>sensor_msgs/JointState</code> messages from topics specified by <code>source_list</code> and publishes the combined information on a single topic
 <ul>
@@ -589,6 +590,7 @@ table td {
 <li>Useful for keeping the <code>/tf</code> tree in a valid state when other parts of your system are not running.</li>
 </ul></li>
 <li>Mimic mode: publishes some joint states that follow the motion of other joints.</li>
+<li>The joint state publisher also reads the <code>robot_description</code> parameter so it knows the names of the joints to publish</li>
 </ol>
 <h1 id="debugging-urdf-hints">Debugging URDF hints</h1>
 <ol>

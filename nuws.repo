@@ -1,62 +1,33 @@
 repositories:
   dynamixel-workbench:
     type: git
-    url: https://github.com/ROBOTIS-GIT/dynamixel-workbench.git
-    version: 37970b9fca864810b6b1030e31354399fa98d812
+    url: http://github.com/ROBOTIS-GIT/dynamixel-workbench.git
+    version: 455fb5a02f03a06cca6e3cd6b0f3196a8072030e
   dynamixel-workbench-msgs:
     type: git
-    url: https://github.com/ROBOTIS-GIT/dynamixel-workbench-msgs.git
-    version: 3054204409e3eda8e6ef8f9b059704c2152000fc
-  franka_ros:
-    type: git
-    url: https://github.com/frankaemika/franka_ros.git
-    version: a034463ea1dd41b6dbee40ffabec6940c4bff8d3
-  geometric_shapes:
-    type: git
-    url: https://github.com/ros-planning/geometric_shapes.git
-    version: 591b7a0708c9cc1e42b5cdbbc306e99913ecffa8
+    url: https://github.com/ROBOTIS-GIT/dynamixel-workbench-msgs
+    version: 060d73ef2f14422d3e2e555ece2d769630c93111
   interbotix_ros_arms:
     type: git
     url: https://github.com/Interbotix/interbotix_ros_arms.git
-    version: 59517af0b776033de0989d26bd3103f50b267cb1
-  moveit:
-    type: git
-    url: https://github.com/ros-planning/moveit.git
-    version: fc1465e4d2fb881327729651796d1912a3af1bb6
-  moveit_msgs:
-    type: git
-    url: https://github.com/ros-planning/moveit_msgs.git
-    version: b168705586bf88ac2bee4be497995680f9ab2ec7
-  moveit_resources:
-    type: git
-    url: https://github.com/ros-planning/moveit_resources.git
-    version: e618ab6e6a3f3d280acc94c1b01ae9cde79f668f
-  moveit_tutorials:
-    type: git
-    url: https://github.com/ros-planning/moveit_tutorials.git
-    version: d50903ca69d02773b6688676308d9fa777e0eac1
+    version: efa451101715ff74958af4ca3c0b4d55db37b716
   moveit_visual_tools:
     type: git
     url: https://github.com/ros-planning/moveit_visual_tools.git
     version: ca12717b52f451c2394b29f25ec29ac0bc5d303a
-  panda_moveit_config:
+  rqt_tf_tree:
     type: git
-    url: https://github.com/ros-planning/panda_moveit_config.git
-    version: d99e64f9dc549e52daef15b7d86e283887186b3c
-  realsense-ros:
+    url: https://github.com/ros-visualization/rqt_tf_tree.git
+    version: f1b871ad19787b67ac90adc59d3beff74bd87228
+  slam_gmapping:
     type: git
-    url: https://github.com/IntelRealsense/realsense-ros.git
-    version: 3de0145cf1dbb0a028f9b63ceba57d63c7a97138
-  rviz_visual_tools:
+    url: https://github.com/ros-perception/slam_gmapping.git
+    version: b916ea23f71fe73593f503810b0a1c59aa0481d8
+  turtlebot3:
     type: git
-    url: https://github.com/PickNikRobotics/rviz_visual_tools.git
-    version: 44f507ddcb14312f3d3607b62441426b43a79119
-  srdfdom:
+    url: https://github.com/ROBOTIS-GIT/turtlebot3.git
+    version: 3a7d814f47c5c3617f1201b3ea329ba06b4c1b27
+  turtlebot3_simulations:
     type: git
-    url: https://github.com/ros-planning/srdfdom.git
-    version: 59e46d05a77b32861538435574bde6be71c12556
-  trac_ik:
-    type: git
-    url: https://bitbucket.org/traclabs/trac_ik.git
-    version: 8396bb67157179ae704c816b0b56af8ac4eef62c
-  
+    url: https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
+    version: 33aaed580eb6de4d36050e5340e60b17479aa213

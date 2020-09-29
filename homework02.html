@@ -469,29 +469,24 @@ table td {
 <ul>
 <li><a href="#logistics">Logistics</a>
 <ul>
-<li><a href="#setup-and-documentation">Setup and Documentation</a></li>
-<li><a href="#git-usage">Git Usage</a></li>
-<li><a href="#coding-guidelines">Coding Guidelines</a></li>
-<li><a href="#submission-instructions">Submission Instructions</a></li>
-<li><a href="#grading">Grading</a></li>
+<li><a href="#robots">Robots</a></li>
+<li><a href="#package-setup">Package Setup</a></li>
 </ul></li>
-<li><a href="#turtle-trajectory">Turtle Trajectory</a>
+<li><a href="#part-i-turtle-trajectories">Part I: Turtle Trajectories</a>
 <ul>
-<li><a href="#git">Git</a></li>
-<li><a href="#what-to-turn-in">What to turn in:</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#the-math">The Math</a></li>
+<li><a href="#what-to-implement">What to implement</a></li>
 <li><a href="#hints">Hints</a></li>
 </ul></li>
-<li><a href="#robot-arm">Robot ARM</a>
+<li><a href="#part-ii-xacro-arm">Part II: Xacro ARM</a>
 <ul>
-<li><a href="#git-1">Git</a></li>
-<li><a href="#what-to-turn-in-1">What to turn in</a></li>
+<li><a href="#what-to-turn-in">What to turn in</a></li>
 </ul></li>
-<li><a href="#the-xacro-arm">The Xacro Arm</a>
+<li><a href="#part-iii-pincherx-100">Part III: PincherX 100</a>
 <ul>
-<li><a href="#git-2">Git</a></li>
-<li><a href="#what-to-turn-in-2">What to turn in</a></li>
+<li><a href="#hints-1">Hints</a></li>
 </ul></li>
-<li><a href="#bonus-question-optional-but-it-will-be-rewarding-to-complete">Bonus Question (optional, but it will be rewarding to complete)</a></li>
 </ul>
 </nav>
 
@@ -508,158 +503,244 @@ table td {
 
 <!-- The main content of the file -->
 <h1 id="logistics">Logistics</h1>
-<p>This homework contains several tasks that will all be completed in a single git repository corresponding to a single ROS package.</p>
-<h2 id="setup-and-documentation">Setup and Documentation</h2>
 <ol>
-<li>Create a git repository using the link provided in Canvas.
-<ul>
-<li>The repository will contain all the source code for your package</li>
-<li>It will also include a <code>README.md</code></li>
-</ul></li>
-<li>Your <code>README.md</code> should contain the following:
-<ol>
-<li>YOUR FULL NAME.</li>
-<li>A section for each of the three main tasks: Turtle Trajectory, Robot ARM, and The Xacro Arm. These sections should provide an overview of the files needed to run your code for that section, answer any questions, include any requested documentation or links to videos, etc.</li>
-<li>Format your <code>README.md</code> using markdown: see <a href="https://guides.github.com/features/mastering-markdown/">this guide</a>. Some text editors like <code>atom</code> or <code>vscode</code> will preview markdown for you locally. You can also use tools like <code>markdown</code> or <code>pandoc</code> to generate <code>.html</code> from <code>.md</code> files.</li>
-</ol></li>
-<li>Each node that you write should start with a python docstring describing its ROS API:
-<ol>
-<li>What topics are published, their type, and what they do.</li>
-<li>What topics are subscribed to, their type, and what the data is used for.</li>
-<li>What services are offered, their type, and what they do</li>
-<li>What parameters are used, their type, and what they do.</li>
-<li>Take inspiration from <code>crazy_turtle/mover</code></li>
-</ol></li>
+<li>Create a git repository using the link provided in Canvas.</li>
+<li>Your homework will be submitted via this git repository.</li>
+<li>I will grade whatever is on the <code>master</code> branch when I clone the repository.</li>
+<li>See <a href="./homework/guidelines.html">Guidelines</a> for important information about coding standards</li>
+<li>All work on both parts of this problem should be done in a single <code>git</code> repository containing a single ROS package called <code>homework2</code></li>
+<li>In general, you should refer to <code>ROS</code> entities using relative names from within your nodes (this advice has been added to the Guidelines).</li>
 </ol>
-<h2 id="git-usage">Git Usage</h2>
-<p>During this assignment, pay close attention to how you use <code>git</code>.</p>
+<h2 id="robots">Robots</h2>
 <ol>
-<li>You should have multiple commits with meaningful commit messages.</li>
-<li>For the purposes of this class, you should feel free to experiment on your development branches.
+<li>This assignment will lightly use the <code>turtlebot3</code> robot.
 <ul>
-<li>If you are struggling through fixing a tough bug, even if it is just a python syntax error you can have multiple commits on your development branch with your attempts to fix the bug</li>
-<li>No minor change is too small to commit on your development branch</li>
-<li>Committing often frees you to experiment while knowing you can always revert the code.</li>
+<li>Follow my <a href="./turtlebot3.html">setup guide</a></li>
+<li>Most of the <a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/overview">official manual</a> applies to our custom setup</li>
 </ul></li>
-<li>Push your development branches and your master branch to submit the assignment</li>
-<li>You may merge into your master branch whenever your code
+<li>Remote students who do not have access to the robots will complete the project in simulation.</li>
+</ol>
+<h2 id="package-setup">Package Setup</h2>
+<p>The <code>turtlebot3</code> packages have not been released for ROS <code>noetic</code> yet. Therefore, we will compile them and use them from a workspace.</p>
+<ol>
+<li>Install <code>vcstool</code> (<code>sudo apt install python3-vcstool</code>)</li>
+<li>Create a new workspace called <code>basews</code></li>
+<li><code>cd basews/src</code></li>
+<li><code>vcs import https://nu-msr.github.io/me495_site/turtlebot.repos</code>
 <ul>
-<li>compiles cleanly with catkin_make</li>
-<li>runs without any python syntax errors</li>
-<li>it need not actually accomplish the required task, but it should at least run</li>
-<li>Essentially your development branch can contain code in all states of disrepair. The latest commit on master should contain code that I can checkout and at least have it compile and run cleanly.</li>
+<li>This command will clone several repositories into your source space</li>
 </ul></li>
-<li>Maintain a <code>.gitignore</code> file to prevent improperly tracked files.
-<ol>
-<li>There should be no backup files your text editor created (such as <code>file.py~</code> or <code>.#file</code>).</li>
-<li>There should be no python bytecode files (<code>file.pyc</code>) committed.</li>
-<li>There should be no files that are not explicitly created by you as part of your package. There may be explicit exceptions to this for the purpose of submitting your results to me.</li>
-</ol></li>
-<li>Refer to the <a href="https://git-scm.com">Git Book</a> for more information on how to use <code>git.</code></li>
-<li>I recommend sticking with the command line, at least until you are comfortable with <code>git.</code></li>
-<li>Remember, your git repository is a directory in your <em>source space</em> (i.e., it should be under <code>ws/src/repository</code>. Your git repository should not contain other git repositories, your build space, your devel space, or any files created by <code>catkin_make</code></li>
-</ol>
-<h2 id="coding-guidelines">Coding Guidelines</h2>
-<ol>
-<li>You are not permitted to use ANY global variables in your final submission.</li>
-<li>You should try to follow the <a href="https://www.python.org/dev/peps/pep-0008/">PEP8</a> Style guidelines.</li>
-<li>It is also a good habit to write docstrings for each of the classes and functions you write.
+<li>Install system dependencies with <code>rosdep</code> (install <code>rosdep</code> with <code>sudo apt install python3-rosdep</code>)
 <ul>
-<li>A brief description of what the class or function does</li>
-<li>What the arguments are</li>
-<li>What the return value is</li>
-<li>What exceptions may be raised</li>
-<li>See the <a href="http://google.github.io/styleguide/pyguide.html">Google Python Style Guide</a> (specifically the section on docstrings).</li>
+<li><code>rosdep install --from-paths src/ --ignore-src -y</code></li>
 </ul></li>
+<li>Build the workspace (<code>cd basews</code> followed by <code>catkin_make</code>)</li>
+<li>Source the workspace from your <code>~/.bashrc</code>. This way it will always be active and you can use the packages in every new terminal that you open. Add the line
+<ul>
+<li><code>source /path/to/basews/devel/setup.bash</code></li>
+</ul></li>
+<li>Also in your <code>~/.bashrc</code>, <code>export TURTLEBOT3_MODEL=burger</code>. All of the <code>turtlebot3</code> packages use this environment variable to determine which model of turtlebot you are using.</li>
 </ol>
-<h2 id="submission-instructions">Submission Instructions</h2>
-<p>Push your package to the remote <code>git</code> repository that was created from the GitHub classroom link. Be sure your latest work is on the <code>master</code> branch and that you push all other branches and tags as requested.</p>
-<h2 id="grading">Grading</h2>
-<p>You will be graded based on</p>
+<h1 id="part-i-turtle-trajectories">Part I: Turtle Trajectories</h1>
+<h2 id="overview">Overview</h2>
+<p>The goal of this assignment is to make a turtlebot follow a figure-8 trajectory.</p>
 <ol>
-<li>Your source code working.</li>
-<li>Your <code>README.md</code> and your answers to the questions.</li>
-<li>The documentation you include in your source code.</li>
-<li>Your git usage.</li>
+<li>The turtlebot will begin in the "paused" state and believe that it's configuration is <span class="math inline">\((x, y, \theta) = (0,0,0)\)</span>.</li>
+<li>Upon sending a <code>/reset</code> message, the turtlebot will reset it's configuration to <span class="math inline">\((x, y, \theta) = (0,0,0)\)</span> and enter the "paused" state
+<ul>
+<li>This will also reset the turtlebot's odometry to be <span class="math inline">\(0, 0, 0\)</span></li>
+</ul></li>
+<li>Upon calling the <code>/resume</code> service, the turtlebot will enter the "moving" state and begin following the trajectory</li>
+<li>Upon calling the <code>/pause</code> service, the turtlebot will pause its motion, without resetting its position</li>
 </ol>
-<h1 id="turtle-trajectory">Turtle Trajectory</h1>
-<p>The turtle in <code>turtlesim</code> can be modeled as a kinematic car (also known as a unicycle model). The control inputs for the turtle are the linear velocity <span class="math inline">\(v\)</span> and the angular velocity <span class="math inline">\(\omega\)</span> and result in motion according to <span class="math display">\[
+<h2 id="the-math">The Math</h2>
+<p>The <a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/overview">turtlebot3</a> is a differential-drive robot that can be modeled as kinematic car (also known as a unicycle model). The control inputs for the robot are linear velocity <span class="math inline">\(v\)</span> and the angular velocity <span class="math inline">\(\omega\)</span>, and result in motion according to the kinematic equations</p>
+<p><span class="math display">\[
 \dot{x} = v \cos \theta \\
 \dot{y} = v \sin \theta \\
 \dot{\theta} = \omega.
 \]</span></p>
-<p>Your goal is to make the turtle follow a circular trajectory <span class="math display">\[
-x_d(t) = r \cos \frac{2 \pi t}{T} + C_x\\
-y_d(t) = r \sin \frac{2 \pi t}{T} + C_y,
-\]</span> where <span class="math inline">\(T\)</span> is the time to finish one circle, <span class="math inline">\((C_x, C_y)\)</span> is the center of the circle, and <span class="math inline">\(r\)</span> is the radius of the circle.</p>
-<h2 id="git">Git</h2>
 <ul>
-<li>Develop this problem on a branch called "turtle". You can also use other feature branches if you want, but you should merge them into turtle and delete them when done.</li>
-<li>Be sure to push your turtle branch to the remote so I can see it.</li>
-<li>When you are done with this task, merge your turtle changes into master.</li>
-<li>You may also merge periodically, as you achieve milestones in getting your turtle working</li>
+<li>The x axis points in the forward direction of the robot and the angle <span class="math inline">\(\theta\)</span> is relative to the world x-axis.</li>
+<li>Assume that the robot starts at configuration <span class="math inline">\((x,y,\theta) = (0, 0, 0)\)</span> in the world coordinate frame.</li>
 </ul>
-<h2 id="what-to-turn-in">What to turn in:</h2>
+<p>Your goal is to make the turtlebot follow a figure-eight trajectory: <span class="math display">\[
+x_d(t) = \frac{W}{2} \sin \frac{2 \pi t}{T}
+y_d(t) = \frac{H}{2} \sin \frac{4 \pi t}{T}
+\]</span> where <span class="math inline">\(t\)</span> is time, <span class="math inline">\(T\)</span> is the time to finish one figure-eight, <span class="math inline">\(W\)</span> is the width of the figure-eight , and <span class="math inline">\(H\)</span> is the height of the figure-eight.</p>
+<h2 id="what-to-implement">What to implement</h2>
 <ol>
-<li>A node that causes turtle1 to move in a circular trajectory.
+<li>A node called <code>trajectory</code>
 <ul>
-<li>The node should also respond to a service that pauses/resumes the motion of the turtle.</li>
-</ul></li>
-<li>A launchfile that starts the turtle simulation and the node that moves the turtle
+<li>Publishes:
 <ul>
-<li>The launchfile should include an option to run rqt_plot and show the turtle's x and y position vs time</li>
+<li><code>cmd_vel (geometry_msgs/Twist)</code>. This is published at a fixed frequency, causing the turtlebot to follow the desired open-loop trajectory
+<ul>
+<li>It is up to you to find an appropriate frequency, but 10 Hz is too slow and 1 kHz is faster than needed.</li>
 </ul></li>
-<li>Use a <code>circle.yaml</code> file to stores the parameters that define the trajectory (<span class="math inline">\(T\)</span>, <span class="math inline">\(r\)</span>, <span class="math inline">\(C_x\)</span>, and <span class="math inline">\(C_y\)</span>). Your launchfile should load these values from your <code>circle.yaml</code> and the <code>traj_gen</code> node should load these values from the parameter server and use them to follow the trajectory.</li>
-<li>An explanation of how to use your code in your <code>README.md</code></li>
-<li>A screencast of your turtle completing one full circle (you choose the parameters and store them in <code>circle.yaml</code>). The turtle should be paused once during the trajectory. Upload the screencast and link to it in your <code>README.md</code>.</li>
-<li>Include a write-up of any math you did to accomplish the task. This can be made with latex as a pdf, a scanned copy of handwritten notes, or embedded in your <code>README.md</code> using something like <a href="https://github.com/leegao/readme2tex">readme2tex</a>. It is also helpful to refer to your calculations in comments where you implement the math.</li>
-<li>A screenshot from <code>rqt_plot</code> showing the x and y position of the turtle over time.</li>
+<li><code>path (nav_msgs/Path)</code>. A <a href="http://wiki.ros.org/rviz/DisplayTypes/Path">Path</a> draws a continuous line in <code>rviz</code>. This path should be the <code>open-loop</code> (i.e., expected) trajectory of the robot.</li>
+</ul></li>
+<li>Broadcasts:
+<ul>
+<li>A static transform from <code>world</code> to <code>odom</code>. The <code>world</code> frame and <code>odom</code> frame are co-located. However, when the <code>turtlebot</code> is at (0, 0, 0) in the odom frame it should be at <span class="math inline">\(0, 0, \theta_0\)</span> in the world frame, where <code>\theta_0</code> is the initial angle of the robot on its figure-eight trajectory</li>
+</ul></li>
+<li>Subscribes:
+<ul>
+<li><code>reset</code>: This should be the same topic that the turtlebot3 itself listens to. Restarts the trajectory from (0,0,0)</li>
+</ul></li>
+<li>Services:
+<ul>
+<li><code>pause (type up to you)</code> Stop the turtle's motion, in a way that the trajectory can be resumed</li>
+<li><code>resume (type up to you)</code> Resume the turtle's motion along the trajectory</li>
+</ul></li>
+<li>Parameters:
+<ul>
+<li><code>width</code>: The width of the figure eight</li>
+<li><code>height</code>: The height of the figure eight</li>
+<li><code>period</code>: The amount of time it takes to complete the figure eight</li>
+<li><code>~pub_freq</code>: The frequency at which to publish the messages. This is a private parameter.</li>
+<li>Pick parameters that fit your location and the turtlebot's capabilities.</li>
+</ul></li>
+</ul></li>
+<li>A pure python package called <code>homework2</code> and located under <code>src/homework2</code>
+<ul>
+<li>This package should contain code that performs calculations related to the trajectory and control but does not interact with the hardware</li>
+<li>Generally, code that performs calculations is much easier to test and can be used in a wide variety of situations so it makes sense to split it from the node code.</li>
+<li>This code should not use any <code>rospy</code> functions at all</li>
+<li>A useful structure is to have two classes, although you need not follow this structure:
+<ol>
+<li><code>FigureEight</code> is responsible for all calculations related to <code>FigureEight</code> trajectories:
+<ul>
+<li>It should be able to provide the trajectory coordinates and derivatives at any given time for a set of parameters.</li>
+</ul></li>
+<li><code>Kinematics</code> is responsible for the calculations related to the kinematics of the turltebot
+<ul>
+<li>This class can use <code>FigureEight</code> to compute the appropriate control inputs to follow the trajectory</li>
+<li>In general, multiple trajectory shapes could be supported by substituting <code>FigureEight</code> with another class for a different trajectory
+<ul>
+<li>You need not support multiple trajectory shapes, but this may be a helpful way of thinking about how to organize the code.</li>
+</ul></li>
+</ul></li>
+</ol></li>
+<li>At a minimum, the package should provide functions to
+<ul>
+<li>Compute the trajectory and its derivatives at a given time</li>
+<li>Compute the proper control inputs at a given time</li>
+</ul></li>
+<li>The <code>trajectory</code> node will import the <code>homework2</code> package to do its calculations and use the results to control the robot</li>
+</ul></li>
+<li>Unit tests for your python package using <code>rossunit</code> and <code>unittests</code>
+<ul>
+<li>You should be able to run the tests from <code>catkin_make test</code></li>
+<li>Test each of the following computations at <span class="math inline">\(t = 0\)</span> and at least one other time <span class="math inline">\(t\)</span>: <span class="math inline">\(x_d(t)\)</span>, <span class="math inline">\(y_d(t)\)</span>, <span class="math inline">\(\dot{x}_d(t)\)</span>, <span class="math inline">\(\dot{y}_d(t)\)</span>, <span class="math inline">\(\ddot{x}_d(t)\)</span>, <span class="math inline">\(\ddot{y}_d(t)\)</span>, <span class="math inline">\(v(t)\)</span>, <span class="math inline">\(\omega(t)\)</span>.</li>
+<li>The functions that you test should be the ones actually used by your code to implement the trajectory tracking control law.</li>
+</ul></li>
+<li>A <code>config</code> directory containing
+<ul>
+<li>A <code>trajectory.yaml</code> file containing the trajectory parameters</li>
+<li>A <code>turtle_view.rviz</code> file containing your <code>rviz</code> setup.</li>
+</ul></li>
+<li>A launchfile in the <code>launch/</code> directory called <code>figure_eight.launch</code> that
+<ol>
+<li>Loads the <code>width</code>, <code>height</code>, <code>period</code> parameters from <code>trajectory.yaml</code></li>
+<li>Starts the <code>trajectory</code> node, including setting the <code>pub_freq</code> parameter (this parameter can be hard-coded in the launchfile)</li>
+<li>Provides an option to launch <code>rqt_plot</code> and show the turtlebot's <code>x</code> and <code>y</code> position (from odometry) vs time</li>
+<li>Provides an option to launch the turtlebot Gazebo simulation or start code on the real robot</li>
+<li>Provides an option to visualize the robot model in RViz, using the <code>/odom</code> frame as the fixed frame
+<ul>
+<li>When launching <code>rviz</code> you should load <code>turtle_view.rviz</code> to get the <code>rviz</code> settings</li>
+<li>Use the <code>-d</code> argument to <code>rviz</code> to load a <code>.rviz</code> configuration file that you create to set up the fixed frame properly and make.</li>
+<li>Remember to use <code>$(find)$</code> when referencing files stored in packages.</li>
+<li>Your <code>rviz</code> should display:
+<ol>
+<li>The fixed frame should be <code>/odom</code></li>
+<li>The path that you publish from the trajectory node</li>
+<li>All <code>tf</code> frames</li>
+<li>The robot model</li>
+</ol></li>
+</ul></li>
+</ol></li>
+<li>Documentation showing how you computed the control inputs from the trajectory. You should link/refer to the documentation in your README.md. A few valid methods of showing the computations are:
+<ol>
+<li>Python code using <code>sympy</code> to perform the calculations</li>
+<li>A Mathematica Notebook</li>
+<li>A picture or scan of handwritten calculations</li>
+<li>A pdf of calculations written in <code>latex</code></li>
+<li>Directly embedded in your README using something like <code>readme2tex</code></li>
+</ol></li>
+<li>Videos:
+<ul>
+<li>A screencast of the robot in <code>rviz</code></li>
+<li>A video of the robot completing a figure eight in real life. Do not worry about how accurate this is.
+<ul>
+<li>If you don't have a robot, include a screencast of the turtlebot moving in simulation</li>
+</ul></li>
+<li>Videos can be a link to a sharing site in your README or as a <code>gif</code> file.</li>
+</ul></li>
 </ol>
 <h2 id="hints">Hints</h2>
 <ol>
-<li>To accomplish this task, you will take advantage of the <em>differential flattness</em> property of the system. Feel free to research on your own and cite any sources. I provide a practical guide below. The goal is to express the control inputs <span class="math inline">\(v\)</span> and <span class="math inline">\(\omega\)</span> in terms of the trajectory and it's derivatives.</li>
-<li>We want to solve for <span class="math inline">\(v\)</span> and <span class="math inline">\(\omega\)</span>, given the desired trajectory. Some hints are below
-<ol>
-<li>Use the turtle motion equations to solve for <span class="math inline">\(\theta\)</span> in terms of <span class="math inline">\(\dot{x}\)</span> and <span class="math inline">\(\dot{y}\)</span> (and eliminate <span class="math inline">\(v\)</span>).</li>
-<li>Differentiate the trajectory with respect to <span class="math inline">\(t\)</span>, to give you the desired <span class="math inline">\(\dot{x}\)</span> and <span class="math inline">\(\dot{y}\)</span> values.</li>
-<li>You will also need the second derivative of the reference trajectory with respect to <span class="math inline">\(t\)</span>.</li>
-<li>You can use your equation for <span class="math inline">\(\theta\)</span> and the dynamic equations to solve for <span class="math inline">\(v\)</span>
+<li>Even if you have a robot, it makes sense to test this in simulation prior to using it for the robot.
 <ul>
-<li>There are two equivalent equations for <span class="math inline">\(v\)</span>. Both have a singularity (divide-by-zero) at some angles of <span class="math inline">\(\theta\)</span></li>
-<li>By substituting your equation for <span class="math inline">\(\theta\)</span> into each of these equations and simplifying, you can show that these two equations are the same and also remove the divide-by-zero singularity.</li>
+<li>You can also test in <code>turtlesim</code> if you would like</li>
 </ul></li>
-<li>Use the reference trajectory derivatives to solve for <span class="math inline">\(\theta\)</span>.</li>
-<li>Substitute the equation for <span class="math inline">\(\theta\)</span> into the dynamics to solve for <span class="math inline">\(v\)</span></li>
-<li>Differentiate the equation for <span class="math inline">\(\theta\)</span> to find <span class="math inline">\(\omega\)</span></li>
-<li>You should now have equations for <span class="math inline">\(v\)</span> and <span class="math inline">\(\omega\)</span> in terms of <span class="math inline">\(t\)</span>.</li>
-<li>You may also need the second derivatives of the trajectory to find <span class="math inline">\(\omega\)</span>, depending on how you derive the equations.</li>
-<li>If you write functions to compute each of the derivatives, you can break your code into smaller pieces to make it easier to debug and test.</li>
-</ol></li>
 <li>Use a timer running at a specified frequency to publish the velocity commands to the turtle.
 <ul>
-<li>Since the trajectory is continuous but you are sending discrete commands, you need the timer to publish fast enough relative to the turtle's speed to follow the circle effectively.</li>
+<li>Since the trajectory is continuous but you are sending discrete commands, you need the timer to publish fast enough relative to the turtle's speed to follow the trajectory effectively.</li>
 </ul></li>
-<li>When your node starts up, it should teleport the turtle to a position at the beginning of the trajectory</li>
-<li>ROS offers some standard services in the <a href="https://wiki.ros.org/std_srvs">std_srvs</a> package. You can (but need not) use <code>std_srvs/Empty</code> to create an empty service that is used to trigger pausing and resuming the turtle's movement.</li>
+<li>ROS offers some standard services in the <a href="https://wiki.ros.org/std_srvs">std_srvs</a> package, which can be useful for your pause/resume services.</li>
+<li>The <a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/bringup/#ros-1-bringup">Turtlebot3 bringup</a> guide provides a guide for how to start running the actual robot
+<ul>
+<li>You will need to manually run a launchfile on the <code>turtlebot3</code>, but you should include <code>turtlebot3_bringup/turtlebot3_robot.launch</code> in your own launchfile so it does not need to be called separately.</li>
+<li>It is possible to make everything work from a single launchfile, but you will have to write it yourself and it is not necessary for this assignment.</li>
+</ul></li>
+<li><a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/#ros-1-simulation">Simulation</a> provides a guide for how to get started with the gazebo simulator
+<ul>
+<li>We will use Gazebo, not Fake Node</li>
+<li>For our purposes, you can just <code>roslaunch turtlebot3_gazebo turtlebot3_empty_world.launch</code>. You can include this launchfile in your own launchfile to launch gazebo</li>
+</ul></li>
+<li>You can also look at the contents of the <code>turtlebot3</code> launchfiles to get a feel for what's going on.</li>
+<li>The <code>turtlebot3</code> gazebo simulation is pretty much a drop-in replacement for running the actual turtlebot3 nodes.</li>
+<li>To accomplish this task, you will take advantage of the <a href="http://planning.cs.uiuc.edu/node850.html">differential flattness</a> of the system.
+<ul>
+<li>The overall goal is to solve for the control inputs <span class="math inline">\(v\)</span> and <span class="math inline">\(\omega\)</span> that will result in the desired trajectory</li>
+<li>Because the system is differentially flat, we can find these expressions without integrating the differential equations describing the kinematics of the robot</li>
+</ul></li>
 </ol>
-<h1 id="robot-arm">Robot ARM</h1>
-<p>In this section you will be creating a URDF for the robot arm shown below, visualizing it in rviz, and then making it follow trajectories.</p>
+<h3 id="practical-differential-flatness-guide">Practical Differential Flatness Guide</h3>
+<ol>
+<li>Solve the kinematic equations for <span class="math inline">\(\theta = f(\dot{x}, \dot{y})\)</span>, (thus <span class="math inline">\(\theta\)</span> is some function <span class="math inline">\(f\)</span> that depends only on <span class="math inline">\(\dot{x}\)</span> and <span class="math inline">\(\dot{y}\)</span>.
+<ul>
+<li>Find <span class="math inline">\(\dot{\theta} = f&#39;(\dot{x}, \dot{y})\)</span>.</li>
+<li>Notice that this derivative depends only on <span class="math inline">\(\dot{x}\)</span>, <span class="math inline">\(\ddot{x}\)</span>, <span class="math inline">\(\dot{y}\)</span>, and <span class="math inline">\(\ddot{y}\)</span>.</li>
+<li>Notice that <span class="math inline">\(\omega = \dot{\theta}\)</span>, thus given a reference trajectory and its derivatives you can directly find the steering angle to stay on a given trajectory.</li>
+</ul></li>
+<li>Use your equation for <span class="math inline">\(\theta\)</span> to solve for <span class="math inline">\(v = g(\dot{x}, \dot{y}, \ddot{x}, \ddot{y})\)</span>
+<ul>
+<li>What is <span class="math inline">\(\dot{x}^2 + \dot{y}^2\)</span>?</li>
+</ul></li>
+<li>You have now solved for the controls <span class="math inline">\(w\)</span> and <span class="math inline">\(v\)</span> directly in terms of the vehicle's (<span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>) position and derivatives.</li>
+<li>The robot follows a trajectory when <span class="math inline">\(x(t) = x_d(t)\)</span> and <span class="math inline">\(y(t) = y_d(t)\)</span>. You can achieve this behavior by
+<ol>
+<li>Taking the necessary derivatives of <span class="math inline">\(x_d(t)\)</span> and $y_d(t)</li>
+<li>Substituting these derivatives into your expressions for <span class="math inline">\(v\)</span> and <span class="math inline">\(\omega\)</span></li>
+<li>At least in theory, the robot will follow the trajectory. In practice there will be small errors from wheel slipping, dynamics, and control timing.</li>
+</ol></li>
+</ol>
+<h1 id="part-ii-xacro-arm">Part II: Xacro ARM</h1>
+<p>In this section you will be creating a <a href="http://wiki.ros.org/xacro">Xacro</a> <a href="https://wiki.ros.org/urdf">URDF</a> for the robot arm shown below and visualizing it in rviz, and then making it's end-effector follow a trajectory.</p>
 <figure>
 <img src="./twolink.png" alt="A 2 - link robot arm. The length of the upper and lower links are L_1 and L_2." /><figcaption aria-hidden="true">A 2 - link robot arm. The length of the upper and lower links are <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span>.</figcaption>
 </figure>
-<h2 id="git-1">Git</h2>
-<ul>
-<li>Do your work in this section on the "urdf" branch in git.</li>
-<li>Be sure to push this branch to the remote repository.</li>
-<li>When you are done, merge this into master</li>
-<li>You may also merge periodically, as you achieve milestones in getting your turtle working</li>
-</ul>
-<h2 id="what-to-turn-in-1">What to turn in</h2>
+<h2 id="what-to-turn-in">What to turn in</h2>
 <p>This is just a list of what to turn in, it is not necessarily ordered by what you should do first. Pay close attention to the desired orientation of the arm and its reference frames.</p>
 <ol>
-<li>A urdf file for the robot arm.
+<li><p>Create a xacro urdf file for the robot arm.</p>
 <ul>
-<li>Choose <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> such that <span class="math inline">\(L_1 \neq L_2\)</span>.</li>
+<li>It should read and use lengths <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> from a file <code>config/arm.yaml</code>. Be sure to choose lengths such that <span class="math inline">\(L_1 \neq L_2\)</span>.
+<ul>
+<li>See <a href="http://wiki.ros.org/xacro#YAML_support">Xacro Yaml Support</a></li>
+</ul></li>
 <li>When <span class="math inline">\(\theta_1 = 0\)</span> and <span class="math inline">\(\theta_2 = 0\)</span>, the robot should be completely horizontal, with the coordinates of the end-effector (i.e., the tip of link 2) relative to the fixed frame being <span class="math inline">\((L_1 + L_2, 0, 0)\)</span>.</li>
 <li>Each link should be a different color when displayed in <code>rviz</code>.</li>
 <li>Each link should be visualized as a cylinder, whose height is the length of that link.</li>
@@ -671,27 +752,31 @@ y_d(t) = r \sin \frac{2 \pi t}{T} + C_y,
 <li>In other words the robot is rotating in the plane of the "ground" since the z axis points up in rviz.</li>
 <li>In <code>rviz</code> the x axis is red, y axis is green, and z axis is blue</li>
 </ul></li>
-<li>Each joint frame should have the <span class="math inline">\(z\)</span> axis pointing up and the <span class="math inline">\(x\)</span> axis pointing along the length of the arm.</li>
+<li>Each joint frame should have the <span class="math inline">\(z\)</span> axis pointing up (i.e., the <span class="math inline">\(z\)</span> axis is the axis of rotation) and the <span class="math inline">\(x\)</span> axis pointing along the length of the arm.</li>
 </ul></li>
-<li>A launchfile that starts a <code>robot_state_publisher</code>, a <code>joint_state_publisher</code>, and <code>rviz</code>.
+<li><p>A launchfile that starts</p>
 <ul>
-<li>It should have an argument to choose between launching the <code>joint_state_publisher</code> with the <code>use_gui</code> parameter set or not launching the <code>joint_state_publisher</code> at all.</li>
-<li>It should have an argument to optionally launch rviz.</li>
+<li>A <code>robot_state_publisher</code></li>
+<li>The <code>joint_state_publisher</code> (optionally)</li>
+<li>The <code>joint_state_publisher_gui</code> (optionally)</li>
+<li>Rviz <code>rviz</code> (optionally).</li>
 <li>If rviz is loaded, you should use the <code>-d</code> option to load a <code>.rviz</code> configuration file that you create to set up the fixed frame properly and make.</li>
 <li>Remember to use <code>$(find)$</code> when referencing files stored in packages.</li>
+<li>Document how to use your launchfile</li>
 </ul></li>
-<li>A node that causes the end-effector to track the following trajectory: <span class="math display">\[
+<li><p>A node called <code>arm_traj</code> that causes the end-effector to track the following trajectory: <span class="math display">\[
      x(t) = 0.9\cos\frac{2\pi t}{T} \sqrt{(L_1+L_2)^2 - h^2}  \\
      y(t) = \frac{2}{3}(L_1 + L_2)
-  \]</span>
+  \]</span></p>
 <ul>
+<li>Let <span class="math inline">\(h=\frac{2}{3}(L_1 + L_2)\)</span> so that the trajectory is always achievable.</li>
 <li>The trajectory should result in the end-effector moving back and forth in a straight line with a constant <span class="math inline">\(y\)</span> value</li>
 <li>The node should read the parameters <span class="math inline">\(L_1\)</span>, <span class="math inline">\(L_2\)</span>, and <span class="math inline">\(T\)</span> from the parameter server (but not <span class="math inline">\(h\)</span>).</li>
 <li>Unlike with the turtle trajectory, here you can specify joint angles directly by publishing <code>sensor_msg/JointState</code> messages on <code>joint_state</code>.
 <ul>
 <li>Therefore, you only need the inverse kinematics: no derivatives.</li>
 </ul></li>
-<li>You can derive the inverse kinematics, look them up (cite your source), or use <code>tf2</code> to compute them for you.</li>
+<li>You can derive the inverse kinematics, look them up (e.g., in Lynch, Park, <em>Modern Robotics</em> Chapter 6, cite your source), or use <code>tf2</code> to compute them for you.</li>
 <li>The locations on the trajectory should be published at a fixed frequency that results in the motion of the arm appearing smooth</li>
 <li>Each joint state message has a header of type <code>std_msgs.msgs.Header</code>
 <ul>
@@ -699,9 +784,8 @@ y_d(t) = r \sin \frac{2 \pi t}{T} + C_y,
 <li>seq is set automatically by the publisher</li>
 <li>frame_id is used by <code>/tf</code> so it can also be left blank for JointState messages</li>
 </ul></li>
-<li>Let <span class="math inline">\(h=\frac{2}{3}(L_1 + L_2)\)</span> so that the trajectory is always achievable.</li>
 </ul></li>
-<li>A node that draws markers in <code>rviz</code> at the end-effector position.
+<li><p>A node called <code>arm_marker</code> that draws markers in <code>rviz</code> at the end-effector position.</p>
 <ul>
 <li>One cycle should take <span class="math inline">\(T\)</span> seconds: you should read <span class="math inline">\(T\)</span> from the parameter server so you use the same value as in your trajectory node</li>
 <li>The markers should disappear after <span class="math inline">\(\frac{T}{5}\)</span> seconds</li>
@@ -710,48 +794,46 @@ y_d(t) = r \sin \frac{2 \pi t}{T} + C_y,
 <li>You can use any shape you want</li>
 <li>The color and shape should change if the <code>x</code> coordinate is positive or negative
 <ul>
-<li>You should get the position using a <code>tf</code> listener</li>
+<li>You should get the position of the end-effector using a <code>tf</code> listener</li>
 </ul></li>
 </ul></li>
-<li>A launchfile that lets you run all the nodes you've created and visualize the results. It should:
+<li><p>A launchfile that lets you run all the nodes you've created and visualize the results. It should:</p>
 <ul>
 <li>Use an <code>&lt;include&gt;</code> tag to load launchfile from step 2, launching rviz and the <code>robot_state_publisher</code> and either the <code>joint_state_publisher</code> or your trajectory generation node.</li>
 <li>An option to run the node that sends the markers to rviz.</li>
 <li>The launchfile should load <span class="math inline">\(L_1\)</span>, <span class="math inline">\(L_2\)</span> and <span class="math inline">\(T\)</span> into the parameter server from a yaml file called <code>arm.yaml</code></li>
 <li>Hint: you may wish to write this launchfile incrementally, adding new <code>&lt;node&gt;</code> tasks for each node you create.</li>
 </ul></li>
-<li>A discussion in your <code>README.md</code> about what each launchfile and node is called and what it does. Comments in the docstring of each node should describe the ROS api for each node (publishers, subscribers, services, etc.).</li>
+<li><p>A discussion in your <code>README.md</code> about what each launchfile and node is called and what it does. Comments in the docstring of each node should describe the ROS api for each node (publishers, subscribers, services, etc.).</p></li>
+<li><p>Make a video of a robot following the trajectory and link to it or embed it in your <code>README</code></p></li>
 </ol>
-<h1 id="the-xacro-arm">The Xacro Arm</h1>
-<h2 id="git-2">Git</h2>
+<h1 id="part-iii-pincherx-100">Part III: PincherX 100</h1>
 <ul>
-<li>Do your work in this section on the "xacro" branch in git.</li>
-<li>Be sure to push this branch to the remote repository.</li>
-<li>When you are done, merge this into master</li>
-<li>You may also merge periodically, as you achieve milestones in getting your turtle working</li>
+<li>You will now adapt the <code>arm_traj</code> node to work with the <code>pincherX 100</code> robot
+<ul>
+<li>You can either make <code>arm_traj</code> also publish <code>interbotix_sdk/JointCommands</code> in addition to the <code>joint_state</code> commands or write an adapter node that reads the <code>joint_states</code> published by <code>arm_traj</code> and publishes <code>interbotix_sdk/JointCommands</code></li>
+<li>You should be publishing joint positions</li>
+<li>Essentially, the joint positions of the <code>pincherX</code> are copying those of your <code>urdf</code>, as driven by <code>arm_traj</code></li>
+</ul></li>
+<li>Create the <code>pincherX</code> as a planar robot arm. That is, keep all joints except fixed except for the shoulder and elbow
+<ul>
+<li>The dimensions of the arm can be found <a href="http://www.support.interbotix.com/html/specifications/px100.html">here</a></li>
+<li>Store the dimensions for <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> in <code>config/px100.yaml</code></li>
+</ul></li>
+<li>Create a launchfile that launches the necessary <code>px100</code> launchfiles and loads <code>rviz</code>.
+<ul>
+<li><code>rviz</code> should display both the <code>px100</code> and your <code>urdf</code></li>
+<li>You should publish a static transform between their base_links</li>
+</ul></li>
+<li>Try your code using the <code>pincherX 100</code> simulator first and make sure it works prior to trying with the real arm</li>
+<li>Turn in a screencast of the pincherX 100 and your robot moving within <code>rviz</code></li>
+<li>Turn in a video of the actual robot moving</li>
 </ul>
-<h2 id="what-to-turn-in-2">What to turn in</h2>
-<ol>
-<li>Create a <code>.xacro</code> file based on the URDF in the previous section, that allows you to read the length of each arm from the <code>arm.yaml</code> file you used in the previous section
+<h2 id="hints-1">Hints</h2>
 <ul>
-<li>Your xacro file should be written such that when you change the parameters in the <code>arm.yaml</code> file you do not need to change anything else for the resulting <code>urdf</code> to work.</li>
-<li>In <code>xacro</code>, <code>pi</code> is already defined so you should use it explicitly wherever you had to manually compute it in the urdf.</li>
-<li>Modify the launchfile used in the previous section to load the <code>xacro</code> file instead of the <code>urdf</code></li>
-</ul></li>
-<li>Make two videos of a robot following the trajectory.
-<ul>
-<li>Each video should use different values of the parameters.</li>
-<li>Include links to the videos in your <code>README.md</code></li>
-</ul></li>
-</ol>
-<h1 id="bonus-question-optional-but-it-will-be-rewarding-to-complete">Bonus Question (optional, but it will be rewarding to complete)</h1>
-<ol>
-<li>Modify question 1 so the turtle can follow a trajectory specified by the user.
-<ul>
-<li>The user should provide two strings: the x position vs time and the y position vs time</li>
-<li>You can then use <code>sympy</code> to perform the necessary computations to find expressions for <span class="math inline">\(v(t)\)</span> and <span class="math inline">\(\omega(t)\)</span>.</li>
-</ul></li>
-</ol>
+<li><a href="https://github.com/Interbotix/interbotix_ros_arms">Official Documentation</a></li>
+<li>Our robot model is referred to as <code>px100</code></li>
+</ul>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

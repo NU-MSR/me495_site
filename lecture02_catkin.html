@@ -688,7 +688,7 @@ table td {
 <ul>
 <li>This allows you to start your python scripts with the shebang <code>#!/usr/bin/env python3</code> and have catkin replace it with the proper shebang for the system.</li>
 </ul></li>
-<li><p>If you create a python package under <code>src/pkgname</code> then you should</p>
+<li><p>If you create a python package under <code>src/&lt;pkg&gt;</code> then you should</p>
 <ol>
 <li><p>Create a <code>setup.py</code> in the <code>&lt;pkg&gt;</code> directory. It looks like</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="im">from</span> setuptools <span class="im">import</span> setup</span>
@@ -699,6 +699,19 @@ table td {
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>    )</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>setup(<span class="op">**</span>d)</span></code></pre></div></li>
 <li><p>Uncomment the <code>catkin_python_setup()</code> line in <code>CMakeLists.txt</code></p></li>
+<li><p><code>src/&lt;pkg&gt;</code> is just like any <a href="https://packaging.python.org/tutorials/packaging-projects/">python package</a></p>
+<ul>
+<li>It has a <code>src/&lt;pkg&gt;/__init__.py</code>, which can be a blank file most of the time</li>
+<li>The package is imported with <code>import &lt;pkg&gt;</code></li>
+<li>You can define a module as <code>src/&lt;pkg&gt;/module.py</code> and import it as <code>import &lt;pkg&gt;.module</code></li>
+<li><code>catkin</code> takes care of the python path for you. If you have trouble importing a module, it is likely an issue with the <code>catkin</code> setup</li>
+</ul></li>
+<li><p>Moving code into a <code>package</code> as opposed to leaving it in a node has several advantages</p>
+<ol>
+<li>You can import it into the <code>python</code> interpreter and work with it interactively</li>
+<li>It is easier to test</li>
+<li>It is easier to document (<code>sphinx autodoc</code> generally only documents packages not executable python files)</li>
+</ol></li>
 </ol></li>
 </ul>
 <h2 id="package-layout">Package Layout</h2>

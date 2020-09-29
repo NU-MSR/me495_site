@@ -582,7 +582,7 @@ table td {
 <li>Reading an item from a list</li>
 <li>Modifying an item in a list</li>
 <li>Getting an item from a dictionary</li>
-<li><a href="https://docs.python.org/2/faq/library.html#what-kinds-of-global-value-mutation-are-thread-safe">A complete list of python atomic operations</a></li>
+<li><a href="https://docs.python.org/3/faq/library.html#what-kinds-of-global-value-mutation-are-thread-safe">A complete list of python atomic operations</a></li>
 </ul></li>
 <li><p>If you perform a non-atomic operation, the thread you are running on can be interrupted in the middle. Assume we have two threads, both performing <code>i = i + 1</code>, a non-atomic operation. Thus what is actually executed gets broken into several interruptable steps</p>
 <pre><code>i = 0
@@ -632,7 +632,7 @@ Thread 2 stores 1 in i
 <li>Only use local variables</li>
 <li>Use atomic operations: A very common use case is that you use a service to signal a change in a timer that is publishing data. If you set variables using atomic operations, which in python includes simple assignments, then you should not run into issues or require explicit synchronization methods.
 <ol>
-<li>Use a <a href="https://wiki.python.org/2/library/queue.html">Queue</a>, especially with a producer/consumer pattern. Queues are thread-safe in python. One thread puts data onto the queue, the other thread reads it from the queue.</li>
+<li>Use a <a href="https://docs.python.org/3/library/queue.html">Queue</a>, especially with a producer/consumer pattern. Queues are thread-safe in python. One thread puts data onto the queue, the other thread reads it from the queue.</li>
 <li>If you must, resort to the thread locking mechanisms provided by python</li>
 </ol></li>
 </ol></li>
@@ -648,11 +648,11 @@ Thread 2 stores 1 in i
 </ol>
 <h1 id="resources">Python Resources</h1>
 <ul>
-<li><a href="https://docs.python.org/2.7/tutorial/stdlib2.html#multi-threading">threading module tutorial</a></li>
-<li><a href="https://docs.python.org/2.7/library/threading.html">Python Threading Library</a></li>
+<li><a href="https://docs.python.org/3/tutorial/stdlib2.html#multi-threading">threading module tutorial</a></li>
+<li><a href="https://docs.python.org/3/library/threading.html">Python Threading Library</a></li>
 <li><a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock (GIL)</a></li>
-<li><a href="https://docs.python.org/2/library/multiprocessing.html">Python Multiprocessing Library</a>.</li>
-<li><a href="https://docs.python.org/2/library/queue.html">Python Queue Class</a></li>
+<li><a href="https://docs.python.org/3/library/multiprocessing.html">Python Multiprocessing Library</a>.</li>
+<li><a href="https://docs.python.org/3/library/queue.html">Python Queue Class</a></li>
 <li>More to come!</li>
 </ul>
 </div>
