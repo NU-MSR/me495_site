@@ -481,6 +481,7 @@ table td {
 <li><a href="#what-this-threading-model-means-for-you">What this threading model means for you</a></li>
 </ul></li>
 <li><a href="#roscpp-and-threads">roscpp and threads</a></li>
+<li><a href="#threads-example">Threads Example</a></li>
 <li><a href="#resources">Python Resources</a></li>
 </ul>
 </nav>
@@ -612,6 +613,7 @@ Thread 2 stores 1 in i
 <ul>
 <li>For example, if you have a timer with period 1 second, but your code takes 3 seconds to execute, The timer will effectively only trigger once every 3 seconds</li>
 </ul></li>
+<li>See <a href="http://wiki.ros.org/rospy/Overview/Time">Time</a> for more details about time and timers in ROS</li>
 </ul>
 <h2 id="subscribers">Subscribers</h2>
 <ul>
@@ -646,6 +648,10 @@ Thread 2 stores 1 in i
 <li>In C++ the order in which expressions are executed is not necessarily the order in which they were coded; therefore, you must be very careful when synchronizing threads</li>
 <li>See <a href="http://wiki.ros.org/roscpp/Overview/Callbacks%20and%20Spinning">Callbacks and Spinning</a> for more details</li>
 </ol>
+<h1 id="threads-example">Threads Example</h1>
+<ol>
+<li>Here is an interactive example for exploring threads in python <a href="https://github.com/m-elwin/me495_threads">Threads</a></li>
+</ol>
 <h1 id="resources">Python Resources</h1>
 <ul>
 <li><a href="https://docs.python.org/3/tutorial/stdlib2.html#multi-threading">threading module tutorial</a></li>
@@ -653,7 +659,6 @@ Thread 2 stores 1 in i
 <li><a href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock (GIL)</a></li>
 <li><a href="https://docs.python.org/3/library/multiprocessing.html">Python Multiprocessing Library</a>.</li>
 <li><a href="https://docs.python.org/3/library/queue.html">Python Queue Class</a></li>
-<li>More to come!</li>
 </ul>
 </div>
 <div class="footer">
