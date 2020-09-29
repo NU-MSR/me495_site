@@ -555,19 +555,23 @@ table td {
 </ol>
 <h2 id="the-math">The Math</h2>
 <p>The <a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/overview">turtlebot3</a> is a differential-drive robot that can be modeled as kinematic car (also known as a unicycle model). The control inputs for the robot are linear velocity <span class="math inline">\(v\)</span> and the angular velocity <span class="math inline">\(\omega\)</span>, and result in motion according to the kinematic equations</p>
-<p><span class="math display">\[
-\dot{x} = v \cos \theta \\
-\dot{y} = v \sin \theta \\
-\dot{\theta} = \omega.
-\]</span></p>
+<span class="math display">\[\begin{align}
+\dot{x} &amp;= v \cos \theta  \\
+\dot{y} &amp;= v \sin \theta \\
+\dot{\theta} &amp;= \omega.
+\end{align}
+\]</span>
 <ul>
 <li>The x axis points in the forward direction of the robot and the angle <span class="math inline">\(\theta\)</span> is relative to the world x-axis.</li>
 <li>Assume that the robot starts at configuration <span class="math inline">\((x,y,\theta) = (0, 0, 0)\)</span> in the world coordinate frame.</li>
 </ul>
-<p>Your goal is to make the turtlebot follow a figure-eight trajectory: <span class="math display">\[
-x_d(t) = \frac{W}{2} \sin \frac{2 \pi t}{T}
-y_d(t) = \frac{H}{2} \sin \frac{4 \pi t}{T}
-\]</span> where <span class="math inline">\(t\)</span> is time, <span class="math inline">\(T\)</span> is the time to finish one figure-eight, <span class="math inline">\(W\)</span> is the width of the figure-eight , and <span class="math inline">\(H\)</span> is the height of the figure-eight.</p>
+<p>Your goal is to make the turtlebot follow a figure-eight trajectory:</p>
+<span class="math display">\[\begin{align}
+x_d(t) &amp;= \frac{W}{2} \sin \frac{2 \pi t}{T} \\
+y_d(t) &amp;= \frac{H}{2} \sin \frac{4 \pi t}{T} 
+\end{align}
+\]</span>
+<p>where <span class="math inline">\(t\)</span> is time, <span class="math inline">\(T\)</span> is the time to finish one figure-eight, <span class="math inline">\(W\)</span> is the width of the figure-eight , and <span class="math inline">\(H\)</span> is the height of the figure-eight.</p>
 <h2 id="what-to-implement">What to implement</h2>
 <ol>
 <li>A node called <code>trajectory</code>
@@ -764,10 +768,12 @@ y_d(t) = \frac{H}{2} \sin \frac{4 \pi t}{T}
 <li>Remember to use <code>$(find)$</code> when referencing files stored in packages.</li>
 <li>Document how to use your launchfile</li>
 </ul></li>
-<li><p>A node called <code>arm_traj</code> that causes the end-effector to track the following trajectory: <span class="math display">\[
+<li><p>A node called <code>arm_traj</code> that causes the end-effector to track the following trajectory:</p>
+<span class="math display">\[\begin{align}
      x(t) = 0.9\cos\frac{2\pi t}{T} \sqrt{(L_1+L_2)^2 - h^2}  \\
      y(t) = \frac{2}{3}(L_1 + L_2)
-  \]</span></p>
+\end{align}
+\]</span>
 <ul>
 <li>Let <span class="math inline">\(h=\frac{2}{3}(L_1 + L_2)\)</span> so that the trajectory is always achievable.</li>
 <li>The trajectory should result in the end-effector moving back and forth in a straight line with a constant <span class="math inline">\(y\)</span> value</li>
