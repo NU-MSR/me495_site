@@ -1,0 +1,823 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>TurtleBot3 Quickstart</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#powering-the-turtlebot">Powering the Turtlebot</a></li>
+<li><a href="#setup">Setup</a>
+<ul>
+<li><a href="#network-instructions">Network Instructions</a></li>
+<li><a href="#wifi-hotspot">WiFi Hotspot</a></li>
+<li><a href="#connect-to-your-router">Connect to Your Router</a></li>
+<li><a href="#ssh">SSH</a></li>
+<li><a href="#first-moves">First Moves</a></li>
+<li><a href="#ros-master-networking">ROS Master Networking</a></li>
+<li><a href="#final-steps">Final Steps</a></li>
+</ul></li>
+<li><a href="#ubuntu-server-setup">Ubuntu Server Setup</a>
+<ul>
+<li><a href="#initial-setup">Initial Setup</a></li>
+<li><a href="#after-login">After Login</a></li>
+<li><a href="#compile-turtlebot-packages">Compile Turtlebot packages</a></li>
+<li><a href="#stock-firmware">Stock Firmware</a></li>
+<li><a href="#create-the-turtlebot-image">Create the turtlebot image</a></li>
+<li><a href="#other-techniques">Other Techniques</a></li>
+</ul></li>
+<li><a href="#resources">Resources</a></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">TurtleBot3 Quickstart</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="powering-the-turtlebot">Powering the Turtlebot</h1>
+<ol>
+<li>The Turtlebot can be powered from a battery, or directly from the wall charger, which gets plugged into the OpenCR board
+<ul>
+<li><strong>IMPORTANT</strong> Always make sure the battery is unplugged prior to powering from the wall charger</li>
+</ul></li>
+<li>When the battery voltage drops below a threshold, the turtlebot will issue a low-battery warning sound
+<ul>
+<li><strong>IMPORTANT</strong> When the battery voltage is low, stop using the turtlebot and charge the battery. Otherwise you can permanently damage the battery.</li>
+</ul></li>
+<li>Do not use the PincherX 100 power brick with the turtlebot3
+<ul>
+<li>It has the same plug but is rated for significantly less power.</li>
+</ul></li>
+<li>I like to test most of the software with the turtlebot3 powered from the wall and up on a block so that the wheels don't touch the ground.
+<ul>
+<li>This method increases development speed because charging the batteries or chasing the turtlebot3 around the room both take time.</li>
+<li>However, the odometry of the turtlebot3 depends solely on the IMU, therefore if it is up on blocks and you turn, the odometry will be incorrect.
+<ul>
+<li>In my opinion this is an odd choice but I have not done experiments comparing its accuracy with wheel odometry</li>
+</ul></li>
+</ul></li>
+</ol>
+<h1 id="setup">Setup</h1>
+<p>I have created a custom <code>turtlebot3</code> image for you to use for class.</p>
+<ol>
+<li><p>Closely follow all turtlebot3 assembly instructions.</p></li>
+<li><p>Make sure you have installed the <a href="./custom_ws.html">Northwestern Workspace</a></p></li>
+<li><p>Install <code>gdown</code> to download large google drive files: <code>pip3 install gdown</code></p></li>
+<li><p>Install zstd: <code>sudo apt install zstd</code> (a compression/decompression tool)</p></li>
+<li><p>Download the image file <code>gdown "https://drive.google.com/uc?id=1HYFx_IqGWTO7OJLh9MaZyw9viLNnyJH4" -O ~/turtlebot.img.zst</code></p>
+<ul>
+<li>If gdown does not work you can just navigat</li>
+</ul></li>
+<li><p>Insert the SD card into your computer</p>
+<ul>
+<li>Use <code>lsblk</code> to see which device it is (e.g.,=/dev/mmcblk0=)</li>
+<li>Insert and remove to figure out the device. We will pretend it is <code>/dev/mmcblk0</code> from now on.</li>
+</ul></li>
+<li><p>Decompress the image to the SD card:</p>
+<pre><code>sudo chown $USER:$USER /dev/mmcblk0
+zstd -d turtlebot.img.zst -o /dev/mmcblk0
+</code></pre>
+<ul>
+<li>This takes some time, SD cards are slow.</li>
+</ul></li>
+<li><p>Most of the <a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/">turtlebot3 manual</a> applies to the custom setup so it is still a useful resource, but do not take the commands literally</p>
+<ul>
+<li>Mainly, the turtlebot3 documentation is designed for ROS kinetic.</li>
+</ul></li>
+</ol>
+<h2 id="network-instructions">Network Instructions</h2>
+<p>The turtlebot3 runs its own Linux computer (on a raspberry pi), with its own copy of ROS. To communicate with the turtlebot3, it must be on the same local area network (LAN) as your computer (referred to as the Remote PC in the turtlebot3 manual). See <a href="https://nu-msr.github.io/hackathon_site/linux_interactive.html#networking">Networking</a> for a very brief explanation.</p>
+<p>I outline two methods for connecting to the turtlebot3. The first method should work for everyone, but unless your computer has a secondary network card (wired or wireless) you will lose internet access while connected to the turtlebot.</p>
+<p>The second method requires you to have at least some knowledge of your router.</p>
+<p>Prior to attempting either method you should <code>sudo apt install avahi-daemon</code>. When working properly this service lets you resolve hostnames on the local network as <code>&lt;hostname&gt;.local</code></p>
+<h2 id="wifi-hotspot">WiFi Hotspot</h2>
+<ol>
+<li>By default the turtlebot creates a wireless network called <code>TURTLEDIRECT</code> with a password <code>NU-TURTLE</code>.
+<ul>
+<li>It takes a little time for the turtlebot to boot so wait a few minutes if it does not show up at first</li>
+</ul></li>
+<li>If you connect to this WiFi network
+<ul>
+<li>You should be able to <code>ping turtlebot.local</code></li>
+<li>If you can't ping by name, the turtlebot's ip address is <code>10.42.0.1</code></li>
+</ul></li>
+<li>You will not have internet unless you are connected via another network card, for example by using a wired connection.</li>
+</ol>
+<h2 id="connect-to-your-router">Connect to Your Router</h2>
+<ol>
+<li>Mount the <code>SD card</code>
+<ul>
+<li>Let <code>$raspi</code> be a directory where you want to mount the card (e.g., <code>/mnt/raspi</code>)</li>
+<li>Let <code>$dev</code> be the device with the turtlebot's root partition (e.g. <code>/mnt/mmcblk0p2</code>)</li>
+<li><code>sudo mount $dev $raspi</code></li>
+</ul></li>
+<li>Edit <code>$raspi/etc/netplan/10-network.yaml</code> to contain your network information, and change <code>mode: ap</code> to <code>mode: infrastructure</code>
+<ul>
+<li>Whitespace is significant in <code>yaml</code> files, just like in python.</li>
+</ul></li>
+<li>Unmount the SD card <code>sudo umount $raspi</code></li>
+<li>When you power-on the turtlebot it should connect to your Wifi router
+<ul>
+<li>Try to ping the turtlebot at <code>turtlebot.local</code></li>
+<li>If you cannot ping the name and have admin access to the router, you can look there to find the turtlebot's ip</li>
+<li>Otherwise <code>sudo apt install net-tools</code> then <code>arp -na | grep -i "b8:27:eb"</code>. This command looks for the mac address of the <code>raspberry pi</code>. If found you should see a line with an ip address. This is the ip address of the raspberry pi</li>
+</ul></li>
+</ol>
+<h2 id="ssh">SSH</h2>
+<ol>
+<li><p>Make sure you can ping <code>turtlebot.local</code> before proceeding.</p></li>
+<li><p>Create an rsa ssh key with no password, specifically for the turtlebot: <code>ssh-keygen -t rsa -f ~/.ssh/id_turtle -N ''</code></p>
+<ul>
+<li><a href="https://wiki.archlinux.org/index.php/SSH_keys">More information about SSH keys</a></li>
+</ul></li>
+<li><p>Copy your ssh key to the robot.</p>
+<ul>
+<li><code>ssh-copy-id -i ~/.ssh/id_turtle ubuntu@turtlebot.local</code></li>
+<li>The password to login to the turtlebot is <code>turtlebot</code></li>
+</ul></li>
+<li><p>SSH into the turtlebot and execute the following commands on the turtlebot to install the opencr firmware:</p>
+<pre><code>cd ~/opencr_update
+./update.sh /dev/ttyACM0 burger.opencr
+</code></pre></li>
+<li><p>If, in the previous step, you were prompted for a password, you may need to add the ssh key on your machine to have it unlocked automatically.</p>
+<ul>
+<li><p>To use an ssh key in a given session</p>
+<pre><code>eval $(ssh-agent)
+ssh-add ~/.ssh/id_turtle
+</code></pre></li>
+<li><p>If you are using the Gnome desktop (default desktop on Ubuntu), the key should be unlocked automatically: logging out and logging in again may help.</p></li>
+</ul></li>
+<li><p>You are now set to use the turtlebot3!</p></li>
+</ol>
+<h2 id="first-moves">First Moves</h2>
+<ol>
+<li>ssh into the <code>turtlebot</code> and run <code>roslaunch turtlebot3_bringup turtlebot3_robot.launch</code>
+<ul>
+<li>This launchfile starts everything that is needed to control the turtlebot</li>
+<li>Essentially it is a node that communicates with the low-level controller and converts between low-level control and sensing information to ROS messages.</li>
+</ul></li>
+<li>From another window, ssh into the turtlebot, run <code>rostopic pub /sound turtlebot3_msgs/Sound "value: 2"</code>
+<ul>
+<li>This is the low-battery sound</li>
+<li>If you ever hear this sound when not purposely sending this message, stop and charge the battery immediately</li>
+<li>Try out some other sound values (see the meaning <a href="http://docs.ros.org/noetic/api/turtlebot3_msgs/html/msg/Sound.html">Sound.msg</a>)</li>
+</ul></li>
+<li>Put the turtlebot3 up on a block so that the wheels are slightly above the ground (The RealSense box works well for this)
+<ul>
+<li>Try publishing some <code>cmd_vel</code> messages and experiment with how the wheels move</li>
+</ul></li>
+<li>End the <code>roslaunch</code></li>
+</ol>
+<h2 id="ros-master-networking">ROS Master Networking</h2>
+<p>To stay as close to the default turtlebot settings as possible, and require the least amount of setup on your part, we will be running <code>rosmaster</code> on your PC and having the turtlebot connect to it. The <a href="./networking.html">Networking Lecture</a> has more details about various ROS networking setups, although we will not be delving deeply into this for class.</p>
+<ol>
+<li><p>On the turtlebot edit <code>~/.bashrc</code> (e.g., <code>nano ~/.bashrc</code>) and add the following lines (where <code>&lt;hostname&gt;</code> is the hostname of your computer)</p>
+<ul>
+<li><p>The lines come after <code>source ~/ws/devel/setup.bash</code></p>
+<pre><code>export ROS_MASTER_URI=http://&lt;hostname&gt;.local:11311
+export ROS_HOSTNAME=turtlebot.local
+</code></pre></li>
+</ul></li>
+<li><p>Close all the ssh sessions on the turtlebot</p></li>
+<li><p>In a new ssh session, try to run <code>roslaunch turtlebot3_bringup turtlebot3_robot.launch</code></p>
+<ul>
+<li>Make sure you are not running <code>roscore</code> on your computer.</li>
+<li>This command <strong>should fail</strong> saying something like <code>RLException: ERROR: unable to contact ROS master at [...]</code></li>
+<li>The error message shows that <code>roslaunch</code> is now trying to connect to a <code>rosmaster</code> running on your computer</li>
+</ul></li>
+<li><p>In the <code>~/.bashrc</code> on your computer (the REMOTE PC) add the following lines to your <code>.bashrc</code></p>
+<pre><code>export ROS_MASTER_URI=http://&lt;hostname&gt;.local:11311
+export ROS_HOSTNAME=&lt;hostname&gt;.local
+</code></pre></li>
+<li><p>On your PC (the REMOTE PC) run <code>roscore</code></p></li>
+<li><p>Follow the <em>First Moves</em> section again and make sure everything still works</p></li>
+</ol>
+<h2 id="final-steps">Final Steps</h2>
+<ol>
+<li>You should now be able to use your turtlebot as specified in the <a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/">Official Manual</a></li>
+<li>However, since <code>noetic</code> is not officially supported some things may not work</li>
+<li>If you are connected via the <code>ad_hoc</code> wireless network, then it is easy for the time on the <code>turtlebot</code> to get out of sync.
+<ul>
+<li>This will mess up timestamps, for example, when using <code>tf</code></li>
+<li>To resynchronize the time with your pc run <code>ssh ubuntu@turtlebot.local "sudo date -s $(date +'%T')"</code></li>
+</ul></li>
+</ol>
+<h1 id="ubuntu-server-setup">Ubuntu Server Setup</h1>
+<p><strong>IMPORTANT NOTE</strong> You do not need to follow these instructions: they are here so you can see how I created the image you downloaded (<code>turtlebot.img.zst</code>).</p>
+<h2 id="initial-setup">Initial Setup</h2>
+<ol>
+<li><p>If you are a student, you do not need to follow these instructions. This is how I created <code>turtlebot.img.zst</code></p></li>
+<li><p>Download <a href="https://ubuntu.com/download/raspberry-pi">Ubuntu Server 20.04.1 for Raspberry Pi</a></p>
+<ul>
+<li><code>curl -L "https://cdimage.ubuntu.com/releases/20.04.1/release/ubuntu-20.04.1-preinstalled-server-armhf+raspi.img.xz" &gt; /tmp/raspi.img.xz</code></li>
+</ul>
+<ul>
+<li><code>curl -L "http://cdimage.ubuntu.com/releases/18.04.4/release/ubuntu-18.04.5-preinstalled-server-armhf+raspi3.img.xz" &gt; raspi.img.xz</code></li>
+</ul></li>
+<li><p>Extract the image <code>unxz -T0 /tmp/raspi.img.xz</code></p></li>
+<li><p>Write the image to the sdcard.</p>
+<ul>
+<li>Use <code>lsblk</code> to find the sdcard device (i.e., <code>/dev/mmcblk0</code>)</li>
+<li><code>chown $USER:$USER /dev/mmcblk0</code> so you don't need to be root</li>
+<li><code>dd bs=4M if=/tmp/raspi.img of=/dev/mmcblk0 status=progress conv=fsync</code></li>
+<li>This takes a while since SD cards are slow.</li>
+</ul></li>
+<li><p>Follow the <a href="https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#3-wifi-or-ethernet">instructions</a> to <code>ssh</code> into the raspberry pi or access its console</p>
+<ul>
+<li>It is easiest to plug an ethernet cable in and have a router running <code>openwrt</code></li>
+</ul></li>
+<li><p>Change the password to <code>turtlebot</code></p></li>
+</ol>
+<h2 id="after-login">After Login</h2>
+<ol>
+<li><p>Set the hostname: <code>echo "turtlebot" | sudo tee /etc/hostname</code></p></li>
+<li><p><code>sudo apt update</code></p></li>
+<li><p><code>sudo apt full-upgrade</code></p></li>
+<li><p><code>sudo apt install network-manager gdb</code></p></li>
+<li><p>Uninstall cruft</p>
+<pre><code>sudo apt remove cloud-init unattended-upgrades apport ubuntu-server \
+apport-symptoms cloud-guest-utils cloud-initramfs-copymods \
+cloud-initramfs-dyn-netconf update-notifier-common \
+lvm2 sosreport 
+
+</code></pre>
+<ul>
+<li><code>sudo systemctl disable --now motd-news.timer  apt-daily-upgrade.timer apt-daily.timer</code></li>
+<li><code>sudo rm -rf /etc/cloud /etc/netplan/50-cloud-init.yaml</code></li>
+<li><code>sudo apt-mark manual $(sudo apt-get -s autoremove 2&gt;/dev/null | awk '/^Remv / { print $2 }')</code></li>
+</ul></li>
+<li><p>Copy the contents of <code>10-network.yaml</code> to <code>/etc/netplan</code></p>
+<ul>
+<li>You can use <code>scp</code> to help or copy and paste</li>
+</ul></li>
+<li><p><code>sudo netplan generate</code></p></li>
+<li><p><code>sudo netplan apply</code></p></li>
+<li><p><code>sudo dpkg-reconfigure tzdata</code> to change the timezone as appropriate</p></li>
+<li><p>disable motd: Edit <code>/etc/default/motd-news</code> setting <code>ENABLED=0</code> <code>sudo chmod -x /etc/update-motd.d/*</code></p></li>
+<li><p>Remove snaps:</p>
+<pre><code>    sudo snap remove lxd
+    sudo snap remove core18
+    sudo snap remove snapd
+    sudo apt remove snapd
+    sudo apt-mark manual squashfs-tools
+** Ros installation.
+Install ros: http://wiki.ros.org/Installation/UbuntuARM (as of 12/5/2019)
+#+BEGIN_SRC
+sudo sh -c &#39;echo &quot;deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main&quot; &gt; /etc/apt/sources.list.d/ros-latest.list&#39;
+
+sudo apt-key adv --keyserver &#39;hkp://keyserver.ubuntu.com:80&#39; --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+sudo apt update
+sudo apt install ros-noetic-ros-base 
+sudo apt install ros-noetic-hls-lfcd-lds-driver \
+                 ros-noetic-turtlebot3-msgs \
+                 ros-noetic-rosserial-python \
+                 ros-noetic-joint-state-publisher \
+                 ros-noetic-robot-state-publisher \
+                 ros-noetic-tf \
+                 python3-rosdep \
+                 build-essential \
+                 avahi-daemon
+sudo rosdep init
+rosdep update
+echo &quot;source /opt/ros/noetic/setup.bash&quot; &gt;&gt; ~/.bashrc
+source /opt/ros/melodic/setup.bash
+</code></pre></li>
+</ol>
+<h2 id="compile-turtlebot-packages">Compile Turtlebot packages</h2>
+<p>One of the turtlebot packages is not released for noetic so we need to compile it</p>
+<pre><code>mkdir -p ~/ws/src
+cd ~/ws/src
+git clone https://github.com/ROBOTIS-GIT/turtlebot3.git
+cd turtlebot3
+rm -rf turtlebot3_description turtlebot3_teleop turtlebot3_navigation turtlebot3_slam turtlebot3_example
+sudo apt install 
+cd ~/ws/
+catkin_make -DCMAKE_INSTALL_DIRECTOR=/opt/ros/noetic
+echo &quot;source ~/ws/devel/setup.bash&quot; &gt;&gt; .bashrc
+source ~/ws/devel/setup.bash
+** Udev Rules
+Create and install the udev rules
+#+BEGIN_SRC
+rosrun turtlebot3_bringup create_udev_rules
+sudo udevadm control --reload
+sudo udevadm trigger
+</code></pre>
+<h2 id="stock-firmware">Stock Firmware</h2>
+<p>The firmware for the motor control drivers:</p>
+<ul>
+<li>To use with ROS-Noetic, the firmware must be recompiled on a system running noetic:</li>
+<li>Install <a href="https://www.arduino.cc/en/Main/Software">Arduino IDE</a> and the board tools <a href="https://emanual.robotis.com/docs/en/parts/controller/opencr10/">https://emanual.robotis.com/docs/en/parts/controller/opencr10/</a></li>
+<li><code>git clone https://github.com/ROBOTIS-GIT/OpenCR</code></li>
+<li><code>git checkout noetic-branch</code></li>
+<li>Delete <code>~/.arduino15/packages/OpenCR/hardware/OpenCR/&lt;version&gt;/libraries</code> and replace with a symlink to the <code>OpenCR/arduino/opencr_arduino/opencr/libraries</code>
+<ul>
+<li>It is key that we actually are compiling the libraries from the git repository and not the libraries that were installed with the board support package</li>
+</ul></li>
+<li>Open the <code>turtlebot3_core.ino</code> sketch in the arduino IDE <code>OpenCR/arduino/opencr_arduino/opencr/libraries/turtlebot3/examples/turtlebot3_burger/turtlebot3_core/turtlebot3_core.ino</code></li>
+<li>Compile the sketch. The binary will be in <code>/tmp/arduino_build_&lt;number&gt;/turtlebot3_core.ino.bin</code></li>
+<li>Run <code>OpenCR/arduino/opencr_develop/opencr_ld_shell/opencr_ld_shell_x86 make /tmp/arduino_build_&lt;number&gt;/turtlebot3_core.ino.bin burger NU-MSR</code>
+<ul>
+<li>This will create a file called <code>burger.opencr</code></li>
+</ul></li>
+<li>Let <code>$tools = OpenCR/arduino/opencr_develop/opencr_ld_shell</code>
+<ul>
+<li>Copy <code>burger.opencr</code>, <code>$tools/update.sh</code>, <code>$tools/opencr_ld_shell_arm</code> to <code>/home/ubuntu/opencr_update</code> on the turtlebot</li>
+</ul></li>
+</ul>
+<h2 id="create-the-turtlebot-image">Create the turtlebot image</h2>
+<p>Powerdown the turtlebot, place the sdcard in your PC. (Assuming the image is in <code>/dev/mmcblk0</code>) <code>zstd -22v -T0 --ultra &lt; /dev/mmcblk0 &gt; turtlebot.img.zst</code></p>
+<h2 id="other-techniques">Other Techniques</h2>
+<p>You can mount the raspberry pi image on your machine and use qemu to directly run commands from a chroot.</p>
+<ol>
+<li>Install <code>qemu-user-static</code> and Run the commands with</li>
+<li>Make sure <code>systemctl status binfmt</code> is running</li>
+<li>Mount the image: <code>sudo losetup -f --show -P raspi.img</code>
+<ul>
+<li>Based on the loop device returned mount the partition. For example if it is <code>/dev/loop18</code></li>
+<li><code>sudo mount /dev/loop18p2 /mnt/raspberrypi</code></li>
+</ul></li>
+<li><code>sudo cp /usr/bin/qemu-arm-static /mnt/raspberrypi/usr/bin</code></li>
+<li><code>PATH=/bin:/usr/bin:/usr/sbin:/sbin sudo chroot  /mnt/raspberrypi bin/bash</code></li>
+<li>We can now run the commands and will directly modify the image</li>
+</ol>
+<h1 id="resources">Resources</h1>
+<ul>
+<li><a href="http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/">Main turtlebot documentation</a></li>
+</ul>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
