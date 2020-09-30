@@ -557,6 +557,7 @@ y_d(t) &amp;= \frac{H}{2} \sin \frac{4 \pi t}{T}
 \]</span>
 <p>where <span class="math inline">\(t\)</span> is time, <span class="math inline">\(T\)</span> is the time to finish one figure-eight, <span class="math inline">\(W\)</span> is the width of the figure-eight , and <span class="math inline">\(H\)</span> is the height of the figure-eight.</p>
 <h2 id="what-to-implement">What to implement</h2>
+<p><strong>*</strong></p>
 <ol>
 <li>A node called <code>trajectory</code>
 <ul>
@@ -570,7 +571,7 @@ y_d(t) &amp;= \frac{H}{2} \sin \frac{4 \pi t}{T}
 </ul></li>
 <li>Broadcasts:
 <ul>
-<li>A static transform from <code>world</code> to <code>odom</code>. The <code>world</code> frame and <code>odom</code> frame are co-located. However, when the <code>turtlebot</code> is at (0, 0, 0) in the odom frame it should be at <span class="math inline">\(0, 0, \theta_0\)</span> in the world frame, where <code>\theta_0</code> is the initial angle of the robot on its figure-eight trajectory</li>
+<li>A static transform from <code>world</code> to <code>odom</code>. The <code>world</code> frame and <code>odom</code> frame are co-located. However, when the <code>turtlebot</code> is at (0, 0, 0) in the odom frame it should be at <span class="math inline">\(0, 0, \theta_0\)</span> in the world frame, where <span class="math inline">\(\theta_0\)</span> is the initial angle of the robot on its figure-eight trajectory</li>
 </ul></li>
 <li>Subscribes:
 <ul>
@@ -810,7 +811,7 @@ y_d(t) &amp;= \frac{H}{2} \sin \frac{4 \pi t}{T}
 <li>The dimensions of the arm can be found <a href="http://www.support.interbotix.com/html/specifications/px100.html">here</a></li>
 <li>Store the dimensions for <span class="math inline">\(L_1\)</span> and <span class="math inline">\(L_2\)</span> in <code>config/px100.yaml</code></li>
 </ul></li>
-<li>Create a launchfile that launches the necessary <code>px100</code> launchfiles and loads <code>rviz</code>.
+<li>Create a launchfile called <code>pincher.launch</code> that launches the necessary <code>px100</code> launchfiles and loads <code>rviz</code>.
 <ul>
 <li><code>rviz</code> should display both the <code>px100</code> and your <code>urdf</code></li>
 <li>You should publish a static transform between their base_links</li>
