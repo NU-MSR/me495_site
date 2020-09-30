@@ -470,7 +470,7 @@ table td {
 <li><a href="#logistics">Logistics</a>
 <ul>
 <li><a href="#robots">Robots</a></li>
-<li><a href="#package-setup">Package Setup</a></li>
+<li><a href="#other-packages">Other Packages</a></li>
 </ul></li>
 <li><a href="#part-i-turtle-trajectories">Part I: Turtle Trajectories</a>
 <ul>
@@ -520,27 +520,11 @@ table td {
 </ul></li>
 <li>Remote students who do not have access to the robots will complete the project in simulation.</li>
 </ol>
-<h2 id="package-setup">Package Setup</h2>
-<p>The <code>turtlebot3</code> packages have not been released for ROS <code>noetic</code> yet. Therefore, we will compile them and use them from a workspace.</p>
-<ol>
-<li>Install <code>vcstool</code> (<code>sudo apt install python3-vcstool</code>)</li>
-<li>Create a new workspace called <code>basews</code></li>
-<li><code>cd basews/src</code></li>
-<li><code>vcs import https://nu-msr.github.io/me495_site/turtlebot.repos</code>
+<h2 id="other-packages">Other Packages</h2>
 <ul>
-<li>This command will clone several repositories into your source space</li>
-</ul></li>
-<li>Install system dependencies with <code>rosdep</code> (install <code>rosdep</code> with <code>sudo apt install python3-rosdep</code>)
-<ul>
-<li><code>rosdep install --from-paths src/ --ignore-src -y</code></li>
-</ul></li>
-<li>Build the workspace (<code>cd basews</code> followed by <code>catkin_make</code>)</li>
-<li>Source the workspace from your <code>~/.bashrc</code>. This way it will always be active and you can use the packages in every new terminal that you open. Add the line
-<ul>
-<li><code>source /path/to/basews/devel/setup.bash</code></li>
-</ul></li>
-<li>Also in your <code>~/.bashrc</code>, <code>export TURTLEBOT3_MODEL=burger</code>. All of the <code>turtlebot3</code> packages use this environment variable to determine which model of turtlebot you are using.</li>
-</ol>
+<li>This assignment uses some packages that have not been released for ROS noetic.</li>
+<li>Follow these <a href="./custom_ws.html">instructions</a> to install the necessary packages, compile them, and ensure they are always on your path.</li>
+</ul>
 <h1 id="part-i-turtle-trajectories">Part I: Turtle Trajectories</h1>
 <h2 id="overview">Overview</h2>
 <p>The goal of this assignment is to make a turtlebot follow a figure-8 trajectory.</p>
