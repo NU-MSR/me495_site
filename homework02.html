@@ -553,22 +553,21 @@ y_d(t) &amp;= \frac{H}{2} \sin \frac{4 \pi t}{T}
 \]</span>
 <p>where <span class="math inline">\(t\)</span> is time, <span class="math inline">\(T\)</span> is the time to finish one figure-eight, <span class="math inline">\(W\)</span> is the width of the figure-eight , and <span class="math inline">\(H\)</span> is the height of the figure-eight.</p>
 <h2 id="what-to-implement">What to implement</h2>
-<p><strong>*</strong></p>
+<h3 id="trajectory-node">Trajectory Node</h3>
+<p>A node called <code>trajectory</code> that</p>
 <ol>
-<li>A node called <code>trajectory</code>
-<ul>
 <li>Publishes:
 <ul>
-<li><code>cmd_vel (geometry_msgs/Twist)</code>. This is published at a fixed frequency, causing the turtlebot to follow the desired open-loop trajectory
-<ul>
+<li><code>cmd_vel (geometry_msgs/Twist)</code>. This is published at a fixed frequency, causing the turtlebot to follow the desired open-loop trajectory</li>
 <li>It is up to you to find an appropriate frequency, but 10 Hz is too slow and 1 kHz is faster than needed.</li>
-</ul></li>
-<li><code>path (nav_msgs/Path)</code>. A <a href="http://wiki.ros.org/rviz/DisplayTypes/Path">Path</a> draws a continuous line in <code>rviz</code>. This path should be the <code>open-loop</code> (i.e., expected) trajectory of the robot.</li>
-</ul></li>
+<li><code>path (nav_msgs/Path)</code>. A <a href="http://wiki.ros.org/rviz/DisplayTypes/Path">Path</a> draws a continuous line in <code>rviz</code>. This path should be the <code>open-loop</code> (i.e., expected) trajectory</li>
+</ul>
+of the robot.</li>
 <li>Broadcasts:
 <ul>
-<li>A static transform from <code>world</code> to <code>odom</code>. The <code>world</code> frame and <code>odom</code> frame are co-located. However, when the <code>turtlebot</code> is at (0, 0, 0) in the odom frame it should be at <span class="math inline">\(0, 0, \theta_0\)</span> in the world frame, where <span class="math inline">\(\theta_0\)</span> is the initial angle of the robot on its figure-eight trajectory</li>
-</ul></li>
+<li>A static transform from <code>world</code> to <code>odom</code>. The <code>world</code> frame and <code>odom</code> frame are co-located. However, when the <code>turtlebot</code> is at (0, 0, 0) in the odom</li>
+</ul>
+frame it should be at <span class="math inline">\(0, 0, \theta_0\)</span> in the world frame, where <span class="math inline">\(\theta_0\)</span> is the initial angle of the robot on its figure-eight trajectory</li>
 <li>Subscribes:
 <ul>
 <li><code>reset</code>: This should be the same topic that the turtlebot3 itself listens to. Restarts the trajectory from (0,0,0)</li>
@@ -586,45 +585,35 @@ y_d(t) &amp;= \frac{H}{2} \sin \frac{4 \pi t}{T}
 <li><code>~pub_freq</code>: The frequency at which to publish the messages. This is a private parameter.</li>
 <li>Pick parameters that fit your location and the turtlebot's capabilities.</li>
 </ul></li>
-</ul></li>
-<li>A pure python package called <code>homework2</code> and located under <code>src/homework2</code>
+</ol>
+<h3 id="python-package">Python Package</h3>
+<p>A python package called <code>homework2</code> and located under <code>src/homework2</code></p>
+<ol>
+<li>This package should contain code that performs calculations related to the trajectory and control but does not interact with the hardware
 <ul>
-<li>This package should contain code that performs calculations related to the trajectory and control but does not interact with the hardware</li>
 <li>Generally, code that performs calculations is much easier to test and can be used in a wide variety of situations so it makes sense to split it from the node code.</li>
 <li>This code should not use any <code>rospy</code> functions at all</li>
-<li>A useful structure is to have two classes, although you need not follow this structure:
-<ol>
-<li><code>FigureEight</code> is responsible for all calculations related to <code>FigureEight</code> trajectories:
-<ul>
-<li>It should be able to provide the trajectory coordinates and derivatives at any given time for a set of parameters.</li>
 </ul></li>
-<li><code>Kinematics</code> is responsible for the calculations related to the kinematics of the turltebot
-<ul>
-<li>This class can use <code>FigureEight</code> to compute the appropriate control inputs to follow the trajectory</li>
-<li>In general, multiple trajectory shapes could be supported by substituting <code>FigureEight</code> with another class for a different trajectory
-<ul>
-<li>You need not support multiple trajectory shapes, but this may be a helpful way of thinking about how to organize the code.</li>
-</ul></li>
-</ul></li>
-</ol></li>
 <li>At a minimum, the package should provide functions to
 <ul>
 <li>Compute the trajectory and its derivatives at a given time</li>
 <li>Compute the proper control inputs at a given time</li>
 </ul></li>
 <li>The <code>trajectory</code> node will import the <code>homework2</code> package to do its calculations and use the results to control the robot</li>
-</ul></li>
-<li>Unit tests for your python package using <code>rossunit</code> and <code>unittests</code>
-<ul>
+</ol>
+<h3 id="tests">Tests</h3>
+<p>Unit tests for your python package using <code>rossunit</code> and <code>unittests</code></p>
+<ol>
 <li>You should be able to run the tests from <code>catkin_make test</code></li>
 <li>Test each of the following computations at <span class="math inline">\(t = 0\)</span> and at least one other time <span class="math inline">\(t\)</span>: <span class="math inline">\(x_d(t)\)</span>, <span class="math inline">\(y_d(t)\)</span>, <span class="math inline">\(\dot{x}_d(t)\)</span>, <span class="math inline">\(\dot{y}_d(t)\)</span>, <span class="math inline">\(\ddot{x}_d(t)\)</span>, <span class="math inline">\(\ddot{y}_d(t)\)</span>, <span class="math inline">\(v(t)\)</span>, <span class="math inline">\(\omega(t)\)</span>.</li>
-<li>The functions that you test should be the ones actually used by your code to implement the trajectory tracking control law.</li>
-</ul></li>
+</ol>
+<h3 id="configuration">Configuration</h3>
+<ol>
 <li>A <code>config</code> directory containing
-<ul>
+<ol>
 <li>A <code>trajectory.yaml</code> file containing the trajectory parameters</li>
 <li>A <code>turtle_view.rviz</code> file containing your <code>rviz</code> setup.</li>
-</ul></li>
+</ol></li>
 <li>A launchfile in the <code>launch/</code> directory called <code>figure_eight.launch</code> that
 <ol>
 <li>Loads the <code>width</code>, <code>height</code>, <code>period</code> parameters from <code>trajectory.yaml</code></li>
@@ -645,6 +634,9 @@ y_d(t) &amp;= \frac{H}{2} \sin \frac{4 \pi t}{T}
 </ol></li>
 </ul></li>
 </ol></li>
+</ol>
+<h3 id="documentation">Documentation</h3>
+<ol>
 <li>Documentation showing how you computed the control inputs from the trajectory. You should link/refer to the documentation in your README.md. A few valid methods of showing the computations are:
 <ol>
 <li>Python code using <code>sympy</code> to perform the calculations</li>
@@ -653,6 +645,9 @@ y_d(t) &amp;= \frac{H}{2} \sin \frac{4 \pi t}{T}
 <li>A pdf of calculations written in <code>latex</code></li>
 <li>Directly embedded in your README using something like <code>readme2tex</code></li>
 </ol></li>
+<li>The functions and classes you write for the python package should be commented with docstrings as per the <a href="./guidelines.html">Guidelines</a></li>
+<li>The nodes you write should be commented with docstrings as per the <a href="./guidelines.html">Guidelines</a></li>
+<li>Write a <code>README.md</code> as per the <a href="./guidelines.html">Guidelines</a></li>
 <li>Videos:
 <ul>
 <li>A screencast of the robot in <code>rviz</code></li>
@@ -686,6 +681,23 @@ y_d(t) &amp;= \frac{H}{2} \sin \frac{4 \pi t}{T}
 </ul></li>
 <li>You can also look at the contents of the <code>turtlebot3</code> launchfiles to get a feel for what's going on.</li>
 <li>The <code>turtlebot3</code> gazebo simulation is pretty much a drop-in replacement for running the actual turtlebot3 nodes.</li>
+<li>A useful structure is to have two classes, although you need not follow this structure:
+<ol>
+<li><code>FigureEight</code> is responsible for all calculations related to <code>FigureEight</code> trajectories:</li>
+</ol>
+<ul>
+<li>It should be able to provide the trajectory coordinates and derivatives at any given time for a set of parameters.</li>
+</ul>
+<ol>
+<li><code>Kinematics</code> is responsible for the calculations related to the kinematics of the turltebot</li>
+</ol>
+<ul>
+<li>This class can use <code>FigureEight</code> to compute the appropriate control inputs to follow the trajectory</li>
+<li>In general, multiple trajectory shapes could be supported by substituting <code>FigureEight</code> with another class for a different trajectory
+<ul>
+<li>You need not support multiple trajectory shapes, but this may be a helpful way of thinking about how to organize the code.</li>
+</ul></li>
+</ul></li>
 <li>To accomplish this task, you will take advantage of the <a href="http://planning.cs.uiuc.edu/node850.html">differential flattness</a> of the system.
 <ul>
 <li>The overall goal is to solve for the control inputs <span class="math inline">\(v\)</span> and <span class="math inline">\(\omega\)</span> that will result in the desired trajectory</li>
