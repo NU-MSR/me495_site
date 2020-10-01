@@ -485,8 +485,6 @@ table td {
 <li><a href="#tools">Tools</a></li>
 <li><a href="#tips-and-tricks">Tips and Tricks</a></li>
 <li><a href="#other-resources">Other Resources</a></li>
-<li><a href="#demonstration">Demonstration</a></li>
-<li><a href="#exercises">Exercises</a></li>
 </ul>
 </nav>
 
@@ -582,7 +580,7 @@ table td {
 <ul>
 <li>If you download the source code (<a href="https://github.com/ros/geometry2">https://github.com/ros/geometry2</a>) and look in the python files in the <code>tf2_ros/src/tf2_ros</code> directory, comments in the code describe the API</li>
 <li>The python API parallels the C++ API so the C++ API docs are also useful</li>
-<li>In particular, the python code for the <a href="https://github.com/ros/geometry2/tree/melodic-devel/tf2_ros/src/tf2_ros">tf2_ros</a> is a useful resource.</li>
+<li>In particular, the python code for the <a href="https://github.com/ros/geometry2/tree/noetic-devel/tf2_ros/src/tf2_ros">tf2_ros</a> is a useful resource.</li>
 <li>It is also possible to generate the documentation locally using <a href="https://wiki.ros.org/rosdoc_lite">rosdoc_lite</a>.</li>
 </ul></li>
 <li>The transformations under <code>tf_conversions.transformations</code> are documented <a href="http://docs.ros.org/melodic/api/tf/html/python/transformations.html">here</a>.
@@ -621,7 +619,11 @@ table td {
 <li><code>rosrun tf static_transform_publisher</code> - send a constant transform at a fixed frequency or publish on <code>/tf_static</code></li>
 <li><code>rosrun tf view_frames</code> create a pdf of your tf tree</li>
 <li><code>roswtf</code> ROS what's the failure tool checks for failures in <code>/tf</code>.</li>
-<li><code>rosrun rqt_tf_tree rqt_tf_tree</code> lets you <a href="https://wiki.ros.org/rqt_tf_tree">view the Tf Tree</a></li>
+<li><code>rosrun rqt_tf_tree rqt_tf_tree</code> lets you <a href="https://wiki.ros.org/rqt_tf_tree">view the Tf Tree</a>
+<ul>
+<li>The current version released for <code>noetic</code> does not work</li>
+<li>You can gain access to this tool <a href="./custom_ws.html">instructions</a></li>
+</ul></li>
 <li><code>rviz</code> can be used to visualize frames.
 <ul>
 <li>You must choose the correct <code>fixed frame</code> in rviz to see any of the frames.</li>
@@ -670,41 +672,8 @@ table td {
 <ul>
 <li>This library is not well documented, but the source code is not too difficult to read.</li>
 </ul></li>
+<li>The activity that goes with this work can be found <a href="./tf_activity.html">TF Activity</a></li>
 </ul>
-<h1 id="demonstration">Demonstration</h1>
-<pre><code># create the workspace and clone the repository and get set up
-mkdir ws/src
-cd ws/src
-git clone https://github.com/m-elwin/me495_tf.git
-cd ..
-catkin_make
-source devel/setup.bash
-
-# run the broadcaster
-roscore &amp;
-rosrun me495_tf in_out &amp;
-
-# list the topics, notice the /tf and /tf_static
-rostopic list
-
-# use rqt_tf_tree to see the tf_tree
-rosrun rqt_tf_tree rqt_tf_tree
-
-# use tf_echo (from tf 1) to see translation between frame. C-c to quit
-rosrun tf tf_echo right left
-
-# run in rviz, using my rviz config
-rviz -d src/me495_tf/rviz/view.rviz
-
-# run the tracker node
-rosrun me495_tf tracker
-</code></pre>
-<h1 id="exercises">Exercises</h1>
-<ol>
-<li>Modify <code>in_out</code> so that the base frame is dynamic</li>
-<li>Make the base frame rotate about it's own z axis and visualize in rviz</li>
-<li>Make the base frame rotate about the <span class="math inline">\([1, 1, 1]\)</span> axis and visualize in rviz</li>
-</ol>
 </div>
 <div class="footer">
 Author: Matthew Elwin.

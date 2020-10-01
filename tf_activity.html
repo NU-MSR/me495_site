@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>ROS Lecture Notes</title>
+<title>ROS Tf Activity</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -466,14 +466,12 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#description">Description</a></li>
-<li><a href="#notes">Notes</a>
+<li><a href="#demonstration">Demonstration</a></li>
+<li><a href="#exercises">Exercises</a>
 <ul>
-<li><a href="#ros-basics">ROS Basics</a></li>
-<li><a href="#modeling-robots">Modeling Robots</a></li>
+<li><a href="#zoom-setup">Zoom Setup</a></li>
+<li><a href="#activity">Activity</a></li>
 </ul></li>
-<li><a href="#activities">Activities</a></li>
-<li><a href="#homework">Homework</a></li>
 </ul>
 </nav>
 
@@ -485,46 +483,61 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">ROS Lecture Notes</h1>
+<h1 class="title">ROS Tf Activity</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="description">Description</h1>
-<p>Welcome to the lecture notes for ME495: Embedded Systems in Robotics!</p>
-<p>This project-based course provides experience with a variety of software tools and concepts useful for a robotics engineer working with practical embedded systems. The Robot Operating System (ROS) will be used as an example framework, and learning ROS will be a primary goal of the course. By the end of the course, student teams will have completed a robotics project using a real robot.</p>
-<h1 id="notes">Notes</h1>
-<h2 id="ros-basics">ROS Basics</h2>
-<ul>
-<li><a href="./lecture00_preliminaries.html">Preliminaries</a></li>
-<li><a href="./lecture01_basics.html">ROS Basics</a></li>
-<li><a href="./lecture02_catkin.html">Catkin and Packages</a></li>
-<li><a href="./lecture03_rospy_names.html">Rospy and Names</a></li>
-<li><a href="./lecture04_launch.html">Launchfiles</a></li>
-<li><a href="./lecture08_threads.html">Threads</a></li>
-<li><a href="./design_doc_test.html">Design, Documentation, and Testing</a></li>
-<li><a href="./glossary.html">ROS Glossary</a></li>
-</ul>
-<h2 id="modeling-robots">Modeling Robots</h2>
-<ul>
-<li><a href="./lecture06_modeling.html">Robot Modeling</a></li>
-<li><a href="./lecture05_tf.html">The Tf Tree</a></li>
-<li><a href="./lecture07_visual.html">Visualization</a></li>
-</ul>
-<h1 id="activities">Activities</h1>
-<ul>
-<li><a href="./activity01.html">Basic ROS Activity</a></li>
-<li><a href="./activity02.html">Names and Launchfiles</a></li>
-<li><a href="https://github.com/m-elwin/me495_threads">Exploring Threads</a></li>
-<li><a href="./custom_ws.html">Install Necessary Packages</a></li>
-<li><a href="./turtlebot3.html">Turtlebot3 Setup</a></li>
-<li><a href="https://github.com/m-elwin/me495_practices">Unit Testing and Documentation Example</a></li>
-<li><a href="./tf_activity.html">TF Activity</a></li>
-</ul>
-<h1 id="homework">Homework</h1>
+<h1 id="demonstration">Demonstration</h1>
+<pre><code># create the workspace and clone the repository and get set up
+mkdir ws/src
+cd ws/src
+git clone https://github.com/m-elwin/me495_tf.git
+cd ..
+catkin_make
+source devel/setup.bash
+
+# run the broadcaster
+roscore &amp;
+rosrun me495_tf in_out &amp;
+
+# list the topics, notice the /tf and /tf_static
+rostopic list
+
+# use rqt_tf_tree to see the tf_tree
+rosrun rqt_tf_tree rqt_tf_tree
+
+# use tf_echo (from tf 1) to see translation between frame. C-c to quit
+rosrun tf tf_echo right left
+
+# run in rviz, set everything up correctly
+rviz 
+
+# run in rviz, using my rviz config
+rviz -d src/me495_tf/rviz/view.rviz
+
+# run the tracker node
+rosrun me495_tf tracker
+</code></pre>
+<h1 id="exercises">Exercises</h1>
+<h2 id="zoom-setup">Zoom Setup</h2>
 <ol>
-<li><a href="./guidelines.html">Guidelines</a>: These apply to every homework (Updated</li>
-<li><a href="./homework01.html">Homework 1</a> is due on Tuesday, September 29 (extended to October 2)</li>
-<li><a href="./homework02.html">Homework 2</a> is due Tuesday October 13</li>
+<li>You will work on each of the tasks below as a group, however everybody should follow along.</li>
+<li>For each step in the activity below you should rotate who is sharing their screen. Everybody should discuss how to solve each problem and follow along, including updating their own code.</li>
+<li>Switch who is screen sharing between each task</li>
+<li>Everyone should <code>git clone https://github.com/m-elwin/me495_tf.git</code> into a new workspace</li>
+<li>Ask questions in the <a href="https://docs.google.com/document/d/1TxQW8NQd6OOPZU8uzLqVlM04bemXrkXwuAxqC3KGvwI/edit#heading=h.ggr6tdi4l93e">google doc</a></li>
+<li>I will be popping into rooms. I will announce my presence then wait for a while. If not engaged in questioning I may leave the room without saying anything. You can always call me back.</li>
+</ol>
+<h2 id="activity">Activity</h2>
+<ol>
+<li>Walk through the demonstration above, manually setting up rviz to display the transformations
+<ul>
+<li>If the <code>rqt_tf_tree</code> does not work, that is due to a bug in that program, just move on we'll fix it later.</li>
+</ul></li>
+<li>Modify <code>in_out</code> so that the base frame is dynamic, that is, it is broadcast from the regular broadcaster and not the static broadcaster.</li>
+<li>Make the base frame rotate about it's own z axis at a fixed rate, and visualize in rviz</li>
+<li>Add another frame called <code>up</code> that is a child of base. Have this frame move in sync with left and right but perpendicular to them</li>
+<li>Modify tracker so that when the distance between <code>up</code> and <code>left</code> is above a threshold, it prints a message</li>
 </ol>
 </div>
 <div class="footer">
