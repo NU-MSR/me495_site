@@ -1,0 +1,874 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Testing, Documentation, and Design</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#testing">Testing</a>
+<ul>
+<li><a href="#unit-testing-vs-integration-testing">Unit Testing vs Integration Testing</a></li>
+<li><a href="#why-automating-testing">Why Automating Testing</a></li>
+<li><a href="#testing-in-ros-and-python">Testing in ROS and Python</a></li>
+<li><a href="#test-as-plain-python-code">Test as plain python Code</a></li>
+<li><a href="#test-a-ros-node">Test a ROS node</a></li>
+</ul></li>
+<li><a href="#documentation">Documentation</a>
+<ul>
+<li><a href="#quick-setup">Quick Setup</a></li>
+<li><a href="#setup">Setup</a></li>
+</ul></li>
+<li><a href="#design-guidelines">Design Guidelines</a></li>
+<li><a href="#node-design-patterns">Node Design Patterns</a>
+<ul>
+<li><a href="#reactive">Reactive</a></li>
+<li><a href="#fixed">Fixed</a></li>
+</ul></li>
+<li><a href="#example">Example</a>
+<ul>
+<li><a href="#other-resources">Other Resources</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Testing, Documentation, and Design</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="testing">Testing</h1>
+<p><em>Program testing can be used to show the presence of bugs, never to show their absence!</em></p>
+<p><span class="math inline">\(-\)</span> Edsger Dijkstra</p>
+<h2 id="unit-testing-vs-integration-testing">Unit Testing vs Integration Testing</h2>
+<ul>
+<li>Unit Testing usually refers to testing a single function</li>
+<li>Unit tests should ideally be run after every "compile" and can also be run after every push to a git repository using continuous integration</li>
+<li>Thus, unit tests should execute quickly and test only a single isolated item.</li>
+<li>Integration tests are tests that require multiple components to work together to function
+<ul>
+<li>These tests can take longer to run, are typically run less often then unit tests, and encompass a broader range of functionality</li>
+</ul></li>
+</ul>
+<h2 id="why-automating-testing">Why Automating Testing</h2>
+<ul>
+<li>Provides some level of assurance that your code is correct</li>
+<li>When your code changes, it helps you avoid breaking existing functionality</li>
+<li>Provides built in working examples of how to use your code</li>
+<li>Designing your code to be tested leads to better code</li>
+<li><a href="http://wiki.ros.org/Quality/Tutorials/UnitTesting">Why Test?</a></li>
+</ul>
+<h3 id="test-strategies">Test Strategies</h3>
+<ul>
+<li>Write tests whenever you encounter a bug
+<ul>
+<li>helps you reproduce the bug</li>
+<li>ensures that you won't encounter the same exact problem again</li>
+</ul></li>
+<li>Test Driven Development: write tests prior to writing code</li>
+<li>In robotics, testing is generally significantly harder than in most other disciplines
+<ul>
+<li>Testing everything often requires physical hardware to move or sense in the real world</li>
+<li>Try to isolate as much of the "software" part of the robot from the hardware to facilitate testing</li>
+</ul></li>
+</ul>
+<h2 id="testing-in-ros-and-python">Testing in ROS and Python</h2>
+<ul>
+<li>Testing ROS python code involves several layers</li>
+<li>At its core, ROS uses the built-in python unit testing framework, <a href="https://docs.python.org/3/library/unittest.html">unittest</a></li>
+<li>To create unit tests
+<ul>
+<li>import the code you wish to test</li>
+<li>import <code>unitttest</code></li>
+<li>Write a class that serves as a "Test Case"
+<ul>
+<li>the class inherits from <code>unittest.TestCase</code></li>
+<li>each method in the class that starts with the word "test" defines a unit test</li>
+<li>Each unit test calls the code it wants to test and asserts the result using special <code>unittest</code> assertion functions (e.g., <code>self.assertTrue</code>, <code>self.assertEqual</code>)</li>
+</ul></li>
+</ul></li>
+<li>In ROS, you use <code>unittest</code> as normal, but apply some special ROS wrappers to put the output in a format ROS understands (see <a href="http://wiki.ros.org/unittest">unittest</a>).
+<ul>
+<li>Tests can be run either as plane python scripts or as ROS Nodes</li>
+</ul></li>
+</ul>
+<h2 id="test-as-plain-python-code">Test as plain python Code</h2>
+<ul>
+<li><p>Place your test in a <code>test/</code> directory</p></li>
+<li><p>Your main code should be</p>
+<pre><code>import unittest
+import &lt;module_to_test&gt;
+class MyTestCase(unittest.TestCase):
+    def test_something(self):
+        self.assertEquals(&lt;expression1&gt;, &lt;expression2&gt;)
+
+if __name__ == &quot;__main__&quot;:
+    import rosunit
+    rosunit.unitrun(PackageName, &#39;test_class_name&#39;, TestClass)
+</code></pre></li>
+<li><p>Make sure the test is not executable</p></li>
+<li><p>Add the test (if <code>CATKIN_ENABLE_TESTING</code> is true) in the <code>CMakeLists.txt</code></p>
+<pre><code>if(CATKIN_ENABLE_TESTING)
+   catkin_add_nosetests(directory_with_tests)= 
+endif()
+</code></pre></li>
+<li><p>You must and <code>&lt;test_depend&gt;</code> on <code>rosunit</code> in your <code>package.xml</code></p></li>
+<li><p>Your test will run with <code>catkin_make run_tests</code></p>
+<ul>
+<li>You should see information about the tests that were executing when using <code>catkin_make run_tests</code></li>
+<li>You can see more information about the tests with <code>catkin_test_results</code></li>
+<li>The actual test results are output to <code>build/test_results/</code></li>
+</ul></li>
+</ul>
+<h2 id="test-a-ros-node">Test a ROS node</h2>
+<ul>
+<li><p>Testing with ROS nodes is done with <a href="http://wiki.ros.org/rostest">rostest</a></p></li>
+<li><p><code>rostest</code> reads launchfiles, enabling you to create tests involving multiple nodes</p></li>
+<li><p>Launchfiles used exclusively for testing typically end in <code>.test</code> and use the tag <a href="http://wiki.ros.org/roslaunch/XML/test">&lt;test&gt;</a> rather than <code>&lt;node&gt;</code> to launch the nodes.</p>
+<ul>
+<li>The <code>&lt;test&gt;</code> tag uses a <code>test-name</code> attribute instead of a <code>name</code> attribute to find the test node</li>
+</ul></li>
+<li><p>You can add <code>&lt;test&gt;</code> nodes to your existing launchfiles and those nodes will only run when you are testing</p></li>
+<li><p>In your <code>CMakeLists.txt</code> add</p>
+<pre><code>if(CATKIN_ENABLE_TESTING)
+    find_package(rostest REQUIRED)
+    add_rostest(test/mytest.test)
+endif()
+</code></pre>
+<p>Then <code>test/mytest.test</code> will be run on a call to <code>catkin_make run_tests</code>.</p></li>
+<li><p>You can write a test node by calling <code>rospy</code> functions within <code>unittests</code>.</p></li>
+<li><p>The main for your <code>unittest</code> should be</p>
+<pre><code>if __name__ == &quot;__main__&quot;:
+   import rostest
+   rostest.rosrun(PackageName, &#39;test_class_name&#39;, TestClassName)
+</code></pre></li>
+<li><p>You must <code>&lt;test_depend&gt;</code> on <code>rostest</code> in your <code>package.xml</code></p></li>
+<li><p>You can also invoke <code>.test</code> files using <code>rostest</code> (like <code>roslaunch</code>)</p></li>
+<li><p>Nodes that you are testing should be executable</p></li>
+<li><p>based on the <a href="http://wiki.ros.org/rostest/Nodes">existing example nodes</a>, I call <code>rospy.init_node</code> from the constructor of the test case.</p></li>
+</ul>
+<h1 id="documentation">Documentation</h1>
+<ul>
+<li><a href="http://sphinx-doc.org/en/master">Sphinx</a> is a tool that converts docstrings in your python source code into well-formatted documentation
+<ul>
+<li>To install: <code>sudo apt install python3-sphinx</code></li>
+</ul></li>
+<li><a href="http://wiki.ros.org/rosdoc_lit">rosdoc_lite</a> Is a ROS tool that integrates Sphinx with ROS and helps produce ROS documentation</li>
+<li>It also helps setup Sphinx appropriately for a ROS project</li>
+</ul>
+<h2 id="quick-setup">Quick Setup</h2>
+<ul>
+<li><p>Create a <code>doc</code> directory in your package</p></li>
+<li><p>In the root directory of your package, create a <code>rosdoc.yaml</code> file with contents:</p>
+<pre><code>- builder: sphinx
+sphinx_root_dir: doc # this is where documentation will be created
+</code></pre></li>
+<li><p>Copy <a href="./conf.py">conf.py</a> and <a href="./index.rst">index.rst</a> to the <code>doc</code> directory</p></li>
+<li><p>Run <code>sphinx-apidoc -o doc src</code> to add your python modules to the documentation</p>
+<ul>
+<li>These files are provided for convenience. To make the most out of sphinx you will need to edit them and create additional documentation files</li>
+<li>Think of <code>sphinx-apidoc</code> much like <code>catkin_create_pkg</code>, it is a convenience function used to generate some files that will then become a part of your project.</li>
+</ul></li>
+<li><p>Run <code>rosdoc_lite .</code></p></li>
+<li><p>View <code>doc/html/index-msg.html</code> in web browser.</p></li>
+</ul>
+<h2 id="setup">Setup</h2>
+<p>These are more complete setup instructions that explain what I did to create the example <code>conf.py</code> file above.</p>
+<ol>
+<li>See the <a href="http://wiki.ros.org/Sphinx">ROS Sphinx</a> wiki page for details.</li>
+<li>Create the <code>doc/</code> directory and the <code>rosdoc.yaml</code> file</li>
+<li>Run <code>sphinx-quickstart</code> in the root of your package directory to create <code>conf.py</code>
+<ul>
+<li><a href="https://www.sphinx-doc.org/en/master/usage/configuration.html">conf.py</a> is the configuration file used by Sphinx</li>
+<li>See <a href="http://wiki.ros.org/Sphinx">ROS Sphinx</a> wiki for answers to the questions</li>
+<li>They also have code to "rosify" your configuration. Modify the resulting <code>conf.py</code> to follow their conventions</li>
+<li>When modifying <code>conf.py</code> see <a href="http://docs.ros.org/independent/api/catkin_pkg/catkin_pkg.html">catkin_pkg</a> to view how to customize some values based on what is in your <code>package.xml</code>
+<ul>
+<li>I also <code>import string</code> and use <code>"".join(catkin_package.authors)</code> to automatically fill in authors from the <code>package.xml</code>, for example</li>
+</ul></li>
+</ul></li>
+<li>Add <code>sphinx.ext.napoleon</code> to the extensions list to allow sphinx to parse google and numpy style docstrings. Otherwise you have to annotate your functions using a hard-to-read format.</li>
+</ol>
+<h1 id="design-guidelines">Design Guidelines</h1>
+<p>ROS adds methods for abstraction beyond those provided by a programming language. When thinking about the design of a ROS system, here are some questions that often arise and some guidelines about the trade-offs experienced in these decisions.</p>
+<ol>
+<li>How should the code be divided across nodes?
+<ul>
+<li>Code in a single node is simpler and can take advantage of the abstractions provided by the programming language</li>
+<li>Code that is split across multiple nodes can be re-used and mixed-and-matched with other ROS nodes more easily</li>
+<li>Code that is split across multiple nodes is inherently parallel (since nodes run in parallel).</li>
+<li>My (very loose) guideline is that if two nodes are
+<ol>
+<li>Always are either both running or not running</li>
+<li>Subscribed to each other's topics</li>
+<li>Do not need to be running in parallel</li>
+</ol>
+then you should keep them in a single node.</li>
+</ul></li>
+<li>How should the code be divided across packages?
+<ul>
+<li>A single package promotes simplicity</li>
+<li>Multiple packages enable re-use</li>
+<li>I start with a single package. If part of the package seems individually useful, I will spin it off into a separate package.</li>
+</ul></li>
+<li>How should the code be divided across repositories?
+<ul>
+<li>Single repository is simpler and makes it easier to keep related changes between the packages synchronized.</li>
+<li>Multiple repositories promote decoupling between the packages, potentially making one more generally useful.</li>
+<li>For me, if the packages will be released together and are used for the same project, I keep them in the same repository</li>
+</ul></li>
+</ol>
+<p>There is also a list of ROS design patterns <a href="https://wiki.ros.org/ROS/Patterns/">here.</a></p>
+<h1 id="node-design-patterns">Node Design Patterns</h1>
+<p>I often find myself writing two basic types of nodes in ROS which I call <em>reactive</em> and <em>fixed</em>.</p>
+<p>A reactive node is entirely driven by subscribers: the goal is to perform a task every time a message is received, and this task is performed directly in the subscriber callback. If the task involves publishing a ROS message, then the node publishes a message from the callback and is effectively translating from one message type to another.</p>
+<p>The other type of node, a <em>fixed</em> node is designed to output data at a fixed frequency. It may have subscribers and services that modify what is published from a main, fixed frequency timer or loop.</p>
+<p>Using python classes is an extremely effective way of implementing both these patterns. The constructor sets up the publishers and subscribers, and any data that must be shared between callbacks.</p>
+<h2 id="reactive">Reactive</h2>
+<p>Here is an example of a the reactive pattern.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="co">#!/usr/bin/env python</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="im">import</span> rospy</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="co"># Other imports go here</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a><span class="kw">class</span> Node:</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot; This class manages the node lifecycle </span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a><span class="co">        For bigger projects, I try to limit the scope of this node</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a><span class="co">        to code that must directly interact with ROS and use classes </span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a><span class="co">        in a python package to manage everything</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a>        <span class="va">self</span>.__sub <span class="op">=</span> rospy.Subscriber(<span class="st">&quot;topic&quot;</span>, MyType, <span class="va">self</span>.callback)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a>        <span class="va">self</span>.__pub <span class="op">=</span> rospy.Publisher(...) <span class="co"># if you need a publisher</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a>        <span class="va">self</span>.__other_var <span class="op">=</span> <span class="dv">2</span> <span class="co"># if you need to share data between states</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a>        rospy.init_node(<span class="st">&#39;name&#39;</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true"></a>    <span class="kw">def</span> callback(<span class="va">self</span>, msg):</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; This is the callback for the topic subscriber &quot;&quot;&quot;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true"></a>        <span class="co"># Do calculations here</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true"></a>        <span class="co"># Note that you can read and save state through the self variable</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true"></a>        <span class="co"># and it is shared with other callbacks in this class;</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true"></a>        <span class="co"># However, usually we just need to access the publisher here</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true"></a>        <span class="va">self</span>.__pub(...) <span class="co"># publish the message</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true"></a><span class="kw">def</span> main():</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot; I write a main() function to make this code easier to import for testing purposes&quot;&quot;&quot;</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true"></a>    n <span class="op">=</span> Node()</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true"></a>    <span class="co"># I like to spin outside of the Node constructor</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true"></a>    <span class="co"># This way the Node() object is fully constructed when it is used</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true"></a>    rospy.spin()</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true"></a></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true"></a>    main()</span></code></pre></div>
+<h2 id="fixed">Fixed</h2>
+<p>For the fixed pattern, I will only show the node class. The basic idea is that all calculation, and publishing occurs from the main timer callback. The subscribers and services that are offered modify variables that are then read by the main timer. There are two advantages to structuring code this way</p>
+<ol>
+<li>You have more control over the frequency of publication: the node publishes at a fixed frequency regardless of input data</li>
+<li>The structure means that the primary action of the node is happening in one place, instead of being scattered across multiple callbacks.</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="im">from</span> enum <span class="im">import</span> Enum, auto</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="kw">class</span> State(Enum):</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot; The state of the control loop </span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a><span class="co">        These are different modes that the controller can be in</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>    RUNNING <span class="op">=</span> auto()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>    STOPPED <span class="op">=</span> auto()</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a><span class="kw">class</span> Node:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a>        <span class="co"># The main loop runs in a timer</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>        <span class="va">self</span>.__tmr <span class="op">=</span> rospy.Timer(rospy.Duration(<span class="fl">0.01</span>), main_loop)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>        <span class="co"># We subscribe to sensor data</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a>        <span class="va">self</span>.__sub <span class="op">=</span> rospy.Subscriber(<span class="st">&quot;sensor&quot;</span>, MySensor, feedback)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a>        <span class="co"># We publish a control signal</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a>        <span class="va">self</span>.__pub <span class="op">=</span> rospy.Publisher(<span class="st">&quot;control&quot;</span>, ControlType)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true"></a>        <span class="co"># Definie some services that become events in the internal state machine</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true"></a>        <span class="co"># Stop the controller</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true"></a>        <span class="va">self</span>.__stop <span class="op">=</span> rospy.Service(<span class="st">&quot;stop&quot;</span>, EmptyType, stop_cback)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true"></a>        <span class="va">self</span>.__start <span class="op">=</span> rospy.Service(<span class="st">&quot;start&quot;</span>, IntType, start_cback)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true"></a>        <span class="va">self</span>.__state <span class="op">=</span> State.STOPPED</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a>        <span class="va">self</span>.__sensor <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a>        <span class="va">self</span>.__goal <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true"></a>        rospy.init_node(<span class="st">&#39;name&#39;</span>)</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true"></a>    <span class="kw">def</span> feedback(<span class="va">self</span>, data):</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; Subscribe to the sensor data and store it for use by the main loop</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true"></a><span class="co">        In this pattern, subscribers mainly just store data for the main loop</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true"></a><span class="co">        to use</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true"></a>        <span class="co"># note: assignment of this source is atomic in python</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true"></a>        <span class="va">self</span>.__sensor <span class="op">=</span> data</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true"></a>    <span class="kw">def</span> stop_cback(<span class="va">self</span>, req):</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; Response to the stop service &quot;&quot;&quot;</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true"></a>        <span class="co"># Put the main loop into the Stopped state</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true"></a>        <span class="va">self</span>.__state <span class="op">=</span> State.Stopped</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true"></a>        <span class="cf">return</span> EmptyResponse()</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true"></a>    <span class="kw">def</span> start_cback(<span class="va">self</span>, req):</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; Response to the start service &quot;&quot;&quot;</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true"></a>        <span class="co"># Put the main loop into the RUNNING state</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true"></a>        <span class="va">self</span>.__state <span class="op">=</span> State.Running</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true"></a>        <span class="va">self</span>.__goal <span class="op">=</span> req.value</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true"></a>        <span class="cf">return</span> EmptyResponse()</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true"></a>    <span class="kw">def</span> main_loop(<span class="va">self</span>, event):</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; The main control loop timer callback</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true"></a></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true"></a><span class="co">             Args:</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true"></a><span class="co">                event: A rospy.Timer event</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true"></a>        <span class="cf">if</span> <span class="va">self</span>.__state <span class="op">==</span> State.STOPPED:</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true"></a>            <span class="va">self</span>.__pub(<span class="dv">0</span>) <span class="co"># publish no control</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true"></a>        <span class="cf">elif</span> <span class="va">self</span>.__state <span class="op">==</span> State.RUNNING:</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true"></a>            u <span class="op">=</span> compute_control(<span class="va">self</span>.__goal, <span class="va">self</span>.__sensor_value)</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true"></a>            <span class="va">self</span>.__pub(u)</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true"></a>        <span class="cf">else</span>:</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true"></a>            <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">&quot;Always Handle the Else Case in a state machine&quot;</span>)</span></code></pre></div>
+<h1 id="example">Example</h1>
+<p>See <a href="http://github.com/m-elwin/me495_practices">github</a> for an example combining Sphinx documentation, unit testing, and integration testing.</p>
+<h2 id="other-resources">Other Resources</h2>
+<p><a href="http://wiki.ros.org/rostest/Nodes">Standard Test Nodes</a> Some nodes that perform some standard tests <a href="http://wiki.ros.org/Quality/Tutorials">Tutorials on ROS Quality</a></p>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>
