@@ -788,27 +788,28 @@ then you should keep them in a single node.</li>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a>        <span class="va">self</span>.__serv <span class="op">=</span> rospy.ServiceProxy(<span class="st">&#39;helper_service&#39;</span>, SomeType) </span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a>        <span class="va">self</span>.__pub <span class="op">=</span> rospy.Publisher(...) <span class="co"># if you need a publisher</span></span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true"></a>        <span class="va">self</span>.__other_var <span class="op">=</span> <span class="dv">2</span> <span class="co"># if you need to share data between states</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true"></a>        rospy.init_node(<span class="st">&#39;name&#39;</span>)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true"></a>    <span class="kw">def</span> callback(<span class="va">self</span>, msg):</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; This is the callback for the topic subscriber &quot;&quot;&quot;</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true"></a>        <span class="co"># Do calculations here</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true"></a>        <span class="co"># Note that you can read and save state through the self variable</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true"></a>        <span class="co"># and it is shared with other callbacks in this class;</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true"></a>        <span class="co"># However, usually we just need to access the publisher here</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true"></a>        important_info <span class="op">=</span> <span class="va">self</span>.__serv(...)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true"></a>        <span class="va">self</span>.__pub(...) <span class="co"># publish the message</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true"></a></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true"></a><span class="kw">def</span> main():</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot; I write a main() function to make this code easier to import for testing purposes&quot;&quot;&quot;</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true"></a>    n <span class="op">=</span> Node()</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true"></a>    <span class="co"># I like to spin outside of the Node constructor</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true"></a>    <span class="co"># This way the Node() object is fully constructed when it is used</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true"></a>    rospy.spin()</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true"></a>    <span class="kw">def</span> callback(<span class="va">self</span>, msg):</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; This is the callback for the topic subscriber &quot;&quot;&quot;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true"></a>        <span class="co"># Do calculations here</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true"></a>        <span class="co"># Note that you can read and save state through the self variable</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true"></a>        <span class="co"># and it is shared with other callbacks in this class;</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true"></a>        <span class="co"># However, usually we just need to access the publisher here</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true"></a>        important_info <span class="op">=</span> <span class="va">self</span>.__serv(...)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true"></a>        <span class="va">self</span>.__pub(...) <span class="co"># publish the message</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true"></a><span class="kw">def</span> main():</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true"></a>    <span class="co">&quot;&quot;&quot; I write a main() function to make this code easier to import for testing purposes&quot;&quot;&quot;</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true"></a>    n <span class="op">=</span> Node()</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true"></a>    <span class="co"># I like create the node and spin outside of the Node constructor</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true"></a>    <span class="co"># This way the Node() object is fully constructed when it is used and</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true"></a>    <span class="co"># connected to the ROS graph</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true"></a>    rospy.init_node(<span class="st">&#39;name&#39;</span>)</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true"></a>    rospy.spin()</span>
 <span id="cb6-37"><a href="#cb6-37" aria-hidden="true"></a></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true"></a>    main()</span></code></pre></div>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true"></a></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true"></a>    main()</span></code></pre></div>
 <h2 id="fixed">Fixed</h2>
 <p>For the fixed pattern, I will only show the node class. The basic idea is that all calculation, and publishing occurs from the main timer callback. The subscribers and services that are offered modify variables that are then read by the main timer. There are two advantages to structuring code this way</p>
 <ol>
@@ -841,41 +842,40 @@ then you should keep them in a single node.</li>
 <span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a>        <span class="va">self</span>.__state <span class="op">=</span> State.STOPPED</span>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a>        <span class="va">self</span>.__sensor <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true"></a>        <span class="va">self</span>.__goal <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true"></a>        rospy.init_node(<span class="st">&#39;name&#39;</span>)</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true"></a></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true"></a>    <span class="kw">def</span> feedback(<span class="va">self</span>, data):</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; Subscribe to the sensor data and store it for use by the main loop</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true"></a><span class="co">        In this pattern, subscribers mainly just store data for the main loop</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true"></a><span class="co">        to use</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true"></a><span class="co">        &quot;&quot;&quot;</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true"></a>        <span class="co"># note: assignment of this source is atomic in python</span></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true"></a>        <span class="va">self</span>.__sensor <span class="op">=</span> data</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true"></a></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true"></a>    <span class="kw">def</span> stop_cback(<span class="va">self</span>, req):</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; Response to the stop service &quot;&quot;&quot;</span></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true"></a>        <span class="co"># Put the main loop into the Stopped state</span></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true"></a>        <span class="va">self</span>.__state <span class="op">=</span> State.Stopped</span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true"></a>        <span class="cf">return</span> EmptyResponse()</span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true"></a></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true"></a>    <span class="kw">def</span> start_cback(<span class="va">self</span>, req):</span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; Response to the start service &quot;&quot;&quot;</span></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true"></a>        <span class="co"># Put the main loop into the RUNNING state</span></span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true"></a>        <span class="va">self</span>.__state <span class="op">=</span> State.Running</span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true"></a>        <span class="va">self</span>.__goal <span class="op">=</span> req.value</span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true"></a>        <span class="cf">return</span> EmptyResponse()</span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true"></a>    <span class="kw">def</span> main_loop(<span class="va">self</span>, event):</span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; The main control loop timer callback</span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true"></a></span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true"></a><span class="co">             Args:</span></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true"></a><span class="co">                event: A rospy.Timer event</span></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true"></a><span class="co">        &quot;&quot;&quot;</span></span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true"></a>        <span class="cf">if</span> <span class="va">self</span>.__state <span class="op">==</span> State.STOPPED:</span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true"></a>            <span class="va">self</span>.__pub(<span class="dv">0</span>) <span class="co"># publish no control</span></span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true"></a>        <span class="cf">elif</span> <span class="va">self</span>.__state <span class="op">==</span> State.RUNNING:</span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true"></a>            u <span class="op">=</span> compute_control(<span class="va">self</span>.__goal, <span class="va">self</span>.__sensor_value)</span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true"></a>            <span class="va">self</span>.__pub(u)</span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true"></a>        <span class="cf">else</span>:</span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true"></a>            <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">&quot;Always Handle the Else Case in a state machine&quot;</span>)</span></code></pre></div>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true"></a>    <span class="kw">def</span> feedback(<span class="va">self</span>, data):</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; Subscribe to the sensor data and store it for use by the main loop</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true"></a><span class="co">        In this pattern, subscribers mainly just store data for the main loop</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true"></a><span class="co">        to use</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true"></a>        <span class="co"># note: assignment of this source is atomic in python</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true"></a>        <span class="va">self</span>.__sensor <span class="op">=</span> data</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true"></a>    <span class="kw">def</span> stop_cback(<span class="va">self</span>, req):</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; Response to the stop service &quot;&quot;&quot;</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true"></a>        <span class="co"># Put the main loop into the Stopped state</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true"></a>        <span class="va">self</span>.__state <span class="op">=</span> State.Stopped</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true"></a>        <span class="cf">return</span> EmptyResponse()</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true"></a>    <span class="kw">def</span> start_cback(<span class="va">self</span>, req):</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; Response to the start service &quot;&quot;&quot;</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true"></a>        <span class="co"># Put the main loop into the RUNNING state</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true"></a>        <span class="va">self</span>.__state <span class="op">=</span> State.Running</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true"></a>        <span class="va">self</span>.__goal <span class="op">=</span> req.value</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true"></a>        <span class="cf">return</span> EmptyResponse()</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true"></a>    <span class="kw">def</span> main_loop(<span class="va">self</span>, event):</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true"></a>        <span class="co">&quot;&quot;&quot; The main control loop timer callback</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true"></a></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true"></a><span class="co">             Args:</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true"></a><span class="co">                event: A rospy.Timer event</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true"></a><span class="co">        &quot;&quot;&quot;</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true"></a>        <span class="cf">if</span> <span class="va">self</span>.__state <span class="op">==</span> State.STOPPED:</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true"></a>            <span class="va">self</span>.__pub(<span class="dv">0</span>) <span class="co"># publish no control</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true"></a>        <span class="cf">elif</span> <span class="va">self</span>.__state <span class="op">==</span> State.RUNNING:</span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true"></a>            u <span class="op">=</span> compute_control(<span class="va">self</span>.__goal, <span class="va">self</span>.__sensor_value)</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true"></a>            <span class="va">self</span>.__pub(u)</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true"></a>        <span class="cf">else</span>:</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true"></a>            <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">&quot;Always Handle the Else Case in a state machine&quot;</span>)</span></code></pre></div>
 <h1 id="example">Example</h1>
 <p>See <a href="http://github.com/m-elwin/me495_practices">github</a> for an example combining Sphinx documentation, unit testing, and integration testing.</p>
 <h2 id="other-resources">Other Resources</h2>
