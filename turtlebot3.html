@@ -480,6 +480,7 @@ table td {
 <li><a href="#initial-setup">Initial Setup</a></li>
 <li><a href="#after-login">After Login</a></li>
 <li><a href="#compile-turtlebot-packages">Compile Turtlebot packages</a></li>
+<li><a href="#udev-rules">Udev Rules</a></li>
 <li><a href="#stock-firmware">Stock Firmware</a></li>
 <li><a href="#create-the-turtlebot-image">Create the turtlebot image</a></li>
 <li><a href="#other-techniques">Other Techniques</a></li>
@@ -673,6 +674,11 @@ export ROS_HOSTNAME=&lt;hostname&gt;.local
 <li>This will mess up timestamps, for example, when using <code>tf</code></li>
 <li>To resynchronize the time with your pc run <code>ssh ubuntu@turtlebot.local "sudo date -s $(date +'%T')"</code></li>
 </ul></li>
+<li>Always properly poweroff your turtlebot to prevent SD card corruption.
+<ul>
+<li>ssh into the turtlebot</li>
+<li>run <code>sudo poweroff</code></li>
+</ul></li>
 </ol>
 <h1 id="ubuntu-server-setup">Ubuntu Server Setup</h1>
 <p><strong>IMPORTANT NOTE</strong> You do not need to follow these instructions: they are here so you can see how I created the image you downloaded (<code>turtlebot.img.zst</code>).</p>
@@ -764,10 +770,10 @@ cd ~/ws/
 catkin_make -DCMAKE_INSTALL_DIRECTOR=/opt/ros/noetic
 echo &quot;source ~/ws/devel/setup.bash&quot; &gt;&gt; .bashrc
 source ~/ws/devel/setup.bash
-** Udev Rules
-Create and install the udev rules
-#+BEGIN_SRC
-rosrun turtlebot3_bringup create_udev_rules
+</code></pre>
+<h2 id="udev-rules">Udev Rules</h2>
+<p>Create and install the udev rules</p>
+<pre><code>rosrun turtlebot3_bringup create_udev_rules
 sudo udevadm control --reload
 sudo udevadm trigger
 </code></pre>
