@@ -620,17 +620,17 @@ frame it should be at <span class="math inline">\(0, 0, \theta_0\)</span> in the
 <li>Starts the <code>trajectory</code> node, including setting the <code>pub_freq</code> parameter (this parameter can be hard-coded in the launchfile)</li>
 <li>Provides an option to launch <code>rqt_plot</code> and show the turtlebot's <code>x</code> and <code>y</code> position (from odometry) vs time</li>
 <li>Provides an option to launch the turtlebot Gazebo simulation or start code on the real robot</li>
-<li>Provides an option to visualize the robot model in RViz, using the <code>/odom</code> frame as the fixed frame
+<li>Provides an option to visualize the robot model in RViz, using the <code>/world</code> frame as the fixed frame
 <ul>
 <li>When launching <code>rviz</code> you should load <code>turtle_view.rviz</code> to get the <code>rviz</code> settings</li>
 <li>Use the <code>-d</code> argument to <code>rviz</code> to load a <code>.rviz</code> configuration file that you create to set up the fixed frame properly and make.</li>
 <li>Remember to use <code>$(find)$</code> when referencing files stored in packages.</li>
 <li>Your <code>rviz</code> should display:
 <ol>
-<li>The fixed frame should be <code>/odom</code></li>
+<li>The fixed frame should be <code>/world</code></li>
 <li>The path that you publish from the trajectory node</li>
 <li>All <code>tf</code> frames</li>
-<li>The robot model</li>
+<li>The robot model (Hint: make sure a robot_state_publisher is running)</li>
 </ol></li>
 </ul></li>
 </ol></li>
@@ -677,7 +677,9 @@ frame it should be at <span class="math inline">\(0, 0, \theta_0\)</span> in the
 <li><a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/#ros-1-simulation">Simulation</a> provides a guide for how to get started with the gazebo simulator
 <ul>
 <li>We will use Gazebo, not Fake Node</li>
-<li>For our purposes, you can just <code>roslaunch turtlebot3_gazebo turtlebot3_empty_world.launch</code>. You can include this launchfile in your own launchfile to launch gazebo</li>
+<li>For our purposes, you can just <code>roslaunch turtlebot3_gazebo turtlebot3_empty_world.launch</code>.</li>
+<li>You can include this launchfile in your own launchfile to launch gazebo</li>
+<li>When testing, you may wish to keep gazebo running from a separate terminal window so you do not need to wait for it to start and stop each time you test your program</li>
 </ul></li>
 <li>You can also look at the contents of the <code>turtlebot3</code> launchfiles to get a feel for what's going on.</li>
 <li>The <code>turtlebot3</code> gazebo simulation is pretty much a drop-in replacement for running the actual turtlebot3 nodes.</li>
