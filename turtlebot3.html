@@ -470,8 +470,6 @@ table td {
 <li><a href="#setup">Setup</a>
 <ul>
 <li><a href="#network-instructions">Network Instructions</a></li>
-<li><a href="#wifi-hotspot">WiFi Hotspot</a></li>
-<li><a href="#connect-to-your-router">Connect to Your Router</a></li>
 <li><a href="#ssh">SSH</a></li>
 <li><a href="#first-moves">First Moves</a></li>
 <li><a href="#ros-master-networking">ROS Master Networking</a></li>
@@ -559,7 +557,7 @@ zstd -d turtlebot.img.zst -o /dev/mmcblk0
 <p>I outline two methods for connecting to the turtlebot3. The first method should work for everyone, but unless your computer has a secondary network card (wired or wireless) you will lose internet access while connected to the turtlebot.</p>
 <p>The second method requires you to have at least some knowledge of your router.</p>
 <p>Prior to attempting either method you should <code>sudo apt install avahi-daemon</code>. When working properly this service lets you resolve hostnames on the local network as <code>&lt;hostname&gt;.local</code></p>
-<h2 id="wifi-hotspot">WiFi Hotspot</h2>
+<h3 id="wifi-hotspot">WiFi Hotspot</h3>
 <ol>
 <li>By default the turtlebot creates a wireless network called <code>TURTLEDIRECT</code> with a password <code>NU-TURTLE</code>.
 <ul>
@@ -572,10 +570,14 @@ zstd -d turtlebot.img.zst -o /dev/mmcblk0
 </ul></li>
 <li>You will not have internet unless you are connected via another network card, for example by using a wired connection.</li>
 </ol>
-<h2 id="connect-to-your-router">Connect to Your Router</h2>
+<h3 id="connect-to-your-router">Connect to Your Router</h3>
 <ol>
 <li>Mount the <code>SD card</code>
 <ul>
+<li>Depending on your setup, the SD card may have automatically been mounted to <code>/media/$USER/writable</code>
+<ul>
+<li>If not you must manually mount it</li>
+</ul></li>
 <li>Let <code>$raspi</code> be a directory where you want to mount the card (e.g., <code>/mnt/raspi</code>)</li>
 <li>Let <code>$dev</code> be the device with the turtlebot's root partition (e.g. <code>/mnt/mmcblk0p2</code>)</li>
 <li><code>sudo mount $dev $raspi</code></li>
