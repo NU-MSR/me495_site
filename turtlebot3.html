@@ -543,9 +543,10 @@ table td {
 <li><p>Decompress the image to the SD card:</p>
 <pre><code>sudo chown $USER:$USER /dev/mmcblk0
 zstd -d turtlebot.img.zst -o /dev/mmcblk0
+sync
 </code></pre>
 <ul>
-<li>This takes some time, SD cards are slow.</li>
+<li>This takes some time, SD cards are slow. Be patient, if you do not wait for the sync command to complete you can corrupt the SD card image.</li>
 </ul></li>
 <li><p>Most of the <a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/">turtlebot3 manual</a> applies to the custom setup so it is still a useful resource, but do not take the commands literally</p>
 <ul>
