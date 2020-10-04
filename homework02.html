@@ -529,6 +529,7 @@ table td {
 <li>Upon sending a <code>/reset</code> message, the turtlebot will reset it's configuration to <span class="math inline">\((x, y, \theta) = (0,0,0)\)</span> and enter the "paused" state
 <ul>
 <li>This will also reset the turtlebot's odometry to be <span class="math inline">\(0, 0, 0\)</span></li>
+<li>The <code>/reset</code> topic is only present when running on the real topic: when running in gazebo you can call the <code>/gazebo/reset_simulation</code> service to reset the simulation</li>
 </ul></li>
 <li>Upon calling the <code>/resume</code> service, the turtlebot will enter the "moving" state and begin following the trajectory</li>
 <li>Upon calling the <code>/pause</code> service, the turtlebot will pause its motion, without resetting its position</li>
@@ -560,9 +561,8 @@ y_d(t) &amp;= \frac{H}{2} \sin \frac{4 \pi t}{T}
 <ul>
 <li><code>cmd_vel (geometry_msgs/Twist)</code>. This is published at a fixed frequency, causing the turtlebot to follow the desired open-loop trajectory</li>
 <li>It is up to you to find an appropriate frequency, but 10 Hz is too slow and 1 kHz is faster than needed.</li>
-<li><code>path (nav_msgs/Path)</code>. A <a href="http://wiki.ros.org/rviz/DisplayTypes/Path">Path</a> draws a continuous line in <code>rviz</code>. This path should be the <code>open-loop</code> (i.e., expected) trajectory</li>
-</ul>
-of the robot.</li>
+<li><code>path (nav_msgs/Path)</code>. A <a href="http://wiki.ros.org/rviz/DisplayTypes/Path">Path</a> draws a continuous line in <code>rviz</code>. This path should be the <code>open-loop</code> (i.e., expected) trajectory of the robot. You should set a maximum length for the number of points in the path that you display; otherwise this message will become very large and slow down your system.</li>
+</ul></li>
 <li>Broadcasts:
 <ul>
 <li>A static transform from <code>world</code> to <code>odom</code>. The <code>world</code> frame and <code>odom</code> frame are co-located. However, when the <code>turtlebot</code> is at (0, 0, 0) in the odom</li>
@@ -630,7 +630,7 @@ frame it should be at <span class="math inline">\(0, 0, \theta_0\)</span> in the
 <li>The fixed frame should be <code>/world</code></li>
 <li>The path that you publish from the trajectory node</li>
 <li>All <code>tf</code> frames</li>
-<li>The robot model (Hint: make sure a robot_state_publisher is running)</li>
+<li>The robot model (Hint: make sure a robot_state_publisher is running via <code>turtlebot3_bringup turtlebot3_remote.launch</code>)</li>
 </ol></li>
 </ul></li>
 </ol></li>
