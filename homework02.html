@@ -525,12 +525,7 @@ table td {
 <h2 id="overview">Overview</h2>
 <p>The goal of this assignment is to make a turtlebot follow a figure-8 trajectory.</p>
 <ol>
-<li>The turtlebot will begin in the "paused" state and believe that it's configuration is <span class="math inline">\((x, y, \theta) = (0,0,0)\)</span>.</li>
-<li>Upon sending a <code>/reset</code> message, the turtlebot will reset it's configuration to <span class="math inline">\((x, y, \theta) = (0,0,0)\)</span> and enter the "paused" state
-<ul>
-<li>This will also reset the turtlebot's odometry to be <span class="math inline">\(0, 0, 0\)</span></li>
-<li>The <code>/reset</code> topic is only present when running on the real topic: when running in gazebo you can call the <code>/gazebo/reset_simulation</code> service to reset the simulation</li>
-</ul></li>
+<li>The turtlebot will begin in the "paused" state and believe that it's configuration is <span class="math inline">\((x, y, \theta) = (0,0,0)\)</span>, relative to it's odometry (<code>odom</code>) frame.</li>
 <li>Upon calling the <code>/resume</code> service, the turtlebot will enter the "moving" state and begin following the trajectory</li>
 <li>Upon calling the <code>/pause</code> service, the turtlebot will pause its motion, without resetting its position</li>
 </ol>
@@ -568,10 +563,6 @@ y_d(t) &amp;= \frac{H}{2} \sin \frac{4 \pi t}{T}
 <li>A static transform from <code>world</code> to <code>odom</code>. The <code>world</code> frame and <code>odom</code> frame are co-located. However, when the <code>turtlebot</code> is at (0, 0, 0) in the odom</li>
 </ul>
 frame it should be at <span class="math inline">\(0, 0, \theta_0\)</span> in the world frame, where <span class="math inline">\(\theta_0\)</span> is the initial angle of the robot on its figure-eight trajectory</li>
-<li>Subscribes:
-<ul>
-<li><code>reset</code>: This should be the same topic that the turtlebot3 itself listens to. Restarts the trajectory from (0,0,0)</li>
-</ul></li>
 <li>Services:
 <ul>
 <li><code>pause (type up to you)</code> Stop the turtle's motion, in a way that the trajectory can be resumed</li>
