@@ -610,7 +610,7 @@ frame it should be at <span class="math inline">\(0, 0, \theta_0\)</span> in the
 <li>Loads the <code>width</code>, <code>height</code>, <code>period</code> parameters from <code>trajectory.yaml</code></li>
 <li>Starts the <code>trajectory</code> node, including setting the <code>pub_freq</code> parameter (this parameter can be hard-coded in the launchfile)</li>
 <li>Provides an option to launch <code>rqt_plot</code> and show the turtlebot's <code>x</code> and <code>y</code> position (from odometry) vs time</li>
-<li>Provides an option to launch the turtlebot Gazebo simulation or start code on the real robot</li>
+<li>Provides an option to launch the turtlebot Gazebo simulation</li>
 <li>Provides an option to visualize the robot model in RViz, using the <code>/world</code> frame as the fixed frame
 <ul>
 <li>When launching <code>rviz</code> you should load <code>turtle_view.rviz</code> to get the <code>rviz</code> settings</li>
@@ -621,9 +621,10 @@ frame it should be at <span class="math inline">\(0, 0, \theta_0\)</span> in the
 <li>The fixed frame should be <code>/world</code></li>
 <li>The path that you publish from the trajectory node</li>
 <li>All <code>tf</code> frames</li>
-<li>The robot model (Hint: make sure a robot_state_publisher is running via <code>turtlebot3_bringup turtlebot3_remote.launch</code>)</li>
+<li>The robot model</li>
 </ol></li>
 </ul></li>
+<li>Make sure a <code>robot_state_publisher</code> is running via <code>turtlebot3_bringup turtlebot3_remote.launch</code></li>
 </ol></li>
 </ol>
 <h3 id="documentation">Documentation</h3>
