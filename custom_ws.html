@@ -533,7 +533,7 @@ sudo apt upgrade
 <ol>
 <li>Create a new workspace: <code>mkdir -p nuws/src</code></li>
 <li><code>cd ~/nuws/src</code></li>
-<li><code>vcs import https://nu-msr.github.io/me495_site/nuws.repo</code></li>
+<li><code>vcs import --input https://nu-msr.github.io/me495_site/nuws.repo</code></li>
 <li><code>cd ~/nuws</code></li>
 <li><code>rosdep install --from-paths src --ignore-src -y</code></li>
 <li><code>pip3 install modern_robotics</code></li>
