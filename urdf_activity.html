@@ -507,11 +507,16 @@ table td {
 </ul></li>
 <li>Using the information in the <a href="https://wiki.ros.org/urdf/Tutorials/Using%20Xacro%20to%20Clean%20Up%20a%20URDF%20File">URDF tutorial</a>
 <ul>
-<li>Rename <code>slidebot.urdf</code> to <code>slidebot.urdf.xacro</code> and modify the launchfile to load the xacro file.</li>
+<li><strong>NOTE</strong> Omit the <code>--inorder</code> argument when invoking xacro, the wiki has outdated information.</li>
+<li>Rename <code>slidebot.urdf</code> to <code>slidebot.urdf.xacro</code> (<code>mv slidebot.urdf slidebot.urdf.xacro</code>)</li>
+<li>Modify it so that it is a valid xacro file (adding <code>xlmns:xacro="http://wiki.ros.org/wiki/xacro"</code> to the robot tag) and modify the launchfile to load the xacro file.</li>
 </ul></li>
-<li>Create a parameter called <code>base_radius</code> and use it as the radius of the <code>base</code> sphere</li>
+<li>Create a parameter called <code>base_radius</code> and use it as the radius of the <code>base</code> sphere
+<ul>
+<li>Declare this directly as a <code>xacro:property</code></li>
+</ul></li>
 <li>Make the length of the arm 10 times the radius of the <code>base</code> sphere</li>
-<li>Using the information here <a href="http://wiki.ros.org/xacro#YAML_support">xacro YAML</a> load the <code>base_radius</code> from a <code>yaml</code> file.</li>
+<li>Using the information here <a href="http://wiki.ros.org/xacro#YAML_support">xacro YAML</a> load the <code>base_radius</code> from a <code>yaml</code> file instead of declaring it directly in the <code>xacro</code> file.</li>
 <li>Use a <code>xacro:macro</code> to add a link to the arm that is the same as the current <code>arm</code> link but on the opposite side of the body</li>
 </ul>
 <h1 id="todays-example">Today's Example</h1>
