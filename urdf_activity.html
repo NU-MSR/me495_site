@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>Homework Guidelines: ME495 Embedded Systems in Robotics</title>
+<title>URDF Activity</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -466,15 +466,9 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#guidelines">Guidelines</a>
-<ul>
-<li><a href="#git">Git</a></li>
-<li><a href="#readme">README</a></li>
-<li><a href="#documentation">Documentation</a></li>
-<li><a href="#coding-guidelines">Coding Guidelines</a></li>
-</ul></li>
-<li><a href="#asking-for-help">Asking For Help</a></li>
-<li><a href="#tips">Tips</a></li>
+<li><a href="#zoom-setup">Zoom Setup</a></li>
+<li><a href="#activity">Activity</a></li>
+<li><a href="#todays-example">Today's Example</a></li>
 </ul>
 </nav>
 
@@ -486,123 +480,51 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">Homework Guidelines: ME495 Embedded Systems in Robotics</h1>
+<h1 class="title">URDF Activity</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="guidelines">Guidelines</h1>
-<p>This document describes expectations for homework submissions. You should aim for a professional level of code in all of your homework assignments, which means providing documentation, using git properly, and providing tests where appropriate.</p>
-<h2 id="git">Git</h2>
+<h1 id="zoom-setup">Zoom Setup</h1>
 <ol>
-<li>Create a git repository using the link provided under the homework assignment in Canvas.</li>
-<li>Your homework will be graded based on what is in the <code>master</code> branch when I clone the repository at some point after the deadline.
+<li>In your group, one person is the leader.
 <ul>
-<li>I recommend working on a separate branch and merging into master when you are ready to submit</li>
+<li>The leader will share their screen and do most of the typing</li>
+<li>If you can't decide on a leader, the person whose last name is last alphabetically is the leader</li>
 </ul></li>
-<li>You should have multiple commits with meaningful commit messages.
+<li>Go through the steps in this activity as a group, while discussing answers to each question.
 <ul>
-<li>There is no exact number of commits you need, it is more about the appropriateness of each commit</li>
-<li>Each commit should capture a single "thought" that you coded and tried</li>
-<li>Bugs will be easier to fix if you make small changes and test them frequently</li>
-<li>Committing often frees you to experiment while knowing you can always revert the code.</li>
+<li>If there is some surprising behavior that you want explained more thoroughly note it in the Google doc under your Group number.</li>
 </ul></li>
-<li>Maintain a <code>.gitignore</code> file to prevent improperly tracked files.
-<ol>
-<li>There should be no backup files your text editor created (such as <code>file.py~</code> or <code>.#file</code>).</li>
-<li>There should be no python bytecode files (<code>file.pyc</code>) committed.</li>
-<li>There should be no files that are generated form source code that you wrote.</li>
-</ol></li>
-<li>The parent directory of your repository should be <code>ws/src/&lt;pkg&gt;</code>.
-<ul>
-<li>There should be no files from outside the <code>src/</code> space.</li>
-</ul></li>
-<li>Refer to the <a href="https://git-scm.com">Git Book</a> and <a href="https://nu-msr.github.io/hackathon_site/git_intro.html">Git Intro</a> for more information on how to use <code>git</code></li>
+<li>The google doc is <a href="https://docs.google.com/document/d/1TxQW8NQd6OOPZU8uzLqVlM04bemXrkXwuAxqC3KGvwI/edit?usp=sharing">here</a>. You must be logged in to your <code>u.northwestern.edu</code> account to see the google doc</li>
 </ol>
-<h2 id="readme">README</h2>
-<ol>
-<li>Your <code>README.md</code> should be formatted using markdown: see <a href="https://guides.github.com/features/mastering-markdown/">this guide</a>.
+<h1 id="activity">Activity</h1>
 <ul>
-<li>Be sure to format any code using the appropriate code formatting</li>
-<li>Some text editors like <code>atom</code> or <code>vscode</code> will preview markdown for you locally.</li>
-<li>You can also use tools like <code>markdown</code> or <code>pandoc</code> to generate <code>.html</code> from <code>.md</code> files.</li>
+<li>Clone <code>https://github.com/m-elwin/me495_urdf.git</code></li>
+<li>See how the robot moves in rviz.</li>
+<li>Change the launchfile so it no longer loads the <code>rviz</code> configuration.
+<ul>
+<li>Then, when rviz loads, set it up to see the robot.</li>
 </ul></li>
-<li>Your <code>README.md</code> should contain the following:
-<ol>
-<li>Title</li>
-<li>Your Name</li>
-<li>Brief overview (1-3 sentences) describing what the package does</li>
-<li>Usage instructions. What do I need to do to download, compile, run, and test your code?
+<li>Using the information in the <a href="https://wiki.ros.org/urdf/Tutorials/Using%20Xacro%20to%20Clean%20Up%20a%20URDF%20File">URDF tutorial</a>
 <ul>
-<li>You can assume that the user already has ROS installed and basic ROS knowledge</li>
+<li>Rename <code>slidebot.urdf</code> to <code>slidebot.urdf.xacro</code> and modify the launchfile to load the xacro file.</li>
 </ul></li>
-<li>Configuration instructions:
-<ul>
-<li>What options are available to change the behavior of the program and how are they used?</li>
-</ul></li>
-</ol></li>
-</ol>
-<h2 id="documentation">Documentation</h2>
-<ol>
-<li>Each node that you write should start with a python docstring describing its ROS API:
-<ol>
-<li>What topics are published, their type, and what they do.</li>
-<li>What topics are subscribed to, their type, and what the data is used for.</li>
-<li>What services are offered, their type, and what they do</li>
-<li>What parameters are used, their type, and what they do.</li>
-<li>See <a href="https://github.com/m-elwin/crazy_turtle">https://github.com/m-elwin/crazy_turtle</a> for a basic template.</li>
-</ol></li>
-</ol>
-<h2 id="coding-guidelines">Coding Guidelines</h2>
-<ol>
-<li>Strive to follow the <a href="https://www.python.org/dev/peps/pep-0008/">PEP8</a> Style guidelines.</li>
-<li>Every class and function you write should have an associated docstring.
-<ul>
-<li>A brief description of what the class or function does</li>
-<li>What the arguments are</li>
-<li>What the return value is</li>
-<li>What exceptions may be raised</li>
-<li>See the <a href="http://google.github.io/styleguide/pyguide.html">Google Python Style Guide</a> (specifically the section on docstrings) for how to format.</li>
-<li>This format is also described <a href="https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html">in the Sphinx documentation</a>,</li>
-<li>Other formats that can be understood by Sphinx are also permissible including NumPy style docstrings or the default reStructured text.</li>
-</ul></li>
-<li>Errors and Warnings should be heeded and fixed
-<ul>
-<li>Your packages should not have any <code>catkin_lint</code> errors or warnings</li>
-</ul></li>
-<li>In general, refer to <code>ROS</code> entities using relative names from within your nodes.</li>
-</ol>
-<h1 id="asking-for-help">Asking For Help</h1>
-<ol>
-<li>Try to narrow down the problem to a self-contained example
-<ul>
-<li>This is especially important when asking for help on internet forums</li>
-</ul></li>
-<li>Don't send screenshots for non-graphical items
-<ul>
-<li>The person helping you can't easily copy and paste text from an image!</li>
-<li>For small code snippets, include code inline, formatted as code</li>
-<li>For larger code snippets, provide a link to your github or attach a file</li>
-</ul></li>
-<li>Use the Discussion Forums in Canvas</li>
-</ol>
-<h1 id="tips">Tips</h1>
-<ul>
-<li><p>Read the class notes</p></li>
-<li><p>Read the whole assignment prior to starting</p></li>
-<li><p>Read the documentation on the ROS wiki</p></li>
-<li><p>Read every error message.</p></li>
-<li><p>Draw a diagram of what nodes you expect to run and how they are connected prior to coding</p></li>
-<li><p>Before doing any other debugging steps:</p>
-<pre><code>catkin_make
-source devel/setup.bash
-</code></pre>
-<ul>
-<li>It never hurts to run these commands again</li>
-<li>You may have forgotten to, for example, source the workspace in a new terminal window</li>
-</ul></li>
-<li><p>Look at the <code>rosgraph</code> using <code>rqt_graph</code></p></li>
-<li><p>If the <code>rosgraph</code> looks correct, use <code>rostopic echo</code> to make sure publishers are actually publishing</p></li>
+<li>Create a parameter called <code>base_radius</code> and use it as the radius of the <code>base</code> sphere</li>
+<li>Make the length of the arm 10 times the radius of the <code>base</code> sphere</li>
+<li>Using the information here <a href="http://wiki.ros.org/xacro#YAML_support">xacro YAML</a> load the <code>base_radius</code> from a <code>yaml</code> file.</li>
+<li>Use a <code>xacro:macro</code> to add a link to the arm that is the same as the current <code>arm</code> link but on the opposite side of the body</li>
 </ul>
+<h1 id="todays-example">Today's Example</h1>
+<p>Here is what I did for today's example.</p>
+<pre><code>mkdir -p ws/src
+cd ws/src
+git clone https://github.com/jackal/jackal.git
+git clone https://github.com/ros-drivers/pointgrey_camera_driver.git
+cd ws
+catkin_make
+xacro src/jackal/jackal_description/urdf/jackal.urdf.xacro &gt; jackal.urdf
+roslaunch urdf_tutorial display.launch model:=jackal.urdf
+</code></pre>
 </div>
 <div class="footer">
 Author: Matthew Elwin.
