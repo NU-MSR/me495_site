@@ -531,14 +531,13 @@ sudo apt upgrade
 <p>Remove the <code>source /home/$USER/nuws/devel/setup.bash</code> line that you added for the hackathon.</p>
 <h2 id="to-everyone">To Everyone</h2>
 <ol>
-<li>Install some package <code>sudo apt install ros-noetic-visual-tools ros-noetic-openslam-gmapping ros-noetic-turtlebot3-msgs ros-noetic-moviet-ros-planning ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-moveit ros-noetic-joy</code></li>
+<li>Install some package <code>sudo apt install ros-noetic-dynamixel-sdk ros-noetic-rviz-visual-tools ros-noetic-openslam-gmapping ros-noetic-turtlebot3-msgs ros-noetic-moveit-ros-planning ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-moveit ros-noetic-joy</code></li>
 <li>Create a new workspace: <code>mkdir -p nuws/src</code></li>
 <li><code>cd ~/nuws/src</code></li>
 <li><code>vcs import --input https://nu-msr.github.io/me495_site/nuws.repo</code></li>
 <li><code>cd ~/nuws</code></li>
 <li><code>rosdep install --from-paths src --ignore-src -y</code></li>
 <li><code>pip3 install modern_robotics</code></li>
-<li><code>sudo apt install ros-noetic-dynamixel-sdk</code></li>
 <li><code>catkin_make</code></li>
 <li><code>echo "source ~/nuws/devel/setup.bash" &gt;&gt; ~/.bashrc</code></li>
 <li><code>sudo cp ~/nuws/src/interbotix_ros_arms/interbotix_sdk/10-interbotix-udev.rules /etc/udev/rules.d/</code>
