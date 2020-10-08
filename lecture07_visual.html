@@ -469,13 +469,17 @@ table td {
 <li><a href="#overview">Overview</a></li>
 <li><a href="#rviz">RViz</a>
 <ul>
+<li><a href="#paths">Paths</a></li>
 <li><a href="#visualization-messages">Visualization Messages</a></li>
 <li><a href="#markers">Markers</a></li>
 <li><a href="#markerarray">MarkerArray</a></li>
 <li><a href="#interactivemarkers">InteractiveMarkers</a></li>
 <li><a href="#plugins">Plugins</a></li>
 </ul></li>
-<li><a href="#rqt">rqt</a></li>
+<li><a href="#rqt">rqt</a>
+<ul>
+<li><a href="#rqt_plot">rqt_plot</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -507,6 +511,11 @@ table td {
 <li>There are many built in <em>Display Types</em>, documented <a href="https://wiki.ros.org/rviz/DisplayTypes">on the wiki</a>.</li>
 </ul></li>
 </ul>
+<h2 id="paths">Paths</h2>
+<ul>
+<li>Paths allow you to visualize a series of points that have been visited over time</li>
+<li>These are visualized with the <a href="http://wiki.ros.org/rviz/DisplayTypes/Path">Path</a> datatype using <a href="http://docs.ros.org/api/nav_msgs/html/msg/Path.html">nav_msgs/Path</a> messages</li>
+</ul>
 <h2 id="visualization-messages">Visualization Messages</h2>
 <ul>
 <li>The <a href="https://wiki.ros.org/visualization_msgs">visualization_msgs</a> package contains messages for displaying visual primitives in <code>rviz</code> using some Display Types in Rviz</li>
@@ -522,13 +531,29 @@ table td {
 <li>Markers are drawn by publishing <a href="http://docs.ros.org/melodic/api/visualization_msgs/html/msg/Marker.html">marker messages</a>
 <ul>
 <li>By default, the Marker display type listens on the <code>visualization_marker</code> topic, but this can be changed in the rviz gui or with remapping.</li>
-<li>Markers have a <code>header</code> field that requires the time. Using rospy.Time() for this ensures the Marker will be drawn</li>
-<li>Be sure to set the alpha (.a) field to be non-zero (e.g. 1) so that the marker is not drawn transparently</li>
+<li>Markers have a <code>header</code> field that requires the time. Using <code>rospy.Time()</code> for this ensures the Marker will be drawn</li>
+<li>Be sure to set the alpha (<code>.a</code>) field to be non-zero (e.g. 1) so that the marker is not drawn transparently</li>
 </ul></li>
 <li>These C++ tutorials mostly apply to python as well since they are simply setting values in the marker message topic
 <ul>
 <li><a href="http://wiki.ros.org/rviz/Tutorials/Markers%3A%20Basic%20Shapes">Basic shapes tutorial</a></li>
 <li><a href="http://wiki.ros.org/rviz/Tutorials/Markers%3A%20Points%20and%20Lines">Points and lines tutorial</a></li>
+</ul></li>
+<li>Some important fields are
+<ul>
+<li><code>header</code> contains the time at which the marker comes into existence and the frame used to interpret any coordinates</li>
+<li><code>ns</code> and <code>id</code> are used to identify the marker. For a given namespace <code>ns</code> each marker has an id. If you send a marker message with an <code>id</code> and <code>ns</code> that already exists, you modify the existing marker</li>
+<li><code>type</code> What the shape of the marker is: =visualization_msgs.Marker.{ARROW | CUBE | SPHERE | CYLINDER …}
+<ul>
+<li>see <a href="http://docs.ros.org/noetic/api/visualization_msgs/html/msg/Marker.html">Marker Message Definition</a> for more possibilities and the <a href="http://wiki.ros.org/rviz/Tutorials/Markers%3A%20Basic%20Shapes">Basic shapes tutorial</a> for more information</li>
+</ul></li>
+<li><code>action</code> Lets you either <code>visualization_msgs.Marker.ADD</code>, <code>visualization_msgs.Marker.DELETE</code>, or <code>visualization_msgs.Marker.DELETEALL</code> the markers</li>
+<li><code>pose</code> this is the 3D pose of the object, used to set its position and orientation relative to <code>header.frame_id</code></li>
+<li><code>scale</code> used to set the size of the object. By default the markers are 1x1x1 meter.</li>
+<li><code>color</code> RGBA (red, green, blue, alpha) color (0 - 1). A common error is forgetting to set the alpha to a non-zero value, otherwise the marker is completely transparent</li>
+<li><code>lifetime</code> How long to display the marker before it disappears. Set to 0 for it to last forever (well at least as long as RViz remains open!)</li>
+<li><code>frame_locked</code> - Controls behavior of the marker when it's parent frame moves. If this is true then the marker will always be at the same position relative to its parent frame, even if that frame moves after the marker is drawn</li>
+<li><code>points</code> and <code>colors</code>, <code>text</code>, <code>mesh_resource</code> are used for some marker types</li>
 </ul></li>
 </ul>
 <h2 id="markerarray">MarkerArray</h2>
@@ -553,6 +578,7 @@ table td {
 <li><a href="https://wiki.ros.org/rviz/Tutorials/Interactive%20Markers%3A%20Writing%20a%20Simple%20Interactive%20Marker%20Server">Writing a Simple Interactive Marker Server</a></li>
 <li><a href="http://wiki.ros.org/rviz/Tutorials/Interactive%20Markers%3A%20Basic%20Controls">Basic Controls</a></li>
 </ul></li>
+<li>An additional example of using interactive markers is <a href="https://github.com/m-elwin/me495_markers">here</a></li>
 </ul>
 <h2 id="plugins">Plugins</h2>
 <ul>
@@ -581,13 +607,22 @@ table td {
 <li>Type <code>rqt_</code> then tab to see these. For example</li>
 <li>rqt_graph - seeing how nodes are connected to each other via topics</li>
 <li>rqt_console - reading debugging output from ros nodes</li>
-<li>rqt_plot - plotting message values versus time
+<li>rqt_logger_level - used to set debugging output level for ROS</li>
+<li><code>rqt_plot</code> - plotting message values versus time
 <ul>
-<li>For more advanced plotting I recommend <a href="http://wiki.ros.org/plotjuggler">PlotJuggler</a>.</li>
+<li>For more advanced plotting I recommend <a href="http://wiki.ros.org/plotjuggler">PlotJuggler</a>.
+<ul>
+<li>install <code>sudo apt install ros-noetic-plotjuggler</code></li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul></li>
 <li>There are <a href="http://wiki.ros.org/rqt/Tutorials">Tutorials</a> for creating your own plugins</li>
+</ul>
+<h2 id="rqt_plot">rqt_plot</h2>
+<ul>
+<li><a href="http://wiki.ros.org/rqt_plot">rqt_plot</a> is the simplest way to draw real-time time-plots of data from ROS topics</li>
+<li>You can specify what fields of which topics to plot in the gui or</li>
 </ul>
 </div>
 <div class="footer">
