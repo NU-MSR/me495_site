@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1600280367 "syllabus/syllabus.tex" "html/syllabus.pdf" "syllabus" 1602136784
+["pdflatex"] 1600280367 "syllabus/syllabus.tex" "html/syllabus.pdf" "syllabus" 1602137619
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1591545468 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1591545468 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm" 1591545468 1524 4414a8315f39513458b80dfc63bff03a ""
@@ -60,7 +60,7 @@
   "html/syllabus.out" 1600280367 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   "syllabus/syllabus.tex" 1600279966 10929 de138333542105770536b988c33766a6 ""
   (generated)
-  "html/syllabus.log"
-  "html/syllabus.pdf"
   "html/syllabus.aux"
   "html/syllabus.out"
+  "html/syllabus.log"
+  "html/syllabus.pdf"
