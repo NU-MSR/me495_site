@@ -475,7 +475,8 @@ table td {
 <li><a href="#differences-between-simulation-engines">Differences Between Simulation Engines</a></li>
 <li><a href="#custom-simulators">Custom Simulators</a></li>
 </ul></li>
-<li><a href="#gazebo">Gazebo</a>
+<li><a href="#gazebo">Gazebo</a></li>
+<li><a href="#ignition-gazebo">Ignition Gazebo</a>
 <ul>
 <li><a href="#gazebo-features">Gazebo Features</a></li>
 </ul></li>
@@ -587,6 +588,13 @@ table td {
 <li>Many concepts in Gazebo are similar to ROS but slightly different</li>
 <li>We will focus on how to use Gazebo from ROS</li>
 <li>Carefully designed ROS programs can seamlessly switch between controlling a Gazebo simulation and a real robot.</li>
+<li>We use Gazebo 11, the latest version of Gazebo and the one that is most easily paired with ROS noetic</li>
+</ul>
+<h1 id="ignition-gazebo">Ignition Gazebo</h1>
+<ul>
+<li><a href="https://ignitionrobotics.org/home">Ignition Gazebo</a> is a rewrite of Gazebo, an attempt to make it more modular and easier to access various physics engines and robotics math</li>
+<li>Ignition Gazebo and Gazebo are two different systems made by the same people (like the relationship between ROS and ROS 2)</li>
+<li>We are using Gazebo, not ignition gazebo because ignition gazebo is still in development and is not feature complete.</li>
 </ul>
 <h2 id="gazebo-features">Gazebo Features</h2>
 <ul>
@@ -598,6 +606,7 @@ table td {
 <li>Graphics: Gazebo provides a graphical interface for viewing and creating simulated worlds. It is like a cross between RViz and a mini CAD program.
 <ul>
 <li>The appearance of objects in Gazebo is how they appear in simulated camera sensors</li>
+<li>Think of the Gazebo display as being a stand-in for the real world and the RViz display is a visualization based off of what the robot senses.</li>
 </ul></li>
 <li>Plugin Architecture: Everything in Gazebo is written as a C++ plugin.
 <ul>
@@ -620,7 +629,10 @@ table td {
 <li><a href="http://gazebosim.org/tutorials?cat=connect_ros">Connect to ROS</a> Tutorials
 <ul>
 <li><a href="http://gazebosim.org/tutorials?tut=ros_overview&amp;cat=connect_ros">ROS Overview</a></li>
-<li><a href="http://gazebosim.org/tutorials?tut=ros_roslaunch&amp;cat=connect_ros">Using roslaunch</a></li>
+<li><a href="http://gazebosim.org/tutorials?tut=ros_roslaunch&amp;cat=connect_ros">Using roslaunch</a>
+<ul>
+<li>This tutorial also explains how to export your gazebo models form your ros package</li>
+</ul></li>
 <li><a href="http://gazebosim.org/tutorials?tut=ros_urdf&amp;cat=connect_ros">URDF in Gazebo</a></li>
 <li><a href="http://gazebosim.org/tutorials?tut=ros_gzplugins&amp;cat=connect_ros">Gazebo Plugins in ROS</a>
 <ul>
@@ -641,10 +653,15 @@ table td {
 </ol>
 <h1 id="some-other-simulators-for-reference-we-will-not-use-these">Some Other Simulators (for reference, we will not use these)</h1>
 <ul>
+<li><a href="https://pybullet.org">pybullet</a> - A pythons simulator based on Bullet. Very popular in the reinforcement-learning community
+<ul>
+<li>I often recommend this simulator because it is more lightweight than Gazebo and can easily be integrated with ROS</li>
+</ul></li>
+<li><a href="http://www.mujoco.org/">MuJoCo</a> - A dynamics simulator specifically built for robotics tasks. This is likely one of the more state-of-the-art simulators. Free for students, but it is a commercial product.</li>
 <li><a href="https://drake.mit.edu">Drake</a> C++ Simulation tools for dynamic robots, using optimization techniques. Started at MIT, now backed by Toyota Research.</li>
-<li><a href="https://www.coppeliarobotics.com">V-Rep</a> Free for educational use, but not 100% open source. Has some ROS integration, scripted in Lua.</li>
+<li><a href="https://www.coppeliarobotics.com">CoppeliaSim</a> (formerly V-Rep) Free for educational use, but not 100% open source. Has some ROS integration, scripted in Lua.</li>
 <li><a href="http://nxr.northwestern.edu/trep">trep</a> - Developed in Todd Murphey's lab. Good numerical algorithms and transparency in how the dynamics are actually solved. Does not support contact/friction.</li>
-<li><a href="https://cyberbotics.com">Webbots</a> - Robot simulator with a long history</li>
+<li><a href="https://cyberbotics.com">Webbots</a> - Robot simulator with a long history. Just released a new version in 2020</li>
 </ul>
 </div>
 <div class="footer">
