@@ -11,10 +11,22 @@ repositories:
     type: git
     url: https://github.com/Interbotix/interbotix_ros_arms.git
     version: efa451101715ff74958af4ca3c0b4d55db37b716
+  moveit_tutorials:
+    type: git
+    url: https://github.com/ros-planning/moveit_tutorials.git
+    version: 40bd382c703ffd3dc430d90271ed4c3d1ca3213e
   moveit_visual_tools:
     type: git
     url: https://github.com/ros-planning/moveit_visual_tools.git
     version: ca12717b52f451c2394b29f25ec29ac0bc5d303a
+  panda_moveit_config:
+    type: git
+    url: https://github.com/ros-planning/panda_moveit_config
+    version: d99e64f9dc549e52daef15b7d86e283887186b3c
+  realsense_gazebo_plugin:
+    type: git
+    url: https://github.com/pal-robotics/realsense_gazebo_plugin.git
+    version: 702f12313763e59eb67b3f01100302f103a76cf8
   rqt_tf_tree:
     type: git
     url: https://github.com/ros-visualization/rqt_tf_tree.git
@@ -23,6 +35,10 @@ repositories:
     type: git
     url: https://github.com/ros-perception/slam_gmapping.git
     version: b916ea23f71fe73593f503810b0a1c59aa0481d8
+  trac_ik:
+    type: git
+    url: https://bitbucket.org/traclabs/trac_ik.git
+    version: eb11e334494afbd8ca624948b3570637c668a209
   turtlebot3:
     type: git
     url: https://github.com/ROBOTIS-GIT/turtlebot3.git
