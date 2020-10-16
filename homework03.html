@@ -470,6 +470,14 @@ table td {
 <ul>
 <li><a href="#robots">Robots</a></li>
 </ul></li>
+<li><a href="#part-i-gazebo-differential-drive-challenge">Part I: Gazebo Differential Drive Challenge</a>
+<ul>
+<li><a href="#creating-the-world">Creating the World</a></li>
+<li><a href="#the-xacro-urdf">The Xacro URDF</a></li>
+<li><a href="#robot-description">Robot Description</a></li>
+<li><a href="#gazebo-extensions">Gazebo Extensions</a></li>
+<li><a href="#control">Control</a></li>
+</ul></li>
 <li><a href="#part-i-gazebo-world">Part I: Gazebo World</a>
 <ul>
 <li><a href="#hints">Hints</a></li>
@@ -496,12 +504,19 @@ table td {
 <!-- The main content of the file -->
 <h1 id="logistics">Logistics</h1>
 <ol>
-<li>Create a git repository using the link provided in Canvas.</li>
-<li>Your homework will be submitted via this git repository.</li>
-<li>I will grade whatever is on the <code>master</code> branch when I clone the repository.</li>
-<li><a href="./guidelines.html">Guidelines</a> provides important information about what you should turn-in, including information about your <code>README.md</code> file.</li>
-<li>All work on both parts of this problem should be done in a single <code>git</code> repository containing a single ROS package called <code>armit</code></li>
-<li>In general, you should refer to <code>ROS</code> entities using relative names from within your nodes (this advice has been added to the Guidelines).</li>
+<li><p>Create a git repository using the link provided in Canvas.</p></li>
+<li><p>Your homework will be submitted via this git repository.</p></li>
+<li><p>I will grade whatever is on the <code>master</code> branch when I clone the repository.</p></li>
+<li><p><a href="./guidelines.html">Guidelines</a> provides important information about what you should turn-in, including information about your <code>README.md</code> file.</p></li>
+<li><p>All work on both parts of this problem should be done in a single <code>git</code> repository containing a single ROS package called <code>armit</code></p></li>
+<li><p>In general, you should refer to <code>ROS</code> entities using relative names from within your nodes (this advice has been added to the Guidelines).</p></li>
+<li><p>You will create two separate ROS packages for this assignment but store them in the same git repository. The base dire</p>
+<pre><code>my_git_repository/diff_drive/{package.xml, CMakeLists.txt, README.md, etc}
+my_git_repository/arm_move/{package.xml, CMakeLists.txt, README.md, etc}
+</code></pre>
+<ul>
+<li>Each package should have it's own <code>README.md</code>.</li>
+</ul></li>
 </ol>
 <h2 id="robots">Robots</h2>
 <ol>
@@ -512,6 +527,94 @@ table td {
 <li>These are the same instructions as last time; however, you should delete and recreate the <code>nuws</code> to make sure you have the latest packages: many bugs have been fixed since then!</li>
 </ul></li>
 <li>Remote students who do not have access to the robots will complete the project in simulation, however, the software setup is the same for all students.</li>
+</ol>
+<h1 id="part-i-gazebo-differential-drive-challenge">Part I: Gazebo Differential Drive Challenge</h1>
+<p>The challenge is to create a differential-drive robot that can be simulated in Gazebo and controlled by ROS.</p>
+<ul>
+<li>The robot will be able to flip over and continue driving (although actually accomplishing this is optional).</li>
+<li>The robot will move through a world filled with Jersey Barriers and trash.</li>
+</ul>
+<p>Your submission should be a subdirectory with</p>
+<ul>
+<li><code>package.xml</code></li>
+<li><code>CMakeLists.txt</code></li>
+<li><code>/config</code> (<code>.yaml</code> files)</li>
+<li><code>/urdf</code> (<code>.xacro</code> and <code>.gazebo</code> files)</li>
+<li><code>/launch</code> (<code>.launch</code> files)</li>
+<li><code>/worlds</code> (<code>.world</code> files)</li>
+<li><code>/nodes</code> (Your ROS nodes.)</li>
+</ul>
+<p>There is a hints section at the bottom of the page that you should read if you get stuck.</p>
+<h2 id="creating-the-world">Creating the World</h2>
+<ol>
+<li>Use the Gazebo GUI to create your world. Place an asphalt plane over the ground plane.</li>
+</ol>
+<p>Then add some Jersey Barriers (at least 2), A few cardboard boxes (at least 3) and something else you find interesting. Save your world as <code>ddrive.world</code> in the <code>world/</code> directory of your project</p>
+<ol>
+<li>Write a launchfile called <code>ddrive.launch</code>. For now, it should launch gazebo and load the world you just created.</li>
+</ol>
+<h2 id="the-xacro-urdf">The Xacro URDF</h2>
+<h2 id="robot-description">Robot Description</h2>
+<ol>
+<li>The robot has body consisting of a rectangular prism. It has two cylindrical wheels on the front and a caster at the rear.
+<ul>
+<li>There should be a caster on the top and bottom of the robot so that it is symmetrical about its horizontal plane</li>
+<li>Each caster link should be modified to have no friction in gazebo so that it can slide freely.</li>
+<li>Feel free to set the masses and dimensions of the robot to suit your needs.</li>
+</ul></li>
+<li>Create a <code>ddrive.urdf.xacro</code> file to describe the differential-drive robot.
+<ul>
+<li>The dimensional parameters of the robot should be stored in a <code>.yaml</code> file and referenced in the <code>xacro file</code></li>
+<li>Each link you add must have the proper collision bounding box and inertia.</li>
+<li>Place <code>gazebo</code> specific tags in a separate <code>.gazebo</code> file that is included in your main <code>urdf</code>.</li>
+</ul></li>
+<li>Create a launchfile called <code>ddrive_rviz.launch</code> that launches the <code>urdf</code> in RViz, along with a <code>robot_state_publisher</code> and optionally a <code>joint_state_publisher_gui</code>. This launchfile will be useful for debugging.</li>
+<li>Modify <code>ddrive.launch</code> so that it spawns your URDF model in the gazebo world.
+<ul>
+<li>Use a launchfile argument to start gazebo with the simulation paused. You will need to remember to unpause when you actually want the simulation to run.</li>
+</ul></li>
+<li>Modify <code>ddrive.launch</code> so that it loads the urdf into the <code>/robot_description</code> parameter.</li>
+</ol>
+<h2 id="gazebo-extensions">Gazebo Extensions</h2>
+<ol>
+<li>Add gazebo materials to each of your links so they appear as an appropriate color.</li>
+<li>Add the "Differential Drive" plugin to your robot.
+<ul>
+<li><p>You may adapt the following code (which I adapted from the <em>Gazebo Plugins in Ros Tutorial</em></p>
+<pre><code>&lt;gazebo&gt;
+&lt;plugin name=&quot;differential_drive_controller&quot; filename=&quot;libgazebo_ros_diff_drive.so&quot;&gt;
+&lt;rosDebugLevel&gt;na&lt;/rosDebugLevel&gt;
+&lt;alwaysOn&gt;true&lt;/alwaysOn&gt;
+&lt;updateRate&gt;100&lt;/updateRate&gt;
+&lt;leftJoint&gt;left_wheel&lt;/leftJoint&gt;
+&lt;rightJoint&gt;right_wheel&lt;/rightJoint&gt;
+&lt;wheelSeparation&gt;${body_width+wheel_width}&lt;/wheelSeparation&gt;
+&lt;wheelDiameter&gt;${wheel_radius}&lt;/wheelDiameter&gt;
+&lt;wheelTorque&gt;20&lt;/wheelTorque&gt;
+&lt;commandTopic&gt;diff/cmd_vel&lt;/commandTopic&gt;
+&lt;odometryTopic&gt;diff/odom&lt;/odometryTopic&gt;
+&lt;odometryFrame&gt;odom&lt;/odometryFrame&gt;
+&lt;robotBaseFrame&gt;base_link&lt;/robotBaseFrame&gt;
+&lt;publishWheelTF&gt;false&lt;/publishWheelTF&gt;
+&lt;publishOdomTF&gt;true&lt;/publishOdomTF&gt;
+&lt;publishWheelJointState&gt;true&lt;/publishWheelJointState&gt;
+&lt;wheelAcceleration&gt;false&lt;/wheelAcceleration&gt;
+&lt;odometrySource&gt;world&lt;/odometrySource&gt;
+&lt;publishTf&gt;1&lt;/publishTf&gt;
+&lt;/plugin&gt;
+&lt;/gazebo&gt;
+</code></pre></li>
+</ul>
+<ul>
+<li>The above code assumes your wheel joints are called <code>left_wheel</code> and <code>right_wheel</code> and also refers to some <code>xacro</code> parameters I defined for the dimensions of the robot. You may need to modify it to match your <code>urdf.xacro</code> file.</li>
+<li>Create a new <code>rviz</code> configuration using the <code>odom</code> frame as the fixed frame. The <code>odom</code> frame is published by the differential drive gazebo plugin</li>
+<li>Launch rviz with this configuration so that you can visualize where the robot thinks it is, according to it's wheel odometry.</li>
+</ul></li>
+</ol>
+<h2 id="control">Control</h2>
+<ol>
+<li>Write a node called <code>follow_rect</code> that makes the robot follow a rectangular path by publishing messages to <code>cmd_vel</code>. You can re-use code from previous assignments if you wish</li>
+<li>Write a node that makes the robot move back and forth along a line by flipping over itself rather than turning. (i.e., both wheels should move with the same velocity at all times). You will need to use the dynamics of the robot to accomplish this task. You may find that the <code>teleop_twist_keyboard</code> package is useful for letting you get a feel for the dynamics.</li>
 </ol>
 <h1 id="part-i-gazebo-world">Part I: Gazebo World</h1>
 <ol>
@@ -536,76 +639,79 @@ table td {
 <li>Write a launchfile called <code>goodbye.launch</code> that launches gazebo and runs the <code>whack</code> node</li>
 </ol>
 <h2 id="hints">Hints</h2>
-<ol>
-<li>Copy the launchfile used by the px100 gazebo program to <code>arm_box.launch</code> and modify it to meet the specifications</li>
-<li>You may use the gazebo world editor to create the world file and the model of the box. Then use the modified px100 launchfile to load your world</li>
-<li>The default interbotix gazebo launchfile starts gazebo in a paused state.
-<ul>
-<li>You can call a service to un-pause gazebo or press the play button in the gazebo window</li>
-</ul></li>
-<li>Note that all parameters/names used by the interbotix arm are stored under the <code>/px100</code> namespace. This means that you will need to specify/remap names throughout this assignment so that they use the appropriate values in the /px100 namespace (or launch your nodes in the px100 namespace).</li>
-</ol>
 <h1 id="part-ii-motion-planning">Part II: Motion Planning</h1>
 <ol>
-<li>You can choose to do this final task either on the robot or in gazebo.</li>
-<li>Place a RealSense Box in front of your arm (in the real world or gazebo)</li>
-<li>Place a collision object to represent the table</li>
-<li>Create a node called <code>grabber</code> that implements the following:
+<li>You can choose to do this final task either on the robot or in gazebo. If you do the project in gazebo you should
 <ol>
+<li>Copy the launchfile used by the px100 gazebo program to <code>arm_box.launch</code> and modify it so that it loads a custom world containing a RealSense Box. The box is 14cm x 9cm x 5cm and weights 100g</li>
+</ol></li>
+<li>In this project you will use the MoveIt Python API to create a planning scene and perform some path planning tasks
+<ul>
+<li>The robot arm sits on top of a table. The RealSense Box also sits on top of the table and is an obstacle</li>
+</ul></li>
+<li>Create a node called <code>mover</code> that implements the following:
+<ol>
+<li>Upon startup, adds a collision object representing the table to the planning scene.</li>
 <li>A <code>reset</code> service that
 <ul>
-<li>Takes an (x,y) position of the realsense box and creates/moves a planning scene box at that location
-<ul>
-<li>The box can be oriented in a way that makes it easier for the arm to pick it up, such as always aligning it radially from the arm</li>
-</ul></li>
+<li>Takes a position and orientation of the realsense box and creates/moves the Realsense Box to the appropriate location</li>
 <li>Moves the robot to its pre-defined <code>'Home'</code> position without hitting the box (<code>'Home'</code> is pre-defined by the SDK)</li>
-<li>If you are doing your project in gazebo, this service should move the box to the correct position in gazebo</li>
+<li>Reset takes a parameter that determines if a series of waypoints are cleared or not.</li>
 </ul></li>
-<li>A <code>pickup</code> service.
+<li>A <code>step</code> service that moves the robot to a user-specified position and/or orientation (that is user can specify just position, just orientation, or both)
 <ul>
-<li>Use moveit motion planning commands to pick up the box and move it to a specified <code>(x,y)</code> position on the table</li>
-<li>When you grab the box, you should attach the box to the arm</li>
-<li>When you release the box, you should de-attach from the arm and add to the planning scene</li>
-<li>Return to the home position when done.</li>
+<li>You should record this position as a waypoint, appended to a list of waypoints.</li>
+<li>The service should have a field that indicates whether the grippers should be open or closed at the position.</li>
+<li>Recorded waypoints should be stored as ros parameters so they can be accessed from the parameter server.</li>
+<li>The structure of how you store waypoints is up to you but should be documented</li>
+<li>Should return the <a href="http://docs.ros.org/en/melodic/api/moveit_msgs/html/msg/MoveItErrorCodes.html">MoveItErrorCode</a> to indicate success or failure of the plan</li>
+</ul></li>
+<li>A <code>follow</code> service that has the robots move to each waypoint, in sequence
+<ul>
+<li>Follow should contain an option that determines if the cycle should be repeated or run just once.</li>
 </ul></li>
 </ol></li>
+<li>Add another small light object to the (real or simulated) world. Use the <code>step</code> and <code>follow</code> services to generate a sequence of waypoints that allows the robot to pick up the object from a fixed location and drop it off elsewhere.
+<ul>
+<li>When you get a working sequence, save the corresponding ROS parameters to a yaml file</li>
+</ul></li>
 <li>Write a launchfile called <code>arm.launch</code>
 <ul>
-<li>Launch the moveit interface by including the launchfile from interbotix_ros_arms using an <code>&lt;include&gt;</code> tag</li>
-<li>You may also look to that launchfile for inspiration and customize it if you would like (for example to load a custom rviz configuration)</li>
-<li>Everyone's launchfile should take an argument to let you launch the arm with <code>use_fake</code>.
-<ul>
-<li>Then you should also launch in gazebo if using gazebo or on the real robot if using the real robot</li>
+<li>The launchfile should setup the robot or simulation to be controlled from the <code>mover</code> node</li>
+<li>The <code>mover</code> node should start and be loaded with an initial waypoint sequence</li>
+<li>RViz should be loaded. <code>Rviz</code> should show the robot and the planning scene</li>
 </ul></li>
+<li>Write a launchfile called <code>arm.test</code> for your integration tests
+<ul>
+<li>This should use fake moveit and also start your <code>mover</code> node.</li>
+<li>It should call <code>reset</code> service</li>
+<li>It should then call the <code>step</code> service in such a way that the robot will crash into the floor
+<ul>
+<li>Verify that the <code>step</code> service returns an error code</li>
+</ul></li>
+<li>This test launchfile should be added to <code>catkin</code> so that it runs with <code>catkin_make</code> run tests</li>
 </ul></li>
 </ol>
 <h2 id="hints-1">Hints</h2>
 <ol>
 <li>It is often easier to launch gazebo and keep it running. Then just kill and manually restart your node</li>
-<li>You may wish to do the bulk of your testing with the <code>fake</code> MoveIt node.</li>
-<li>You may wish to run through some tutorials prior to attempting the assignment: -<a href="https://ros-planning.github.io/moveit_tutorials/doc/move_group_python_interface/move_group_python_interface_tutorial.html">MoveGroup Python Tutorial</a>
+<li>You may wish to do the bulk of your testing with the <code>fake</code> MoveIt node prior to involving the simulation or the real robot.
 <ul>
+<li>With the interactive <code>moveit</code> view you can interactively determine lots of information about the robot such as
+<ul>
+<li>It's planning groups,</li>
+<li>It's built-in positions</li>
+</ul></li>
+</ul></li>
+<li>You may wish to run through some tutorials prior to attempting the assignment:
+<ul>
+<li><a href="https://ros-planning.github.io/moveit_tutorials/doc/move_group_python_interface/move_group_python_interface_tutorial.html">MoveGroup Python Tutorial</a></li>
 <li><a href="https://github.com/Interbotix/interbotix_ros_arms/blob/master/interbotix_examples/interbotix_moveit_interface/scripts/moveit_python_interface#L62">Interbotix MoveIt Tutorial</a></li>
-<li>Everything you need to do with MoveIt to complete this assignment is contained in the aforementioned tutorial</li>
-<li>I do not recommend using <code>MoveIt</code>'s grasping functionality for this assignment.</li>
 </ul></li>
-<li>When you launch the interbotix moveit gui in rviz, you can use moveit interactively and look up lots of information about the robot such as
-<ul>
-<li>It's Planning groups</li>
-<li>It's built in positions</li>
-</ul></li>
-<li>At first, just try to make the robot do something simple in code.
-<ul>
-<li>A good first task is to make it toggle between the <code>Home</code> and <code>Upright</code> states.</li>
-<li><a href="http://docs.ros.org/noetic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html">API reference is here</a>
-<ul>
-<li><code>set_named_target()</code> may help</li>
-</ul></li>
-<li>A good second step is to add the box and the wall to the planning scene and make sure they show up in rviz</li>
-</ul></li>
-<li>At some points you may care about position, and others orientation. You can <code>set_position_target</code> to set position without respect to pose and <code>set_orientation_target</code> or <code>set_rpy_target</code> to set one without regard for the other.
+<li>You can <code>set_position_target</code> to set position without respect to pose and <code>set_orientation_target</code> or <code>set_rpy_target</code> to set one without regard for the other. You can also plan to joint positions.
 <ul>
 <li>Remember, this robot has fewer than 6-dof, so many 6-DOF poses of the end effector are invalid.</li>
+<li>The format in which you store the waypoints is up to you</li>
 </ul></li>
 <li><code>shift_pose_target()</code> is also helpful</li>
 <li>You can try out most things in the RViz GUI prior to coding them</li>
@@ -623,11 +729,17 @@ table td {
 <li>For example, if you just started the planning scene, you may wish to retry the addition a few times upon timing out</li>
 </ul></li>
 </ol></li>
+<li>The default interbotix gazebo launchfile starts gazebo in a paused state.
+<ul>
+<li>You can call a service to un-pause gazebo or press the play button in the gazebo window</li>
+</ul></li>
+<li>Note that all parameters/names used by the interbotix arm are stored under the <code>/px100</code> namespace. This means that you will need to specify/remap names throughout this assignment so that they use the appropriate values in the /px100 namespace (or launch your nodes in the px100 namespace).</li>
 </ol>
 <h2 id="resources">Resources</h2>
 <ol>
-<li>The moveit notes</li>
-<li>The gazebo notes</li>
+<li>The <a href="./lecture18_moveit.html">MoveIt Notes</a></li>
+<li>The <a href="./lecture09_gazebo.html">Gazebo notes</a></li>
+<li>See <a href="./design_doc_test.html">Test A ROS Node</a></li>
 </ol>
 <p>1 The moveit tutorials <a href="https://ros-planning.github.io/moveit_tutorials/">https://ros-planning.github.io/moveit_tutorials/</a></p>
 <ul>
@@ -635,7 +747,6 @@ table td {
 <li>MoveitQuickstart in Rviz, Move Group Python Interface are the two most important</li>
 </ul>
 <ol>
-<li><a href="https://github.com/ros-planning/moveit_tutorials/tree/kinetic-devel/doc/move_group_python_interface/scripts/move_group_python_interface_tutorial.py">Full Tutorial Code</a></li>
 <li><a href="http://docs.ros.org/noetic/api/moveit_commander/html/namespacemoveit__commander.html">Full Python API documentation</a></li>
 </ol>
 </div>
