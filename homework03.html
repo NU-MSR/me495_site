@@ -478,13 +478,9 @@ table td {
 <li><a href="#gazebo-extensions">Gazebo Extensions</a></li>
 <li><a href="#control">Control</a></li>
 </ul></li>
-<li><a href="#part-i-gazebo-world">Part I: Gazebo World</a>
-<ul>
-<li><a href="#hints">Hints</a></li>
-</ul></li>
 <li><a href="#part-ii-motion-planning">Part II: Motion Planning</a>
 <ul>
-<li><a href="#hints-1">Hints</a></li>
+<li><a href="#hints">Hints</a></li>
 <li><a href="#resources">Resources</a></li>
 </ul></li>
 </ul>
@@ -616,29 +612,6 @@ my_git_repository/arm_move/{package.xml, CMakeLists.txt, README.md, etc}
 <li>Write a node called <code>follow_rect</code> that makes the robot follow a rectangular path by publishing messages to <code>cmd_vel</code>. You can re-use code from previous assignments if you wish</li>
 <li>Write a node that makes the robot move back and forth along a line by flipping over itself rather than turning. (i.e., both wheels should move with the same velocity at all times). You will need to use the dynamics of the robot to accomplish this task. You may find that the <code>teleop_twist_keyboard</code> package is useful for letting you get a feel for the dynamics.</li>
 </ol>
-<h1 id="part-i-gazebo-world">Part I: Gazebo World</h1>
-<ol>
-<li>Create a gazebo world as follows:
-<ul>
-<li>There is a tall rectangular obstacles directly behind the robot. This obstacle is fixed
-<ul>
-<li>You can use whatever obstacle you want, I used the bookshelf.</li>
-</ul></li>
-<li>There is a rectangle representing the Intel Realsense D435i Box. It is 14cm x 9cm x 5 cm and weight 100g
-<ul>
-<li>Place the RealSense box directly in front of the robot, within reach</li>
-</ul></li>
-</ul></li>
-<li>Running <code>roslaunch homework3 arm_box.launch</code> should start the gazebo world, and spawn the robot</li>
-<li>Store the world in the <code>worlds</code> directory of your package</li>
-<li>Store the model for the box in the <code>models</code> directory for the package</li>
-<li>Write a node called <code>batter</code> that in response to a service called <code>swing</code> commands the robot arm to smack the box as hard as possible.
-<ul>
-<li>Only use this service in gazebo not with the real robot</li>
-</ul></li>
-<li>Write a launchfile called <code>goodbye.launch</code> that launches gazebo and runs the <code>whack</code> node</li>
-</ol>
-<h2 id="hints">Hints</h2>
 <h1 id="part-ii-motion-planning">Part II: Motion Planning</h1>
 <ol>
 <li>You can choose to do this final task either on the robot or in gazebo. If you do the project in gazebo you should
@@ -692,7 +665,7 @@ my_git_repository/arm_move/{package.xml, CMakeLists.txt, README.md, etc}
 <li>This test launchfile should be added to <code>catkin</code> so that it runs with <code>catkin_make</code> run tests</li>
 </ul></li>
 </ol>
-<h2 id="hints-1">Hints</h2>
+<h2 id="hints">Hints</h2>
 <ol>
 <li>It is often easier to launch gazebo and keep it running. Then just kill and manually restart your node</li>
 <li>You may wish to do the bulk of your testing with the <code>fake</code> MoveIt node prior to involving the simulation or the real robot.
