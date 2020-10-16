@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>ROS Lecture Notes</title>
+<title>PincherX 100</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -466,16 +466,13 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#description">Description</a></li>
-<li><a href="#notes">Notes</a>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#documentation">Documentation</a>
 <ul>
-<li><a href="#ros-basics">ROS Basics</a></li>
-<li><a href="#modeling-robots">Modeling Robots</a></li>
-<li><a href="#manipulation">Manipulation</a></li>
-<li><a href="#actual-robots">Actual Robots</a></li>
+<li><a href="#software">Software</a></li>
+<li><a href="#source-code">Source Code</a></li>
 </ul></li>
-<li><a href="#activities">Activities</a></li>
-<li><a href="#homework">Homework</a></li>
 </ul>
 </nav>
 
@@ -487,59 +484,33 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">ROS Lecture Notes</h1>
+<h1 class="title">PincherX 100</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="description">Description</h1>
-<p>Welcome to the lecture notes for ME495: Embedded Systems in Robotics!</p>
-<p>This project-based course provides experience with a variety of software tools and concepts useful for a robotics engineer working with practical embedded systems. The Robot Operating System (ROS) will be used as an example framework, and learning ROS will be a primary goal of the course. By the end of the course, student teams will have completed a robotics project using a real robot.</p>
-<h1 id="notes">Notes</h1>
-<h2 id="ros-basics">ROS Basics</h2>
+<h1 id="overview">Overview</h1>
+<p>Each of you has a small 5-DOF <a href="https://www.trossenrobotics.com/pincherx-100-robot-arm.aspx">PincherX 100</a> robot arm to use throughout your studies in this class. The arm has multiple control modes, but we will use ROS to program the arm.</p>
+<h1 id="installation">Installation</h1>
 <ul>
-<li><a href="./lecture00_preliminaries.html">Preliminaries</a></li>
-<li><a href="./lecture01_basics.html">ROS Basics</a></li>
-<li><a href="./lecture02_catkin.html">Catkin and Packages</a></li>
-<li><a href="./lecture03_rospy_names.html">Rospy and Names</a></li>
-<li><a href="./lecture04_launch.html">Launchfiles</a></li>
-<li><a href="./lecture08_threads.html">Threads</a></li>
-<li><a href="./design_doc_test.html">Design, Documentation, and Testing</a></li>
-<li><a href="./glossary.html">ROS Glossary</a></li>
+<li>The steps done in <a href="./custom_ws.html">custom_ws</a> should provide the necessary software</li>
+<li>Please delete your <code>nuws</code> workspace and re-do those steps to gain access to the latest packages</li>
 </ul>
-<h2 id="modeling-robots">Modeling Robots</h2>
-<ul>
-<li><a href="./lecture05_tf.html">The Tf Tree</a></li>
-<li><a href="./lecture06_modeling.html">Robot Modeling</a></li>
-<li><a href="./lecture07_visual.html">Visualization</a></li>
-<li><a href="./time_in_ros.html">Timing In ROS</a></li>
-<li><a href="./lecture09_gazebo.html">Simulation</a></li>
-</ul>
-<h2 id="manipulation">Manipulation</h2>
-<ul>
-<li><a href="./lecture18_moveit.html">MoveIt!</a></li>
-</ul>
-<h2 id="actual-robots">Actual Robots</h2>
-<ul>
-<li><a href="./turtlebot3.html">Turtlebot3 Setup</a></li>
-<li><a href="./pincherX100.html">PincherX 100</a></li>
-</ul>
-<h1 id="activities">Activities</h1>
-<ul>
-<li><a href="./activity01.html">Basic ROS Activity</a></li>
-<li><a href="./activity02.html">Names and Launchfiles</a></li>
-<li><a href="https://github.com/m-elwin/me495_threads">Exploring Threads</a></li>
-<li><a href="./custom_ws.html">Install Necessary Packages</a></li>
-<li><a href="https://github.com/m-elwin/me495_practices">Unit Testing and Documentation Example</a></li>
-<li><a href="./tf_activity.html">TF Activity</a></li>
-<li><a href="./urdf_activity.html">URDF Activity</a></li>
-<li><a href="https://github.com/ME495-EmbeddedSystems/demo10_8_20">Live Visualization Demo Results</a></li>
-</ul>
-<h1 id="homework">Homework</h1>
+<h1 id="documentation">Documentation</h1>
+<h2 id="software">Software</h2>
+<p>Most of the software we sill use for the arm is documented with the source code for the robot <a href="https://github.com/Interbotix/interbotix_ros_arms">here</a>. As per the <code>README.md</code>, you should</p>
 <ol>
-<li><a href="./guidelines.html">Guidelines</a>: These apply to every homework (Updated</li>
-<li><a href="./homework01.html">Homework 1</a> is due on Tuesday, September 29 (extended to October 2)</li>
-<li><a href="./homework02.html">Homework 2</a> is due Tuesday October 13</li>
-<li><a href="./homework03.html">Homework 3</a> is due Tuesday November 3rd</li>
+<li>Read <a href="https://github.com/Interbotix/interbotix_ros_arms/blob/master/interbotix_descriptions">interbotix_descriptions/README.md</a> to get a feel for the robot basics</li>
+<li>The low-level drivers are described by the [[<a href="https://github.com/Interbotix/interbotix_ros_arms/tree/master/interbotix_sdk">https://github.com/Interbotix/interbotix_ros_arms/tree/master/interbotix_sdk</a></li>
+<li>The Gazebo Simulation is described in <a href="https://github.com/Interbotix/interbotix_ros_arms/blob/master/interbotix_gazebo">interbotix_gazebo</a></li>
+<li>The moveit interface is described in <a href="https://github.com/Interbotix/interbotix_ros_arms/blob/master/interbotix_moveit">interbotix_moveit</a></li>
+<li>When using the software, the robot name is named <code>px100</code></li>
+</ol>
+<h2 id="source-code">Source Code</h2>
+<ol>
+<li>You are encouraged to look at the source code of the <code>interbotix_ros_arms</code> package to see how it works when you are unsure.
+<ul>
+<li>A good starting point is to start at a launchfile and work your way down into the included launchfiles, xacro files, and nodes</li>
+</ul></li>
 </ol>
 </div>
 <div class="footer">
