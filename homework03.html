@@ -638,8 +638,11 @@ my_git_repository/arm_move/{package.xml, CMakeLists.txt, README.md, etc}
 <li>You should record this position as a waypoint, appended to a list of waypoints.</li>
 <li>The service should have a field that indicates whether the grippers should be open or closed at the position.</li>
 <li>Recorded waypoints should be stored as ros parameters so they can be accessed from the parameter server.</li>
-<li>The structure of how you store waypoints is up to you but should be documented</li>
-<li>Should return the <a href="http://docs.ros.org/en/melodic/api/moveit_msgs/html/msg/MoveItErrorCodes.html">MoveItErrorCode</a> to indicate success or failure of the plan</li>
+<li>The structure of how you store waypoints is up to you but should be documented and scale to an arbitrary number of waypoints</li>
+<li>Should return the <a href="http://docs.ros.org/en/melodic/api/moveit_msgs/html/msg/MoveItErrorCodes.html">MoveItErrorCode</a> to indicate success or failure of the plan
+<ul>
+<li>If you fail to plan a path, that is okay, just use the MoveItErrorCode to interpret why.</li>
+</ul></li>
 </ul></li>
 <li>A <code>follow</code> service that has the robots move to each waypoint, in sequence
 <ul>
@@ -666,6 +669,7 @@ my_git_repository/arm_move/{package.xml, CMakeLists.txt, README.md, etc}
 </ul></li>
 <li>This test launchfile should be added to <code>catkin</code> so that it runs with <code>catkin_make</code> run tests</li>
 </ul></li>
+<li>Include a link to a video in your README.md of the robot or gazebo simulation accomplishing its task</li>
 </ol>
 <h2 id="hints">Hints</h2>
 <ol>
