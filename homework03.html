@@ -635,7 +635,6 @@ my_git_repository/arm_move/{package.xml, CMakeLists.txt, README.md, etc}
 </ul></li>
 <li>A <code>step</code> service that moves the robot to a user-specified position and/or orientation (that is user can specify just position, just orientation, or both)
 <ul>
-<li>You should record this position as a waypoint, appended to a list of waypoints.</li>
 <li>The service should have a field that indicates whether the grippers should be open or closed at the position.</li>
 <li>Recorded waypoints should be stored as ros parameters so they can be accessed from the parameter server.
 <ul>
@@ -646,6 +645,7 @@ my_git_repository/arm_move/{package.xml, CMakeLists.txt, README.md, etc}
 <ul>
 <li>If you fail to plan a path, that is okay, just use the MoveItErrorCode to interpret why.</li>
 </ul></li>
+<li>If the plan succeeds, you should record this position as a waypoint, appended to a list of waypoints</li>
 </ul></li>
 <li>A <code>follow</code> service that has the robots move to each waypoint, in sequence
 <ul>
