@@ -637,7 +637,10 @@ my_git_repository/arm_move/{package.xml, CMakeLists.txt, README.md, etc}
 <ul>
 <li>You should record this position as a waypoint, appended to a list of waypoints.</li>
 <li>The service should have a field that indicates whether the grippers should be open or closed at the position.</li>
-<li>Recorded waypoints should be stored as ros parameters so they can be accessed from the parameter server.</li>
+<li>Recorded waypoints should be stored as ros parameters so they can be accessed from the parameter server.
+<ul>
+<li>These parameters should be loaded from the parameter when the node starts, if available otherwise the waypoint list is empty</li>
+</ul></li>
 <li>The structure of how you store waypoints is up to you but should be documented and scale to an arbitrary number of waypoints</li>
 <li>Should return the <a href="http://docs.ros.org/en/melodic/api/moveit_msgs/html/msg/MoveItErrorCodes.html">MoveItErrorCode</a> to indicate success or failure of the plan
 <ul>
@@ -692,7 +695,7 @@ my_git_repository/arm_move/{package.xml, CMakeLists.txt, README.md, etc}
 <li>Remember, this robot has fewer than 6-dof, so many 6-DOF poses of the end effector are invalid.</li>
 <li>The format in which you store the waypoints is up to you</li>
 </ul></li>
-<li><code>shift_pose_target()</code> is also helpful</li>
+<li><code>get_current_pose()</code> is also helpful for debugging to see the exact current location of the end effector</li>
 <li>You can try out most things in the RViz GUI prior to coding them</li>
 <li>There are two tricky parts to PlanningSceneInterface that you must work around
 <ol>
