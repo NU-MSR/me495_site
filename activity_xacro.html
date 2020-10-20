@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>Xacro, URDF, SDF, Gazebo</title>
+<title>Xacro Explorer</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -467,13 +467,8 @@ table td {
 <h3>Table of Contents</h3>
 <ul>
 <li><a href="#overview">Overview</a></li>
-<li><a href="#from-xacro-to-gazebo">From Xacro to Gazebo</a>
-<ul>
-<li><a href="#gazebo-compatible-urdf">Gazebo-compatible URDF</a></li>
-<li><a href="#xacro-to-urdf">Xacro to URDF</a></li>
-<li><a href="#urdf-to-sdf">URDF to SDF</a></li>
-<li><a href="#spawning-an-sdf">Spawning an SDF</a></li>
-</ul></li>
+<li><a href="#exploration-of-turtlebot-3-urdf">Exploration of turtlebot 3 urdf</a></li>
+<li><a href="#exploration-of-itnerbotix-ros-arms">Exploration of Itnerbotix ROS arms</a></li>
 </ul>
 </nav>
 
@@ -485,96 +480,52 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">Xacro, URDF, SDF, Gazebo</h1>
+<h1 class="title">Xacro Explorer</h1>
 </header>
 
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
-<ul>
-<li>This document describes how to build Gazebo worlds and models.
-<ul>
-<li>A world is the overall simulation scene containing models</li>
-<li>A model is something that is simulated in the world</li>
-</ul></li>
-<li>Gazebo uses the <a href="http://sdformat.org/spec">sdf</a> format to describe worlds and models</li>
-<li>SDF files allow you to describe a robot's links, joints, actuators and sensors
-<ul>
-<li>Sensors and actuators are implemented in gazebo using <a href="http://gazebosim.org/tutorials/?tut=plugins_hello_world">plugins</a></li>
-<li>Plugins designed to work with ROS are <a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">here</a></li>
-<li>Plugins are implemented in C++</li>
-</ul></li>
-<li>Both SDF and urdf files use XML, so they can interoperate with each other (and with xacro)</li>
-<li>The <a href="http://wiki.ros.org/urdf/XML/Gazebo">&lt;gazebo&gt;</a> tag allows you to associate snippets of <code>SDF</code> with the links and joints in your model</li>
-<li>When gazebo starts, it loads a <code>world</code> file. The <code>world</code> file can contain models and you can also <code>spawn</code> additional models at runtime</li>
-</ul>
-<h1 id="from-xacro-to-gazebo">From Xacro to Gazebo</h1>
-<p>There are three main steps when going from a <code>xacro</code> file to a gazebo file, convert to <code>URDF</code>, convert to <code>SDF</code>, and spawn in Gazebo.</p>
-<h2 id="gazebo-compatible-urdf">Gazebo-compatible URDF</h2>
+<p>In this activity we will explore the <code>turtlebot3</code> and <code>interbotix_arm</code> packages to see how they use xacro, urdf, and sdf files</p>
+<h1 id="exploration-of-turtlebot-3-urdf">Exploration of turtlebot 3 urdf</h1>
+<p>The turtlebot3 is a small differential drive robot designed to work with ROS. We will focus on the "burger" variant.</p>
 <ol>
-<li>The main tutorial for understanding how to make a URDF file ready for gazebo is <a href="http://gazebosim.org/tutorials?tut=ros_urdf&amp;cat=connect_ros">here</a></li>
-<li>A gazebo compatible URDF is a URDF file that can be successfully converted to an SDF file and loaded in Gazebo</li>
-<li>Every link should have visual, inertial, and collision components</li>
-<li>Every link should have an associated <code>gazebo</code> material
+<li>Explore the project directory <code>roscd turtlebot3_description</code>.
 <ul>
-<li>This is different from the <code>URDF</code> material tag</li>
+<li>This package describes the turtlebot3</li>
+<li>Of particular interest is the <code>urdf</code> directory</li>
 </ul></li>
-<li>Typically, the <code>gazebo</code> parts are placed in a separate file and included by the main urdf <code>xacro</code> file
+<li>Notice that the description is divided across several files</li>
+<li><code>common_properties.xacro</code> is a central place to define some colors for the <code>urdf</code> file</li>
+<li><code>turtlebot3_burger.urdf.xacro</code> is the basic <code>urdf</code> for rviz.
 <ul>
-<li>You can do this because each <code>&lt;gazebo&gt;</code> tag can be associated with a <code>&lt;link&gt;</code>, <code>&lt;joint&gt;</code> or the overall robot</li>
+<li>By using <code>.stl</code> files for the link geometry, complex geometry is captured with few links. If you had a CAD model of a robot you would convert to <code>.stl</code> or <code>.dae</code> and use this feature.</li>
+<li>Notice that the <code>.stl</code> file is visual only. The collision is a bounding box.</li>
+<li>The inertial values are likely the output of a CAD program</li>
 </ul></li>
-<li>You can directly spawn <code>urdf</code> files in <code>gazebo</code>. They automatically are converted to <code>sdf</code> files.
+<li><code>turtlebot3_burger.gazebo.xacro</code> adds gazebo-specific tags to the link.
 <ul>
-<li>This means, you have a <code>xacro</code> file. This is converted to a urdf with <code>xacro</code> and then <code>gazebo converts it to an =sdf</code> and loads the sdf</li>
-<li>When done in a launchfile, you never see the intervening <code>urdf</code> or <code>sdf</code> files and these files are generated code and should not be stored in your repository</li>
+<li>Notice that the Differential Drive plugin is used to control the robot.</li>
+<li>The turtlebot also has an <code>imu</code> and laser scanner that are modeled using built-in gazebo plugins.</li>
 </ul></li>
 </ol>
-<p>The sections below go through how you can see the individual conversion steps, which is useful when debugging these files.</p>
-<h2 id="xacro-to-urdf">Xacro to URDF</h2>
+<h1 id="exploration-of-itnerbotix-ros-arms">Exploration of Itnerbotix ROS arms</h1>
 <ol>
-<li>Use the xacro command and redirect to a urdf file:
+<li>Let's examine the <code>interbotix_descriptions</code> and <code>interbotix_gazebo</code> packages</li>
+<li>Often, the <code>gazebo</code> code is completely separated from the <code>robot</code> description, enabling the description to be used without requiring gazebo</li>
+<li>Examine the <code>urdf</code> directory
 <ul>
-<li><code>xacro myrobot.urdf.xacro &gt; myrobot.urdf</code></li>
-<li>You can then inspect the URDF to make sure it makes sense</li>
-<li>Syntax and other errors from the <code>xacro</code> conversion will be easier to track down this way.</li>
-<li>Does not have the overhead of launching <code>rviz</code> to check</li>
-<li><code>xacro</code> error messages can be quite cryptic, especially if there is a non-xml syntax error (such as missing a closing <code>}</code> from <code>${}</code>. The only remedy I have found is reading carefully and using the text editor to make sure that all braces are matched.</li>
+<li>Notice how the gazebo code is only included if explicitly requested</li>
+<li>Notice how the name of everything is prefixed with a robot name, allowing you to have multiple interbotix arms on the same machine</li>
 </ul></li>
-<li>Write a launchfile to run <code>rviz</code>, and call <code>xacro</code> and view your robot</li>
-</ol>
-<h2 id="urdf-to-sdf">URDF to SDF</h2>
-<ol>
-<li>Use the <code>gz</code> command to convert <code>URDF</code> files to <code>sdf</code> files for gazebo
+<li>The <code>&lt;transmission&gt;</code> tags are used by the ros_control package
 <ul>
-<li><code>gz sdf -p myrobot.urdf &gt; myrobot.sdf</code></li>
+<li>Many ROS packages use <code>ros_control</code> as a standard interface for controlling the robot</li>
 </ul></li>
-<li>Inspect the resulting <code>sdf</code> file. There may be some surprises:
+<li>Look at <code>interbotix_gazebo/config/interbotix_texture.gazebo</code>
 <ul>
-<li>By default, all links that are connected by fixed joints are merged into a single link in the sdf.
-<ul>
-<li>You can apply the <code>&lt;preserveFixedJoint&gt;true&lt;/preserveFixedJoint&gt;</code> sdf property to a joint to prevent this merging from happening</li>
+<li>This is setting up materials and some other gazebo specific properties</li>
 </ul></li>
-<li>The <code>&lt;material&gt;</code> tag in a urdf is ignored by gazebo
-<ul>
-<li>You should apply a <code>gazebo</code> <code>material</code> tag to have a color or texture appear on a link for your URDF.</li>
-</ul></li>
-</ul></li>
-<li>Think of <code>gazebo</code> tags as "decorating" parts of your <code>urdf</code>
-<ul>
-<li>With <code>&lt;gazebo reference = "name"&gt;</code> you associate the sdf-specific tags with joints, links, or globally in the urdf file.</li>
-</ul></li>
-</ol>
-<h2 id="spawning-an-sdf">Spawning an SDF</h2>
-<ol>
-<li>It is convenient to run gazebo (either from a launchfile or <code>rosrun gazebo_ros gazebo</code> and keep it running.</li>
-<li>After converting to <code>sdf</code> you can spawn directly in gazebo using <code>rosrun gazebo_ros spawn_model -sdf myrobot.sdf</code> (directly from an sdf), or <code>rosrun gazebo_ros spawn_model -urdf myrobot.urdf</code> (from a urdf which is converted to sdf first).
-<ul>
-<li>When you kill the spawned node your model also is removed in gazebo.</li>
-</ul></li>
-<li>Use the <code>view</code> menu in gazebo to see the moments of inertias and centers of mass
-<ul>
-<li>Since by default gazebo merges fixed links into a single rigid body, you may see fewer bodies than specified in your <code>urdf</code>.</li>
-<li>You may need to turn transparency on in the <code>view</code> menu to actually see the inertias (which appear as purple boxes)</li>
-</ul></li>
+<li>Look at the gazebo launch file, what is it doing?</li>
 </ol>
 </div>
 <div class="footer">

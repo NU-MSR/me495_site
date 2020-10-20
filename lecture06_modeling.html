@@ -475,6 +475,14 @@ table td {
 <li><a href="#joint_state_publisher">joint_state_publisher</a></li>
 <li><a href="#debugging-urdf-hints">Debugging URDF hints</a></li>
 <li><a href="#xacro">xacro</a></li>
+<li><a href="#useful-xacro-patterns">Useful Xacro Patterns</a>
+<ul>
+<li><a href="#xacro-properties">Xacro Properties</a></li>
+<li><a href="#xacro-macros">Xacro Macros</a></li>
+<li><a href="#xacro-include">Xacro Include</a></li>
+<li><a href="#xacro-if">Xacro If</a></li>
+<li><a href="#xacro-arguments">Xacro Arguments</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -635,6 +643,76 @@ table td {
 <li>To see updates to the <code>urdf</code> file you need to run <code>catkin_make</code></li>
 </ul></li>
 <li><p><a href="http://wiki.ros.org/urdf/Tutorials/Using%20Xacro%20to%20Clean%20Up%20a%20URDF%20File">How to introduce Xacro into a URDF</a></p></li>
+</ul>
+<h1 id="useful-xacro-patterns">Useful Xacro Patterns</h1>
+<ul>
+<li>Using <code>xacro</code> effectively makes your robot description much more robust and easy to change because it cuts down on repetition and makes your file more modular.</li>
+</ul>
+<h2 id="xacro-properties">Xacro Properties</h2>
+<ul>
+<li>Use the <code>&lt;xacro:property name = "name" value = "value"&gt;</code> to define a constant in <code>xacro</code>
+<ul>
+<li><p>Basic constants (like <code>pi</code>) are already defined.</p></li>
+<li><p>You can use any python expression anywhere using the <code>${}</code> syntax</p></li>
+<li><p>It often makes sense to load non-changeable robot parameters directly from a yaml file</p>
+<pre><code>&lt;!-- Get the path to the yaml file relative to the package --&gt;
+&lt;xacro:property name=&quot;yaml_file&quot;    value=&quot;$(find package)/config/config.yaml&quot; /&gt;
+&lt;!-- load the values in the yaml file. They are stored in a dictionary called properties --&gt;
+&lt;xacro:property name=&quot;properties&quot;   value=&quot;${load_yaml(yaml_file)}&quot; /&gt;
+&lt;!-- access an individual variable --&gt;
+&lt;xacro:property name=&quot;property&quot;  value=&quot;${properties[&#39;property]}&quot; /&gt;
+</code></pre></li>
+</ul></li>
+</ul>
+<h2 id="xacro-macros">Xacro Macros</h2>
+<ul>
+<li><p>Macro's are the most useful tools when creating <code>urdf</code> files for eventual use with gazebo</p></li>
+<li><p>A common case: you want the visual, inertial, and collision elements of a link to correspond to each other:</p>
+<pre><code> &lt;!-- Create a link with
+      visual, inertial, and collision for a z-axis aligned cylinder.
+      Also enables specifying a material block.
+      Assumes the default cylinder orientation
+ --&gt;
+&lt;xacro:macro name=&quot;cylinder_link&quot; params=&quot;name length radius mass *material&quot;&gt;
+  &lt;link name=&quot;${name}&quot;&gt;
+    &lt;visual&gt;
+      &lt;geometry&gt;
+        &lt;cylinder length=&quot;${length}&quot; radius=&quot;${radius}&quot; /&gt;
+      &lt;/geometry&gt;
+      &lt;xacro:insert_block name=&quot;material&quot; /&gt;
+    &lt;/visual&gt;
+    &lt;collision&gt;
+      &lt;geometry&gt;
+        &lt;cylinder length=&quot;${length}&quot; radius=&quot;${radius}&quot; /&gt;
+      &lt;/geometry&gt;
+    &lt;/collision&gt;
+    &lt;inertial&gt;
+      &lt;mass value=&quot;${mass}&quot;/&gt;
+      &lt;inertia ixx=&quot;${(1.0/12.0)*mass*(3*radius**2 + length**2)}&quot;
+               ixy=&quot;0&quot;
+               ixz=&quot;0&quot;
+               iyy=&quot;${(1.0/12.0)*mass*(3*radius**2 + length**2)}&quot;
+               iyz=&quot;0&quot;
+               izz=&quot;${0.5*mass*radius**2}&quot; /&gt;
+    &lt;/inertial&gt;
+  &lt;/link&gt;
+&lt;/xacro:macro&gt;
+</code></pre></li>
+</ul>
+<h2 id="xacro-include">Xacro Include</h2>
+<ul>
+<li>You can include <code>xacro</code> files in other <code>xacro</code> files using <code>&lt;xacro:include filename = "$(find package)/urdf/myfile.xacro"&gt;</code></li>
+<li>Build your own library of useful <code>xacro</code> macros.</li>
+<li>Keep the <code>gazebo</code> tags for your <code>urdf</code> in a separate file and include it. Thus you can maintain a clean separation between the <code>gazebo</code> and non-gazebo parts of your file.</li>
+</ul>
+<h2 id="xacro-if">Xacro If</h2>
+<ul>
+<li>Conditionally include a block using <code>&lt;xacro:if value = "expression"&gt;</code></li>
+</ul>
+<h2 id="xacro-arguments">Xacro Arguments</h2>
+<ul>
+<li>Pass arguments to <code>xacro</code> using <code>xacro model variable:=value</code> syntax..</li>
+<li>Access arguments within <code>xacro</code> using <code>$(arg name)</code></li>
 </ul>
 </div>
 <div class="footer">
