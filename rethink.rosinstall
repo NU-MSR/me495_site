@@ -1,5 +1,45 @@
 repositories:
+  baxter:
+    type: git
+    url: https://github.com/RethinkRobotics/baxter.git
+    version: release-1.2.0
+  baxter_common:
+    type: git
+    url: https://github.com/ME495-EmbeddedSystems/baxter_common.git
+    version: release-1.2.0-melodic
+  baxter_examples:
+    type: git
+    url: https://github.com/RethinkRobotics/baxter_examples.git
+    version: release-1.2.0
+  baxter_interface:
+    type: git
+    url: https://github.com/ME495-EmbeddedSystems/baxter_interface.git
+    version: development
+  baxter_simulator:
+    type: git
+    url: https://github.com/ME495-EmbeddedSystems/baxter_simulator.git
+    version: noetic-devel
+  baxter_tools:
+    type: git
+    url: git@github.com:ME495-EmbeddedSystems/baxter_tools.git
+    version: noetic-devel
+  intera_common:
+    type: git
+    url: https://github.com/RethinkRobotics/intera_common.git
+    version: a298fec02b8300e23841085a73c2039261c3d43c
+  intera_sdk:
+    type: git
+    url: https://github.com/RethinkRobotics/intera_sdk.git
+    version: 8dadd23d3ee696ae781a8a81c5b34f2efa23b2ee
+  sawyer_robot:
+    type: git
+    url: https://github.com/ME495-EmbeddedSystems/sawyer_robot.git
+    version: melodic-devel
   sawyer_simulator:
     type: git
     url: https://github.com/ME495-EmbeddedSystems/sawyer_simulator.git
     version: noetic-devel
+  sns_ik:
+    type: git
+    url: https://github.com/RethinkRobotics-opensource/sns_ik.git
+    version: melodic-devel
