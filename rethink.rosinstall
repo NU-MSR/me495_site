@@ -21,7 +21,7 @@ repositories:
     version: noetic-devel
   baxter_tools:
     type: git
-    url: git@github.com:ME495-EmbeddedSystems/baxter_tools.git
+    url: https://github.com/ME495-EmbeddedSystems/baxter_tools.git
     version: noetic-devel
   intera_common:
     type: git
@@ -29,8 +29,8 @@ repositories:
     version: a298fec02b8300e23841085a73c2039261c3d43c
   intera_sdk:
     type: git
-    url: https://github.com/RethinkRobotics/intera_sdk.git
-    version: 8dadd23d3ee696ae781a8a81c5b34f2efa23b2ee
+    url: https://github.com/ME495-EmbeddedSystems/intera_sdk.git
+    version: noetic-devel
   sawyer_robot:
     type: git
     url: https://github.com/ME495-EmbeddedSystems/sawyer_robot.git
