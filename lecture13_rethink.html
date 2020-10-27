@@ -659,7 +659,7 @@ unset ROS_HOSTNAME
 <ol>
 <li>The field-service menu lets you change network settings on the baxter and the sawyer</li>
 <li>Students: Do not modify these settings without asking me first!</li>
-<li>Currently, it seems that ROS<sub>IP</sub> mode on the robots does not work. I suspect that the ROS<sub>MASTERURI</sub> is set to <code>sawyer.local</code> or <code>baxter.local</code> on the robot, which means that, regardless of anything else, your computer must be able to resolve those addresses to receive messages from the robot</li>
+<li>Currently, it seems that ROS_IP mode on the robots does not work. I suspect that the ROS_MASTER_URI is set to <code>sawyer.local</code> or <code>baxter.local</code> on the robot, which means that, regardless of anything else, your computer must be able to resolve those addresses to receive messages from the robot</li>
 </ol>
 <h1 id="using-the-robots">Using the Robots</h1>
 <ol>
@@ -766,7 +766,7 @@ unset ROS_HOSTNAME
 <li>Clone into your source space from <code>https://github.com/ros-planning/moveit_robots.git</code></li>
 <li>Configuration and launch files are located in (respectively):
 <ul>
-<li><a href="https://github.com/ros-planning/moveit_robots/tree/kinetic-devel/baxter/baxter_moveit_config/config">moveit<sub>robots</sub>/baxter/baxter<sub>moveitconfig</sub>/config</a></li>
+<li><a href="https://github.com/ros-planning/moveit_robots/tree/kinetic-devel/baxter/baxter_moveit_config/config">moveit_robots/baxter/baxter_moveit_config/config</a></li>
 <li><code>moveit_robots/baxter/baxter_moveit_config/launch</code></li>
 </ul></li>
 </ul></li>
@@ -838,9 +838,9 @@ unset ROS_HOSTNAME
 <li>There is a <code>/move_group/trajectory_execution/execution_velocity_scaling</code> that can be used to slow down a trajectory. It has been known not to work reliably however.</li>
 <li><a href="http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/time_parameterization/time_parameterization_tutorial.html">Time Parameterization</a> of your trajectory can be used to slow down the speed of the trajectory. Here is some python API documentation:
 <ul>
-<li><a href="http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html#a0c46ebb5a29bbfe84882f5f296352b90">set<sub>maxaccelerationscalingfactor</sub></a></li>
-<li><a href="http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html#a7706effa66a0847496de477cf219a562">set<sub>maxvelocityscalingfactor</sub></a></li>
-<li><a href="http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html#a53a40aed261338e6bc108ce7275030c6">retime<sub>trajectory</sub></a></li>
+<li><a href="http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html#a0c46ebb5a29bbfe84882f5f296352b90">set_max_acceleration_scaling_factor</a></li>
+<li><a href="http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html#a7706effa66a0847496de477cf219a562">set_max_velocity_scaling_factor</a></li>
+<li><a href="http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html#a53a40aed261338e6bc108ce7275030c6">retime_trajectory</a></li>
 </ul></li>
 </ul>
 <h2 id="joint-trajectory-action-server">Joint Trajectory Action Server</h2>
@@ -875,7 +875,7 @@ unset ROS_HOSTNAME
 <li>This enables you to use moveit without a separate action server.</li>
 <li>The movement will follow trajectory exactly and no dynamics are involved</li>
 <li>You can use this in conjunction with <code>rviz</code> to visualize and debug your robot without gazebo when working on kinematic tasks.</li>
-<li>Baxter has <a href="https://github.com/ros-planning/moveit_robots/blob/kinetic-devel/baxter/baxter_moveit_config/launch/demo_dummy.launch">demo<sub>dummy</sub>.launch</a> to help launch in this mode.</li>
+<li>Baxter has <a href="https://github.com/ros-planning/moveit_robots/blob/kinetic-devel/baxter/baxter_moveit_config/launch/demo_dummy.launch">demo_dummy.launch</a> to help launch in this mode.</li>
 </ul>
 </div>
 <div class="footer">
