@@ -644,8 +644,27 @@ unset ROS_HOSTNAME
 </ol>
 <h2 id="testing-your-setup">Testing Your Setup</h2>
 <ol>
-<li>Make sure you can ping 10.42.0.2, <code>baxter.local</code> and <code>sawyer.local</code>.</li>
-<li>When you run <code>rqt_graph</code> you should see all the ROS nodes that are running on baxter/sawyer</li>
+<li><p>Make sure you can ping 10.42.0.2, <code>baxter.local</code> and <code>sawyer.local</code>.</p></li>
+<li><p>Set your environment variables:</p>
+<pre><code>export ROS_MASTER_URI=http://10.42.0.2:11311
+export ROS_IP=10.42.0.1
+unset ROS_HOSTNAME
+</code></pre></li>
+<li><p>When you run <code>rosnode list</code> you should see a bunch of nodes running on the baxter/sawyer</p></li>
+<li><p>Echo joint states: <code>rostopic echo /robot/joint_states</code></p>
+<ul>
+<li>You should see joint states printed to the screen</li>
+</ul></li>
+<li><p>Enable the robot</p>
+<ul>
+<li>Baxter: <code>rosrun baxter_interface enable_robot.py -e</code></li>
+<li>Sawyer: <code>rosrun intera_interface enable_robot.py -e</code></li>
+</ul></li>
+<li><p>Disable the robot</p>
+<ul>
+<li>Baxter: <code>rosrun baxter_interface enable_robot.py -d</code></li>
+<li>Sawyer: <code>rosrun intera_interface enable_robot.py -d</code></li>
+</ul></li>
 </ol>
 <h2 id="advanced-networking">Advanced Networking</h2>
 <h3 id="ssh">SSH</h3>
