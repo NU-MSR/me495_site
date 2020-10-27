@@ -601,7 +601,7 @@ catkin_make
 <li>You will connect to the robot via Ethernet. First, some one-time setup to install the profile</li>
 </ol>
 <pre><code># Download the Network manager profile
-sudo curl -L https://nu-msr.github.io/me495_site/Rethink &gt; /tmp/Rethink
+curl -L https://nu-msr.github.io/me495_site/Rethink &gt; /tmp/Rethink
 sudo cp /tmp/Rethink /etc/NetworkManager/system-connections/Rethink
 # Set the ownership and permissions
 sudo chown root:root /etc/NetworkManager/system-connections/Rethink
