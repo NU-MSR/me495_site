@@ -9,8 +9,8 @@ repositories:
     version: release-1.2.0-melodic
   baxter_examples:
     type: git
-    url: https://github.com/RethinkRobotics/baxter_examples.git
-    version: release-1.2.0
+    url: https://github.com/ME495-EmbeddedSystems/baxter_examples.git
+    version: noetic-devel
   baxter_interface:
     type: git
     url: https://github.com/ME495-EmbeddedSystems/baxter_interface.git

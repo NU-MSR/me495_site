@@ -601,7 +601,8 @@ catkin_make
 <li>You will connect to the robot via Ethernet. First, some one-time setup to install the profile</li>
 </ol>
 <pre><code># Download the Network manager profile
-sudo curl -L https://nu-msr.github.io/Rethink &gt; /etc/NetworkManager/system-connections/Rethink
+sudo curl -L https://nu-msr.github.io/me495_site/Rethink &gt; /tmp/Rethink
+sudo cp /tmp/Rethink /etc/NetworkManager/system-connections/Rethink
 # Set the ownership and permissions
 sudo chown root:root /etc/NetworkManager/system-connections/Rethink
 sudo chmod 600 /etc/NetworkManager/system-connections/Rethink
@@ -609,8 +610,8 @@ sudo chmod 600 /etc/NetworkManager/system-connections/Rethink
 sudo systemctl restart NetworkManager
 
 # Append the IP address to your hosts file. This way you can resolve baxter.local and sawyer.local on your machine
-echo &quot;10.42.0.2 baxter.local&quot; | tee -a /etc/hosts
-echo &quot;10.42.0.2 sawyer.local&quot; | tee -a /etc/hosts
+echo &quot;10.42.0.2 baxter.local&quot; | sudo tee -a /etc/hosts
+echo &quot;10.42.0.2 sawyer.local&quot; | sudo tee -a /etc/hosts
 </code></pre>
 <ol>
 <li>With the robot on and the ethernet cord plugged in, you can connect to the robot by doing
