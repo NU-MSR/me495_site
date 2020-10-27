@@ -516,7 +516,7 @@ table td {
 
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
-<p>The Baxter and Sawyer robots from <a href="http://rethinkrobotics.com">Rethink Robotics</a> are manufacturing robots designed to operate around people. Both robots use series elastic actuators (SEAs) in all their joints, meaning that there is an elastic element (e.g., a spring) between the gearbox and the joint. These actuators add mechanical compliance, enabling easier force control at the expense of position control bandwidth.</p>
+<p>The Baxter and Sawyer robots from <a href="http://rethinkrobotics.com">Rethink Robotics</a> are manufacturing robots designed to operate around people. Both robots use <a href="https://ieeexplore.ieee.org/document/525827">series elastic actuators (SEAs)</a> in all their joints, meaning that there is an elastic element (e.g., a spring) between the gearbox and the joint. These actuators add mechanical compliance, enabling easier force control at the expense of position control bandwidth.</p>
 <h2 id="documentation">Documentation</h2>
 <ul>
 <li><a href="https://sdk.rethinkrobotics.com/intera/Main_Page">Sawyer Wiki</a></li>
@@ -758,7 +758,7 @@ unset ROS_HOSTNAME
 <p>Now imagine that you want drag the rod along the wall. You move the rod against the wall. However, what if your position measurement is slightly imprecise? You think the rod tip is 0.001 inches away from the wall when it is actually touching. Your controller will continue to try to move that extra 0.001 inches, pushing into the wall. To accomplish this task the stiff rod (or the wall) will need to deform by 0.001 inches; however, because they are stiff this deformation requires a lot of force, which you will feel in your hand. Thus, a small error in position can cause a large force on the motor (your hand).</p>
 <h3 id="series-elastic-actuator">Series Elastic Actuator</h3>
 <p>Now imagine that the tip of the rod is connected to your hand via a spring. As you move your hand around, the tip will bounce around on the spring, unless you move really slowly. Thus you experience lower positional bandwidth and precision for the location of the rod tip.</p>
-<p>However, when you go to move the rod against the wall, as soon as you make contact the spring will start to compress. Thus, even if your position controller thinks the tip is 0.001 inches away from the wall when it is actually touching, it can move the extra 0.001 inch easily: the spring will simply compress an amount according to its stiffness (assumed to be significantly less than the stiff rod). Furthermore, measuring the spring's displacement will tell use the applied force.</p>
+<p>However, when you go to move the rod against the wall, as soon as you make contact the spring will start to compress. Thus, even if your position controller thinks the tip is 0.001 inches away from the wall when it is actually touching, it can move the extra 0.001 inch easily: the spring will simply compress an amount according to its stiffness (assumed to be significantly less than the stiff rod). Furthermore, measuring the spring's displacement will tell you the applied force.</p>
 <h1 id="moveit-for-baxter-and-sawyer">MoveIt for Baxter and Sawyer</h1>
 <ul>
 <li><a href="https://sdk.rethinkrobotics.com/wiki/MoveIt_Tutorial">Baxter MoveIt</a></li>
