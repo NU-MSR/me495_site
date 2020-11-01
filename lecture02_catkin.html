@@ -546,6 +546,7 @@ table td {
 <li><a href="#creating">Creating</a></li>
 <li><a href="#package.xml">package.xml</a></li>
 <li><a href="#cmakelists.txt">CMakeLists.txt</a></li>
+<li><a href="#python-packages">Python Packages</a></li>
 <li><a href="#package-layout">Package Layout</a></li>
 <li><a href="#custom-messages-and-services">Custom Messages and Services</a></li>
 <li><a href="#catkin-lint">catkin lint</a></li>
@@ -688,7 +689,10 @@ table td {
 <ul>
 <li>This allows you to start your python scripts with the shebang <code>#!/usr/bin/env python3</code> and have catkin replace it with the proper shebang for the system.</li>
 </ul></li>
-<li><p>If you create a python package under <code>src/&lt;pkg&gt;</code> then you should</p>
+</ul>
+<h2 id="python-packages">Python Packages</h2>
+<ul>
+<li>If you create a python package under <code>src/&lt;pkg&gt;</code> then you should <a href="http://docs.ros.org/en/noetic/api/catkin/html/howto/format2/python_nose_configuration.html">configure your package for python</a>
 <ol>
 <li><p>Create a <code>setup.py</code> in the <code>&lt;pkg&gt;</code> directory. It looks like</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="im">from</span> setuptools <span class="im">import</span> setup</span>

@@ -517,6 +517,7 @@ table td {
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
 <p>The Baxter and Sawyer robots from <a href="http://rethinkrobotics.com">Rethink Robotics</a> are manufacturing robots designed to operate around people. Both robots use <a href="https://ieeexplore.ieee.org/document/525827">series elastic actuators (SEAs)</a> in all their joints, meaning that there is an elastic element (e.g., a spring) between the gearbox and the joint. These actuators add mechanical compliance, enabling easier force control at the expense of position control bandwidth.</p>
+<p><a href="https://www.youtube.com/watch?v=b6cEKkunT7A">Promotional Video for Baxter</a></p>
 <h2 id="documentation">Documentation</h2>
 <ul>
 <li><a href="https://sdk.rethinkrobotics.com/intera/Main_Page">Sawyer Wiki</a></li>
@@ -650,6 +651,7 @@ unset ROS_HOSTNAME
 export ROS_IP=10.42.0.1
 unset ROS_HOSTNAME
 </code></pre></li>
+<li><p>Source the rethink workspace: <code>source rethink_ws/devel/setup.bash</code></p></li>
 <li><p>When you run <code>rosnode list</code> you should see a bunch of nodes running on the baxter/sawyer</p></li>
 <li><p>Echo joint states: <code>rostopic echo /robot/joint_states</code></p>
 <ul>
