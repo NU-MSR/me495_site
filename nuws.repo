@@ -23,10 +23,6 @@ repositories:
     type: git
     url: https://github.com/ros-planning/panda_moveit_config
     version: melodic-devel
-  realsense_gazebo_plugin:
-    type: git
-    url: https://github.com/pal-robotics/realsense_gazebo_plugin.git
-    version: melodic-devel
   rqt_tf_tree:
     type: git
     url: https://github.com/ros-visualization/rqt_tf_tree.git
