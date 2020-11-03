@@ -468,7 +468,7 @@ table td {
 <ul>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#cameras-on-linux">Cameras On Linux:</a></li>
-<li><a href="#ros-camera-drivers">ROS Camera Drivers</a>
+<li><a href="#ros-camera-drivers">ROS Camera "Drivers"</a>
 <ul>
 <li><a href="#using-usb_cam">Using usb_cam</a></li>
 <li><a href="#using-libuvc_camera">Using libuvc_camera</a></li>
@@ -507,17 +507,19 @@ table td {
 <li>You often need to specify these parameters to the ROS camera node, as parameters</li>
 </ul></li>
 <li><code>v4l2-ctl --all</code> prints all information about your cameras</li>
+<li><code>v4l2-ctl --list-devices</code> Lists all the usb cameras. Some cameras have multiple <code>/dev/video*</code> devices so it is useful to see what goes with what</li>
 <li>When working with cameras you should use <a href="http://www.reactivated.net/writing_udev_rules.html">udev rules</a> to give your cameras the proper permissions and a persistent name.</li>
+<li>More information can be found here: <a href="https://www.kernel.org/doc/html/latest/driver-api/media/v4l2-core.html">V4l2</a></li>
 </ul>
-<h1 id="ros-camera-drivers">ROS Camera Drivers</h1>
-<p>The two main libraries for accessing basic USB cameras in ROS:</p>
+<h1 id="ros-camera-drivers">ROS Camera "Drivers"</h1>
 <ol>
-<li><a href="https://wiki.ros.org/usb_cam">usb_cam</a></li>
-<li><a href="https://wiki.ros.org/libuvc_camera">libuvc_camera</a></li>
+<li><a href="https://wiki.ros.org/usb_cam">usb_cam</a> The main and most up-to-date ROS camera driver. Try this one first and prefer it to the others.</li>
+<li><a href="http://wiki.ros.org/cv_camera">cv_camera</a> A camera driver that uses OpenCV to open the camera. So if you can use your camera in open CV this node should work</li>
+<li><a href="https://wiki.ros.org/libuvc_camera">libuvc_camera</a> (not released for noetic)</li>
 </ol>
 <p>Depending on your camera, one may work better than the other: libuvc is for cameras that follow the UVC standard (most modern webcameras) and usb_cam uses the v4l framework (video for linux).</p>
 <ul>
-<li>These camera nodes access your camera via the video device file</li>
+<li>These camera nodes access your camera via the video device file (<code>/dev/videoX</code>)</li>
 <li>These camera "drivers" accept several private parameters for setting camera options and formats.
 <ul>
 <li>Essentially, the node reads from the camera and publishes an image message</li>
@@ -535,7 +537,7 @@ table td {
 <h2 id="using-usb_cam">Using usb_cam</h2>
 <ol>
 <li>The camera is one of the <code>/dev/videoX</code> devices</li>
-<li>Run the <code>usb_cam</code> node. The basic parameters for the system76 laptop are: <code>rosrun usb_cam usb_cam_node _pixel_format:=yuyv</code></li>
+<li>Run the <code>usb_cam</code> node. The basic parameters for most webcams are: <code>rosrun usb_cam usb_cam_node _pixel_format:=yuyv</code></li>
 <li><code>rosrun image_view image_view image:=/usb_cam/raw_image</code> to view</li>
 <li>You can also view the image in <code>rviz</code> or <code>rqt_image_view</code></li>
 </ol>
@@ -555,7 +557,7 @@ table td {
 <li>Start with the <a href="https://wiki.ros.org/libuvc_camera">launchfile</a> provided on the wiki and edit it to match your camera settings</li>
 </ol>
 <h1 id="the-image-pipeline">The Image Pipeline</h1>
-<p><a href="http://wiki.ros.org/image_pipeline">image_pipeline</a> contains several packages relating to image manipulation in ROS. The idea is to chain various calibration and image processing steps together to complete computer vision tasks. The pipeline also applies to stereo-vision cameras and 3D point clouds.</p>
+<p><a href="http://wiki.ros.org/image_pipeline">image_pipeline</a> contains several packages relating to image manipulation in ROS. The idea is to chain various calibration and image processing steps together to complete computer vision tasks. The pipeline also applies to stereo-vision cameras and 3D point clouds as well as monocular images.</p>
 <p><a href="http://wiki.ros.org/camera_calibation">Camera Calibration</a></p>
 <ul>
 <li>Finds the intrinsic parameters of a camera using a checkerboard pattern and OpenCV.</li>
@@ -603,7 +605,10 @@ table td {
 <li>If you want to use opencv with ROS, you should use this package</li>
 </ul></li>
 <li><a href="http://wiki.ros.org/opencv_apps">opencv_apps</a> Each "app" is a node that performs a single image processing function using opencv. Thus you can chain together many computer vision algorithms by connecting some nodes together in a launchfile.</li>
-<li><a href="https://wiki.ros.org/image_geometry">image_geometry</a> Using a camera calibration, lets you convert between pixel coordinates and the other frames in your system.</li>
+<li><a href="https://wiki.ros.org/image_geometry">image_geometry</a> Using a camera calibration, lets you convert between pixel coordinates and the other frames in your system.
+<ul>
+<li><a href="http://docs.ros.org/en/melodic/api/image_geometry/html/python/">Python API documentation</a></li>
+</ul></li>
 </ol>
 <h1 id="tag-tracking">Tag Tracking</h1>
 <p>Tags are special 2-Dimensional patterns that are designed to be viewed with a camera. Computer vision algorithms can then determine the 6 Degree of freedom pose of the tag and often an identifier (thus Tags are like QR codes but they also contain geometric information.</p>
@@ -612,7 +617,7 @@ table td {
 <li><a href="http://wiki.ros.org/apriltag_ros">apriltag_ros</a></li>
 <li><a href="https://april.eecs.umich.edu/software/apriltag">Information on the Theory of April Tags</a></li>
 </ul>
-<p>Prior to the invention of April tags, AR tags were a popular choice for tag tracking</p>
+<p>Prior to the invention of April tags, AR tags were a popular choice for tag tracking. These were popular enough at a time that many people (included me) still say "AR tag". If I say this, please correct me, I mean April tags. I see no reason to use this package over apriltag_ros, but you may encounter other packages that use it.</p>
 <ul>
 <li><a href="http://wiki.ros.org/ar_track_alvar">ar_track_alvar</a></li>
 </ul>
@@ -625,7 +630,9 @@ table td {
 <li><a href="http://wiki.ros.org/find_object_2d">Find object 2D</a> Feature detection to find objects</li>
 </ol>
 <h1 id="example-image-processing">Example Image Processing</h1>
-<p>Make a new workspace and clone <a href="https://github.com/m-elwin/me495_image.git">https://github.com/m-elwin/me495_image.git</a></p>
+<ul>
+<li>See <a href="https://github.com/m-elwin/me495_image.git">https://github.com/m-elwin/me495_image.git</a></li>
+</ul>
 </div>
 <div class="footer">
 Author: Matthew Elwin.
