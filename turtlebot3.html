@@ -672,7 +672,7 @@ export ROS_HOSTNAME=&lt;hostname&gt;.local
 <li>If you are connected via the <code>ad_hoc</code> wireless network, then it is easy for the time on the <code>turtlebot</code> to get out of sync.
 <ul>
 <li>This will mess up timestamps, for example, when using <code>tf</code></li>
-<li>To resynchronize the time with your pc run <code>ssh ubuntu@turtlebot.local "sudo date -s $(date +'%T')"</code></li>
+<li>To resynchronize the time with your pc run <code>ssh ubuntu@turtlebot.local sudo date -s @`(date -u +"%s" )`</code></li>
 </ul></li>
 <li>Always properly poweroff your turtlebot to prevent SD card corruption.
 <ul>
