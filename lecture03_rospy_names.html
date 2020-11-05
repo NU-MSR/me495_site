@@ -609,7 +609,10 @@ table td {
 </ul></li>
 <li>Nodes can be launched in any namespace
 <ul>
-<li>The change can be done in a launchfile or by setting the <code>ROS_NAMESPACE</code> environment variable</li>
+<li>The change can be done in a launchfile or by setting the <code>ROS_NAMESPACE</code> environment variable
+<ul>
+<li>For example: <code>ROS_NAMESPACE=mynamespace rosrun mypkg mynode</code> will run mynode in the mynamespace namespace</li>
+</ul></li>
 <li>If your node uses relative names, you can then change the node namespace to group everything from a given node.</li>
 <li>This is useful, for example, if you have two nodes from different packages that publish on the same topics but you don't want to connect them.</li>
 </ul></li>

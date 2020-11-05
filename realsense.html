@@ -8,7 +8,7 @@ Modified by Matthew Elwin.
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <meta name="author" content="Matthew Elwin" />
-<title>3-D Sensing</title>
+<title>Intel Realsense D435i</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -466,24 +466,12 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#depth-image">Depth Image</a>
+<li><a href="#description">Description</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#firstrun">First Run</a>
 <ul>
-<li><a href="#structured-light">Structured Light</a></li>
-<li><a href="#stereo-depth">Stereo Depth</a></li>
-<li><a href="#time-of-flight">Time of Flight</a></li>
+<li><a href="#install-from-source">Install From Source</a></li>
 </ul></li>
-<li><a href="#point-clouds">Point Clouds</a>
-<ul>
-<li><a href="#how-to-point-cloud">How To Point Cloud</a></li>
-</ul></li>
-<li><a href="#devices-that-generate-point-clouds">Devices that Generate Point Clouds</a>
-<ul>
-<li><a href="#intel-realsense">Intel RealSense</a></li>
-<li><a href="#using-the-realsense-in-ros">Using the Realsense In ROS</a></li>
-</ul></li>
-<li><a href="#pcl-in-python">PCL in Python</a></li>
-<li><a href="#demonstration">Demonstration</a></li>
-<li><a href="#resources">Resources</a></li>
 </ul>
 </nav>
 
@@ -495,100 +483,80 @@ table td {
     <div class="no-foot">
 <!-- Put the header to the right of the table of contents -->
 <header id="title-block-header">
-<h1 class="title">3-D Sensing</h1>
+<h1 class="title">Intel Realsense D435i</h1>
 </header>
 
 <!-- The main content of the file -->
-<h1 id="depth-image">Depth Image</h1>
-<p>A depth image or depth map is a 2D dimensional image where each pixel value corresponds to the distance of an object from the camera. There are several methods for generating a depth image.</p>
-<h2 id="structured-light">Structured Light</h2>
+<h1 id="description">Description</h1>
+<p>The <a href="https://www.intelrealsense.com/depth-camera-d435i">Intel RealSense D435i</a> is an RGB-D depth camera with an integrated inertial measurement unit (IMU). These cameras provide robots with a 3 dimensional view of the world allowing you to create algorithms that reason about 3D structures. The addition of an IMU helps the system orient itself when moving.</p>
+<h1 id="installation">Installation</h1>
+<p>There are two components required to use the RealSense from ROS: the library (<a href="https://github.com/IntelRealSense/librealsense">librealsense</a>) and the ROS wrapper (<a href="https://github.com/IntelRealSense/realsense-ros">realsense-ros</a>).</p>
+<p>As these packages are not yet released for Ubuntu 20.04 or <code>noetic</code> I have created a custom <code>.deb</code> for you to install:</p>
 <ol>
-<li>An active light emitter outputs a pattern</li>
-<li>Objects deform the pattern</li>
-<li>Image sensor senses the pattern and, using the distortion, computes the depth map</li>
-<li>Good for indoors and short range, because they require seing the projected patterns.</li>
-<li>Can be interfered with when, for example, there are multiple devices outputting patterns</li>
+<li><p>Install the realsense library:</p>
+<pre><code>curl -L https://drive.google.com/uc?id=1zPS8Q84a59-GDaZKQuR4KwtUS3zzoc56 &gt; /tmp/nurealsense.deb
+sudo apt install /tmp/nurealsense.deb
+</code></pre></li>
+<li><p>Go to your <code>nuws</code> and clone the realsense ros package, and build the workspace:</p>
+<pre><code>cd ~/nuws/src
+git clone -b v2.2.17 https://github.com/InterlRealSense/realsense-ros.git
+cd ../
+catkin_make
+</code></pre></li>
 </ol>
-<h2 id="stereo-depth">Stereo Depth</h2>
+<p>You may now skip ahead to <a href="#firstrun">First Run</a>.</p>
+<h1 id="firstrun">First Run</h1>
 <ol>
-<li>Two images taken some known fixed distance apart</li>
-<li>By comparing the images taken from known different angles, the depth can be known</li>
-<li>The farther an object is from the sensors, the more similar the two images are</li>
-<li>No active light emission is required so they do not interfere with each other.</li>
-<li>Range is limited by distance between the two sensors.</li>
-<li>Active IR can be used to create known features and enhance the accuracy</li>
+<li>Plug in your Realsense. Make sure it is a USB 3 port</li>
+<li>run <code>realsense-viewer</code></li>
+<li>Ignore the prompt to update the firmware</li>
+<li>If you turn on the RBG camera and stereo module you should be streaming 3D point clouds!</li>
 </ol>
-<h2 id="time-of-flight">Time of Flight</h2>
-<ul>
-<li>LiDar</li>
-<li>Measure depth by emitting light and timing how long it takes to reach the sensor</li>
-<li>Very long range</li>
-</ul>
-<h1 id="point-clouds">Point Clouds</h1>
-<ul>
-<li>A Point Cloud is a group of 3 dimensional coordinates (points) that constitute a discrete description of 3-dimensional objects.</li>
-<li>The <a href="https://pointclouds.org">point cloud library</a> contains routines for manipulating point clouds</li>
-<li><a href="https://wiki.ros.org/perception_pcl">perception pcl</a> ROS meta-package for point clouds</li>
-<li><a href="http://wiki.ros.org/pcl_ros/Tutorials">Point Cloud Tutorials</a></li>
-</ul>
-<h2 id="how-to-point-cloud">How To Point Cloud</h2>
+<p>If you have problems let me know. I recommend against updating firmware at the moment but here is how to:</p>
 <ol>
-<li>A depth map provides the distance from the camera in pixel coordinates</li>
-<li>Using a camera calibration, this depth map is converted into real-world x,y,z coordinates</li>
-<li>The pixels can be superimposed with data taken from an RGB camera to provide a 3D image</li>
+<li>On the left pane, click the More menu (hamburger menu) and select "Hardware Reset"</li>
+<li>Under the more menu select "Install Recommended firmware". Be patient, it takes a while.</li>
+<li>Restart the <code>realsense-viewer</code>. Under info you can view your firmware version (mine is 05.12.07.100)</li>
 </ol>
-<h1 id="devices-that-generate-point-clouds">Devices that Generate Point Clouds</h1>
-<ul>
-<li>Lidars/Laser Scanners <a href="http://wiki.ros/org/velodyne">Velodyne</a> <a href="http://wiki.ros.node/urg_node">SCIP 2.2 laser range-finders</a></li>
-<li>Stereo Cameras
-<ul>
-<li><a href="https://www.stereolabs.com/zed/">ZED</a></li>
-<li><a href="https://www.flir.com/support/products/bumblebee2-firewire/?page=4#Overview">Bumblebee 2</a></li>
-</ul></li>
-<li>Depth Cameras
-<ul>
-<li><a href="http://www.intelrealsense.com">RealSense</a></li>
-<li><a href="http://wiki.ros.org/openni2_launch">opennni</a> (Like the Asus Xtion 2)</li>
-<li>Kinect for Box 360 using <a href="http://wiki.ros.org/freenect_launch">freenect_launch</a></li>
-<li>Kinect for Xbox One using <a href="https://github.com/code-iai/iai_kinect2">iai_kinect2</a></li>
-</ul></li>
-</ul>
-<h2 id="intel-realsense">Intel RealSense</h2>
-<ul>
-<li>The <a href="https://www.intelrealsense.com/depth-camera-d435i/">Intel Realsense D435i</a> is an active stereo depth camera</li>
-<li>The realsense drivers and library are not yet released for Ubuntu 20.04 and the ros package is not yet released for ROS noetic</li>
-<li>Follow my <a href="./realsense.html">instructions</a> for installation</li>
-</ul>
-<h2 id="using-the-realsense-in-ros">Using the Realsense In ROS</h2>
-<p>There are 3 ways of using the realsense in ROS. Official documentation is here for using SDK 2.0: <a href="https://dev.intelrealsense.com/docs/docs-get-started">https://dev.intelrealsense.com/docs/docs-get-started</a></p>
-<ol>
-<li>Use <code>librealsense</code> from C++</li>
-<li>Use <code>librealsense</code> python wrappers</li>
-<li>Use the ROS node: For example, <code>roslaunch realsense2_camera rs_camera.launch filters:=pointcloud</code>.
-<ul>
-<li>This is the easiest version to use for the most part</li>
-<li>Usage instructions are on the github page <a href="https://github.com/IntelRealSense/realsense-ros">https://github.com/IntelRealSense/realsense-ros</a></li>
-<li>Visualize the pointcloud by adding a PointCloud2 object in rviz</li>
-</ul></li>
-<li>There are some <a href="https://github.com/ros-visualization/rviz/issues/1508">Bugs</a> in rviz on some systems for seeing pointclouds.
-<ul>
-<li>Here is what I observed
-<ol>
-<li>Running =rviz –opengl 300 fixes most of the issues (point cloud is visible but it gets messed up when window is maximized)</li>
-<li>Running =rviz –opengl 210 fixes most of the issues (point cloud is visible but it gets messed up when window is maximized)</li>
-<li>Running <code>rviz</code> you need to set the visualization type to <code>points</code> and make sure the window is not maximized to avoid this issue</li>
-</ol></li>
-<li>Recommendation: run rviz with the <code>--opengl 300</code> flag when you want to view point clouds</li>
-</ul></li>
-</ol>
-<h1 id="pcl-in-python">PCL in Python</h1>
-<ul>
-<li>You can install python bindings for pcl using pip (<code>pip3 install python-pcl</code>)</li>
-</ul>
-<h1 id="demonstration">Demonstration</h1>
-<p>The following code demonstrates using some basic pcl "nodelets". Nodelets are essentially ROS nodes that can all be run in a single process to reduce communication overhead. The <a href="https://github.com/NU-MSR/nodelet_pcl_demo">Nodelet PCL demo</a> shows you how to combine several built-in nodelets to filter point cloud data. There is then a C++ node that uses the point cloud library (PCL) to perform additional processing.</p>
-<h1 id="resources">Resources</h1>
-<p><a href="https://www.intelrealsense.com/beginners-guide-to-depth/">Beginner's guide to depth</a></p>
+<h2 id="install-from-source">Install From Source</h2>
+<p>STOP! You do not need these instructions. They are for reference, if you wish to install the realsense from source instead of from the binary package I have provided.</p>
+<h3 id="librealsense">librealsense</h3>
+<p>Compile the library</p>
+<pre><code>git clone https://github.com/IntelRealSense/librealsense.git
+cd librealsense
+git checkout v2.38.1
+cmake -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_PYTHON_BINDINGS:bool=true .
+cd build
+make -j8
+</code></pre>
+<p>Create the installation script, called <code>makeit</code> and place it in <code>build/</code></p>
+<pre><code>#!/usr/bin/env bash
+cd ..
+./scripts/setup_udev_rules.sh
+cd build
+make install
+mv /usr/lib/python3/dist-packages/pyrealsense2/*.so /usr/lib/python3/dist-packages
+mv /usr/lib/python3/dist-packages/pyrealsense2/*.so.* /usr/lib/python3/dist-packages
+</code></pre>
+<p>Make the script executable: <code>chmod 755 makeit</code></p>
+<p>Run <code>checkinstall</code> to create the package <code>sudo checkinstall --pkgname=northwestern-librealsense ./makeit</code></p>
+<h3 id="librealsense-ros">librealsense-ros</h3>
+<pre><code>mkdir -p ~/noetic/src
+cd ~/noetic/src
+git clone https://github.com/IntelRealSense/realsense-ros.git
+# I use the development branch, commit e273f04
+cd ..
+rosdep install --from-paths src --ignore-src -r -y 
+catkin_make -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_INSTALL_PREFIX=/opt/ros/noetic
+cd build
+</code></pre>
+<p>Next create the <code>makeit</code> script</p>
+<pre><code>#!/usr/bin/env bash
+source /opt/ros/noetic/setup.bash
+make install
+</code></pre>
+<p><code>chmod 755 makeit</code></p>
+<p>Finally, <code>sudo checkinstall --pkgname=ros-northwestern-realsense-ros --exclude</code>"<em>opt/ros/noetic</em>.rosinstall,/opt/ros/noetic/.catkin,/opt/ros/noetic/local_setup.bash,/opt/ros/noetic/local_setup.sh,/opt/ros/noetic/local_setup.zsh,/opt/ros/noetic/setup.bash,/opt/ros/noetic/setup.sh,/opt/ros/noetic/_setup_util.py,/opt/ros/noetic/setup.zsh" ./maket= Be sure to exclude the files in the home directory</p>
 </div>
 <div class="footer">
 Author: Matthew Elwin.
