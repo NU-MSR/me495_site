@@ -470,7 +470,7 @@ table td {
 <li><a href="#devices-that-generate-point-clouds">Devices that Generate Point Clouds</a></li>
 <li><a href="#intel-realsense">Intel RealSense</a>
 <ul>
-<li><a href="#installation">Installation</a></li>
+<li><a href="#using-the-realsense-in-ros">Using the Realsense In ROS</a></li>
 </ul></li>
 <li><a href="#pcl-in-python">PCL in Python</a></li>
 <li><a href="#demonstration">Demonstration</a></li>
@@ -499,7 +499,11 @@ table td {
 <h1 id="devices-that-generate-point-clouds">Devices that Generate Point Clouds</h1>
 <ul>
 <li>Lidars/Laser Scanners <a href="http://wiki.ros/org/velodyne">Velodyne</a> <a href="http://wiki.ros.node/urg_node">SCIP 2.2 laser range-finders</a></li>
-<li>Stereo Cameras</li>
+<li>Stereo Cameras
+<ul>
+<li><a href="https://www.stereolabs.com/zed/">ZED</a></li>
+<li><a href="https://www.flir.com/support/products/bumblebee2-firewire/?page=4#Overview">Bumblebee 2</a></li>
+</ul></li>
 <li>Depth Cameras
 <ul>
 <li><a href="http://www.intelrealsense.com">RealSense</a></li>
@@ -509,42 +513,35 @@ table td {
 </ul></li>
 </ul>
 <h1 id="intel-realsense">Intel RealSense</h1>
-<h2 id="installation">Installation</h2>
 <ul>
-<li><p><a href="https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages">Official Instructions</a></p></li>
-<li><p>Condensed Instructions:</p>
-<pre><code>sudo apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
-sudo add-apt-repository &quot;deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main&quot; -u
-sudo apt-get install librealsense2-dkms librealsense2-utils librealsense2-dev librealsense2-dbg
-# Plug In RealSense
-realsense-viewer
-# Make sure it is plugged into a USB 3 port!
-# The port type is shown in the upper left corner of the realsense viewer
-</code></pre></li>
-<li><p>Install the ROS Package</p>
-<ol>
-<li>RealSense is not released for melodic, so you will have to clone the repository and compile it yourself.</li>
-<li>You can use this <a href="./realsense.rosinstall">realsense.rosinstall</a> file
-<ul>
-<li>You will also need to install <code>ros-melodic-ddynamic-reconfigure</code></li>
-</ul></li>
-<li>We are accumulating quite a few packages that have not been released for <code>melodic</code>. How exactly you deal with this issue is a personal preference
-<ol>
-<li>Separate workspace for each group of packages (e.g., baxter, sawyer, realsense)</li>
-<li>All rosinstall files for these dependencies merged into a single workspace</li>
-<li>Add the individual dependencies to the rosinstall files of your individual projects</li>
-</ol>
-I usually combine 2 and 3 (so I have a workspace for all "third-party packages not released on melodic" and each project that depends on one of these packages has these dependencies provided in their <code>rosinstall</code> file, to make it easier for users to compile the code.</li>
-</ol></li>
-<li><p>To get pointclouds: <code>roslaunch realsense2_camera rs_camera.launch filters: = pointcloud</code></p>
-<ul>
-<li>Visualize in Rviz</li>
-</ul></li>
+<li>The realsense drivers and library are not yet released for Ubuntu 20.04 and the ros package is not yet released for ROS noetic</li>
+<li>Follow my <a href="./realsense.html">instructions</a> for installation</li>
 </ul>
+<h2 id="using-the-realsense-in-ros">Using the Realsense In ROS</h2>
+<p>There are 3 ways of using the realsense in ROS. Official documentation is here for using SDK 2.0: <a href="https://dev.intelrealsense.com/docs/docs-get-started">https://dev.intelrealsense.com/docs/docs-get-started</a></p>
+<ol>
+<li>Use <code>librealsense</code> from C++</li>
+<li>Use <code>librealsense</code> python wrappers</li>
+<li>Use the ROS node: For example, <code>roslaunch realsense2_camera rs_camera.launch filters:=pointcloud</code>.
+<ul>
+<li>This is the easiest version to use for the most part</li>
+<li>Usage instructions are on the github page <a href="https://github.com/IntelRealSense/realsense-ros">https://github.com/IntelRealSense/realsense-ros</a></li>
+<li>Visualize the pointcloud by adding a PointCloud2 object in rviz</li>
+</ul></li>
+<li>There are some <a href="https://github.com/ros-visualization/rviz/issues/1508">Bugs</a> in rviz on some systems for seeing pointclouds.
+<ul>
+<li>Here is what I observed
+<ol>
+<li>Running =rviz –opengl 300 fixes most of the issues (point cloud is visible but it gets messed up when window is maximized)</li>
+<li>Running =rviz –opengl 210 fixes most of the issues (point cloud is visible but it gets messed up when window is maximized)</li>
+<li>Running <code>rviz</code> you need to set the visualization type to <code>points</code> and make sure the window is not maximized to avoid this issue</li>
+</ol></li>
+<li>Recommendation: run rviz with the <code>--opengl 300</code> flag when you want to view point clouds</li>
+</ul></li>
+</ol>
 <h1 id="pcl-in-python">PCL in Python</h1>
 <ul>
-<li>You can install python bindings for pcl using pip (<code>pip install python-pcl</code>)</li>
-<li>Currently, there are some <a href="https://github.com/strawlab/python-pcl/issues/296">issues</a> installing this on Ubuntu 18.04</li>
+<li>You can install python bindings for pcl using pip (<code>pip3 install python-pcl</code>)</li>
 </ul>
 <h1 id="demonstration">Demonstration</h1>
 <p>The following code demonstrates using some basic pcl "nodelets". Nodelets are essentially ROS nodes that can all be run in a single process to reduce communication overhead. The <a href="https://github.com/NU-MSR/nodelet_pcl_demo">Nodelet PCL demo</a> shows you how to combine several built-in nodelets to filter point cloud data. There is then a C++ node that uses the point cloud library (PCL) to perform additional processing.</p>
