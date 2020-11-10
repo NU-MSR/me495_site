@@ -500,6 +500,10 @@ table td {
 <li><a href="#grasping">Grasping</a></li>
 <li><a href="#fake-controller">Fake Controller</a></li>
 </ul></li>
+<li><a href="#debugging-checklist">Debugging Checklist</a>
+<ul>
+<li><a href="#moviet">Moviet</a></li>
+</ul></li>
 </ul>
 </nav>
 
@@ -909,6 +913,26 @@ unset ROS_HOSTNAME
 <li>You can use this in conjunction with <code>rviz</code> to visualize and debug your robot without gazebo when working on kinematic tasks.</li>
 <li>Baxter has <a href="https://github.com/ros-planning/moveit_robots/blob/kinetic-devel/baxter/baxter_moveit_config/launch/demo_dummy.launch">demo_dummy.launch</a> to help launch in this mode.</li>
 </ul>
+<h1 id="debugging-checklist">Debugging Checklist</h1>
+<ol>
+<li>Is the Robot On?</li>
+<li>Is the ethernet cable plugged in?</li>
+<li>Is the network up with <code>nmcli con up Rethink</code>?</li>
+<li>Can you ping the robot?</li>
+<li>Is the Rethink workspace sourced?</li>
+<li>Are the <code>ROS_IP</code> and <code>ROS_MASTER_URI</code> and <code>ROS_HOSTNAME</code> variables set properly?</li>
+<li>Is the robot enabled?
+<ul>
+<li>Check the <code>estop</code></li>
+<li>Check the robot state <code>enable_robot.py -s</code></li>
+</ul></li>
+</ol>
+<h2 id="moviet">Moviet</h2>
+<ol>
+<li>Is the <code>joint_trajectory_action_server</code> running?</li>
+<li>Does the <code>SRDF and URDF match the actual robot
+  - Grippers must be accounted for using the =mutable_robot_state_publisher</code></li>
+</ol>
 </div>
 <div class="footer">
 Author: Matthew Elwin.
