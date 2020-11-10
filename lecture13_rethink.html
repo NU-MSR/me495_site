@@ -712,14 +712,19 @@ unset ROS_HOSTNAME
 <p>Note: if you have your <code>ROS_MASTER_URI</code> and <code>ROS_IP</code> setup correctly you can ignore parts about running <code>baxter.sh</code> or the <code>RSDK shell</code></p>
 <h2 id="baxter">Baxter</h2>
 <ul>
+<li><a href="https://sdk.rethinkrobotics.com/wiki/Robot_Components">Baxter Physical Hardware</a></li>
 <li><a href="https://sdk.rethinkrobotics.com/wiki/Home">Baxter SDK Wiki</a></li>
-<li><a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Baxter API Reference</a></li>
-<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">Baxter ROS API Reference</a></li>
+<li><a href="https://sdk.rethinkrobotics.com/wiki/Foundations">Foundations of Baxter</a> gives a broad overview of the various Baxter programming possibilities</li>
+<li><a href="https://sdk.rethinkrobotics.com/wiki/Baxter_Research_Robot_Software_Developers_Kit_(SDK)">Baxter SDK overview</a></li>
+<li><a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Baxter API Reference</a> useful python API for controlling baxter</li>
+<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">Baxter ROS API Reference</a> control baxter with ros messages and services</li>
 <li><a href="https://sdk.rethinkrobotics.com/wiki/Advanced_Understanding">Baxter Advanced Understanding</a> (Not too advanced for you!)</li>
 </ul>
 <h2 id="sawyer">Sawyer</h2>
 <ul>
+<li><a href="https://sdk.rethinkrobotics.com/intera/Hardware_Components">Sawyer Physical Hardware</a></li>
 <li><a href="https://sdk.rethinkrobotics.com/intera/Main_Page">Sawyer SDK Wiki</a></li>
+<li><a href="https://sdk.rethinkrobotics.com/intera/SDK_System_Overview">Sawyer SDK Overview</a></li>
 <li><a href="https://sdk.rethinkrobotics.com/intera/API_Reference">Sawyer ROS API Reference</a></li>
 <li><a href="https://rethinkrobotics.github.io/intera_sdk_docs/5.1.0/intera_interface/html/index.html">Sawyer Python API</a></li>
 </ul>
@@ -764,7 +769,10 @@ unset ROS_HOSTNAME
 <li>baxter.sh is an example of the Rethink Setup script that I do not use because I set my ROS environment variables manually</li>
 <li><code>roslaunch baxter_gazebo baxter_world.launch</code></li>
 </ul></li>
-<li><p><a href="https://sdk.rethinkrobotics.com/intera/Gazebo_Tutorial">Sawyer Gazebo Tutorial</a></p></li>
+<li><p><a href="https://sdk.rethinkrobotics.com/intera/Gazebo_Tutorial">Sawyer Gazebo Tutorial</a></p>
+<ul>
+<li><code>roslaunch sawyer_gazebo sawyer_world.launch</code></li>
+</ul></li>
 <li><p>The simulated robots use the same API's as the real robots. However, your <code>ROS_MASTER_URI</code> should be <code>http://localhost:11311</code> and <code>ROS_IP</code> unset for you to use the simulator.</p></li>
 <li><p>Do not run gazebo while connected to the robots, especially if your <code>ROS_MASTER_URI</code> is set to the robot's IP</p>
 <ul>

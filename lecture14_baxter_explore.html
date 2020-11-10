@@ -467,7 +467,6 @@ table td {
 <h3>Table of Contents</h3>
 <ul>
 <li><a href="#overview">Overview</a></li>
-<li><a href="#layers-of-the-robot">Layers of the Robot</a></li>
 <li><a href="#the-simulator">The Simulator</a>
 <ul>
 <li><a href="#experimenting">Experimenting</a></li>
@@ -479,7 +478,6 @@ table td {
 </ul></li>
 <li><a href="#moving-an-arm">Moving an Arm</a></li>
 <li><a href="#tips">Tips:</a></li>
-<li><a href="#exercise-1">Exercise:</a></li>
 </ul>
 </nav>
 
@@ -496,21 +494,7 @@ table td {
 
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
-<p>When approaching a robot for the first time, you must read documentation, read example source code, and perform experiments to become familiar with it's features. This document guides you in how to learn about Baxter, using the task of being able to move the robot arm to a desired location. The <a href="./lecture13_rethink.html">previous lecture</a> describes how to setup the robots and provides other reference material.</p>
-<h1 id="layers-of-the-robot">Layers of the Robot</h1>
-<p>There are three layers to Baxter:</p>
-<ol>
-<li><a href="https://sdk.rethinkrobotics.com/wiki/Robot_Components">Physical Hardware</a></li>
-<li><a href="http://sdk.rethinkrobotics.com/wiki/API_Reference">ROS API</a>
-<ul>
-<li>Use ROS topics and services to directly control the robot</li>
-</ul></li>
-<li><a href="http://api.rethinkrobotics.com/baxter_interface/html/index.html">Python API</a>
-<ul>
-<li>Python wrapper around many of the ROS topics and services</li>
-</ul></li>
-</ol>
-<p>For an overview see <a href="https://sdk.rethinkrobotics.com/wiki/Foundations">Foundations</a></p>
+<p>When approaching a robot for the first time, you must read documentation, read example source code, and perform experiments to become familiar with it's features. This document guides you in how to learn about Baxter and Sawyer by going through an example using the baxter simulator. The <a href="./lecture13_rethink.html">previous lecture</a> describes how to setup the robots and provides other reference material.</p>
 <h1 id="the-simulator">The Simulator</h1>
 <ul>
 <li><a href="https://sdk.rethinkrobotics.com/wiki/Baxter_Simulator">The Baxter Simulator</a> provides a safe method of testing out ideas.</li>
@@ -585,11 +569,6 @@ r = baxter_interface.robot_enable.RobotEnable()
 <ul>
 <li>You can use the source code for <code>baxter_interface</code> to help understand the meanings of some fields in messages, since it is just a thin wrapper around the ROS API</li>
 <li>For example, after creating a Limb object, <code>joint_names()</code> provides the name of each joint</li>
-</ul>
-<h1 id="exercise-1">Exercise:</h1>
-<ul>
-<li>Repeat the above with Sawyer</li>
-<li>Open and close the grippers using both ROS messages and the python API</li>
 </ul>
 </div>
 <div class="footer">
