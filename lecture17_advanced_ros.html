@@ -1,0 +1,645 @@
+<!-- Generated with pandoc -D html
+Modified by Matthew Elwin.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<meta name="author" content="Matthew Elwin" />
+<title>Advanced ROS</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+</style>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+<![endif]-->
+<style type="text/css">
+/*
+Matthew Elwin
+css for the nume template for making websites
+
+Contains code modified from with https://gist.github.com/killercup/5917178
+Mostly using the aesthetics from above, but added a table of contents menu to the left.
+When printing, the menu will be hidden
+
+*/
+
+
+nav#TOC{
+    width: 20%;
+    height: 100%;
+    position:fixed!important;
+    z-index:1;
+    overflow:auto;
+    padding-right: 2em;
+}
+
+.home_up{
+    position: fixed;
+    right: 0.25em;
+    top: 0.25em;
+}
+.content{
+    margin-left: 21%;
+    padding-left: 4em;
+}
+
+.inner{
+    margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+}
+
+.no-foot{
+    min-height: 100vh 
+}
+
+.container:after,.container:before{content:"";display:table;clear:both}
+
+.footer {
+    font-size: 9pt
+}
+
+html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  padding: 0;
+}
+
+body {
+  font-family: "DejaVu Serif", Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  background: #fefefe;
+}
+
+a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #0b0080;
+}
+
+nav a:visited {
+    color: #0645ad;
+}
+
+a:hover {
+  color: #06e;
+}
+
+nav a:hover {
+    color: #0645ad;
+    background: #C3C3DE
+}
+
+a:active {
+  color: #faa700;
+}
+
+a:focus {
+  outline: thin dotted;
+}
+
+*::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+*::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+}
+
+p {
+  margin: 1em 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 1em;
+  font-weight: normal;
+}
+
+h4, h5, h6 {
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h1.title {
+    margin-top: 0em;
+    font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+h6 {
+  font-size: 0.9em;
+}
+
+blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+}
+
+pre, code, kbd, samp {
+    color: #000;
+    background-color: #f0f0f0;
+  border: 1px solid #e1e4e5;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  line-height: normal;
+}
+
+.line-block {
+    color: #000;
+    background-color: #f0f0f0;
+    border: 1px solid #e1e4e5;
+}
+/* this style is used for inline code blocks 
+it is overwridden when inside a pre format block*/
+code {
+    padding: 0 5px;
+    white-space: nowrap;
+    font-size: 85%
+}
+
+pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+pre code {
+    padding: 0 0;
+    white-space: inherit;
+    border: 0
+}
+
+b, strong {
+  font-weight: bold;
+}
+
+dfn {
+  font-style: italic;
+}
+
+ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+}
+
+mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+}
+
+li > ul, li > ol {
+    margin: 0 0;
+}
+
+nav ul, nav ol {
+    list-style: none;
+    padding: 0 0 0 0;
+}
+
+/* make the top level list item in table of contents not indent*/
+nav li > ul, nav li > ol {
+    list-style: none;
+    padding: 0 0 0 2em;
+}
+
+li p:last-child {
+  margin-bottom: 0;
+}
+
+ul ul, ol ol {
+  margin: .3em 0;
+}
+
+dl {
+  margin-bottom: 1em;
+}
+
+dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+
+dd {
+  margin: 0 0 .8em 2em;
+}
+
+dd:last-child {
+  margin-bottom: 0;
+}
+
+img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+figure img {
+  border: none;
+  margin: 0 auto;
+}
+
+figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+}
+
+table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+}
+
+table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.author {
+  font-size: 1.2em;
+}
+
+/* When the screen gets too narrow, hide the toc*/
+@media only screen and (max-width: 768px) {
+    nav {
+        visibility: hidden
+    }
+    .content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) {
+  body {
+      font-size: 14px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  nav {
+      visibility: hidden;
+  }
+
+  .content{
+      margin-left: 0%;
+      padding-left: 10px;
+  }
+
+  body {
+    font-size: 10pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+}
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+}
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+</style> 
+</head>
+<body>
+
+<!-- Sidebar for table of contents -->
+<nav id="TOC" role="doc-toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#actions">Actions</a>
+<ul>
+<li><a href="#defining-the-action">Defining the Action</a></li>
+</ul></li>
+<li><a href="#dynamic-reconfigure">Dynamic Reconfigure</a>
+<ul>
+<li><a href="#using-dynamic-reconfigure">Using Dynamic Reconfigure</a></li>
+<li><a href="#uses-of-dynamic-reconfigure">Uses of Dynamic Reconfigure</a></li>
+</ul></li>
+<li><a href="#nodelets">Nodelets</a></li>
+<li><a href="#remote-nodes">Remote Nodes</a>
+<ul>
+<li><a href="#basic-networking">Basic Networking</a></li>
+<li><a href="#my-preferred-network-setup">My preferred network setup</a></li>
+<li><a href="#launchfiles">Launchfiles</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<nav class="home_up">
+  <a href="index.html">Home</a>
+</nav>
+<div class="content">
+  <div class="inner">
+    <div class="no-foot">
+<!-- Put the header to the right of the table of contents -->
+<header id="title-block-header">
+<h1 class="title">Advanced ROS</h1>
+</header>
+
+<!-- The main content of the file -->
+<h1 id="overview">Overview</h1>
+<p>These notes cover some more advanced ROS issues that you may encounter from time to time.</p>
+<h1 id="actions">Actions</h1>
+<p><a href="https://wiki.ros.org/actionlib">Actions</a> allow you to</p>
+<ol>
+<li>Initiate a request (like a service)</li>
+<li>Receive ongoing feedback (like a subscriber)</li>
+<li>Cancel the request (like another service)</li>
+<li>Get a result (like a service)</li>
+</ol>
+<p>Like a ROS service, ROS actions have a client that initiates a request and a server that processes that request and provides a response. Just as a ROS service has a client andhas a <em>Request</em> and a <em>Response</em>, an action has the following components</p>
+<ol>
+<li>Goal: An <a href="http://wiki.ros.org/actionlib#Python_SimpleActionClient">ActionClient</a> sends the goal to initiate the action on the <a href="http://wiki.ros.org/actionlib#Python_SimpleActionServer">ActionServer</a>
+<ul>
+<li>For example: <code>Client sends MOVE ROBOT ARM TO (X,Y,Z) to Server</code> to initiate the arm moving</li>
+</ul></li>
+<li>Feedback: This is data that an action server sends to the client while the server is executing the action
+<ul>
+<li>For example, while the arm is moving <code>Server sends ROBOT ARM AT (location) to Client</code></li>
+</ul></li>
+<li>Result: When the action is completed, the server sends information about the result
+<ul>
+<li>For example, <code>Server sends ARM FINISHED MOVING to client</code></li>
+</ul></li>
+</ol>
+<h2 id="defining-the-action">Defining the Action</h2>
+<p>Just like messages and services, actions are also defined in a file using the same syntax as messages and services. The Goal, Feedback, and Result types are separated by <code>---</code>. For example</p>
+<pre><code>uint32 the_goal
+---
+uint32 the_result
+---
+uint32 the_feedback
+</code></pre>
+<h3 id="building-the-action">Building the Action</h3>
+<p>Just like for messages and services, you must edit <code>CMakeLists.txt</code> and <code>package.xml</code> to build an action:</p>
+<ol>
+<li>Use <code>add_action_files(DIRECTORY action files MyAction.action)</code></li>
+<li><code>&lt;depend&gt;</code> on <code>actionlib_msgs</code> and <code>actionlib</code> in the <code>package.xml</code></li>
+</ol>
+<h3 id="using-actions">Using Actions</h3>
+<ul>
+<li>The code API reference is <a href="http://docs.ros.org/en/noetic/api/actionlib/html/">here</a>, and there are examples on the <a href="http://wiki.ros.org/actionlib">Wiki</a> page</li>
+<li>Use the <code>action</code> library to create action clients and servers.</li>
+</ul>
+<p>Actions are very flexible, since goals can be preempted and feedback provided. There are many <a href="http://wiki.ros.org/actionlib/Tutorials">tutorials</a>. Most of the tutorials are in C++ but the API is similar for python.</p>
+<h1 id="dynamic-reconfigure">Dynamic Reconfigure</h1>
+<p><a href="http://wiki.ros.org/dynamic_reconfigure">Dynamic Reconfigure</a> is an extension to ROS parameters that can be updated at runtime.</p>
+<ol>
+<li>Usually, a node will read parameters once at startup. If you subsequently change a parameter it will not take effect until the node is restarted.</li>
+<li>Dynamic reconfigure enables your node to update the parameters when the parameters change. It also provides client programs such as <code>dynparam</code> that allow a user to change these parameters at runtime or <code>rosrun rqt_reconfigure rqt_reconfigure</code> which is a Gui version.</li>
+<li>Dynamically reconfigured parameters are typically accessed through the <a href="http://docs.ros.org/en/melodic/api/dynamic_reconfigure/">Python API</a></li>
+<li>The <a href="http://wiki.ros.org/dynamic_reconfigure/Tutorials">Dynamic Reconfigure Tutorial</a> provides an example of how to use dynamic reconfigure</li>
+</ol>
+<h2 id="using-dynamic-reconfigure">Using Dynamic Reconfigure</h2>
+<ol>
+<li>You must create a <code>.cfg</code> file. This file is actually an executable python file that uses the dynamic reconfigure API to define the parameters that should be dynamically reconfigured. This file</li>
+<li>The config file must be added in <code>CMakeLists.txt</code> to the <code>generate_dynamic_reconfigure_options</code> line</li>
+<li>You then create a Dynamic reconfigure server in your code. This code has a callback that receives parameter values when they are changed using the <code>dynamic_reconfigure</code> client tools.</li>
+</ol>
+<h2 id="uses-of-dynamic-reconfigure">Uses of Dynamic Reconfigure</h2>
+<ol>
+<li>Dynamic reconfigure is very useful for nodes that have parameters that are constant but need to be <code>tuned</code> by the user</li>
+<li>Sometimes it is easier to just have these values modified by a regular ROS service or subscriber, but using dynamic reconfigure allows you to take advantage of all the client tools (including GUI's) to change these values.</li>
+<li>Examples of items that it may be useful to dynamically reconfigure include control system gains and thresholds for vision processing algorithms</li>
+</ol>
+<h1 id="nodelets">Nodelets</h1>
+<ul>
+<li><a href="http://wiki.ros.org/nodelet">Nodelets</a> essentially allow you to run multiple ROS nodes within the same process</li>
+<li>When nodes are in the same process, they do not need to copy data when sending/receiving messages.</li>
+<li>These need to be written in C++, but you may encounter nodelets that you use (such as for point cloud processing)</li>
+<li>Think of nodelets as essentially a way of enabling the ROS API abstractions without most of the overhead</li>
+</ul>
+<h1 id="remote-nodes">Remote Nodes</h1>
+<ul>
+<li>ROS nodes can be running on multiple computers</li>
+<li><code>roscore</code> always runs on a single computer, and nodes connect to it via the environment variable <code>ROS_MASTER_URI</code>.
+<ul>
+<li>Typically, <code>ROS_MASTER_URI=http://&lt;hostname&gt;:11311</code></li>
+</ul></li>
+<li>To be fully functional, ROS requires all computers on the network to be able to directly communicate with each other</li>
+</ul>
+<h2 id="basic-networking">Basic Networking</h2>
+<ul>
+<li>Every network device has an IP address.</li>
+<li>Every computer on the network has a hostname.</li>
+<li>In a properly configured network, the <code>hostname</code> will resolve (that is be associated with) the ip address of the computer.</li>
+<li>If each host computer in the network has a <code>hostname</code>, and all <code>hostnames</code> are resolvable on the network then you can specify the <code>ROS_MASTER_URI</code> using the <code>hostname</code>, and every ROS node will just work
+<ul>
+<li>If the computer on which you are running a node is not accessible via its hostname you must either
+<ul>
+<li>Set the environment variable <code>ROS_IP</code> to the ip address of the computer</li>
+<li>Set the environment <code>ROS_HOSTNAME</code> to the hostname of the computer</li>
+<li>DO NOT SET <code>ROS_HOSTNAME</code> or <code>ROS_IP</code> simultaneously</li>
+</ul></li>
+</ul></li>
+<li>If you cannot easily get hostnames resolved (such as you don't control the router) there are other options
+<ul>
+<li>Avahi (also known as zero conf) is a decentralized method for resolving hostnames. When every computer on a local network is running avahi, you can resolve hostnames via <code>hostname.local</code></li>
+</ul></li>
+<li>If hostnames cannot be easily resolved you can either
+<ol>
+<li>Hardcode IP addresses and set <code>ROS_IP</code></li>
+<li>Use the <code>/etc/hosts</code> file to associate hostnames with static ip addresses</li>
+</ol></li>
+</ul>
+<h2 id="my-preferred-network-setup">My preferred network setup</h2>
+<ul>
+<li>The easiest way to do handle the network is to connect everything to a router running <a href="https://openwrt.org/">OpenWrt</a>.</li>
+<li>By default <code>OpenWrt</code> configures a Domain Name Server (DNS) to resolve all hostnames connected to the router</li>
+<li>Upon discovering this, I exclusively by routers that <a href="https://openwrt.org/supported_devices">support OpenWrt</a> since most consumer-level devices with the default firmware do not have DNS running</li>
+</ul>
+<h2 id="launchfiles">Launchfiles</h2>
+<ul>
+<li>The <code>&lt;machine&gt;</code> tag lets you define a remote machine a launchfile</li>
+<li>You can then refer to the <code>machine</code> when you launch a node.</li>
+<li>Thus, a single launchfile can launch nodes across multiple machines</li>
+<li>You should be able to <code>ssh</code> into the remote machines using a private key in order to launch nodes on that machine.</li>
+<li>To run a node on a remote machine, the compiled version of that node (or the python script) must reside on the remote machine</li>
+</ul>
+<h3 id="a-trick">A Trick</h3>
+<p>You can take advantage of some properties of launch files to make development easier.</p>
+<ol>
+<li>Make sure that your ROS packages properly install and generate the install space</li>
+<li>Write a script that copies your install space to a remote machine
+<ul>
+<li>This script will make sure that the latest nodes that you use are on the remote machine</li>
+</ul></li>
+<li>Load the output of this script into the parameter server using the <code>rosparam</code> tag
+<ul>
+<li>This is guaranteed to execute prior to any nodes being launched</li>
+</ul></li>
+<li>The script has now copied the <code>install</code> space to the remote machine. Now the nodes you are developing will be on the remote machine
+<ul>
+<li>The <code>env-loader</code> script can be the <code>env.sh</code> from the install space that you just copied over</li>
+</ul></li>
+</ol>
+</div>
+<div class="footer">
+Author: Matthew Elwin.
+</div>
+</div>
+</div>
+
+</body>
+</html>

@@ -466,9 +466,15 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#overview">Overview</a></li>
+<li><a href="#overview">Overview</a>
+<ul>
+<li><a href="#tutorials">Tutorials</a></li>
+</ul></li>
 <li><a href="#main-components">Main Components</a></li>
+<li><a href="#configuration">Configuration</a>
+<ul>
 <li><a href="#semantic-robot-description-format">Semantic Robot Description Format</a></li>
+</ul></li>
 <li><a href="#interfacing-with-the-robot">Interfacing with the Robot</a></li>
 <li><a href="#kinematics">Kinematics</a>
 <ul>
@@ -483,16 +489,10 @@ table td {
 <li><a href="#pre-and-post-processing">Pre and Post Processing</a></li>
 </ul></li>
 <li><a href="#collision-detection">Collision Detection</a></li>
-<li><a href="#baxter-and-sawyer">Baxter and Sawyer</a>
+<li><a href="#key-configuration-files">Key Configuration Files</a>
 <ul>
-<li><a href="#important-configuration-files">Important Configuration Files</a></li>
-<li><a href="#launch-files">Launch Files</a></li>
-<li><a href="#grasped-mass">Grasped Mass</a></li>
-<li><a href="#trajectory-execution-speed">Trajectory Execution Speed</a></li>
-<li><a href="#joint-trajectory-action-server">Joint Trajectory Action Server</a></li>
-<li><a href="#collision">Collision</a></li>
-<li><a href="#grasping">Grasping</a></li>
-<li><a href="#fake-controller">Fake Controller</a></li>
+<li><a href="#location">Location</a></li>
+<li><a href="#files">Files</a></li>
 </ul></li>
 <li><a href="#learning-moveit">Learning MoveIt</a></li>
 </ul>
@@ -511,8 +511,13 @@ table td {
 
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
-<p><a href="https://moveit.ros.org/">MoveIt!</a> is ROS's most advanced and flexible library for motion planning and manipulatin tasks. It integrates state-of-the-art inverse kinematics solvers, path planning algorithms, and collision detection into a single, unified ROS interface.</p>
+<p><a href="https://moveit.ros.org/">MoveIt!</a> is ROS's most advanced and flexible library for motion planning and manipulation tasks. It integrates state-of-the-art inverse kinematics solvers, path planning algorithms, and collision detection into a single, unified ROS interface.</p>
 <p>This document provides a general overview and a practical guide, specifically targeted toward the projects done in the Embedded Systems in Robotics course at Northwestern University.</p>
+<h2 id="tutorials">Tutorials</h2>
+<ul>
+<li>The <a href="https://ros-planning.github.io/moveit_tutorials/">Tutorials for MoveIt!</a> are useful, so take a look.</li>
+<li>I recommended Quickstart, Move Group Python Interface</li>
+</ul>
 <h1 id="main-components">Main Components</h1>
 <ul>
 <li><code>move_group</code> node.
@@ -520,16 +525,29 @@ table td {
 <li>The main node used by MoveIt</li>
 <li>Reads all of the configuration files</li>
 <li>Coordinates all the pieces of the motion-planning pipeline</li>
+<li>You can control moveit using this node's ROS API, but for most tasks there is an easier way</li>
 </ul></li>
-<li><code>moveit_commander</code> this is the Python API that is used to simplify interaction with the <code>move_group</code> node, rather than directly using the <code>move_group</code> ROS API
+<li><code>move_group</code> (python) this is the Python API that is used to simplify interaction with the <code>move_group</code> node, rather than directly using the <code>move_group</code> ROS API
 <ul>
 <li>See a tutorial <a href="http://docs.ros.org/melodic/api/moveit_tutorials/html/doc/move_group_python_interface/move_group_python_interface_tutorial.html">here</a></li>
+<li>This is suitable for many common path-planning tasks</li>
 </ul></li>
-<li><code>move_group_interface</code> is like <code>moveit_commander</code> but for C++</li>
-<li><code>rviz plugin</code> MoveIt has special plugins for <code>rviz</code> to interactively perform motion planning. Mostly useful for debugging as in your programs you will likely be initiating motion planning from code.</li>
-<li><code>MoveIt! ROS</code> Lower level access to core MoveIt! components directly via <code>C++</code>.</li>
+<li><code>move_group</code> (C++) Is the C++ version of the python API
+<ul>
+<li>MoveIt is definitely a C++ first package. It is written in C++ and has python wrappers using the ROS API</li>
+<li>Therefore to get the most out of MoveIt using the C++ API is a must (beyond the scope of this class however)</li>
+</ul></li>
+<li><code>rviz plugin</code> MoveIt has special plugins for <code>rviz</code> to interactively perform motion planning. Mostly useful for debugging as in your programs you will likely be initiating motion planning from code.
+<ul>
+<li>When you install moveit, there will be special MoveIt display types that you can add to <code>rviz</code></li>
+</ul></li>
+<li><code>MoveItCpp</code> High-level c++ interface that does not use ROS messages as much.
+<ul>
+<li>Good for advanced users</li>
+</ul></li>
 </ul>
-<h1 id="semantic-robot-description-format">Semantic Robot Description Format</h1>
+<h1 id="configuration">Configuration</h1>
+<h2 id="semantic-robot-description-format">Semantic Robot Description Format</h2>
 <ul>
 <li>An <a href="https://wiki.ros.org/srdf">srdf</a> describes information about your robot to help with motion planning</li>
 <li>Accompanies the <code>urdf</code> and describes additional information about the joints and links</li>
@@ -541,7 +559,7 @@ table td {
 </ul></li>
 <li>Both <code>urdf</code> and <code>srdf</code> files are usually written with <code>xacro</code></li>
 <li>The <a href="https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html">MoveIt Setup Assistant</a> can be used to create an SRDF</li>
-<li>The Baxter and Sawyer moveit packages already come with <code>srdf</code> files
+<li>The Baxter and Sawyer and Interbotix moveit packages already come with <code>srdf</code> files
 <ul>
 <li>You may need to pass the proper parameters or even edit these files for your project</li>
 </ul></li>
@@ -554,6 +572,7 @@ table td {
 <ul>
 <li>Low-level controllers are used to turn the trajectory into actual movements</li>
 <li>Both Baxter and Sawyer provide the appropriate action server and low-level controllers</li>
+<li>Interbotix ROS arms provide the same things, except they put themselves in a namespace (<code>px100</code> for the pincherX 100)</li>
 </ul></li>
 </ul>
 <h1 id="kinematics">Kinematics</h1>
@@ -583,7 +602,7 @@ table td {
 <li>Produces good solutions quickly</li>
 <li>Difficult to setup, not applicable to all robots</li>
 <li><a href="http://www.programmingvision.com/rosen_diankov_thesis.pdf">The Theory behind IKFast</a></li>
-<li>Baxter and Sawyer have IKFast plugins</li>
+<li>Baxter and Sawyer have IKFast plugins. Not the easiest to setup but they do produce better results in many cases</li>
 </ul>
 <h2 id="trac_ik">Trac_IK</h2>
 <ul>
@@ -609,8 +628,9 @@ table td {
 <li>Start location (of the joint or end-effector)</li>
 <li>End Location (of the joint or end-effector)</li>
 <li>Kinematic constraints</li>
+<li>The results can be returned as a path or sent directly to the <code>control_msgs/FollowJointTrajectory</code> server.</li>
+<li>Much of what is done with the <code>move_group</code> node can more easily be done directly with the <code>moveit</code> python API</li>
 </ul>
-<p>The results can be returned as a path or sent directly to the <code>control_msgs/FollowJointTrajectory</code> server.</p>
 <h2 id="pre-and-post-processing">Pre and Post Processing</h2>
 <ul>
 <li>Adapters are used to pre- and post-process the motion plans</li>
@@ -640,123 +660,30 @@ table td {
 <li>Eliminate unnecessary collision checks in the SRDF</li>
 </ul></li>
 </ul>
-<h1 id="baxter-and-sawyer">Baxter and Sawyer</h1>
+<h1 id="key-configuration-files">Key Configuration Files</h1>
+<h2 id="location">Location</h2>
 <ul>
-<li>Baxter's moveit configuration is in the <code>moveit_robots</code> package
+<li>Most projects have similar configuration files that are loaded.</li>
+<li>However, configuration varies based on what robot you are using</li>
+<li>Configuration comes with the robot, however, sometimes it makes sense to modify the default configuration to better meet your needs</li>
+<li>Most configuration is done through the rosparam server
 <ul>
-<li>Clone into your source space from <code>https://github.com/ros-planning/moveit_robots.git</code></li>
-<li>Add to your <code>rosinstall</code> file</li>
-<li>As your project progresses, you may wish to fork their repository and modify some of the configuration files
-<ul>
-<li>If you fork, remember to create a <code>rosinstall</code> file.</li>
-</ul></li>
-<li>You may also copy some of these files (with attribution) to keep your project in a single git repository
-<ul>
-<li>If you go with this option, only take the files you need to modify</li>
-<li>Unlike most other cases, your modifications are likely only useful for your particular project so contributing to upstream does not make sense</li>
-<li>Having the files in your own project will make it harder to incorporate beneficial changes from upstream</li>
-</ul></li>
-</ul></li>
-<li>Sawyer's moveit configuration is in the <code>sawyer_movit</code> package
-<ul>
-<li>Clone into your source space from <code>https://github.com/RethinkRobotics/sawyer_moveit.git</code></li>
-<li>Add to your <code>rosinstall</code> file</li>
-<li>As your project progresses, you may wish to fork their repository and modify some of the configuration files
-<ul>
-<li>You may also copy these files into your repository instead of forking (with proper attribution)</li>
-</ul></li>
-</ul></li>
-<li>Baxter: configuration and launch files are located in (respectively):
-<ul>
-<li><a href="https://github.com/ros-planning/moveit_robots/tree/kinetic-devel/baxter/baxter_moveit_config/config">moveit_robots/baxter/baxter_moveit_config/config</a></li>
-<li><code>moveit_robots/baxter/baxter_moveit_config/launch</code></li>
-</ul></li>
-<li>Sawyer: configuration and launch files are located in (respectively):
-<ul>
-<li><code>sawyer_moveit_config/config</code></li>
-<li><code>sawyer_moveit_config/launch</code></li>
+<li>This means, if you are careful, you can override configuration values at startup in launchfiles</li>
+<li>Often it is easier to fork the package and modify configuration directly</li>
 </ul></li>
 </ul>
-<h2 id="important-configuration-files">Important Configuration Files</h2>
+<h2 id="files">Files</h2>
 <ul>
-<li><code>baxter.srdf.xacro</code> / <code>sawyer.srdf.xacro</code>: Defines several "move groups", groups of joints that are controlled and planned for together. It requires several arguments to configure properly (for example, what grippers are installed)
+<li><code>robot_name.srdf.xacro</code> This is the <code>srdf</code> for the robot. Groups joints together, turns off collision detection, etc</li>
+<li><code>kinematics.yaml</code> determines which kinematics plugins to use and their settings</li>
+<li><code>ompl_planning.yaml</code> Settings for OMPL. Often you have to search through the source code to determine what a parameter does.
 <ul>
-<li>The <code>srdf</code> must match the <code>urdf</code> being used by <code>baxter=/=sawyer</code>.</li>
-<li>The <code>urdf</code> is changed using the <code>mutable_robot_state_publisher</code> depending on the status of its grippers.</li>
-<li>If the <code>urdf</code> and <code>srdf</code> are not in sync, you will have the grippers constantly in collision with the last arm joint and be unable to motion plan (that is at least one negative affect)</li>
+<li>Looking at the code for the MoveIt Setup Assistant helps: <a href="https://github.com/ros-planning/moveit/blob/master/moveit_setup_assistant/src/tools/moveit_config_data.cpp">moveit_config_data.cpp</a></li>
 </ul></li>
-<li><code>kinematics.yaml</code> Provides options for the IK solvers. Both <code>baxter</code> and <code>sawyer</code> can use either IKFast or KDL but use KDL by default. To use a different solver, edit this file</li>
-<li><code>ompl_planning.yaml</code> Options for the motion planner. Many of these parameters require looking at the <code>OMPL</code> source code to understand as they are not well documented.
+<li><code>joint_limits.yaml</code> Joint velocity and acceleration limits
 <ul>
-<li>The MoveIT setup assistant tweaks these parameters so it is also documented in its <a href="https://github.com/ros-planning/moveit_setup_assistant/blob/e301d25cc63e0536a8aa59c7bc770f5a4953ac1b/src/tools/moveit_config_data.cpp#L301-L363">source code</a></li>
-<li>Baxter uses <a href="http://ompl.kavrakilab.org/classompl_1_1geometric_1_1RRTConnect.html">RRT Connect</a></li>
-<li>Sawyer's planner file also has good comments bout what the parameters do
-<ul>
-<li>it used the default <a href="http://ompl.kavrakilab.org/classompl_1_1geometric_1_1SBL.html">SBL planner</a></li>
+<li>The easiest (albeit hacky) way to slow your robot down is to temporarily edit this file</li>
 </ul></li>
-</ul></li>
-</ul>
-<h2 id="launch-files">Launch Files</h2>
-<ul>
-<li><code>move_group.launch</code> is the main launch file that includes many of the other launch files and eventually loads the configuration</li>
-<li>Do not expect the launch files to "just work".
-<ul>
-<li>You may be able to get them to work by passing the proper parameters</li>
-<li>You may need to include these launch files in other launch files, or fork and modify them</li>
-</ul></li>
-<li>Gripper settings:
-<ul>
-<li>Your URDF and SRDF must match with respect to the gripper settings to handle collisions properly</li>
-<li>For simulator, use arguments to <code>xacro</code> files, for real robots use the <code>mutable_robot_state_publisher</code></li>
-</ul></li>
-</ul>
-<h2 id="grasped-mass">Grasped Mass</h2>
-<ul>
-<li>Baxter (and Sawyer) can compensate for the weight of grasped objects. For Baxter see <a href="http://sdk.rethinkrobotics.com/wiki/Gripper_Customization#Gripped_Object_mass">here</a>. For Sawyer, assume it works like Baxter and do your best; it is not documented as far as I know.</li>
-</ul>
-<h2 id="trajectory-execution-speed">Trajectory Execution Speed</h2>
-<ul>
-<li>Especially at first, you will want your trajectories to move slowly</li>
-<li>Editing <code>joint_limits.yaml</code> is an effective hack for quick debugging, but ultimately that file should reflect the true capabilities of the robot.</li>
-<li>There is a <code>/move_group/trajectory_execution/execution_velocity_scaling</code> that can be used to slow down a trajectory. It has been known not to work and I"m not sure if it has been fixed</li>
-<li><a href="http://docs.ros.org/kinetic/api/moveit_tutorials/html/doc/time_parameterization/time_parameterization_tutorial.html">Time Parameterization</a> of your trajectory can be used to slow down the speed of the trajectory. Here is some python API documentation:
-<ul>
-<li><a href="http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html#a0c46ebb5a29bbfe84882f5f296352b90">set_max_acceleration_scaling_factor</a></li>
-<li><a href="http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html#a7706effa66a0847496de477cf219a562">set_max_velocity_scaling_factor</a></li>
-<li><a href="http://docs.ros.org/melodic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html#a53a40aed261338e6bc108ce7275030c6">retime_trajectory</a></li>
-</ul></li>
-</ul>
-<h2 id="joint-trajectory-action-server">Joint Trajectory Action Server</h2>
-<ul>
-<li>To use MoveIt with sawyer or baxter, you will want to have the Joint Trajectory Action Server running</li>
-<li>This server must be explicitly run</li>
-<li>It may interfere with normal commands, so you may need to start and stop this server as needed if you wish to use a combination of rethink's API and moveit in your project</li>
-</ul>
-<h2 id="collision">Collision</h2>
-<ul>
-<li>It is a good idea to put some basic collision objects in your planning scene, such as the table</li>
-<li>The easiest way is to use <code>moveit_commander.PlanningSceneInterface()</code> in python.
-<ul>
-<li>You can use this class to attach objects to the gripper once they've been picked up</li>
-<li>Thus, moveit can account for objects the robot is holding</li>
-</ul></li>
-<li>Baxter has demos for using the Asus <code>xtion</code> camera (with <code>demo_xtion.launch</code>) to find collisions in the environment
-<ul>
-<li>It is hopefully not to difficult to adjust for the RealSense, although we have <code>xtion</code> cameras as well</li>
-</ul></li>
-</ul>
-<h2 id="grasping">Grasping</h2>
-<ul>
-<li>MoveIt Has the ability to do grasping and pick and place.</li>
-<li>It is difficult to get this working and may or may not be worth the effort</li>
-</ul>
-<h2 id="fake-controller">Fake Controller</h2>
-<ul>
-<li>For a Kinematic simulation rather than needing gazebo you can use the <a href="http://docs.ros.org/melodic/api/moveit_tutorials/html/doc/fake_controller_manager/fake_controller_manager_tutorial.html?highlight=fake">Fake Controller package</a></li>
-<li>This enables you to use moveit without a separate action server.</li>
-<li>The movement will follow trajectory exactly and no dynamics are involved</li>
-<li>You can use this in conjunction with <code>rviz</code> to visualize and debug your robot without gazebo when working on kinematic tasks.</li>
-<li>Baxter has <a href="https://github.com/ros-planning/moveit_robots/blob/kinetic-devel/baxter/baxter_moveit_config/launch/demo_dummy.launch">demo_dummy.launch</a> to help launch in this mode.</li>
 </ul>
 <h1 id="learning-moveit">Learning MoveIt</h1>
 <ul>
@@ -773,7 +700,7 @@ table td {
 </ul></li>
 </ul></li>
 <li>To understand how MoveIt works, read about its <a href="http://moveit.ros.org/documentation/concepts/">concepts</a> (highly recommended).</li>
-<li><a href="https://ros-planning.github.io/moveit_tutorials/doc/move_group_python_interface/move_group_python_interface_tutorial.html">python_interface_tutorial</a></li>
+<li><a href="https://ros-planning.github.io/moveit_tutorials/doc/move_group_python_interface/move_group_python_interface_tutorial.html">Python Interface Tutorial</a></li>
 </ul>
 </div>
 <div class="footer">
