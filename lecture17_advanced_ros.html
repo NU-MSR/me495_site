@@ -470,6 +470,9 @@ table td {
 <li><a href="#actions">Actions</a>
 <ul>
 <li><a href="#defining-the-action">Defining the Action</a></li>
+<li><a href="#the-action-server">The Action Server</a></li>
+<li><a href="#the-action-client">The Action Client</a></li>
+<li><a href="#under-the-hood">Under the Hood</a></li>
 </ul></li>
 <li><a href="#dynamic-reconfigure">Dynamic Reconfigure</a>
 <ul>
@@ -543,6 +546,31 @@ uint32 the_feedback
 <li>Use the <code>action</code> library to create action clients and servers.</li>
 </ul>
 <p>Actions are very flexible, since goals can be preempted and feedback provided. There are many <a href="http://wiki.ros.org/actionlib/Tutorials">tutorials</a>. Most of the tutorials are in C++ but the API is similar for python.</p>
+<h2 id="the-action-server">The Action Server</h2>
+<ul>
+<li>Action server creates a callback</li>
+<li>The callback should perform the task and periodically send feedback and check for pre-emption</li>
+<li>See the <a href="http://wiki.ros.org/actionlib_tutorials/Tutorials/Writing%20a%20Simple%20Action%20Server%20using%20the%20Execute%20Callback%20%28Python%29">Tutorial</a> for details</li>
+</ul>
+<h2 id="the-action-client">The Action Client</h2>
+<ul>
+<li>To start an action, you send it a goal, as per <a href="http://wiki.ros.org/actionlib_tutorials/Tutorials/Writing%20a%20Simple%20Action%20Client%20%28Python%29">this tutorial</a></li>
+<li>There are many options when calling an action <a href="http://docs.ros.org/en/noetic/api/actionlib/html/classactionlib_1_1simple__action__client_1_1SimpleActionClient.html">See API Docs</a>
+<ul>
+<li>For example, you can poll or you can use callbacks to get the results</li>
+</ul></li>
+</ul>
+<h2 id="under-the-hood">Under the Hood</h2>
+<ul>
+<li>Actions are implemented using ROS messages. So you can set a goal by publishing to a ROS topic
+<ul>
+<li>This is mostly for convenience when interacting from the command line</li>
+</ul></li>
+<li>The <code>actionlib_tools</code> package (not installed by default) contains a tool called <code>axclient.py</code>:
+<ul>
+<li><code>rosrun actionlib_tools.py /action/topic/name</code> will launch a GUI for controlling the action</li>
+</ul></li>
+</ul>
 <h1 id="dynamic-reconfigure">Dynamic Reconfigure</h1>
 <p><a href="http://wiki.ros.org/dynamic_reconfigure">Dynamic Reconfigure</a> is an extension to ROS parameters that can be updated at runtime.</p>
 <ol>
