@@ -527,13 +527,14 @@ table td {
 <li>Create a launchfile called <code>nav_stack.launch</code> that uses <code>amcl</code> to localize your robot and the ROS navigation stack to allow the robot to move using the map created in the previous step.
 <ul>
 <li>Move the robot by setting 2D navigation goals in <code>Rviz</code></li>
-<li>Create a screenshot showing the plan being executed in RViz and include in the <code>README.md</code>.
+<li>Create a screencast showing the plan being executed in RViz and include a link to it in the <code>README.md</code>.
 <ul>
 <li>The robot, the motion plan, the map from SLAM, the global and local costmaps should be visible.</li>
 <li>You should show the Path that is planned</li>
-<li><code>rviz</code> as launched by the <code>turtlebot3</code> navigation launchfiles shows the appropriate items already</li>
+<li><code>rviz</code> as launched by the <code>turtlebot3</code> navigation launchfiles shows the appropriate items already in the rviz window</li>
 </ul></li>
-<li>This step is essentially the same as the <code>turtlebot3</code> navigation tutorial except you are writing a launchfile to do it</li>
+<li>This step is essentially the same as the <code>turtlebot3</code> navigation tutorial except you are writing a single launchfile to do it.</li>
+<li>The launchfile does not need to be very long if you <code>&lt;include&gt;</code> other existing launchfiles.</li>
 </ul></li>
 <li>Create a launchfile called <code>slam_stack.launch</code> that runs all of the nav-stack components as in the previous step except instead of starting <code>amcl</code> and a pre-built map uses <code>slam_toolbox</code> to create the map while navigating
 <ul>
@@ -541,7 +542,7 @@ table td {
 <li>Capture a screencast and link to it in <code>README.md</code> of the following scenario:
 <ol>
 <li>You set a 2D navigation goal in an uncertain part of the map</li>
-<li>The path is planned, but there is actually a wall blocking the path</li>
+<li>The path is planned, but there is actually a (previously unseen) wall blocking the path</li>
 <li>The robot needs to replan to get to the goal using a different route</li>
 </ol></li>
 <li>Rviz should show everything from the previous step</li>
@@ -561,7 +562,7 @@ table td {
 </ul></li>
 <li>You can subscribe to the <code>/map</code> topic to get information about the robot's current knowledge of the environment
 <ul>
-<li>This topic is output by your SLAM method: in our case <code>slam_toolbox</code></li>
+<li>This topic is output by your SLAM method: in our case <code>slam_toolbox</code> and creates an occupancy map where <code>-1</code> represents unexplored areas.</li>
 </ul></li>
 </ul></li>
 </ol>
