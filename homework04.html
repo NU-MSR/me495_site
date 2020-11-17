@@ -466,10 +466,8 @@ table td {
 <nav id="TOC" role="doc-toc">
 <h3>Table of Contents</h3>
 <ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#image-processing">Image Processing</a></li>
+<li><a href="#logistics">Logistics</a></li>
 <li><a href="#navigation">Navigation</a></li>
-<li><a href="#hints">Hints</a></li>
 </ul>
 </nav>
 
@@ -485,74 +483,88 @@ table td {
 </header>
 
 <!-- The main content of the file -->
-<h1 id="overview">Overview</h1>
-<p>The same rules for turning in this assignment apply as for the previous assignments.</p>
+<h1 id="logistics">Logistics</h1>
 <ol>
-<li>Don't forget to commit to git often.</li>
-<li>Include a <code>README.md</code> that describes the nodes and launchfiles in your package.
-<ul>
-<li>Make sure your <code>README.md</code> is formatted correctly</li>
-</ul></li>
-<li>Remember to include docstrings in each node describing its ROS API</li>
-</ol>
-<h1 id="image-processing">Image Processing</h1>
-<ol>
-<li><p>Follow the instructions to obtain YOLO ROS, a package that enables real-time object detection in ROS: <a href="https://github.com/leggedrobotics/darknet_ros">https://github.com/leggedrobotics/darknet_ros</a></p></li>
-<li><p>Write a launchfile and rviz config files that sets up your webcamera and YOLO ROS to detect objects and view the results in RViz in real time.</p>
-<ul>
-<li>Include a screenshot of you using this in your README.md</li>
-<li>Downloading and compiling this package may take a while! Do something else while it compiles.</li>
-</ul></li>
+<li>Create a git repository using the link provided in Canvas.</li>
+<li>Your homework will be submitted via this git repository.</li>
+<li>I will grade whatever is on the <code>master</code> branch when I clone the repository.</li>
+<li><a href="./guidelines.html">Guidelines</a> provides important information about what you should turn-in, including information about your <code>README.md</code> file.</li>
 </ol>
 <h1 id="navigation">Navigation</h1>
-<p>The turtlebot3 tutorials (especially those related to simulation) will be a useful reference for you</p>
+<ul>
+<li>The goal is to use the turtlebot to map an environment and then navigate within the map using the <code>slam_toolbox</code>
+<ul>
+<li>SLAM <code>toolbox</code> is (as far as I know) the most advanced 2D SLAM method for ROS and the only one that is actively maintained.</li>
+</ul></li>
+<li>The <a href="https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/">turtlebot3 tutorials</a> and <a href="https://github.com/ROBOTIS-GIT/turtlebot3">source code</a> will be a useful reference for you.</li>
+<li>The <a href="https://github.com/SteveMacenski/slam_toolbox/tree/noetic-devel">Slam Toolbox</a> documentation and source code (for finding launch files) will also be useful. This package is released for <code>noetic</code> so you may install it from a binary package.</li>
+</ul>
 <ol>
-<li><p>Write a launchfile that loads the turtlebot3 in the house environment, loads <code>rviz</code> and visualizes it's laser scan, starts a teleoperation node, and gmapping.</p>
+<li>You may choose to do this assignment in either <code>gazebo</code>, the actual robot, or both.
+<ul>
+<li>It may be easier to do this in simulation and then transfer to the real robot</li>
+<li>Your launchfiles may assume that the user has separately ssh'd into the turtlebot and run <code>turtlebot3_bringup turtlebot3_robot.launch</code></li>
+</ul></li>
+<li>Write a launchfile called <code>start_slam.launch</code> that starts the turtlebot3 (either using <code>remote_bringup</code> or gazebo in the house environment), loads <code>rviz</code> and visualizes it's laser scan, starts a <code>turtlebot3_teleop</code> node, and the <a href="http://wiki.ros.org/slam_toolbox">slam_toolbox</a>.
 <ul>
 <li>You will need to set the <code>TURTLEBOT3_MODEL</code> environment variable to <code>burger</code> to use the launchfile</li>
-<li>Many of these actions can be accomplished by including appropriate launchfiles from <code>turtlebot3</code> packages. However, if you want more control you can use these launchfiles as inspiration rather than directly including them</li>
-<li>You should make sure that <code>rviz</code> shows the Map, the laser scan, and the robot.</li>
-<li>The fixed frame in rviz should be the map frame.</li>
+<li>You should make sure that <code>rviz</code> shows the Map, the laser scan, and the robot and the fixed frame in rviz should be the map frame.
+<ul>
+<li>The <code>turtlebot3</code> launchfiles that start <code>rviz</code> for doing SLAM already use the appropriate <code>rviz</code> configuration</li>
 </ul></li>
-<li><p>Drive the turtlebot3 throughout the interior of the house (at least two rooms) while running gmapping. Use the mapserver to save the map file. Include both the resulting <code>.yaml</code> file and <code>.pgm</code> file in your git repository.</p></li>
-<li><p>Create launchfile that uses <code>amcl</code> to localize your robot, using the map created in the previous step.</p>
+<li>You can try either synchronous mode (for most accurate results) or asynchronous mode (guaranteed real-time mapping)</li>
+<li>You can look at the <code>turtlebot3</code> (including <code>turtlebot3_bringup</code>, <code>turtlebot3_navigation</code> and <code>turtlebot3_gazebo</code>) and <code>slam_toolbox</code> for inspiration or include the appropriate launchfiles directly.</li>
+<li>Most of this task in particular can be done in a only a few lines if you include the appropriate <code>turtlebot3</code> launchfiles.
 <ul>
-<li>You should also launch the move_base so that you can use 2D navigation goals in rviz to move your robot.</li>
-<li>Use parameters to pass it a reasonable initial pose.</li>
-<li>Try to make the global or local planner fail</li>
-<li>Create a screenshot showing the plan being executed in RViz.
+<li><code>roscd slam_toolbox</code> and <code>ls</code> to see the <code>slam_toolbox</code> launchfiles</li>
+</ul></li>
+</ul></li>
+<li>Drive the turtlebot3 throughout its workspace while running slam_toolbox.
 <ul>
-<li>The robot, the motion plan, the static map, the costmap, and the costs for the global plan should be visible.</li>
+<li>End with the robot near it's starting position.</li>
+<li>Use the mapserver to save the map file. Include both the resulting <code>map.yaml</code> file and <code>map.pgm</code> file in your git repository.</li>
+</ul></li>
+<li>Create launchfile called <code>nav_stack.launch</code> that uses <code>amcl</code> to localize your robot and the ROS navigation stack to allow the robot to move using the map created in the previous step.
+<ul>
+<li>Move the robot by setting 2D navigation goals in <code>Rviz</code></li>
+<li>Create a screenshot showing the plan being executed in RViz and include in the <code>README.md</code>.
+<ul>
+<li>The robot, the motion plan, the map from SLAM, the global and local costmaps should be visible.</li>
 <li>You should show the Path that is planned</li>
+<li><code>rviz</code> as launched by the <code>turtlebot3</code> navigation launchfiles shows the appropriate items already</li>
 </ul></li>
+<li>This step is essentially the same as the <code>turtlebot3</code> navigation tutorial except you are writing a launchfile to do it</li>
 </ul></li>
-<li><p>After running the setup above, add some new obstacles into the gazebo world.</p>
+<li>Create a launchfile called <code>slam_stack.launch</code> that runs all of the nav-stack components as in the previous step except instead of starting <code>amcl</code> and a pre-built map uses <code>slam_toolbox</code> to create the map while navigating
 <ul>
-<li>Some obstacles should be added within sight of the laser scanner and can be immediately incorporated into the global plan</li>
-<li>Other obstacles that are not immediately visible will need to be avoided with local planning</li>
-<li>Send goals that require the robot to avoid the obstacles.</li>
-<li>Include a screenshot in your README.md of the turtlebot moving around an obstacle in rviz</li>
-<li>Create a new launchfile that loads the world with the additional obstacles.</li>
+<li>Explore the space by setting 2D navigation goals manually in <code>rviz</code></li>
+<li>Capture a screencast and link to it in <code>README.md</code> of the following scenario:
+<ol>
+<li>You set a 2D navigation goal in an uncertain part of the map</li>
+<li>The path is planned, but there is actually a wall blocking the path</li>
+<li>The robot needs to replan to get to the goal using a different route</li>
+</ol></li>
+<li>Rviz should show everything from the previous step</li>
 </ul></li>
-<li><p>Write a node that causes the robot to explore the environment autonomously while mapping the world with gmapping.</p>
+<li>Write a node that causes the robot to explore the environment autonomously while mapping the world
 <ul>
 <li>Provide a launchfile that lets the robot use this node and gmapping to autonomously map the environment</li>
-<li>You can use any algorithm you want: if you use an existing algorithm cite it</li>
-<li>You can subscribe to the <code>/map</code> topic to get information about the robot's current knowledge of the environment</li>
-<li>Your algorithm can issue <code>cmd_vel</code> commands directly or work in conjunction with the <code>move_base</code> node to plan via waypoints.</li>
-<li>Include a brief description of your strategy in the <code>README.md</code></li>
-<li>Include a map that you created after running the exploration algorithm in your repository and refer to it in your README.</li>
-<li>The exploration does not need to be complete, perfect, or optimal in any way.</li>
-<li>You may wish to test your algorithm at multiple initial poses.</li>
-<li>There are purposely no performance constraints on this task; however, you should come up with a strategy, describe that strategy in the <code>README.md</code>, and make sure that you have actually implemented what you intended to implement.</li>
+<li>Create a screencast of the robot exploring and include that in your <code>README.md</code></li>
+<li>Include a map called <code>expl.pgm</code> and <code>expl.yaml</code> that you created after running the exploration algorithm in your repository</li>
+<li>Your algorithm should work in conjunction with the <code>move_base</code> node to plan via waypoints and to ensure that you do not collide</li>
+<li>You can use any algorithm you want, but it should be described or cited in your <code>README.md</code></li>
+<li>The exploration does not need to be complete, perfect, or optimal in any way. For example, you could move randomly.</li>
+<li>A well-known strategy is called <a href="https://ieeexplore.ieee.org/document/613851">Frontier Exploration.</a>
+<ul>
+<li>See <a href="http://robotfrontier.com/frontier/index.html">Robot Frontier</a> for a friendly description, in particular <a href="http://robotfrontier.com/frontier/detect.html">Detecting Frontiers</a></li>
+<li>Once you have detected a frontier, you can use <code>move_base</code> to move to the frontier centroid. The map should be updated along the way</li>
+</ul></li>
+<li>You can subscribe to the <code>/map</code> topic to get information about the robot's current knowledge of the environment
+<ul>
+<li>This topic is output by your SLAM method: in our case <code>slam_toolbox</code></li>
+</ul></li>
 </ul></li>
 </ol>
-<h1 id="hints">Hints</h1>
-<ul>
-<li>Refer to the <a href="http://emanual.robotis.com/docs/en/platform/turtlebot3/overview/">Turtlebot 3 Manual</a>.</li>
-<li>Use tab completion to view available launch files for turtlebot3</li>
-<li>You may need to install additional ROS packages to complete this assignment</li>
-</ul>
 </div>
 <div class="footer">
 Author: Matthew Elwin.
