@@ -492,7 +492,7 @@ table td {
 </ol>
 <h1 id="navigation">Navigation</h1>
 <ul>
-<li>The goal is to use the turtlebot to map an environment and then navigate within the map using the <code>slam_toolbox</code>
+<li>The goal is to use the turtlebot to map an environment and then navigate within the map using the <a href="http://wiki.ros.org/slam_toolbox">slam_toolbox</a>
 <ul>
 <li>SLAM <code>toolbox</code> is (as far as I know) the most advanced 2D SLAM method for ROS and the only one that is actively maintained.</li>
 </ul></li>
@@ -503,7 +503,7 @@ table td {
 <li>You may choose to do this assignment in either <code>gazebo</code>, the actual robot, or both.
 <ul>
 <li>It may be easier to do this in simulation and then transfer to the real robot</li>
-<li>Your launchfiles may assume that the user has separately ssh'd into the turtlebot and run <code>turtlebot3_bringup turtlebot3_robot.launch</code></li>
+<li>Your launchfiles may assume that the user has separately ssh'd into the turtlebot and run <code>roslaunch turtlebot3_bringup turtlebot3_robot.launch</code></li>
 </ul></li>
 <li>Write a launchfile called <code>start_slam.launch</code> that starts the turtlebot3 (either using <code>remote_bringup</code> or gazebo in the house environment), loads <code>rviz</code> and visualizes it's laser scan, starts a <code>turtlebot3_teleop</code> node, and the <a href="http://wiki.ros.org/slam_toolbox">slam_toolbox</a>.
 <ul>
@@ -513,7 +513,7 @@ table td {
 <li>The <code>turtlebot3</code> launchfiles that start <code>rviz</code> for doing SLAM already use the appropriate <code>rviz</code> configuration</li>
 </ul></li>
 <li>You can try either synchronous mode (for most accurate results) or asynchronous mode (guaranteed real-time mapping)</li>
-<li>You can look at the <code>turtlebot3</code> (including <code>turtlebot3_bringup</code>, <code>turtlebot3_navigation</code> and <code>turtlebot3_gazebo</code>) and <code>slam_toolbox</code> for inspiration or include the appropriate launchfiles directly.</li>
+<li>You can use launchfiles for <code>turtlebot3</code> (including <code>turtlebot3_bringup</code>, <code>turtlebot3_navigation</code> and <code>turtlebot3_gazebo</code>) and <code>slam_toolbox</code></li>
 <li>Most of this task in particular can be done in a only a few lines if you include the appropriate <code>turtlebot3</code> launchfiles.
 <ul>
 <li><code>roscd slam_toolbox</code> and <code>ls</code> to see the <code>slam_toolbox</code> launchfiles</li>
