@@ -471,8 +471,8 @@ table td {
 <li><a href="#conceptual-components">Conceptual Components</a></li>
 <li><a href="#navigation-packages">Navigation Packages</a></li>
 <li><a href="#other-packages">Other Packages</a></li>
-<li><a href="#older-packages">Older/ packages</a></li>
 <li><a href="#recover-nodes">Recover Nodes</a></li>
+<li><a href="#older-packages">Older/ packages</a></li>
 </ul>
 </nav>
 
@@ -490,12 +490,13 @@ table td {
 <!-- The main content of the file -->
 <h1 id="overview">Overview</h1>
 <ul>
-<li>The ROS <a href="https://wiki.ros.org/navigation">navigation "stack"</a> enables mobile robots to navigate in 2D</li>
+<li>The ROS <a href="https://wiki.ros.org/navigation">navigation stack</a> enables mobile robots to navigate in 2D</li>
 <li>Provides the ability to estimate the location of the robot based on feedback from multiple sensors</li>
 <li>Provides global and local planning capabilities</li>
-<li>Highly configurable. To see many of the configuration options on running examples use <code>rqt</code>
+<li>Highly configurable. To see many of the configuration options on running examples use <code>rqt_reconfigure</code>
 <ul>
-<li>A large amount of time is spent simply tuning various parameters</li>
+<li>A large amount of time can be spent tuning various parameters for your particular robot</li>
+<li>Just because a robot vendor provides nav-stack support does not necessarily mean that they have tuned the parameters optimally</li>
 </ul></li>
 </ul>
 <h1 id="frames-of-reference">Frames of Reference</h1>
@@ -508,21 +509,33 @@ table td {
 <ul>
 <li>The transform from <code>odom -&gt; base_link</code> is typically subtracted from the estimate of the robot in the <code>map</code> frame. Thus the transform from <code>map -&gt; base_link</code> is always the map estimate.</li>
 </ul></li>
-<li>The map frame is attached to a fixed <code>world</code> or <code>earth</code> frame</li>
+<li>The map frame can sometimes be the child of a <code>world</code> or <code>earth</code> frame</li>
 </ul>
 <h1 id="conceptual-components">Conceptual Components</h1>
 <ol>
-<li>Base Controller: Subscribes to a <code>geometry_msgs/Twist</code> (by default on the <code>cmd_vel</code> topic) and makes the robot move.</li>
-<li>Odometry: <code>nav_msgs/Odometry</code> is a published estimate of the position and velocity of the robot, based on the wheel odometry. This message is used to publish the <code>odom</code> <code>tf</code> transform.
+<li>Base Controller: Subscribes to a <code>geometry_msgs/Twist</code> (by default on the <code>cmd_vel</code> topic) and makes the robot move.
 <ul>
-<li>Odometry and the Base controller are often a single node</li>
+<li>This is a robot-specific node that interfaces with the hardware</li>
 </ul></li>
-<li>Sensors: Including laser scanners (publishing <code>sensor_msgs/LaserScan</code>) or depth cameras publishing <code>sensor_msgs/PointCloud2</code>.</li>
+<li>Odometry: <code>nav_msgs/Odometry</code> is a published estimate of the position and velocity of the robot, based on the wheel odometry.
+<ul>
+<li>This message is used to publish the <code>odom</code> <code>tf</code> transform.</li>
+<li>Odometry and the Base controller are often a single node but need not be</li>
+</ul></li>
+<li>Sensors: Including laser scanners (publishing <code>sensor_msgs/LaserScan</code>) or depth cameras publishing <code>sensor_msgs/PointCloud2</code>.
+<ul>
+<li>Help to avoid obstacles</li>
+<li>Also used by Simultaneous localization and mapping and other localization nodes</li>
+</ul></li>
 <li>Cost Maps: Occupancy grids representing where obstacles are located in the environment, as a grid of cells
 <ul>
 <li>Global cost map - this is the overall environment, used for global planners such as <code>A*</code></li>
 <li>Local cost map - the map in the immediate area, primarily used for obstacle avoidance.</li>
 <li>Most grid locations in a cost map have 3 states: free, occupied, or uncertain</li>
+<li>Cost Maps can have multiple layers of information and are highly customizable
+<ul>
+<li>For example, maps can have an inflation layer that expands obstacles to create a safe boundary around them that the robot will not enter</li>
+</ul></li>
 </ul></li>
 <li>Path planners: find collision free paths
 <ul>
@@ -542,14 +555,28 @@ table td {
 <li>"inflation layer" (e.g., increasing cost near obstacles to add conservativeness)</li>
 <li>"obstacle map layer" (e.g., for obstacles recently viewed by sensors).</li>
 <li>Ultimately, these layers are combined into a grid with three states: occupied, free, or unknown.</li>
-<li><a href="https://wiki.ros.org/costmap_2d/hydro">costmap2d/hyrdo</a> has additional information; despite the name, it is not specific to ROS hydro.</li>
+<li><a href="https://wiki.ros.org/costmap_2d">costmap2d</a> has additional information.
+<ul>
+<li>The <a href="https://wiki.ros.org/costmap_2d/hydro">costmap2d/hydro</a> presents similar information in a slightly different way</li>
+</ul></li>
 </ul></li>
 <li><a href="https://wiki.ros.org/global_planner">global_planner</a> - Contains basic global planning algorithms such as <code>A*</code>. Publishes a <code>nav_msgs/Path</code> message.</li>
 <li><a href="https://wiki.ros.org/dwa_local_planner">dwa_local_planner</a> Dynamic window approach local planner (the default local planner). Integrates kinematics of robot forward in time given the possible controls. Then it predicts a trajectory and rates it based on if there is a collision and other criteria such as distance from the global plan.</li>
-<li><a href="https://wiki.ros.org/move_base">move_base</a> - Coordinates the global and local planners and the cost maps and publishes the <code>geometry_msgs/Twist</code> commands to drive the robot to a goal.</li>
+<li><a href="https://wiki.ros.org/move_base">move_base</a> - Coordinates the global and local planners and the cost maps and publishes the <code>geometry_msgs/Twist</code> commands to drive the robot to a goal.
+<ul>
+<li>This is the main node of the nav-stack</li>
+<li>Any robot that implements the sensors, odometry and base controller needed by move_base can be used with the ROS navigation stack</li>
+</ul></li>
 <li><a href="https://wiki.ros.org/nav_core">nav_core</a> Defines the software interface for the planners and enables people to write custom planners that can be used with the rest of the nav stack.</li>
-<li><a href="https://wiki.ros.org/gmapping">gmapping</a> Basic map generation and localization (SLAM): running this algorithm is how the map is produced, after which you save it using the <code>map_server</code>.</li>
-<li><a href="https://wiki.ros.org/robot_localization">robot_localization</a> Estimate robot state by combining information using sensor fusion algorithms (for example, wheel odemetry and an inertial measurement unit).</li>
+<li><a href="http://wiki.ros.org/slam_toolbox">slam_toolbox</a> The most up-to-date 2D SLAM method for ROS.
+<ul>
+<li>This is going to be the main 2D SLAM package in ROS 2</li>
+</ul></li>
+<li><a href="https://wiki.ros.org/robot_localization">robot_localization</a>
+<ul>
+<li>Estimate robot state by combining information using sensor fusion algorithms (for example, wheel odemetry and an inertial measurement unit).</li>
+<li>This is 3 dimensional</li>
+</ul></li>
 </ol>
 <h1 id="other-packages">Other Packages</h1>
 <ul>
@@ -557,18 +584,14 @@ table td {
 <li><a href="https://wiki.ros.org/sbpl">sbpl</a> Search based planning library: a global planner based on "motion primitives"</li>
 <li><a href="https://wiki.ros.org/fake_localization">fake_localization</a> Uses odometry information to provide the same localization messages as <code>amcl</code> Used for simulation and debugging.</li>
 <li><a href="https://wiki.ros.org/voxel_grid">voxel_grid</a> 3 Dimensional pixel grid, useful for representing 3 dimensional cost maps.</li>
-<li><a href="https://wiki.ros.org/hector_slam">hector_slam</a> SLAM method specifically designed to solve loop-closure issues present in other SLAM methods such as <code>gmapping</code>.</li>
-<li><a href="https://google-cartographer-ros.readthedocs.io/en/latest">google_cartographer_ros</a> ROS support for google's SLAM implementations</li>
+<li><a href="https://google-cartographer-ros.readthedocs.io/en/latest">google_cartographer_ros</a> ROS support for google's SLAM implementations
+<ul>
+<li>This is quite complicated to tune and setup.</li>
+</ul></li>
 <li><a href="https://wiki.ros.org/rtabmap_ros">rtabmap_ros</a> RGB-D SLAM with provision for detecting loop closure.</li>
 <li><a href="https://wiki.ros.org/laser_scan_matcher">laser_scan_matcher</a> Provides odometry based on laser scan. It estimates the transform between two laser scans. Many uses including: standalone odometry or input for <code>robot_localization</code>.</li>
 <li><a href="https://github.com/locusrobotics/robot_navigation">robot_navigation2</a> The "spiritual successor" to the ROS navigation package</li>
-<li><a href="https://wiki.ros/org/move_base_flex">move_base_flex</a> Replacement for <code>move_base</code> with enhanced capabilities.</li>
-</ul>
-<h1 id="older-packages">Older/ packages</h1>
-<ul>
-<li><a href="https://wiki.ros.org/eband_local_planner">eband_local_planner</a> Elastic band optimization for local planning</li>
-<li><a href="https://wiki.ros.org/rgbdslam">rgbdslam</a> Old SLAM package used with RGB-D cameras</li>
-<li><a href="https://wiki.ros.org/robot_pose_ekf">robot_pose_ekf</a> Sensor fusion for a robot. Replaced by <code>robot_localization</code></li>
+<li><a href="https://wiki.ros.org/move_base_flex">move_base_flex</a> Replacement for <code>move_base</code> with enhanced capabilities.</li>
 </ul>
 <h1 id="recover-nodes">Recover Nodes</h1>
 <p>There are several nodes that can implement recovery behaviors when planning fails:</p>
@@ -576,6 +599,14 @@ table td {
 <li><a href="https://wiki.ros.org/clear_costmap_recovery">clear_costmap_recovery</a> Clears costmaps near the robot, eliminating any recently seen obstacles</li>
 <li><a href="https://wiki.ros.org/move_slow_and_clear">move_slow_and_clear</a> Makes robot move very slowly after clearing a costmap, as it tries to plan again</li>
 <li><a href="https://wiki.ros.org/rotate_recovery">rotate_recovery</a> Causes the robot to spin in place to try to get better laser scanner data, for example.</li>
+</ul>
+<h1 id="older-packages">Older/ packages</h1>
+<ul>
+<li><a href="https://wiki.ros.org/gmapping">gmapping</a> Basic map generation and localization (SLAM): running this algorithm is how the map is produced, after which you save it using the <code>map_server</code>. This is the most popular 2D SLAM method in ROS and the original so you will see it recommended everywhere. But it is actually no longer maintained.</li>
+<li><a href="https://wiki.ros.org/hector_slam">hector_slam</a> SLAM method specifically designed to solve loop-closure issues present in other SLAM methods such as <code>gmapping</code>.</li>
+<li><a href="https://wiki.ros.org/eband_local_planner">eband_local_planner</a> Elastic band optimization for local planning</li>
+<li><a href="https://wiki.ros.org/rgbdslam">rgbdslam</a> Old SLAM package used with RGB-D cameras</li>
+<li><a href="https://wiki.ros.org/robot_pose_ekf">robot_pose_ekf</a> Sensor fusion for a robot. Replaced by <code>robot_localization</code></li>
 </ul>
 </div>
 <div class="footer">

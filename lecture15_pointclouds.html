@@ -481,7 +481,12 @@ table td {
 <li><a href="#intel-realsense">Intel RealSense</a></li>
 <li><a href="#using-the-realsense-in-ros">Using the Realsense In ROS</a></li>
 </ul></li>
-<li><a href="#pcl-in-python">PCL in Python</a></li>
+<li><a href="#manipulating-point-clouds">Manipulating Point Clouds</a>
+<ul>
+<li><a href="#ros">ROS</a></li>
+<li><a href="#c">C++</a></li>
+<li><a href="#python">Python</a></li>
+</ul></li>
 <li><a href="#demonstration">Demonstration</a></li>
 <li><a href="#resources">Resources</a></li>
 </ul>
@@ -581,9 +586,38 @@ table td {
 <li>Recommendation: run rviz with the <code>--opengl 300</code> flag when you want to view point clouds</li>
 </ul></li>
 </ol>
-<h1 id="pcl-in-python">PCL in Python</h1>
+<h1 id="manipulating-point-clouds">Manipulating Point Clouds</h1>
+<p>There are several ways of manipulating point clouds in ROS.</p>
+<h2 id="ros">ROS</h2>
 <ul>
-<li>You can install python bindings for pcl using pip (<code>pip3 install python-pcl</code>)</li>
+<li>In ROS, point clouds are sent using the <a href="http://docs.ros.org/en/api/sensor_msgs/html/msg/PointCloud2.html">sensor_msgs/PointCloud2</a> message
+<ul>
+<li>You can access the message fields directly but the format is not the most intuitive</li>
+</ul></li>
+<li>The <a href="http://wiki.ros.org/pcl_ros">pcl_ros</a> package is the primary ROS package for manipulating pointclouds</li>
+<li>It includes several stand-alone filters that can be loaded as nodelets to perform common operations</li>
+</ul>
+<h2 id="c">C++</h2>
+<ul>
+<li>The <a href="http://wiki.ros.org/pcl_ros">pcl_ros</a> package also lets you convert point cloud messages into C++ data types for use with the <a href="https://pointclouds.org">Point Cloud Library</a>
+<ul>
+<li>While this is the most common way of handling point clouds in ROS, it is also a C++ only way</li>
+</ul></li>
+</ul>
+<h2 id="python">Python</h2>
+<ul>
+<li>The <a href="http://wiki.ros.org/sensor_msgs">sensor_msgs</a> package has python tools for manipulating Pointloud2 data
+<ul>
+<li>See the <a href="http://docs.ros.org/en/noetic/api/sensor_msgs/html/namespacesensor__msgs_1_1point__cloud2.html">point_cloud2</a> API</li>
+</ul></li>
+<li>The <a href="https://wiki.ros.org/ros_numpy">ros_numpy</a> package lets you convert many ROS message types (including PointCloud2) into easy-to-use numpy arrays
+<ul>
+<li>You can use this package to convert a point cloud into a numpy array, manipulate, and then convert back into a pointcloud message</li>
+</ul></li>
+<li>You can install python bindings for pcl using pip (<code>pip3 install python-pcl</code>) or as an Ubuntu package (<code>sudo apt install python3-pcl</code>)
+<ul>
+<li>The <a href="https://strawlab.github.io/python-pcl/">python-pcl</a> package mostly parallels the C++ pcl API</li>
+</ul></li>
 </ul>
 <h1 id="demonstration">Demonstration</h1>
 <p>The following code demonstrates using some basic pcl "nodelets". Nodelets are essentially ROS nodes that can all be run in a single process to reduce communication overhead. The <a href="https://github.com/NU-MSR/nodelet_pcl_demo">Nodelet PCL demo</a> shows you how to combine several built-in nodelets to filter point cloud data. There is then a C++ node that uses the point cloud library (PCL) to perform additional processing.</p>
