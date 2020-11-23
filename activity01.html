@@ -567,63 +567,63 @@ table td {
 </ol>
 <h1 id="examples">Examples</h1>
 <h2 id="publisher">Publisher</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">#!/usr/bin/env python3</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="im">import</span> rospy</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="im">from</span> geometry_msgs.msg <span class="im">import</span> Twist, Vector3</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>      pub <span class="op">=</span> rospy.Publisher(<span class="st">&quot;test&quot;</span>, Twist, queue_size <span class="op">=</span> <span class="dv">10</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>      rospy.init_node(<span class="st">&#39;cartesian&#39;</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>      rate <span class="op">=</span> rospy.Rate(<span class="dv">1</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>      <span class="cf">while</span> <span class="kw">not</span> rospy.is_shutdown():</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>            rospy.loginfo(<span class="st">&quot;Next&quot;</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a>            pub.publish(Twist(Vector3(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),Vector3(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>)))</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a>            rate.sleep()</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env python3</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rospy</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geometry_msgs.msg <span class="im">import</span> Twist, Vector3</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&#39;__main__&#39;</span>:</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      pub <span class="op">=</span> rospy.Publisher(<span class="st">&quot;test&quot;</span>, Twist, queue_size <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      rospy.init_node(<span class="st">&#39;cartesian&#39;</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      rate <span class="op">=</span> rospy.Rate(<span class="dv">1</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="cf">while</span> <span class="kw">not</span> rospy.is_shutdown():</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>            rospy.loginfo(<span class="st">&quot;Next&quot;</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            pub.publish(Twist(Vector3(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),Vector3(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>)))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            rate.sleep()</span></code></pre></div>
 <h2 id="subscriber">Subscriber</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">#!/usr/bin/env python3</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="im">import</span> rospy</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="im">from</span> turtlesim.msg <span class="im">import</span> Pose</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="kw">def</span> callback(data):</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>        rospy.loginfo(<span class="ss">f&quot;x: </span><span class="sc">{</span>data<span class="sc">.x}</span><span class="ss">, y: </span><span class="sc">{</span>data<span class="sc">.y}</span><span class="ss">&quot;</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>        rospy.Subscriber(<span class="st">&quot;turtle1/pose&quot;</span>, Pose, callback)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>        rospy.ServiceProxy(<span class="st">&quot;turtle1/teleport_absolute&quot;</span>, TeleportAbsolute)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>        rospy.init_node(<span class="st">&quot;quadrant&quot;</span>)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>        rospy.spin()</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env python3</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rospy</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> turtlesim.msg <span class="im">import</span> Pose</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> callback(data):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        rospy.loginfo(<span class="ss">f&quot;x: </span><span class="sc">{</span>data<span class="sc">.x}</span><span class="ss">, y: </span><span class="sc">{</span>data<span class="sc">.y}</span><span class="ss">&quot;</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        rospy.Subscriber(<span class="st">&quot;turtle1/pose&quot;</span>, Pose, callback)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        rospy.ServiceProxy(<span class="st">&quot;turtle1/teleport_absolute&quot;</span>, TeleportAbsolute)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        rospy.init_node(<span class="st">&quot;quadrant&quot;</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        rospy.spin()</span></code></pre></div>
 <h2 id="services">Services</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co">&quot;&quot;&quot;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="co">SERVICES:</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a><span class="co">   jump_turtle (std_srvs/Empty): Cause the turtle to jump</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="co">&quot;&quot;&quot;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a><span class="im">import</span> rospy</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a><span class="im">from</span> turtlesim.srv <span class="im">import</span> TeleportRelative</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a><span class="im">from</span> std_srvs.srv <span class="im">import</span> Empty, EmptyResponse</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a><span class="im">import</span> math</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a><span class="kw">class</span> Jump:</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a>   <span class="co">&quot;&quot;&quot; Manage the services for the jump node &quot;&quot;&quot;</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>   <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>      <span class="va">self</span>.__teleport_relative <span class="op">=</span> rospy.ServiceProxy(<span class="st">&quot;turtle1/teleport_relative&quot;</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a>                                                    TeleportRelative)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a>      <span class="va">self</span>.__service <span class="op">=</span> rospy.Service(<span class="st">&quot;jump_turtle&quot;</span>, Empty, <span class="va">self</span>.jump_turtle_handler)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true"></a>   <span class="kw">def</span> jump_turtle_handler(<span class="va">self</span>, req):</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true"></a>      <span class="co">&quot;&quot;&quot; Cause the turtle to make a relative move </span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true"></a><span class="co">          Args:</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true"></a><span class="co">            req - this is empty for this service</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true"></a><span class="co">      &quot;&quot;&quot;</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true"></a>      <span class="va">self</span>.__teleport_relative(<span class="fl">0.5</span>, math.pi<span class="op">/</span><span class="dv">4</span>)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true"></a>      <span class="cf">return</span> EmptyResponse()</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true"></a>   rospy.init_node(<span class="st">&quot;jump&quot;</span>)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true"></a>   node <span class="op">=</span> Jump()</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true"></a>   rospy.spin()</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">SERVICES:</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">   jump_turtle (std_srvs/Empty): Cause the turtle to jump</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rospy</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> turtlesim.srv <span class="im">import</span> TeleportRelative</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> std_srvs.srv <span class="im">import</span> Empty, EmptyResponse</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Jump:</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>   <span class="co">&quot;&quot;&quot; Manage the services for the jump node &quot;&quot;&quot;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>   <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.__teleport_relative <span class="op">=</span> rospy.ServiceProxy(<span class="st">&quot;turtle1/teleport_relative&quot;</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                                                    TeleportRelative)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.__service <span class="op">=</span> rospy.Service(<span class="st">&quot;jump_turtle&quot;</span>, Empty, <span class="va">self</span>.jump_turtle_handler)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>   <span class="kw">def</span> jump_turtle_handler(<span class="va">self</span>, req):</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      <span class="co">&quot;&quot;&quot; Cause the turtle to make a relative move </span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">          Args:</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">            req - this is empty for this service</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">      &quot;&quot;&quot;</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.__teleport_relative(<span class="fl">0.5</span>, math.pi<span class="op">/</span><span class="dv">4</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> EmptyResponse()</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>   rospy.init_node(<span class="st">&quot;jump&quot;</span>)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>   node <span class="op">=</span> Jump()</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>   rospy.spin()</span></code></pre></div>
 <h1 id="reference">Reference</h1>
 <ul>
 <li><a href="http://wiki.ros.org/rospy/Overview">Rospy Overview</a></li>
