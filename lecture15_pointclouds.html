@@ -567,20 +567,23 @@ table td {
 <h2 id="using-the-realsense-in-ros">Using the Realsense In ROS</h2>
 <p>There are 3 ways of using the realsense in ROS. Official documentation is here for using SDK 2.0: <a href="https://dev.intelrealsense.com/docs/docs-get-started">https://dev.intelrealsense.com/docs/docs-get-started</a></p>
 <ol>
-<li>Use <code>librealsense</code> from C++</li>
-<li>Use <code>librealsense</code> python wrappers</li>
 <li>Use the ROS node: For example, <code>roslaunch realsense2_camera rs_camera.launch filters:=pointcloud</code>.
 <ul>
-<li>This is the easiest version to use for the most part</li>
+<li>This is the easiest version to use for the most part, and also makes the realsense data available any ROS node</li>
 <li>Usage instructions are on the github page <a href="https://github.com/IntelRealSense/realsense-ros">https://github.com/IntelRealSense/realsense-ros</a></li>
 <li>Visualize the pointcloud by adding a PointCloud2 object in rviz</li>
+</ul></li>
+<li>Use <code>librealsense</code> python wrappers: wrappers around librealsense for more advance usage in python</li>
+<li>Use <code>librealsense</code> from C++
+<ul>
+<li>THis is for advanced and fast point cloud processing</li>
 </ul></li>
 <li>There are some <a href="https://github.com/ros-visualization/rviz/issues/1508">Bugs</a> in rviz on some systems for seeing pointclouds.
 <ul>
 <li>Here is what I observed
 <ol>
-<li>Running =rviz –opengl 300 fixes most of the issues (point cloud is visible but it gets messed up when window is maximized)</li>
-<li>Running =rviz –opengl 210 fixes most of the issues (point cloud is visible but it gets messed up when window is maximized)</li>
+<li>Running <code>rviz --opengl 300</code> fixes most of the issues (point cloud is visible but it gets messed up when window is maximized)</li>
+<li>Running <code>rviz --opengl 210</code> fixes most of the issues (point cloud is visible but it gets messed up when window is maximized)</li>
 <li>Running <code>rviz</code> you need to set the visualization type to <code>points</code> and make sure the window is not maximized to avoid this issue</li>
 </ol></li>
 <li>Recommendation: run rviz with the <code>--opengl 300</code> flag when you want to view point clouds</li>

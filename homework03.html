@@ -606,10 +606,11 @@ my_git_repository/arm_move/{package.xml, CMakeLists.txt, README.md, etc}
 <h2 id="control">Control</h2>
 <ol>
 <li>Write a node called <code>follow_rect</code> that makes the robot follow a rectangular path by publishing messages to <code>cmd_vel</code>. You can re-use code from previous assignments if you wish</li>
-<li>Write a node that makes the robot move back and forth along a line by flipping over itself rather than turning. (i.e., both wheels should move with the same velocity at all times). You will need to use the dynamics of the robot to accomplish this task. You may find that the <code>teleop_twist_keyboard</code> package is useful for letting you get a feel for the dynamics.
+<li>Write a node called <code>flip</code> that makes the robot move back and forth along a line by flipping over itself rather than turning. (i.e., both wheels should move with the same velocity at all times). You will need to use the dynamics of the robot to accomplish this task. You may find that the <code>teleop_twist_keyboard</code> package is useful for letting you get a feel for the dynamics.
 <ul>
 <li>Precise control is great but not necessary, just have fun doing some flips.</li>
 </ul></li>
+<li>Add options to your launch file to start the <code>follow_rect</code> or <code>flip</code> node.</li>
 </ol>
 <h1 id="part-ii-motion-planning">Part II: Motion Planning</h1>
 <ol>
