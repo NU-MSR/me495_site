@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1608303633 "syllabus/syllabus.tex" "html/syllabus.pdf" "syllabus" 1608303633
+["pdflatex"] 1610943719 "syllabus/syllabus.tex" "html/syllabus.pdf" "syllabus" 1610943719
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1607249373 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1607249373 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmmi12.tfm" 1607249373 1524 4414a8315f39513458b80dfc63bff03a ""
@@ -56,13 +56,13 @@
   "/usr/share/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1607249373 9715 b051d5b493d9fe5f4bc251462d039e5f ""
   "/usr/share/texmf-dist/tex/latex/url/url.sty" 1607249373 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1607249373 33301 a3134070eacafb10b1f371612ce2650d ""
-  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1608068271 4885835 225b430335ea75120e4d14f95280dfb9 ""
-  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1608068269 2635866 2e75be219452f018d8002c91b3cc293a ""
-  "html/syllabus.aux" 1608303633 686 1021e496efe4cd3ab536fd12e6d22f30 "pdflatex"
-  "html/syllabus.out" 1608303633 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1610749009 4885835 225b430335ea75120e4d14f95280dfb9 ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1610749003 2635859 a748e182b8c8053e518bcdb334e20a01 ""
+  "html/syllabus.aux" 1610943719 686 1021e496efe4cd3ab536fd12e6d22f30 "pdflatex"
+  "html/syllabus.out" 1610943719 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   "syllabus/syllabus.tex" 1600279966 10929 de138333542105770536b988c33766a6 ""
   (generated)
-  "html/syllabus.pdf"
   "html/syllabus.aux"
-  "html/syllabus.out"
+  "html/syllabus.pdf"
   "html/syllabus.log"
+  "html/syllabus.out"

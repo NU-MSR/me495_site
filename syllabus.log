@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2020.12.15)  18 DEC 2020 09:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.1.15)  17 JAN 2021 22:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -288,7 +288,7 @@ Package rerunfilecheck Info: File `syllabus.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  4882 strings out of 479383
- 75275 string characters out of 5875829
+ 75275 string characters out of 5875830
  378153 words of memory out of 5000000
  21924 multiletter control sequences out of 15000+600000
  408201 words of font info for 43 fonts, out of 8000000 for 9000
