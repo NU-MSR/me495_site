@@ -549,7 +549,7 @@ table td {
 </ul></li>
 <li>Write a node that causes the robot to explore the environment autonomously while mapping the world
 <ul>
-<li>Provide a launchfile that lets the robot use this node and gmapping to autonomously map the environment</li>
+<li>Provide a launchfile that lets the robot use this node and slam_toolbox to autonomously map the environment</li>
 <li>Create a screencast of the robot exploring and include that in your <code>README.md</code></li>
 <li>Include a map called <code>expl.pgm</code> and <code>expl.yaml</code> that you created after running the exploration algorithm in your repository</li>
 <li>Your algorithm should work in conjunction with the <code>move_base</code> node to plan via waypoints and to ensure that you do not collide</li>
@@ -557,7 +557,7 @@ table td {
 <li>The exploration does not need to be complete, perfect, or optimal in any way. For example, you could move randomly.</li>
 <li>A well-known strategy is called <a href="https://ieeexplore.ieee.org/document/613851">Frontier Exploration.</a>
 <ul>
-<li>See <a href="http://robotfrontier.com/frontier/index.html">Robot Frontier</a> for a friendly description, in particular <a href="http://robotfrontier.com/frontier/detect.html">Detecting Frontiers</a></li>
+<li>See <a href="http://web.archive.org/robotfrontier.com/frontier/index.html">Robot Frontier</a> for a friendly description, in particular <a href="http://web.archive.org/robotfrontier.com/frontier/detect.html">Detecting Frontiers</a></li>
 <li>Once you have detected a frontier, you can use <code>move_base</code> to move to the frontier centroid. The map should be updated along the way</li>
 </ul></li>
 <li>You can subscribe to the <code>/map</code> topic to get information about the robot's current knowledge of the environment
