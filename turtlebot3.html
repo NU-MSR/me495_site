@@ -607,17 +607,22 @@ ssh-add ~/.ssh/id_turtle
 <li><p>If you are using the Gnome desktop (default desktop on Ubuntu), the key should be unlocked automatically: logging out and logging in again may help.</p></li>
 </ul></li>
 </ul></li>
-<li>On You can now use <code>nmcli</code> to connect the <code>turtlebot</code> to your home (non Northwestern Dorm) wifi router if you would like to:
+<li>On You can now use <code>sudo nmtui</code> to connect the <code>turtlebot</code> to your home (non Northwestern Dorm) wifi router:
 <ul>
-<li><code>ubuntu@turtlebot$ nmcli d wifi connect &lt;SSID&gt; password &lt;yourpassword&gt;</code></li>
-<li>Set the priority of this network so that it supersedes the access point: <code>ubuntu@turtlebot$ nmcli c mod &lt;SSID&gt; connection.autoconnect-priority 10</code></li>
-<li>You will now lose connection to the turtlebot, but if you reconnect to your wifi router then you will have internet and turtlebot</li>
+<li>Go into Edit connection. Name the Profile "Home" and the Device is "wlan0"</li>
+<li>Enter Your SSID and set Security to your network security type (for Northwestern Network see <a href="https://kb.northwestern.edu/62255">https://kb.northwestern.edu/62255</a>), your home
+<ul>
+<li>The <code>raspberry pi</code> does not have 5 ghz wifi, so you will need to connect to a 2.4 Ghz Network</li>
 </ul></li>
-<li>If you are in a Northwestern dorm or anywhere on campus other than the lab:
-<ol>
-<li>You can setup Northwestern Wireless on the turtlebot by using <code>nmtui</code> (see settings here <a href="https://kb.northwestern.edu/62255">https://kb.northwestern.edu/62255</a>)</li>
-<li>You can register your device and laptop with Device-Northwestern and use that network</li>
-</ol></li>
+<li>After you are done editing, exit <code>nmtui</code></li>
+<li>Set the priority of this network so that it supersedes the access point: <code>ubuntu@turtlebot$ sudo nmcli c mod Home connection.autoconnect-priority 10</code></li>
+<li>Reboot the turtlebot.
+<ul>
+<li>If all went well it should now be on your <code>wifi</code> network and you should be able to ping it.</li>
+<li>If the connection failed, you should be able to connect to <code>TurtleWifi</code></li>
+<li>It might take a few minutes for the <code>turtlebot.local</code> name to resolve properly on your network</li>
+</ul></li>
+</ul></li>
 <li>If you are in the lab, your turtlebot will automatically connect to the TURTLENET network. You can connect to that as well (password is NU-TURTLE) and then work from there.</li>
 </ol>
 <p>9 See <a href="https://nu-msr.github.io/hackathon_site/linux_interactive.html#networking">Networking</a> for a very brief explanation of networking.</p>
