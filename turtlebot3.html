@@ -553,6 +553,9 @@ sync
 </ul></li>
 <li><p>Next, you should expand the filesystem of the system partition to match the size of the SD card:</p>
 <pre><code>echo &quot;- +&quot; | sudo sfdisk -N 2 /dev/mmcblk0 --force
+</code></pre></li>
+<li><p>Next, remove the SD card and reinsert.</p>
+<pre><code>sudo umount /dev/mmcblk0p2
 sudo e2fsck -f /dev/mmcblk0p2
 sudo resize2fs /dev/mmcblk0p2
 </code></pre></li>
