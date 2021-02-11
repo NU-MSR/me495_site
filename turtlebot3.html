@@ -551,15 +551,8 @@ sync
 <ul>
 <li>This takes some time, SD cards are slow. Be patient, if you do not wait for the sync command to complete you can corrupt the SD card image.</li>
 </ul></li>
-<li><p>Remove the SD card, put into the turtlebot3 and turn it on. Check on your computer's wifi, you should see a TurtleWifi network appear.</p>
-<ul>
-<li>If it does not appear, wait 5 minutes, then turn your wifi on and off and try again</li>
-<li>If it still has not appeared, post on the discussion forum.</li>
-</ul></li>
-<li><p>Next, turn off the turtlebot, put the SD card into your computer, and expand the filesystem of the system partition to match the size of the SD card:</p>
-<pre><code>sudo umount /dev/mmcblk0p1
-sudo umount /dev/mmcblk0p2
-echo &quot;- +&quot; | sudo sfdisk -N 2 /dev/mmcblk0 --force
+<li><p>Next, you should expand the filesystem of the system partition to match the size of the SD card:</p>
+<pre><code>echo &quot;- +&quot; | sudo sfdisk -N 2 /dev/mmcblk0 --force
 </code></pre></li>
 <li><p>Next, remove the SD card and reinsert.</p>
 <pre><code>sudo umount /dev/mmcblk0p2
@@ -617,15 +610,15 @@ ssh-add ~/.ssh/id_turtle
 <li><p>If you are using the Gnome desktop (default desktop on Ubuntu), the key should be unlocked automatically: logging out and logging in again may help.</p></li>
 </ul></li>
 </ul></li>
-<li>On You can now use <code>sudo nmtui</code> to connect the <code>turtlebot</code> to your home (non-Northwestern) wifi router:
+<li>On You can now use <code>sudo nmtui</code> to connect the <code>turtlebot</code> to your home (non Northwestern Dorm) wifi router:
 <ul>
 <li>Go into Edit connection. Name the Profile "Home" and the Device is "wlan0"</li>
-<li>Enter Your SSID and set Security to your network security type.
+<li>Enter Your SSID and set Security to your network security type (for Northwestern Network see <a href="https://kb.northwestern.edu/62255">https://kb.northwestern.edu/62255</a>), your home
 <ul>
 <li>The <code>raspberry pi</code> does not have 5 ghz wifi, so you will need to connect to a 2.4 Ghz Network</li>
 </ul></li>
 <li>After you are done editing, exit <code>nmtui</code></li>
-<li>Set the priority of this network so that it supersedes the access point: <code>ubuntu@turtlebot$ sudo nmcli c mod Home connection.autoconnect-priority 10</code></li>
+<li>Set the priority of this network so that it supersedes the access point: <code>sudo nmcli c mod Home connection.autoconnect-priority 10</code></li>
 <li>Reboot the turtlebot.
 <ul>
 <li>If all went well it should now be on your <code>wifi</code> network and you should be able to ping it.</li>
