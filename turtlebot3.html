@@ -544,39 +544,36 @@ table td {
 <li>Dell XPS 13 users: the SD card slot is tricky, use your finger to push it in until you feel a click. The card should not be sticking out more than a millimeter from the body of the computer if it is inserted properly.</li>
 </ul></li>
 <li><p>Decompress the image to the SD card:</p>
-<pre><code>sudo chown $USER:$USER /dev/mmcblk0
-zstd -d turtlebot.img.zst -o /dev/mmcblk0
-sync
+<pre><code>sudo umount /dev/mmcblk0p1
+sudo umount /dev/mmcblk0p2
+sudo chown $USER:$USER /dev/mmcblk0
+zstd -d turtlebot.img.zst -o turtlebot.img
+dd if=turtlebot.img of=/dev/mmcblk0 bs=4M status=progress conv=fsync
 </code></pre>
 <ul>
-<li>This takes some time, SD cards are slow. Be patient, if you do not wait for the sync command to complete you can corrupt the SD card image.</li>
+<li>This takes some time, SD cards are slow. Be patient and be sure the zstd command completes.</li>
 </ul></li>
-<li><p>Next, you should expand the filesystem of the system partition to match the size of the SD card:</p>
-<pre><code>echo &quot;- +&quot; | sudo sfdisk -N 2 /dev/mmcblk0 --force
-</code></pre></li>
-<li><p>Next, remove the SD card and reinsert.</p>
-<pre><code>sudo umount /dev/mmcblk0p2
-sudo e2fsck -f /dev/mmcblk0p2
-sudo resize2fs /dev/mmcblk0p2
-</code></pre></li>
 <li><p>Remove the SD card and reinsert it. The filesystem should now be mounted at <code>/media/$USER/writable</code></p>
 <ul>
 <li>If not, manually mount the partition <code>mount /dev/mmcblk0p2 /mnt/location/wherever/you/want</code></li>
 </ul></li>
-<li><p>Edit <code>/media/$USER/writable/etc/hostname</code> and change the hostname to something unique (all lowercase no spaces or special characters)</p>
+<li><p>Edit <code>/media/$USER/writable/etc/hostname</code> and change the hostname to something unique</p>
 <ul>
+<li>All lowercase no spaces or special characters</li>
 <li>I refer to the name as <code>turtlebot</code> throughout these instructions but you should substitute with your name</li>
 <li>You may need to edit this file as <code>root</code></li>
 </ul></li>
-<li><p>Edit <code>/media/$USER/writable/etc/NetworkManager/system-connections/Hotspot.nmconnection</code></p>
-<ul>
-<li>Replace <code>TurtleWifi</code> with a unique name for your turtlebot's wifi network.</li>
-<li>You may need to edit this file as <code>root</code></li>
-</ul></li>
-<li><p>Edit <code>/media/$USER/writable/etc/systemd/timesyncd.conf</code>. Replace turnpike.local, with the hostname of your computer</p></li>
-<li><p>Edit <code>/media/$USER/writable/home/ubuntu/loader.sh</code> and change <code>PC_HOSTNAME</code> to the hostname of your pc</p></li>
+<li><p>Edit <code>/media/$USER/writable/etc/systemd/timesyncd.conf</code>. Replace <code>turnpike.local</code>, with the your<sub>computerhostname</sub>.local</p></li>
+<li><p>Edit <code>/media/$USER/writable/home/ubuntu/loader.sh</code> and change <code>turnpike.local</code> to your<sub>computerhostname</sub>.local</p></li>
+<li><p>This step is optional, it is to regain space on the SD card. You can expand the filesystem of the system partition to match the size of the SD card:</p>
+<pre><code>sudo umount /dev/mmcblk0p1
+sudo umount /dev/mmcblk0p2
+echo &quot;- +&quot; | sudo sfdisk -N 2 /dev/mmcblk0 
+sudo e2fsck -f /dev/mmcblk0p2
+sudo resize2fs /dev/mmcblk0p2
+</code></pre></li>
 <li><p>On your computer <code>sudo apt install avahi-daemon ntp</code></p></li>
-<li><p>Insert the <code>sdcard</code> into the turtlebot and turn the turtlebot on. You will now connect to it and run some commands</p></li>
+<li><p>Insert the <code>sdcard</code> into the turtlebot and turn the turtlebot on. You will now connect to it and run some commands.</p></li>
 </ol>
 <h2 id="network-instructions">Network Instructions</h2>
 <ol>
